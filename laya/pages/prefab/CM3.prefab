@@ -1,0 +1,27 @@
+{
+    "x":0,
+    "type":"Sprite",
+    "selectedBox":349,
+    "selecteID":350,
+    "searchKey":"Sprite,CM3",
+    "props":{"y":0,"x":0,"texture":"images/gameView/choumaBg3.png","presetID":1,"preset":"laya/pages/prefab/CM3.prefab","name":"CM3","isPresetRoot":true},
+    "nodeParent":-1,
+    "maxID":351,
+    "label":"CM3",
+    "isOpen":true,
+    "isDirectory":false,
+    "isAniNode":true,
+    "hasChild":false,
+    "compId":349,
+    "child":[
+        ],
+    "animations":[
+        {
+            "nodes":[
+                ],
+            "name":"ani1",
+            "id":1,
+            "frameRate":24,
+            "action":0
+        }]
+}

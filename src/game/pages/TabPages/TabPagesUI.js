@@ -1,0 +1,102 @@
+import Main from '../../common/Main';
+import Me from '../Me/Me';
+import Notice from '../Notice/Notice';
+import GameHall from '../GameHall/GameHall';
+import Data from '../Data/Data';
+// import GameControl from '../../GameCenter/GameControl';
+export default class TabPagesUI extends Laya.Scene {
+    constructor() {
+        super();
+    }
+    onOpened(options){
+        Main.$LOG('tab页面所收到的值：',options);
+        this.allowSetInterval=true;
+        let page=!options?Main.pages.page3:options.page;
+        this.openView(page);
+    }
+    onAwake() {
+        Main.$LOG('TabPagesUI:', this);
+        this.registerEvent();
+    }
+    /**
+     * 注册事件
+     */
+    registerEvent() {
+        this.tab_notice.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page1]);
+        this.tab_paiju.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page2]);
+        this.tab_hall.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page3]);
+        this.tab_data.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page4]);
+        this.tab_me.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page5]);
+
+        // this.ceshi_btn.on(Laya.Event.CLICK, this, ()=>{
+        //     GameControl.instance.beackRoom(41)
+        // });
+    }
+    /**
+     * 切换页面时候先关闭所有页面
+     */
+    closeAllpages() {
+        let allPages = this.pages._children;
+        allPages.forEach(item => {
+            item.visible = false;
+        });
+    }
+    /**
+     * 打开对应的页面
+     * @param {*} page 页面对象
+     */
+    openView(page) {
+        Main.allowRequesList=false;
+        this.closeAllpages();
+        this[page].visible = true;
+        this.reloadNavSelect();
+        this.setTabSelect(page);
+        if (page === Main.pages.page5) {
+            Me.instance.openThisPage();
+        }else if(page === Main.pages.page1){
+            Notice.instance.openThisPage();
+        }else if(page === Main.pages.page3){
+            Main.allowRequesList=true;
+            GameHall.instance.openThisPage();
+        }else if(page === Main.pages.page4){
+            Data.instance.openThisPage();
+        }
+    }
+    /**
+     * 重置下面导航栏的文字样式
+     */
+    reloadNavSelect() {
+        this.notice.visible = true;
+        this.notice_selected.visible = false;
+        this.paiju.visible = true;
+        this.paiju_selected.visible = false;
+        this.data.visible = true;
+        this.data_selected.visible = false;
+        this.me.visible = true;
+        this.me_selected.visible = false;
+    }
+    /**
+     * 设置下面导航栏的选项
+     * @param {*} type 类型
+     */
+    setTabSelect(type) {
+        switch (type) {
+            case Main.pages.page1:
+                this.notice.visible = false;
+                this.notice_selected.visible = true;
+                break;
+            case Main.pages.page2:
+                this.paiju.visible = false;
+                this.paiju_selected.visible = true;
+                break;
+            case Main.pages.page4:
+                this.data.visible = false;
+                this.data_selected.visible = true;
+                break;
+            case Main.pages.page5:
+                this.me.visible = false;
+                this.me_selected.visible = true;
+                break;
+        }
+    }
+}

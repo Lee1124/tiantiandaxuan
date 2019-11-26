@@ -1,0 +1,1 @@
+{"type":"Sprite","props":{"texture":"images/gameView/choumaBg2.png","x":0,"y":0,"name":"CM2","presetPre":"laya/pages/prefab/CM3.prefab","presetIDPre":2,"preset":"laya/pages/prefab/CM2.prefab","presetID":1,"isPresetRoot":true},"compId":350,"child":[],"isAniNode":true,"nodeParent":349,"searchKey":"Sprite,CM2","label":"CM2","isDirectory":false,"hasChild":false,"x":15}

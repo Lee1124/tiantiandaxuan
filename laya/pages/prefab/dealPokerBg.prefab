@@ -1,0 +1,25 @@
+{
+    "x":0,
+    "type":"Sprite",
+    "selectedBox":352,
+    "searchKey":"Sprite,dealPokerBg",
+    "props":{"y":0,"x":0,"texture":"images/poker/-1.png","presetID":1,"preset":"laya/pages/prefab/dealPokerBg.prefab","name":"dealPokerBg","isPresetRoot":true},
+    "nodeParent":-1,
+    "maxID":353,
+    "label":"dealPokerBg",
+    "isDirectory":false,
+    "isAniNode":true,
+    "hasChild":false,
+    "compId":352,
+    "child":[
+        ],
+    "animations":[
+        {
+            "nodes":[
+                ],
+            "name":"ani1",
+            "id":1,
+            "frameRate":24,
+            "action":0
+        }]
+}

@@ -1,0 +1,25 @@
+{
+    "x":0,
+    "type":"Sprite",
+    "selectedBox":351,
+    "searchKey":"Sprite,CM",
+    "props":{"y":0,"x":0,"texture":"images/gameView/choumaBg0.png","presetID":1,"preset":"laya/pages/prefab/CM.prefab","name":"CM","isPresetRoot":true},
+    "nodeParent":-1,
+    "maxID":352,
+    "label":"CM",
+    "isDirectory":false,
+    "isAniNode":true,
+    "hasChild":false,
+    "compId":351,
+    "child":[
+        ],
+    "animations":[
+        {
+            "nodes":[
+                ],
+            "name":"ani1",
+            "id":1,
+            "frameRate":24,
+            "action":0
+        }]
+}
