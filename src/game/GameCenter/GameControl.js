@@ -362,10 +362,9 @@ export default class GameControl extends Laya.Script {
                 this.owner.showTips(resData.ret.msg);
             }
         } else if (resData._t == "R2C_LeaveRoom") {
-            if (resData.ret.type == 0) {
-                this.leaveRoomDeal(resData);
-            } else {
+            if (resData.ret.type == 4) {
                 this.owner.showTips(resData.ret.msg);
+            } else {
                 this.leaveRoomOpenView();
             }
         } else if (resData._t == "CXRoomEnd") {
@@ -861,7 +860,6 @@ export default class GameControl extends Laya.Script {
      */
     startAction() {
         if (this._allowStartAction) {
-            // console.log('进来了====================0000000000',this._startAction)
             if (this._startAction) {
                 if (this.prePlayerAciton != 3 && this.prePlayerAciton != 4) {
                     this.autoHandleType = null;

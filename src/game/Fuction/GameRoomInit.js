@@ -5,7 +5,6 @@
 
 class GameRoomInit {
     init(that) {
-        console.log('进来0')
         let GameUI = that.owner;
         GameUI.mang_cm_pool.zOrder = 2;
         GameUI.pi_cm_pool.zOrder = 2;

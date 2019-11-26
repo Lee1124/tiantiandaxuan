@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":1907,
+    "selecteID":746,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":1912,
+    "maxID":1913,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -82,7 +82,6 @@
             "compId":3,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-1",
                     "props":{"zOrder":1,"x":621,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-1","height":167,"bottom":342},
@@ -1023,7 +1022,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"bottom":660},
@@ -1947,7 +1945,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-3",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-3","left":45,"height":167,"centerY":-95},
@@ -2866,7 +2863,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
                     "props":{"zOrder":1,"width":167,"top":470,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167},
@@ -3785,7 +3781,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-5",
                     "props":{"zOrder":1,"x":621,"width":167,"top":130,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-5","height":167},
@@ -4704,7 +4699,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
                     "props":{"zOrder":1,"width":167,"top":470,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167},
@@ -5623,7 +5617,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-7",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-7","height":167,"centerY":-95},
@@ -6542,7 +6535,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"bottom":660},
@@ -6555,7 +6547,6 @@
                     "compId":31,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,head-box",
                             "props":{"y":0,"x":-5,"width":176,"visible":false,"name":"head-box","height":164},
@@ -6568,7 +6559,6 @@
                             "compId":1181,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,headBorder",
                                     "props":{"zOrder":2,"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
@@ -6584,7 +6574,6 @@
                                     "$HIDDEN":false
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
                                     "props":{"y":-1,"x":5,"width":166,"name":"headImgBox","height":166},
@@ -6597,7 +6586,6 @@
                                     "compId":1189,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Sprite",
                                             "searchKey":"Sprite",
                                             "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
@@ -6610,7 +6598,6 @@
                                             "compId":1190,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Circle",
                                                     "searchKey":"Circle",
                                                     "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
@@ -6628,7 +6615,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,xiaZhuScore",
                             "props":{"width":90,"visible":false,"skin":"images/gameView/choumaKuangBg.png","pivotY":21,"pivotX":45,"name":"xiaZhuScore","left":-150,"height":41,"bottom":12},
@@ -6669,7 +6655,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,deal_cards_seat",
                             "props":{"y":135,"x":110,"width":0,"name":"deal_cards_seat","height":0},
@@ -6682,7 +6667,6 @@
                             "compId":345,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,poker1",
                                     "props":{"y":82,"x":62,"width":123,"visible":false,"texture":"images/poker/-1.png","pivotY":82,"pivotX":62,"name":"poker1","height":163},
@@ -6696,7 +6680,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,poker2",
                                     "props":{"y":82,"x":62,"width":123,"visible":false,"texture":"images/poker/-1.png","pivotY":82,"pivotX":62,"name":"poker2","height":163},
@@ -6711,7 +6694,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,create_cm_seat",
                             "props":{"y":83,"x":83,"width":0,"name":"create_cm_seat","height":0},
@@ -6724,7 +6706,6 @@
                             "compId":360,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,move_cm",
                                     "props":{"y":0,"width":78,"pivotY":41,"pivotX":39,"name":"move_cm","height":81},
@@ -6739,7 +6720,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,show_poker_box",
                             "props":{"y":220,"x":-1,"width":168,"name":"show_poker_box","height":156},
@@ -6752,7 +6732,6 @@
                             "compId":578,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,poker_box",
                                     "props":{"y":0,"width":112,"name":"poker_box","height":156,"centerX":0},
@@ -6768,7 +6747,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,sub_poker_box",
                             "props":{"y":220,"x":-180,"width":370,"visible":false,"name":"sub_poker_box","height":156},
@@ -6781,7 +6759,6 @@
                             "compId":701,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,sub1",
                                     "props":{"y":0,"x":0,"width":180,"name":"sub1","height":156},
@@ -6794,7 +6771,6 @@
                                     "compId":702,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,pokerBox",
                                             "props":{"y":0,"x":0,"width":113,"name":"pokerBox","height":156},
@@ -6809,7 +6785,6 @@
                                                 ]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,pokerBox",
                                             "props":{"y":0,"x":67,"width":113,"name":"pokerBox","height":156},
@@ -6824,7 +6799,6 @@
                                                 ]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Sprite",
                                             "searchKey":"Sprite,pointBox",
                                             "props":{"y":99,"x":33,"texture":"images/gameView/CardPrompt.png","name":"pointBox"},
@@ -6852,7 +6826,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,sub2",
                                     "props":{"y":0,"x":190,"width":180,"name":"sub2","height":156},
@@ -6865,7 +6838,6 @@
                                     "compId":709,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,pokerBox",
                                             "props":{"y":0,"x":0,"width":113,"name":"pokerBox","height":156},
@@ -6880,7 +6852,6 @@
                                                 ]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,pokerBox",
                                             "props":{"y":0,"x":67,"width":113,"name":"pokerBox","height":156},
@@ -6895,7 +6866,6 @@
                                                 ]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Sprite",
                                             "searchKey":"Sprite,pointBox",
                                             "props":{"y":99,"x":33,"texture":"images/gameView/CardPrompt.png","name":"pointBox"},
@@ -6924,7 +6894,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Panel",
                             "searchKey":"Panel,score",
                             "props":{"y":170,"x":-5,"width":176,"visible":false,"sceneColor":"#c6100d","name":"score","height":46,"bgColor":"#000","alpha":0.5},
@@ -6951,7 +6920,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,banker",
                             "props":{"y":127,"x":-23,"visible":false,"texture":"images/gameView/banker.png","name":"banker"},
@@ -6965,7 +6933,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,name",
                             "props":{"y":-36,"x":-42,"width":250,"valign":"middle","name":"name","fontSize":34,"color":"#FFFFFF","align":"center"},
@@ -6979,7 +6946,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,countDownBox",
                             "props":{"y":0,"x":0,"width":166,"visible":false,"name":"countDownBox","height":166},
@@ -7020,7 +6986,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,show_me_poker_box",
                             "props":{"y":224,"x":-228,"width":624,"name":"show_me_poker_box","height":210},
@@ -7033,7 +6998,6 @@
                             "compId":1257,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,poker1",
                                     "props":{"y":82,"x":62,"width":123,"visible":false,"texture":"images/poker/-1.png","pivotY":82,"pivotX":62,"name":"poker1","height":163},
@@ -7046,7 +7010,6 @@
                                     "compId":1454,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,xiuSign",
                                             "props":{"y":0,"x":0,"width":46,"visible":false,"skin":"images/effect/fightShowPoker.png","name":"xiuSign","height":26,"centerX":0,"bottom":40},
@@ -7061,7 +7024,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,poker2",
                                     "props":{"y":82,"x":62,"width":123,"visible":false,"texture":"images/poker/-1.png","pivotY":82,"pivotX":62,"name":"poker2","height":163},
@@ -7074,7 +7036,6 @@
                                     "compId":1455,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,xiuSign",
                                             "props":{"y":0,"x":0,"width":46,"visible":false,"skin":"images/effect/fightShowPoker.png","name":"xiuSign","height":26,"centerX":0,"bottom":40},
@@ -7089,7 +7050,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,poker3",
                                     "props":{"y":82,"x":62,"width":123,"visible":false,"texture":"images/poker/-1.png","pivotY":82,"pivotX":62,"name":"poker3","height":163},
@@ -7116,7 +7076,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,poker4",
                                     "props":{"y":82,"x":62,"width":123,"visible":false,"texture":"images/poker/-1.png","pivotY":82,"pivotX":62,"name":"poker4","height":163},
@@ -7146,7 +7105,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,deal_cards_seat34",
                             "props":{"y":135,"x":110,"width":0,"name":"deal_cards_seat34","height":0},
@@ -7159,7 +7117,6 @@
                             "compId":1265,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,poker3",
                                     "props":{"y":82,"x":62,"width":123,"visible":false,"texture":"images/poker/-1.png","pivotY":82,"pivotX":62,"name":"poker3","height":163},
@@ -7173,7 +7130,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,poker4",
                                     "props":{"y":82,"x":62,"width":123,"visible":false,"texture":"images/poker/-1.png","pivotY":82,"pivotX":62,"name":"poker4","height":163},
@@ -7189,7 +7145,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,show_me_sub_poker",
                             "props":{"y":224,"x":-166,"width":500,"visible":false,"name":"show_me_sub_poker","height":210},
@@ -7338,7 +7293,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
                             "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
@@ -7404,7 +7358,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/GameCenter/seat.js",
@@ -7421,7 +7374,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,gifBox",
                             "props":{"zOrder":2,"y":0,"x":0,"visible":false,"top":0,"right":0,"name":"gifBox","left":0,"bottom":0},
@@ -7461,7 +7413,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,winScore",
                             "props":{"y":0,"x":0,"visible":false,"top":-50,"skin":"images/common/scoreBg.png","name":"winScore","centerX":0},
@@ -7488,7 +7439,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,tipsBox",
                             "props":{"zOrder":3,"y":28,"x":10,"width":160,"pivotY":52,"pivotX":80,"name":"tipsBox","height":104},
@@ -7503,7 +7453,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,paijurule",
                     "props":{"x":421,"width":400,"name":"paijurule","height":180,"centerY":80,"centerX":0,"alpha":0.6},
@@ -8064,6 +8013,19 @@
                                 }]
                         }],
                     "$HIDDEN":false
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{},
+                    "nodeParent":746,
+                    "label":"Image",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1912,
+                    "child":[
+                        ]
                 }],
             "$HIDDEN":false
         },

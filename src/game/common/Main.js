@@ -7,7 +7,7 @@ class Main {
         // this.requestApi = 'http://132.232.34.32:8081';
         this.phoneNews = {
             statusHeight: 0,//手机系统栏的高度
-            deviceNews:'',//系统名称：Android / iOS
+            deviceNews: '',//系统名称：Android / iOS
         }
         this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
         this.$LOG('Main.js获取用户信息：', this.userInfo);
@@ -45,6 +45,8 @@ class Main {
         }
         this.loadSceneResourcesArr = [];
         this.openSceneViewArr = [];
+        this.loadAniArr1 = [];
+        this.loadAniArr2 = [];
         this.debug = true;
     }
 
@@ -52,6 +54,8 @@ class Main {
         if (this.debug)
             console.log(...data);
     }
+
+
 
     /**
     * 获取状态栏高度入口
@@ -75,16 +79,16 @@ class Main {
     }
 
     getDeviceInfo() {
-        this.phoneNews.deviceNews=plus.os.name;
+        this.phoneNews.deviceNews = plus.os.name;
     }
 
     /**
      * 根据状态栏设置元素的top值
      * @param nodeArr 节点对象 数组
      */
-    setNodeTop(nodeArr){
-        nodeArr.forEach(node=>{
-            node.top=node.top+this.phoneNews.statusHeight;
+    setNodeTop(nodeArr) {
+        nodeArr.forEach(node => {
+            node.top = node.top + this.phoneNews.statusHeight;
         })
     }
 
@@ -204,24 +208,74 @@ class Main {
         }
     }
 
+    setText(node,size,color){
+        node.fontSize=size;
+        node.color=color;
+        return node;
+    }
+
+    /**
+    * 创建加载图标到stage
+    */
+    createLoading() {
+        Laya.loader.load("res/atlas/images/common.atlas", Laya.Handler.create(this, onMyLoaded));
+        function onMyLoaded() {
+            let animationBox = new Laya.Sprite();
+            let animationText = new Laya.Label();
+            animationText.name='loadingText';
+            animationText.width=300;
+            animationText.centerX=0;
+            animationText.align='center';
+            animationText.zOrder=2;
+            animationText.bottom='-150';
+            let aniText=this.setText(animationText,60,'#000000');
+            animationBox.addChild(aniText);
+            animationBox.name = 'loadingBox';
+            animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
+            let ani = new Laya.Animation();
+            ani.name = 'loadingAni';
+            ani.loadAnimation("animation/Loading.ani");
+            animationBox.addChild(ani);
+            Laya.stage.addChild(animationBox)
+            //播放Animation动画
+            this.loadAniArr1.push('LOADING');
+            this.loadAniArr2.forEach(item => {
+                if (item.key == 'LOADING') {
+                    animationBox.visible = item.show;
+                    animationText.text='';
+                    if (item.show) {
+                        animationText.text=item.text;
+                        ani.play();
+                    } else {
+                        ani.stop();
+                    }
+                }
+            })
+        }
+    }
+
     /**
      * 显示或隐藏加载图标
      * @param isShow 是否显示
      */
-    showLoading(isShow = true) {
-        let resLoading = Laya.stage.getChildByName('resLoading');
-        resLoading.visible = isShow;
-        if (resLoading)
-            if (isShow) {
-                let loadIcon = resLoading.getChildByName("icon");
-                loadIcon.rotation = 0;
-                Laya.timer.loop(1, this, this.loadIconRotation, [loadIcon])
-            } else {
-                Laya.timer.clear(this, this.loadIconRotation);
+    showLoading(isShow = true,msg='') {
+        this.loadAniArr1.forEach(item => {
+            if (item == 'LOADING') {
+                let loadingBox = Laya.stage.getChildByName('loadingBox');
+                let loadingAni = loadingBox.getChildByName('loadingAni');
+                let loadingText = loadingBox.getChildByName('loadingText');
+                loadingText.text='';
+                loadingBox.visible = isShow;
+                if (isShow) {
+                    loadingText.text=msg;
+                    loadingAni.play();
+                } else {
+                    loadingAni.stop();
+                }
+                return;
             }
-    }
-    loadIconRotation(obj) {
-        obj.rotation += 4;
+        })
+        this.loadAniArr2=[{ key: 'LOADING', show: isShow ,text:msg}];
     }
 
     /**
@@ -368,6 +422,8 @@ class Main {
         var s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60));
         return result = h + ":" + m + ":" + s;
     }
+
+
 
 
     /**

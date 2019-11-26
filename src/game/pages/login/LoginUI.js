@@ -14,7 +14,7 @@ export default class Login extends Laya.Scene {
         this.login_btn.on(Laya.Event.CLICK, this, this.login);
         this.register_btn.on(Laya.Event.CLICK, this, this.register);
         this.change_btn.on(Laya.Event.CLICK, this, this.change);
-        this.createLoading();
+        Main.createLoading();
         Main.getStatusHeight();
         setTimeout(()=>{
             this.ceshi.text=Main.phoneNews.statusHeight+';'+Main.phoneNews.deviceNews
@@ -34,29 +34,5 @@ export default class Login extends Laya.Scene {
     }
     change() {
         this._LoginJS.changePwd();
-    }
-
-
-    /**
-     * 创建加载图标到stage
-     */
-    createLoading() {
-        if (!Laya.stage.getChildByName("resLoading")) {
-            let loadingBox = new Laya.Sprite();
-            loadingBox.visible = false;
-            loadingBox.name = 'resLoading';
-            loadingBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
-            let loadingIcon = new Laya.Sprite();
-            loadingIcon.name = "icon"
-            loadingBox.loadImage('res/img/common/loadBg.png', Laya.Handler.create(this, () => {
-                loadingBox.pivot(loadingBox.width / 2, loadingBox.height / 2);
-            }));
-            loadingIcon.loadImage('res/img/common/loadIcon.png', Laya.Handler.create(this, () => {
-                loadingIcon.pivot(loadingIcon.width / 2, loadingIcon.height / 2);
-                loadingIcon.pos(loadingIcon.width / 2, loadingIcon.height / 2);
-            }));
-            loadingBox.addChild(loadingIcon);
-            Laya.stage.addChild(loadingBox);
-        }
     }
 }

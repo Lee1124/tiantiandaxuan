@@ -117,7 +117,10 @@ export default class GameHall extends Laya.Script {
                 roomPws: Event.target.dataSource.roomPws,
                 page: Main.pages.page3
             }
-            Main.$openScene('cheXuanGame_8.scene',true,data);
+            Main.showLoading(true,'正在进入游戏...');
+            Main.$openScene('cheXuanGame_8.scene',true,data,()=>{
+                Main.showLoading(false);
+            });
         }
     }
 

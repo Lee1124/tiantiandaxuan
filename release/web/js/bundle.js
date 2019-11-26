@@ -600,7 +600,7 @@
             // this.requestApi = 'http://132.232.34.32:8081';
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
-                deviceNews:'',//系统名称：Android / iOS
+                deviceNews: '',//系统名称：Android / iOS
             };
             this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
             this.$LOG('Main.js获取用户信息：', this.userInfo);
@@ -638,6 +638,8 @@
             };
             this.loadSceneResourcesArr = [];
             this.openSceneViewArr = [];
+            this.loadAniArr1 = [];
+            this.loadAniArr2 = [];
             this.debug = true;
         }
 
@@ -645,6 +647,8 @@
             if (this.debug)
                 console.log(...data);
         }
+
+
 
         /**
         * 获取状态栏高度入口
@@ -668,16 +672,16 @@
         }
 
         getDeviceInfo() {
-            this.phoneNews.deviceNews=plus.os.name;
+            this.phoneNews.deviceNews = plus.os.name;
         }
 
         /**
          * 根据状态栏设置元素的top值
          * @param nodeArr 节点对象 数组
          */
-        setNodeTop(nodeArr){
-            nodeArr.forEach(node=>{
-                node.top=node.top+this.phoneNews.statusHeight;
+        setNodeTop(nodeArr) {
+            nodeArr.forEach(node => {
+                node.top = node.top + this.phoneNews.statusHeight;
             });
         }
 
@@ -797,24 +801,74 @@
             }
         }
 
+        setText(node,size,color){
+            node.fontSize=size;
+            node.color=color;
+            return node;
+        }
+
+        /**
+        * 创建加载图标到stage
+        */
+        createLoading() {
+            Laya.loader.load("res/atlas/images/common.atlas", Laya.Handler.create(this, onMyLoaded));
+            function onMyLoaded() {
+                let animationBox = new Laya.Sprite();
+                let animationText = new Laya.Label();
+                animationText.name='loadingText';
+                animationText.width=300;
+                animationText.centerX=0;
+                animationText.align='center';
+                animationText.zOrder=2;
+                animationText.bottom='-150';
+                let aniText=this.setText(animationText,60,'#000000');
+                animationBox.addChild(aniText);
+                animationBox.name = 'loadingBox';
+                animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
+                let ani = new Laya.Animation();
+                ani.name = 'loadingAni';
+                ani.loadAnimation("animation/Loading.ani");
+                animationBox.addChild(ani);
+                Laya.stage.addChild(animationBox);
+                //播放Animation动画
+                this.loadAniArr1.push('LOADING');
+                this.loadAniArr2.forEach(item => {
+                    if (item.key == 'LOADING') {
+                        animationBox.visible = item.show;
+                        animationText.text='';
+                        if (item.show) {
+                            animationText.text=item.text;
+                            ani.play();
+                        } else {
+                            ani.stop();
+                        }
+                    }
+                });
+            }
+        }
+
         /**
          * 显示或隐藏加载图标
          * @param isShow 是否显示
          */
-        showLoading(isShow = true) {
-            let resLoading = Laya.stage.getChildByName('resLoading');
-            resLoading.visible = isShow;
-            if (resLoading)
-                if (isShow) {
-                    let loadIcon = resLoading.getChildByName("icon");
-                    loadIcon.rotation = 0;
-                    Laya.timer.loop(1, this, this.loadIconRotation, [loadIcon]);
-                } else {
-                    Laya.timer.clear(this, this.loadIconRotation);
+        showLoading(isShow = true,msg='') {
+            this.loadAniArr1.forEach(item => {
+                if (item == 'LOADING') {
+                    let loadingBox = Laya.stage.getChildByName('loadingBox');
+                    let loadingAni = loadingBox.getChildByName('loadingAni');
+                    let loadingText = loadingBox.getChildByName('loadingText');
+                    loadingText.text='';
+                    loadingBox.visible = isShow;
+                    if (isShow) {
+                        loadingText.text=msg;
+                        loadingAni.play();
+                    } else {
+                        loadingAni.stop();
+                    }
+                    return;
                 }
-        }
-        loadIconRotation(obj) {
-            obj.rotation += 4;
+            });
+            this.loadAniArr2=[{ key: 'LOADING', show: isShow ,text:msg}];
         }
 
         /**
@@ -963,6 +1017,8 @@
         }
 
 
+
+
         /**
      * 格式化时间
      * @timeVal new Date 格式的时间
@@ -1090,7 +1146,6 @@
 
     class GameRoomInit {
         init(that) {
-            console.log('进来0');
             let GameUI = that.owner;
             GameUI.mang_cm_pool.zOrder = 2;
             GameUI.pi_cm_pool.zOrder = 2;
@@ -1307,9 +1362,9 @@
                 handle: 120
             };
 
-            this.delayType={
-                action:1,
-                sub:2
+            this.delayType = {
+                action: 1,
+                sub: 2
             };
 
             this._allowSeatUp = true;
@@ -1336,7 +1391,7 @@
             GameControl.instance = this;
         }
         onStart() {
-           
+
             Main$1.$LOG('游戏控制中心:', this, this.owner._openedData);
             this._subCountDownVal = this.owner.subCountDown.getChildByName("timeText").getChildByName('timeVal');
             this._subCountDownLineTop = this.owner.subCountDown.getChildByName("lineBox")._children[0].getChildByName("line_top");
@@ -1363,22 +1418,22 @@
         }
 
         onEnable() {
-            let num=0;
+            let num = 0;
             let that = this;
             this.openDiaLogSpeed = 200;
             this._playerArray = [];
             this._plyerIndexArray = [];
-            that._seatXY=[];
+            that._seatXY = [];
             this.$LOG('控制中心:', this);
             GameRoomInit$1.init(that);
             MyCenter$1.req({
                 key: "seat",
                 callback(res) {
-                    res.INDEX=num++;
+                    res.INDEX = num++;
                     that._playerArray.push(res);
                     that._plyerIndexArray.push(res.INDEX);
-                    setTimeout(()=>{
-                        GameRoomInit$1.keepValue(that,res);
+                    setTimeout(() => {
+                        GameRoomInit$1.keepValue(that, res);
                     });
                 }
             });
@@ -1586,10 +1641,9 @@
                     this.owner.showTips(resData.ret.msg);
                 }
             } else if (resData._t == "R2C_LeaveRoom") {
-                if (resData.ret.type == 0) {
-                    this.leaveRoomDeal(resData);
-                } else {
+                if (resData.ret.type == 4) {
                     this.owner.showTips(resData.ret.msg);
+                } else {
                     this.leaveRoomOpenView();
                 }
             } else if (resData._t == "CXRoomEnd") {
@@ -1619,7 +1673,11 @@
                 }
             } else if (resData._t == "G2C_StartAction") {
                 this._startAction = resData;
-                this.startAction();
+                if (resData.ret.type == 0) {
+                    this.startAction();
+                } else if (resData.ret.type == 6) {
+                    this.sanhuaAction(resData);
+                }
             } else if (resData._t == "G2C_PlayerAction") {
                 this.playerAction(resData);
             } else if (resData._t == "G2C_PlayerActionEnd") {
@@ -1683,7 +1741,7 @@
             let meArr = data.roomSeat.filter(item => item._id == this.userId);
             if (meArr.length > 0) {
                 this.newIndexConcatArr = this._plyerIndexArray.splice(meArr[0].seat_idx, this._plyerIndexArray.length).concat(this._plyerIndexArray.splice(0, meArr[0].seat_idx + 1));
-                
+
                 this._playerArray.forEach((item, index) => {
                     item.owner.seatId = this.newIndexConcatArr[index];
                 });
@@ -2072,7 +2130,6 @@
          */
         startAction() {
             if (this._allowStartAction) {
-                // console.log('进来了====================0000000000',this._startAction)
                 if (this._startAction) {
                     if (this.prePlayerAciton != 3 && this.prePlayerAciton != 4) {
                         this.autoHandleType = null;
@@ -2101,6 +2158,17 @@
                     });
                 }
             }
+        }
+
+        /**
+         * 三花特牌
+         */
+        sanhuaAction(data) {
+            this._playerArray.forEach(item_player => {
+                if (item_player.owner.userId == data.uid) {
+                    item_player.diuPoker();//执行丢牌的效果
+                }
+            });
         }
 
         /**
@@ -2182,7 +2250,7 @@
         setMeHandleBtnZT(isShow = true, data) {
             this.owner.handleBtnBox.visible = isShow;
             if (isShow) {
-                PlayerDelayTime$1.init(this.delayType.action,this, data);
+                PlayerDelayTime$1.init(this.delayType.action, this, data);
                 this._btnArr = [];
                 this._btnMoveNum = 0;
                 let leftBtn = this.owner.handle_left;
@@ -2547,10 +2615,10 @@
                     }
                     this.showAssignPokerView(isShow);
                 }
-                PlayerDelayTime$1.init(this.delayType.sub,this,data);
+                PlayerDelayTime$1.init(this.delayType.sub, this, data);
             } else {
                 this.showAssignPokerView(isShow);
-                PlayerDelayTime$1.offEvent(this,data);
+                PlayerDelayTime$1.offEvent(this, data);
             }
         }
 
@@ -2950,7 +3018,7 @@
             this._allowSeatUp = false;
             let showObj = this.owner.menu;
             let maskAlpha = 0.2;
-            let y = show ? 0+Main$1.phoneNews.statusHeight : -this.owner.menu.height;
+            let y = show ? 0 + Main$1.phoneNews.statusHeight : -this.owner.menu.height;
             this.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
         }
 
@@ -4751,7 +4819,7 @@
             this.login_btn.on(Laya.Event.CLICK, this, this.login);
             this.register_btn.on(Laya.Event.CLICK, this, this.register);
             this.change_btn.on(Laya.Event.CLICK, this, this.change);
-            this.createLoading();
+            Main$1.createLoading();
             Main$1.getStatusHeight();
             setTimeout(()=>{
                 this.ceshi.text=Main$1.phoneNews.statusHeight+';'+Main$1.phoneNews.deviceNews;
@@ -4771,30 +4839,6 @@
         }
         change() {
             this._LoginJS.changePwd();
-        }
-
-
-        /**
-         * 创建加载图标到stage
-         */
-        createLoading() {
-            if (!Laya.stage.getChildByName("resLoading")) {
-                let loadingBox = new Laya.Sprite();
-                loadingBox.visible = false;
-                loadingBox.name = 'resLoading';
-                loadingBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
-                let loadingIcon = new Laya.Sprite();
-                loadingIcon.name = "icon";
-                loadingBox.loadImage('res/img/common/loadBg.png', Laya.Handler.create(this, () => {
-                    loadingBox.pivot(loadingBox.width / 2, loadingBox.height / 2);
-                }));
-                loadingIcon.loadImage('res/img/common/loadIcon.png', Laya.Handler.create(this, () => {
-                    loadingIcon.pivot(loadingIcon.width / 2, loadingIcon.height / 2);
-                    loadingIcon.pos(loadingIcon.width / 2, loadingIcon.height / 2);
-                }));
-                loadingBox.addChild(loadingIcon);
-                Laya.stage.addChild(loadingBox);
-            }
         }
     }
 
@@ -5827,7 +5871,10 @@
                     roomPws: Event.target.dataSource.roomPws,
                     page: Main$1.pages.page3
                 };
-                Main$1.$openScene('cheXuanGame_8.scene',true,data);
+                Main$1.showLoading(true,'正在进入游戏...');
+                Main$1.$openScene('cheXuanGame_8.scene',true,data,()=>{
+                    Main$1.showLoading(false);
+                });
             }
         }
 
