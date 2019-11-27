@@ -1837,10 +1837,12 @@
             this.netClient.onStartConnect = function (res) {
                 Main$1.$LOG('soket重新连接开始');
                 that.owner.ceShiText.text='soket重新连接开始';
+                Main$1.showLoading(true,'连接中');
             };
             this.netClient.onEndConnect = function (res) {
                 Main$1.$LOG('soket重新连接结束',this);
                 that.owner.ceShiText.text='soket重新连接结束';
+                Main$1.showLoading(false);
             };
         }
         /**
