@@ -3,15 +3,15 @@ import Me from '../Me/Me';
 import Notice from '../Notice/Notice';
 import GameHall from '../GameHall/GameHall';
 import Data from '../Data/Data';
-// import GameControl from '../../GameCenter/GameControl';
 export default class TabPagesUI extends Laya.Scene {
     constructor() {
         super();
     }
-    onOpened(options){
-        Main.$LOG('tab页面所收到的值：',options);
-        this.allowSetInterval=true;
-        let page=!options?Main.pages.page3:options.page;
+    onOpened(options) {
+        Main.$LOG('tab页面所收到的值：', options);
+        this.pageData = options;
+        this.allowSetInterval = true;
+        let page = !options.page ? Main.pages.page3 : options.page;
         this.openView(page);
     }
     onAwake() {
@@ -24,13 +24,9 @@ export default class TabPagesUI extends Laya.Scene {
     registerEvent() {
         this.tab_notice.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page1]);
         this.tab_paiju.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page2]);
-        this.tab_hall.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page3]);
+        this.tab_hall.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page3, 1]);
         this.tab_data.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page4]);
         this.tab_me.on(Laya.Event.CLICK, this, this.openView, [Main.pages.page5]);
-
-        // this.ceshi_btn.on(Laya.Event.CLICK, this, ()=>{
-        //     GameControl.instance.beackRoom(41)
-        // });
     }
     /**
      * 切换页面时候先关闭所有页面
@@ -45,23 +41,25 @@ export default class TabPagesUI extends Laya.Scene {
      * 打开对应的页面
      * @param {*} page 页面对象
      */
-    openView(page) {
-        Main.allowRequesList=false;
+    openView(page, type) {
+        Main.allowRequesList = false;
         this.closeAllpages();
         this[page].visible = true;
         this.reloadNavSelect();
         this.setTabSelect(page);
         if (page === Main.pages.page5) {
             Me.instance.openThisPage();
-        }else if(page === Main.pages.page1){
+        } else if (page === Main.pages.page1) {
             Notice.instance.openThisPage();
-        }else if(page === Main.pages.page3){
-            Main.allowRequesList=true;
+        } else if (page === Main.pages.page3) {
+            Main.allowRequesList = true;
+            Main.allowHideLoad = type == 1 ? true : false;
             GameHall.instance.openThisPage();
-        }else if(page === Main.pages.page4){
+        } else if (page === Main.pages.page4) {
             Data.instance.openThisPage();
         }
     }
+
     /**
      * 重置下面导航栏的文字样式
      */

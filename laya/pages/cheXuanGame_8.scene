@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":746,
+    "selecteID":1933,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":1913,
+    "maxID":1934,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -126,7 +126,7 @@
                                     "props":{"y":-1,"x":5,"width":166,"visible":true,"name":"headImgBox","height":166},
                                     "nodeParent":158,
                                     "label":"headImgBox",
-                                    "isOpen":true,
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
@@ -168,7 +168,7 @@
                             "props":{"width":90,"visible":false,"skin":"images/gameView/choumaKuangBg.png","right":-120,"pivotY":21,"pivotX":45,"name":"xiaZhuScore","height":41,"bottom":230},
                             "nodeParent":5,
                             "label":"xiaZhuScore",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -6540,7 +6540,7 @@
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"bottom":660},
                     "nodeParent":3,
                     "label":"empty-seat-8",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -7769,7 +7769,7 @@
                     "props":{"visible":false,"var":"handleBtnBox","name":"handleBtnBox"},
                     "nodeParent":746,
                     "label":"handleBtnBox",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -8013,17 +8013,126 @@
                                 }]
                         }],
                     "$HIDDEN":false
-                },
+                }],
+            "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,da_slider,da_slider",
+            "props":{"zOrder":3,"var":"da_slider","top":0,"skin":"images/Action/h_bg.png","right":0,"name":"da_slider","left":0,"bottom":0},
+            "nodeParent":2,
+            "label":"da_slider",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":1923,
+            "child":[
                 {
                     "type":"Image",
-                    "searchKey":"Image",
+                    "searchKey":"Image,da_sliderBg",
+                    "props":{"skin":"images/Action/h_line.png","name":"da_sliderBg","centerX":0,"bottom":522},
+                    "nodeParent":1923,
+                    "label":"da_sliderBg",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":1925,
+                    "child":[
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,da_sliderHeight",
+                            "props":{"y":132,"x":13,"width":138,"name":"da_sliderHeight","height":582},
+                            "nodeParent":1925,
+                            "label":"da_sliderHeight",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1932,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,cancelBtn",
+                            "props":{"skin":"images/Action/h_cancel.png","name":"cancelBtn","centerX":0,"bottom":-16},
+                            "nodeParent":1925,
+                            "label":"cancelBtn",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1926,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,da_maxNum",
+                            "props":{"top":-15,"skin":"images/Action/h_num.png","name":"da_maxNum","centerX":0},
+                            "nodeParent":1925,
+                            "label":"da_maxNum",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":1929,
+                            "child":[
+                                {
+                                    "type":"Label",
+                                    "searchKey":"Label,value",
+                                    "props":{"y":44,"x":44,"width":100,"valign":"middle","text":"0","name":"value","height":100,"fontSize":50,"color":"#FFFFFF","bold":true,"align":"center"},
+                                    "nodeParent":1929,
+                                    "label":"value",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1930,
+                                    "child":[
+                                        ]
+                                }]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,da_handler",
+                            "props":{"width":215,"skin":"images/Action/h_btn.png","pivotY":93,"name":"da_handler","height":93,"centerX":0,"bottom":158},
+                            "nodeParent":1925,
+                            "label":"da_handler",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":1927,
+                            "child":[
+                                {
+                                    "type":"Label",
+                                    "searchKey":"Label,da_texNum",
+                                    "props":{"width":210,"valign":"middle","text":"0","name":"da_texNum","height":90,"fontSize":50,"centerY":0,"centerX":0,"bold":true,"align":"center"},
+                                    "nodeParent":1927,
+                                    "label":"da_texNum",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1928,
+                                    "child":[
+                                        ]
+                                }]
+                        }]
+                },
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/game/Fuction/MySlider.js",
+                    "searchKey":"Script,MySlider",
+                    "removeAble":true,
                     "props":{},
-                    "nodeParent":746,
-                    "label":"Image",
+                    "nodeParent":1923,
+                    "label":"MySlider",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
-                    "compId":1912,
+                    "compId":1931,
                     "child":[
                         ]
                 }],
@@ -9476,7 +9585,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,subCountDown,subCountDown",
-            "props":{"y":1557,"x":413,"width":446,"visible":false,"var":"subCountDown","name":"subCountDown","height":24},
+            "props":{"zOrder":2,"y":1557,"x":413,"width":446,"visible":false,"var":"subCountDown","name":"subCountDown","height":24},
             "nodeParent":2,
             "label":"subCountDown",
             "isOpen":false,
@@ -9635,6 +9744,20 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":1598,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Label",
+            "searchKey":"Label,ceShiText,ceShiText",
+            "props":{"visible":false,"var":"ceShiText","valign":"middle","top":0,"right":0,"name":"ceShiText","left":0,"height":50,"fontSize":50,"color":"#FF0000","align":"center"},
+            "nodeParent":2,
+            "label":"ceShiText",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":1933,
             "child":[
                 ]
         }],

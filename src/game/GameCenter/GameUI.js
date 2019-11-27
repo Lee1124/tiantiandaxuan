@@ -216,6 +216,8 @@ export default class GameUI extends Laya.Scene {
             } else if (ID == 6) {
                 this._control.openMenuList(false);
                 this._control.beackRoom();
+            }else if (ID == 5) {
+                this._control.onClose();
             }
         }
     }

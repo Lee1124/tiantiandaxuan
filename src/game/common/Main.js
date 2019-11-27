@@ -31,6 +31,7 @@ class Main {
         this.loadScene = ['cheXuanGame_8.scene', 'register.scene', 'shishizhanji.scene', 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene']
         this.allowGameHallSetInterval = false;
         this.allowRequesList = true;
+        this.allowHideLoad = false;
         this.defaultImg = {
             one: 'res/img/defaultHead.png'
         }
@@ -47,6 +48,8 @@ class Main {
         this.openSceneViewArr = [];
         this.loadAniArr1 = [];
         this.loadAniArr2 = [];
+        this.loadShowArr = [];
+        this.loadShowArr2 = [];
         this.debug = true;
     }
 
@@ -89,6 +92,7 @@ class Main {
     setNodeTop(nodeArr) {
         nodeArr.forEach(node => {
             node.top = node.top + this.phoneNews.statusHeight;
+            console.log(node.top)
         })
     }
 
@@ -120,7 +124,14 @@ class Main {
      * @param {bool} showNode 在弹框隐藏时，是否隐藏节点
      */
     showDialog(text = '内容为空', type = 1, node = [], comfirmFn = Function, cancelFn = Function, textColor = '#935F13', showNode = true) {
+        
+        let myMask=Laya.stage.getChildByName("dialogMask");
+        console.log('ji=====',myMask)
+        if(myMask){
+            myMask.removeSelf();
+        }
         let Mask = new Laya.Sprite();
+        Mask.name='dialogMask';
         Mask.zOrder = 4;
         Mask.pos(0, 0);
         Mask.size(Laya.stage.width, Laya.stage.height);
@@ -208,9 +219,9 @@ class Main {
         }
     }
 
-    setText(node,size,color){
-        node.fontSize=size;
-        node.color=color;
+    setText(node, size, color) {
+        node.fontSize = size;
+        node.color = color;
         return node;
     }
 
@@ -220,15 +231,24 @@ class Main {
     createLoading() {
         Laya.loader.load("res/atlas/images/common.atlas", Laya.Handler.create(this, onMyLoaded));
         function onMyLoaded() {
+            let loadingMask = new Laya.Image();
+            loadingMask.visible = false;
+            loadingMask.left = 0;
+            loadingMask.top = 0;
+            loadingMask.bottom = 0;
+            loadingMask.right = 0;
+            loadingMask.zOrder = 10;
+            loadingMask.name = 'loadingMask';
+            loadingMask.on(Laya.Event.CLICK, this, () => { });
             let animationBox = new Laya.Sprite();
             let animationText = new Laya.Label();
-            animationText.name='loadingText';
-            animationText.width=300;
-            animationText.centerX=0;
-            animationText.align='center';
-            animationText.zOrder=2;
-            animationText.bottom='-150';
-            let aniText=this.setText(animationText,60,'#000000');
+            animationText.name = 'loadingText';
+            animationText.width = 300;
+            animationText.centerX = 0;
+            animationText.align = 'center';
+            animationText.zOrder = 2;
+            animationText.bottom = '-150';
+            let aniText = this.setText(animationText, 60, '#000000');
             animationBox.addChild(aniText);
             animationBox.name = 'loadingBox';
             animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
@@ -236,15 +256,16 @@ class Main {
             ani.name = 'loadingAni';
             ani.loadAnimation("animation/Loading.ani");
             animationBox.addChild(ani);
-            Laya.stage.addChild(animationBox)
+            loadingMask.addChild(animationBox);
+            Laya.stage.addChild(loadingMask)
             //播放Animation动画
             this.loadAniArr1.push('LOADING');
             this.loadAniArr2.forEach(item => {
                 if (item.key == 'LOADING') {
-                    animationBox.visible = item.show;
-                    animationText.text='';
+                    loadingMask.visible = item.show;
+                    animationText.text = '';
                     if (item.show) {
-                        animationText.text=item.text;
+                        animationText.text = item.text;
                         ani.play();
                     } else {
                         ani.stop();
@@ -258,16 +279,17 @@ class Main {
      * 显示或隐藏加载图标
      * @param isShow 是否显示
      */
-    showLoading(isShow = true,msg='') {
+    showLoading(isShow = true, msg = '') {
         this.loadAniArr1.forEach(item => {
             if (item == 'LOADING') {
-                let loadingBox = Laya.stage.getChildByName('loadingBox');
+                let loadingMask = Laya.stage.getChildByName('loadingMask');
+                let loadingBox = loadingMask.getChildByName('loadingBox');
                 let loadingAni = loadingBox.getChildByName('loadingAni');
                 let loadingText = loadingBox.getChildByName('loadingText');
-                loadingText.text='';
-                loadingBox.visible = isShow;
+                loadingText.text = '';
+                loadingMask.visible = isShow;
                 if (isShow) {
-                    loadingText.text=msg;
+                    loadingText.text = msg;
                     loadingAni.play();
                 } else {
                     loadingAni.stop();
@@ -275,7 +297,7 @@ class Main {
                 return;
             }
         })
-        this.loadAniArr2=[{ key: 'LOADING', show: isShow ,text:msg}];
+        this.loadAniArr2 = [{ key: 'LOADING', show: isShow, text: msg }];
     }
 
     /**
@@ -389,7 +411,10 @@ class Main {
         this.loadSceneResourcesArr.push(res.url);
         this.openSceneViewArr.forEach((item, index) => {
             if (item.url.indexOf(res.url) != -1) {
-                Laya.Scene.open(res.url, item.closeOther, item.data, Laya.Handler.create(this, item.fn));
+                console.log('Main中正在打开==================0000')
+                Laya.Scene.open(res.url, item.closeOther, item.data, Laya.Handler.create(this, item.fn), () => {
+                    console.log('Main中正在打开==================1')
+                });
                 this.openSceneViewArr.splice(index, 1);
                 return;
             }
@@ -401,16 +426,19 @@ class Main {
      * @param url 场景地址
      * @param closeOther 是否关闭
      * @param data 参数
-     * @param fn 回调函数
+     * @param fn 打开回调函数
+     * @param fn2 正在打开回调函数
      */
-    $openScene(url, closeOther = true, data = null, fn) {
+    $openScene(url, closeOther = true, data = null, fn, fn2) {
         this.loadSceneResourcesArr.forEach(item => {
             if (item.indexOf(url) != -1) {
-                Laya.Scene.open(url, closeOther, data, Laya.Handler.create(this, fn));
+                Laya.Scene.open(url, closeOther, data, Laya.Handler.create(this, fn), Laya.Handler.create(this, () => {
+                    console.log('Main中正在打开==================2')
+                }));
                 return;
             }
         })
-        this.openSceneViewArr = [{ url: url, closeOther: closeOther, data: data, fn: fn }];
+        this.openSceneViewArr = [{ url: url, closeOther: closeOther, data: data, fn: fn, fn2: fn2 }];
     }
 
     /**

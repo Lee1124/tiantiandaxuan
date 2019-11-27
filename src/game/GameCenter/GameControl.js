@@ -9,6 +9,7 @@ import MyCenter from '../common/MyCenter';
 import HTTP from '../common/HttpRequest';
 import GameRoomInit from '../Fuction/GameRoomInit'
 import PlayerDelayTime from '../Fuction/PlayerDelayTime';
+import MySlider from '../Fuction/MySlider';
 let clickIndex = 0;
 export default class GameControl extends Laya.Script {
     constructor() {
@@ -34,7 +35,9 @@ export default class GameControl extends Laya.Script {
             subTimeOut: 'res/sounds/timeout.wav',
             subEnd: 'res/sounds/pcheck.wav',
             xiu: 'res/sounds/pcheck.wav',
-            YouWin: 'res/sounds/YouWin.wav'
+            YouWin: 'res/sounds/YouWin.wav',
+            daSlider: 'res/sounds/slider.wav',
+            daSliderTop: 'res/sounds/slider_top.wav',
         }
 
         //定义芒和皮敞常量
@@ -112,7 +115,6 @@ export default class GameControl extends Laya.Script {
         GameControl.instance = this;
     }
     onStart() {
-
         Main.$LOG('游戏控制中心:', this, this.owner._openedData)
         this._subCountDownVal = this.owner.subCountDown.getChildByName("timeText").getChildByName('timeVal');
         this._subCountDownLineTop = this.owner.subCountDown.getChildByName("lineBox")._children[0].getChildByName("line_top");
@@ -172,7 +174,6 @@ export default class GameControl extends Laya.Script {
             arr.push(i);
         }
         let concatArr = arr.splice(index, deskViewUserSeatArr.length).concat(arr.splice(0, index + 1));
-        // console.log(this._playerArray)
         for (let i = 0; i < concatArr.length; i++) {
             {
                 this._playerArray[concatArr[i]].owner.isMe = false;
@@ -241,6 +242,20 @@ export default class GameControl extends Laya.Script {
         this.netClient.onMessage = function (name, resMsg) {
             that.dealSoketMessage('onMessage公共消息：', resMsg); //进入处理函数
         }
+
+        // //socket开始连接事件
+        // this.onStartConnect=function(){console.log("开始连接");}
+        // //socket结束连接事件（不管成功还是失败都会进入)
+        // this.onEndConnect=function(ret){console.log("结束连接 ",ret);}
+
+        this.netClient.onStartConnect = function (res) {
+            Main.$LOG('soket重新连接开始')
+            that.owner.ceShiText.text='soket重新连接开始'
+        }
+        this.netClient.onEndConnect = function (res) {
+            Main.$LOG('soket重新连接结束',this)
+            that.owner.ceShiText.text='soket重新连接结束'
+        }
     }
     /**
      * soket发送消息
@@ -259,15 +274,12 @@ export default class GameControl extends Laya.Script {
         Main.$LOG('soket发送消息:', obj);
     }
 
-
     /**
     * soket关闭
     */
     onClose() {
         this.netClient.close();
     }
-
-
 
     /**
      * 获取游戏房间信息
@@ -303,6 +315,9 @@ export default class GameControl extends Laya.Script {
      */
     dealSoketMessage(sign, resData) {
         Main.$LOG(sign, resData);
+        if (resData._t == 'GenalResult') {
+            this.errOpenLoginView(resData);
+        }
         if (resData._t == 'R2C_IntoRoom') {
             if (resData.ret.type == 0) {
                 this.requestRoomUpdateData(resData);
@@ -365,7 +380,7 @@ export default class GameControl extends Laya.Script {
             if (resData.ret.type == 4) {
                 this.owner.showTips(resData.ret.msg);
             } else {
-                this.leaveRoomOpenView();
+                this.leaveRoomDeal(resData);
             }
         } else if (resData._t == "CXRoomEnd") {
             this.roomEnd(resData);
@@ -419,6 +434,17 @@ export default class GameControl extends Laya.Script {
         } else if (resData._t == "G2C_RoundEnd") {
             this.roundEnd(resData);
         }
+    }
+
+    /**
+     * 未按流程登陆或重复登录就返回登录页面
+     */
+    errOpenLoginView(data) {
+        Main.showDialog(data.Message, 1, null, () => {
+            Laya.Scene.open('login.scene', true, Main.sign.signOut, Laya.Handler.create(this, () => {
+                this.destroy();
+            }));
+        });
     }
 
     /**
@@ -587,6 +613,20 @@ export default class GameControl extends Laya.Script {
         // if (clickIndex == 1) {
         //     this.assignPokerCountDown(true, { startTime: (new Date().getTime() / 1000), endTime: (new Date().getTime() / 1000) + 20 });
         // }
+        let data = {
+            delayedNum: 0,
+            delayedNumMax: 4,
+            delayedScore: 10,
+            endTime: 1574818785,
+            maxXiazu: 5,
+            opts: [3, 4, 1],
+            ret: { type: 0, msg: "成功" },
+            score: 235,
+            startTime: 1574818768,
+            uid: 1021354,
+            xiazu: 5
+        }
+        this.setMeHandleBtnZT(true, data);
     }
 
     /**
@@ -734,13 +774,6 @@ export default class GameControl extends Laya.Script {
      */
     playerBindPoker12Val(data) {
         this._dealPoker12Array = data.players;
-        // data.players.forEach(item_data => {
-        //     this._playerArray.forEach(item_player => {
-        //         if (item_player.owner.userId == item_data.uid) {
-        //             item_player.bindPlayerPokerData(this, item_data.poker, this._bindPokerData.poker12)
-        //         }
-        //     })
-        // })
     }
 
     /**
@@ -759,26 +792,6 @@ export default class GameControl extends Laya.Script {
             })
         })
     }
-
-    /**
-     * 为玩家绑定第4张牌牌数据
-     */
-    // playerBindPoker4Val(data) {
-    //     this._allowStartAction = false;
-    //     this._dealNumber = 0;
-    //     data.players.forEach((item_data, item_index) => {
-    //         this._playerArray.forEach(item_player => {
-    //             if (item_player.owner.userId == item_data.uid) {
-    //                 item_player.bindPlayerPokerData(this, item_data.poker[0], this._bindPokerData.poker4, bindValEnd);
-    //                 function bindValEnd() {
-    //                     let count = data.players.length;
-    //                     item_player.dealPoker(this, 4, count, item_index, false, this.dealPokerEnd);
-    //                 }
-    //                 let pokerName=item_data.poker[0];
-    //             }
-    //         })
-    //     })
-    // }
 
     /**
      * 为玩家绑定第3,4张牌牌数据
@@ -801,21 +814,6 @@ export default class GameControl extends Laya.Script {
         }
     }
 
-    //接上
-    // dealPoker3End() {
-    //     this._dealNumber = 0;
-    //     this._deal34PokerArray.forEach((item_data, item_index) => {
-    //         this._playerArray.forEach(item_player => {
-    //             if (item_player.owner.userId == item_data.uid) {
-    //                 item_player.bindPlayerPokerData(this, item_data.poker[1], this._bindPokerData.poker4, bindValEnd, 0);
-    //                 function bindValEnd() {
-    //                     let count = this._deal34PokerArray.length;
-    //                     item_player.dealPoker(this, 4, count, item_index, false);
-    //                 }
-    //             }
-    //         })
-    //     })
-    // }
 
     /**
     * 显示芒果底池
@@ -1038,7 +1036,11 @@ export default class GameControl extends Laya.Script {
                         if (dataOption[0] == 5) {
                             topBtn.getChildByName('qiao_btn').getChildByName('value').text = qiaoScore;
                         }
-                        topBtn.on(Laya.Event.CLICK, this, this.onClickTopBtn, [dataOption[0], qiaoScore])
+                        if (dataOption[0] == 1) {
+                            topBtn.on(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn, [dataOption[0], data]);
+                        }
+                        topBtn.on(Laya.Event.CLICK, this, this.onClickTopBtn, [dataOption[0], qiaoScore]);
+
                     }
                 }
             }
@@ -1113,28 +1115,57 @@ export default class GameControl extends Laya.Script {
         })
     }
     // 接上(敲)
-    onClickTopBtn(type, qiaoScore) {
-        this.showMeHandleTip(type);
-        this.setMeHandleBtnZT(false, null);//改变操作状态
+    onClickTopBtn(type, data) {
+        let that = this;
         if (type == 5) {
+            this.showMeHandleTip(type);
+            this.setMeHandleBtnZT(false, null);//改变操作状态
             this._playerArray.forEach(item_player => {
                 if (item_player.owner.isMe)
                     item_player.playerSeatAddGif(true, Main.animations.qiao, false);
             })
-            this.onSend({
-                name: 'M.Games.CX.C2G_PlayerAction',
-                data: {
-                    roomId: this.roomId,
-                    score: qiaoScore,
-                    act: type //跟或休 
-                },
-                success(res) {
-                    this.dealSoketMessage('操作按钮的点击事件--跟或休：', res)
+            this.daSendSoket(data, type);
+        } else if (type == 1) {
+            let MySliderJS = this.owner.da_slider.getComponent(MySlider);
+            MySliderJS.SliderMouseDown(data.maxXiazu * 2, data.score, (val1) => {
+                Main.$LOG('变化值的时候回调：', val1);
+                that.daSliderChangeDeal(val1, data);
+            }, (val2) => {
+                Main.$LOG('结束的的时候回调：', val2);
+                if (val2 != 0) {
+                    that.showMeHandleTip(type);
+                    that.setMeHandleBtnZT(false, null);//改变操作状态
+                    that.daSendSoket(val2 + data.xiazu, type);
                 }
-            })
-        } else {
-            console.log('大---暂时无效！')
+            });
         }
+    }
+
+    daSendSoket(data, type) {
+        this.onSend({
+            name: 'M.Games.CX.C2G_PlayerAction',
+            data: {
+                roomId: this.roomId,
+                score: data,
+                act: type //跟或休 
+            },
+            success(res) {
+                this.dealSoketMessage('操作按钮的点击事件--跟或休：', res)
+            }
+        })
+    }
+
+    /**
+     * 大--拖动的时候变化的回调
+     */
+    daSliderChangeDeal(val, data) {
+        if (Main.gameSetVal.gameMusic == 1)
+            if (val < data.score)
+                Laya.SoundManager.playSound(this._music.daSlider, 1);
+            else {
+                Laya.SoundManager.playSound(this._music.daSliderTop, 1);
+            }
+
     }
 
     /**
@@ -1162,7 +1193,9 @@ export default class GameControl extends Laya.Script {
                 text1.text = parseInt(this._totalPi / 2);
                 text1.alpha = 0.5;
                 text2.text = parseInt(text1.text * 2);
+                text2.alpha = 1;
                 text3.text = parseInt(text1.text * 4);
+                text3.alpha = 1;
                 this.hideOrShowFastBtn(btn1, 0);
                 this.hideOrShowFastBtn(btn2, 1);
                 this.hideOrShowFastBtn(btn3, 1);

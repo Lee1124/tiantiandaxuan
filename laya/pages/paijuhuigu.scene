@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":101,
-    "selecteID":168,
+    "selectedBox":3,
+    "selecteID":98,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/paijuhuigu/paijuhuiguUI.js","height":2208},
     "nodeParent":-1,

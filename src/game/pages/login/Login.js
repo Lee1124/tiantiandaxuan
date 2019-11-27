@@ -16,7 +16,7 @@ export default class login extends Laya.Script {
 
     onEnable() {
     }
-  
+
     onStart() {
         this.startLoadPage();
     }
@@ -153,25 +153,34 @@ export default class login extends Laya.Script {
      * 处理登录结果(1.主界面 2.游戏界面)
      */
     dealWithLoginedView(data) {
-        if (data.inRoomPws > 0) {
-            let pageData = {
-                roomPws: data.inRoomPws,
-                page: Main.pages.page3
-            }
-            Main.$openScene('cheXuanGame_8.scene', true, pageData, () => {
-                Main.showLoading(false);
-                this.showHideNode(false);
-            })
-        } else {
-            Laya.Scene.open('tabPage.scene', true, null, Laya.Handler.create(this, (res) => {
-                Main.showLoading(false);
-                // this.owner.removeSelf();
-                // this.owner.ceshi.text='打开结束！';
-                this.showHideNode(false);
-            }),Laya.Handler.create(this,()=>{
-                // this.owner.ceshi.text='正在打开！';
-            }))
+        let pageData = {
+            roomPws: data.inRoomPws,
+            page: Main.pages.page3
         }
+        Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
+            Main.showLoading(false);
+            this.showHideNode(false);
+        }))
+
+        // if (data.inRoomPws > 0) {
+        //     let pageData = {
+        //         roomPws: data.inRoomPws,
+        //         page: Main.pages.page3
+        //     }
+        //     Main.$openScene('cheXuanGame_8.scene', true, pageData, () => {
+        //         Main.showLoading(false);
+        //         this.showHideNode(false);
+        //     })
+        // } else {
+        //     Laya.Scene.open('tabPage.scene', true, null, Laya.Handler.create(this, (res) => {
+        //         Main.showLoading(false);
+        //         // this.owner.removeSelf();
+        //         // this.owner.ceshi.text='打开结束！';
+        //         this.showHideNode(false);
+        //     }),Laya.Handler.create(this,()=>{
+        //         // this.owner.ceshi.text='正在打开！';
+        //     }))
+        // }
     }
 
     /**

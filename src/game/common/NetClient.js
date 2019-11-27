@@ -26,6 +26,11 @@ export default class NetClient extends Laya.Script{
 		this.socket.on(Laya.Event.CLOSE, this, this.closeHandler);
 		this.socket.on(Laya.Event.ERROR, this, this.errorHandler);
 
+		//socket开始连接事件
+		this.onStartConnect=function(){console.log("开始连接");}
+		//socket结束连接事件（不管成功还是失败都会进入)
+		this.onEndConnect=function(ret){console.log("结束连接 ",ret);}
+
 		//链接成功事件,此处可用来初始化数据
 		this.onConnectSucc=function(){ console.log("链接成功");}
 		//接收消息封装,请外部自己实现
@@ -36,6 +41,7 @@ export default class NetClient extends Laya.Script{
 
 	//正确建立连接
 	openHandler(event){
+		this.onEndConnect(true);
 		this.connecting = false;
 		this.socketOpen = true;
 		console.log('WebSocket连接已打开！');
@@ -49,6 +55,7 @@ export default class NetClient extends Laya.Script{
  
 	//关闭事件
 	closeHandler(e){
+		this.onEndConnect(false);
 		this.connecting = false;
 		this.socketOpen = false;
 		console.log('WebSocket 已关闭！', e);
@@ -57,6 +64,7 @@ export default class NetClient extends Laya.Script{
 
 	//连接出错
 	errorHandler(e){
+		this.onEndConnect(false);
 		this.connecting = false;
 		this.socketOpen = false;
 		console.log('WebSocket连接打开失败，请检查！' + e);
@@ -76,6 +84,7 @@ export default class NetClient extends Laya.Script{
 	getSocket() {
 		if(!this.socketOpen && !this.connecting&&this.valid) { 
 			this.socket.close();
+			this.onStartConnect();
 			this.connecting = true;
 			this.socketOpen = false;
 
@@ -93,11 +102,21 @@ export default class NetClient extends Laya.Script{
 		this.valid = true;
 		this.getSocket();
 		this.intervalId = setInterval(()=>{
-			//暂时关闭心跳
-			//this.send("0",{});
+			//心跳
+			this.sendHeart();
 		},5000);
 	}
-	
+	//发送心跳消息
+	sendHeart()
+	{
+		var _socket = this.getSocket();
+		if(_socket!=null)
+		{
+			this.byte.clear();
+			this.byte.writeInt32(0);
+			this.socket.send(this.byte.buffer);
+		}
+	}
 	close() {
 		this.valid = false;
 		this.socket.close();
@@ -157,7 +176,7 @@ export default class NetClient extends Laya.Script{
 		
 		this.socket.send(binaryMsg);
 	}
-	
+
 	receiveHandler(_msg){
 		this.byte.clear();
 		this.byte.writeArrayBuffer(_msg);

@@ -50,6 +50,11 @@ P B48BAFEB auto_xiu_0.png
 P 05DDFDA2 auto_xiu_selected.png
 P C18CF55F auto_xiuOrDiu_0.png
 P A83D9C08 auto_xiuOrDiu_selected.png
+S D1D5DC1A h_bg.png
+P F1F6999D h_btn.png
+P A29953EC h_cancel.png
+R 1B8AD95D h_line.png
+P 3C7514BE h_num.png
 P 4D5EC8AB handle-1.png
 P 2C8BA28B handle-2.png
 P 4AFD4BC9 handle-3.png

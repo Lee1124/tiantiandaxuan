@@ -1,5 +1,6 @@
 import Main from '../../common/Main';
 import HTTP from '../../common/HttpRequest';
+// import TabPagesUI from '../TabPages/TabPagesUI'
 export default class GameHall extends Laya.Script {
     constructor() {
         super();
@@ -25,6 +26,10 @@ export default class GameHall extends Laya.Script {
         Main.$LOG('Hall游戏大厅脚本：', this);
         GameHall.instance = this;
     }
+    onStart() {
+        Main.$LOG('onStart', this.UI.pageData)
+        // this.openGameView();
+    }
 
     openThisPage() {
         if (this.owner.visible) {
@@ -35,6 +40,8 @@ export default class GameHall extends Laya.Script {
                 Laya.timer.loop(60000, this, this.requestPageData, [false]);
         }
     }
+
+
 
     /**
      * 注册点击事件
@@ -79,7 +86,6 @@ export default class GameHall extends Laya.Script {
         page1List.mouseHandler = new Laya.Handler(this, this.rowOnClick);
     }
     page1ListOnRender(cell, index) {
-        // console.log(cell,index)
         let contentBg = cell.getChildByName("content_bg");
         let roomId = contentBg.getChildByName("roomID").getChildByName("value");
         let pi = contentBg.getChildByName("num1").getChildByName("value");
@@ -103,7 +109,7 @@ export default class GameHall extends Laya.Script {
         time.text = cell.dataSource.roomTime + '分钟';
         state_0.visible = cell.dataSource.participate == 0 && !cell.dataSource.gameStatus ? true : false;
         state_1.visible = cell.dataSource.participate > 0 && !cell.dataSource.gameStatus ? true : false;
-        state_2.visible = cell.dataSource.gameStatus ? true : false; 
+        state_2.visible = cell.dataSource.gameStatus ? true : false;
         state_dairu.visible = cell.dataSource.dairu ? cell.dataSource.dairu : false;
         let roomEndTime = (cell.dataSource.time - Main.getTimeChuo()) < 0 ? 0 : cell.dataSource.time - Main.getTimeChuo();
         roomLastTime.text = Main.secondToDate(roomEndTime);
@@ -117,8 +123,8 @@ export default class GameHall extends Laya.Script {
                 roomPws: Event.target.dataSource.roomPws,
                 page: Main.pages.page3
             }
-            Main.showLoading(true,'正在进入游戏...');
-            Main.$openScene('cheXuanGame_8.scene',true,data,()=>{
+            Main.showLoading(true);
+            Main.$openScene('cheXuanGame_8.scene', true, data, () => {
                 Main.showLoading(false);
             });
         }
@@ -142,10 +148,12 @@ export default class GameHall extends Laya.Script {
                 url: '/M.Games.CX/GetRoomList',
                 data: data,
                 success(res) {
+                    Main.$LOG('获取大厅列表数据：', res);
                     if (isShowLoading)
                         Main.showLoading(false);
                     if (res.data.ret.type == 0) {
                         this.dealWithResData(res.data.rooms);
+                        this.openGameView();
                     } else {
                         Main.showDialog(res.data.ret.msg, 1);
                     }
@@ -155,6 +163,24 @@ export default class GameHall extends Laya.Script {
                         Main.showLoading(false);
                     Main.showDialog('网络异常!', 1);
                 }
+            })
+        }
+    }
+
+    /**
+  * 是否打开游戏界面
+  */
+    openGameView() {
+        console.log('进来打开游戏界面======')
+        let data = this.UI.pageData;
+        if (data.roomPws && data.roomPws > 0) {
+            Main.showLoading(true);
+            let pageData = {
+                roomPws: data.roomPws,
+                page: Main.pages.page3
+            }
+            Main.$openScene('cheXuanGame_8.scene', true, pageData, () => {
+                Main.showLoading(false);
             })
         }
     }

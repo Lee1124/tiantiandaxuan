@@ -417,6 +417,11 @@
     		this.socket.on(Laya.Event.CLOSE, this, this.closeHandler);
     		this.socket.on(Laya.Event.ERROR, this, this.errorHandler);
 
+    		//socket开始连接事件
+    		this.onStartConnect=function(){console.log("开始连接");};
+    		//socket结束连接事件（不管成功还是失败都会进入)
+    		this.onEndConnect=function(ret){console.log("结束连接 ",ret);};
+
     		//链接成功事件,此处可用来初始化数据
     		this.onConnectSucc=function(){ console.log("链接成功");};
     		//接收消息封装,请外部自己实现
@@ -427,6 +432,7 @@
 
     	//正确建立连接
     	openHandler(event){
+    		this.onEndConnect(true);
     		this.connecting = false;
     		this.socketOpen = true;
     		console.log('WebSocket连接已打开！');
@@ -440,6 +446,7 @@
      
     	//关闭事件
     	closeHandler(e){
+    		this.onEndConnect(false);
     		this.connecting = false;
     		this.socketOpen = false;
     		console.log('WebSocket 已关闭！', e);
@@ -448,6 +455,7 @@
 
     	//连接出错
     	errorHandler(e){
+    		this.onEndConnect(false);
     		this.connecting = false;
     		this.socketOpen = false;
     		console.log('WebSocket连接打开失败，请检查！' + e);
@@ -467,6 +475,7 @@
     	getSocket() {
     		if(!this.socketOpen && !this.connecting&&this.valid) { 
     			this.socket.close();
+    			this.onStartConnect();
     			this.connecting = true;
     			this.socketOpen = false;
 
@@ -484,11 +493,21 @@
     		this.valid = true;
     		this.getSocket();
     		this.intervalId = setInterval(()=>{
-    			//暂时关闭心跳
-    			//this.send("0",{});
+    			//心跳
+    			this.sendHeart();
     		},5000);
     	}
-    	
+    	//发送心跳消息
+    	sendHeart()
+    	{
+    		var _socket = this.getSocket();
+    		if(_socket!=null)
+    		{
+    			this.byte.clear();
+    			this.byte.writeInt32(0);
+    			this.socket.send(this.byte.buffer);
+    		}
+    	}
     	close() {
     		this.valid = false;
     		this.socket.close();
@@ -548,7 +567,7 @@
     		
     		this.socket.send(binaryMsg);
     	}
-    	
+
     	receiveHandler(_msg){
     		this.byte.clear();
     		this.byte.writeArrayBuffer(_msg);
@@ -624,6 +643,7 @@
             this.loadScene = ['cheXuanGame_8.scene', 'register.scene', 'shishizhanji.scene', 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene'];
             this.allowGameHallSetInterval = false;
             this.allowRequesList = true;
+            this.allowHideLoad = false;
             this.defaultImg = {
                 one: 'res/img/defaultHead.png'
             };
@@ -640,6 +660,8 @@
             this.openSceneViewArr = [];
             this.loadAniArr1 = [];
             this.loadAniArr2 = [];
+            this.loadShowArr = [];
+            this.loadShowArr2 = [];
             this.debug = true;
         }
 
@@ -682,6 +704,7 @@
         setNodeTop(nodeArr) {
             nodeArr.forEach(node => {
                 node.top = node.top + this.phoneNews.statusHeight;
+                console.log(node.top);
             });
         }
 
@@ -713,7 +736,14 @@
          * @param {bool} showNode 在弹框隐藏时，是否隐藏节点
          */
         showDialog(text = '内容为空', type = 1, node = [], comfirmFn = Function, cancelFn = Function, textColor = '#935F13', showNode = true) {
+            
+            let myMask=Laya.stage.getChildByName("dialogMask");
+            console.log('ji=====',myMask);
+            if(myMask){
+                myMask.removeSelf();
+            }
             let Mask = new Laya.Sprite();
+            Mask.name='dialogMask';
             Mask.zOrder = 4;
             Mask.pos(0, 0);
             Mask.size(Laya.stage.width, Laya.stage.height);
@@ -801,9 +831,9 @@
             }
         }
 
-        setText(node,size,color){
-            node.fontSize=size;
-            node.color=color;
+        setText(node, size, color) {
+            node.fontSize = size;
+            node.color = color;
             return node;
         }
 
@@ -813,15 +843,24 @@
         createLoading() {
             Laya.loader.load("res/atlas/images/common.atlas", Laya.Handler.create(this, onMyLoaded));
             function onMyLoaded() {
+                let loadingMask = new Laya.Image();
+                loadingMask.visible = false;
+                loadingMask.left = 0;
+                loadingMask.top = 0;
+                loadingMask.bottom = 0;
+                loadingMask.right = 0;
+                loadingMask.zOrder = 10;
+                loadingMask.name = 'loadingMask';
+                loadingMask.on(Laya.Event.CLICK, this, () => { });
                 let animationBox = new Laya.Sprite();
                 let animationText = new Laya.Label();
-                animationText.name='loadingText';
-                animationText.width=300;
-                animationText.centerX=0;
-                animationText.align='center';
-                animationText.zOrder=2;
-                animationText.bottom='-150';
-                let aniText=this.setText(animationText,60,'#000000');
+                animationText.name = 'loadingText';
+                animationText.width = 300;
+                animationText.centerX = 0;
+                animationText.align = 'center';
+                animationText.zOrder = 2;
+                animationText.bottom = '-150';
+                let aniText = this.setText(animationText, 60, '#000000');
                 animationBox.addChild(aniText);
                 animationBox.name = 'loadingBox';
                 animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
@@ -829,15 +868,16 @@
                 ani.name = 'loadingAni';
                 ani.loadAnimation("animation/Loading.ani");
                 animationBox.addChild(ani);
-                Laya.stage.addChild(animationBox);
+                loadingMask.addChild(animationBox);
+                Laya.stage.addChild(loadingMask);
                 //播放Animation动画
                 this.loadAniArr1.push('LOADING');
                 this.loadAniArr2.forEach(item => {
                     if (item.key == 'LOADING') {
-                        animationBox.visible = item.show;
-                        animationText.text='';
+                        loadingMask.visible = item.show;
+                        animationText.text = '';
                         if (item.show) {
-                            animationText.text=item.text;
+                            animationText.text = item.text;
                             ani.play();
                         } else {
                             ani.stop();
@@ -851,16 +891,17 @@
          * 显示或隐藏加载图标
          * @param isShow 是否显示
          */
-        showLoading(isShow = true,msg='') {
+        showLoading(isShow = true, msg = '') {
             this.loadAniArr1.forEach(item => {
                 if (item == 'LOADING') {
-                    let loadingBox = Laya.stage.getChildByName('loadingBox');
+                    let loadingMask = Laya.stage.getChildByName('loadingMask');
+                    let loadingBox = loadingMask.getChildByName('loadingBox');
                     let loadingAni = loadingBox.getChildByName('loadingAni');
                     let loadingText = loadingBox.getChildByName('loadingText');
-                    loadingText.text='';
-                    loadingBox.visible = isShow;
+                    loadingText.text = '';
+                    loadingMask.visible = isShow;
                     if (isShow) {
-                        loadingText.text=msg;
+                        loadingText.text = msg;
                         loadingAni.play();
                     } else {
                         loadingAni.stop();
@@ -868,7 +909,7 @@
                     return;
                 }
             });
-            this.loadAniArr2=[{ key: 'LOADING', show: isShow ,text:msg}];
+            this.loadAniArr2 = [{ key: 'LOADING', show: isShow, text: msg }];
         }
 
         /**
@@ -982,7 +1023,10 @@
             this.loadSceneResourcesArr.push(res.url);
             this.openSceneViewArr.forEach((item, index) => {
                 if (item.url.indexOf(res.url) != -1) {
-                    Laya.Scene.open(res.url, item.closeOther, item.data, Laya.Handler.create(this, item.fn));
+                    console.log('Main中正在打开==================0000');
+                    Laya.Scene.open(res.url, item.closeOther, item.data, Laya.Handler.create(this, item.fn), () => {
+                        console.log('Main中正在打开==================1');
+                    });
                     this.openSceneViewArr.splice(index, 1);
                     return;
                 }
@@ -994,16 +1038,19 @@
          * @param url 场景地址
          * @param closeOther 是否关闭
          * @param data 参数
-         * @param fn 回调函数
+         * @param fn 打开回调函数
+         * @param fn2 正在打开回调函数
          */
-        $openScene(url, closeOther = true, data = null, fn) {
+        $openScene(url, closeOther = true, data = null, fn, fn2) {
             this.loadSceneResourcesArr.forEach(item => {
                 if (item.indexOf(url) != -1) {
-                    Laya.Scene.open(url, closeOther, data, Laya.Handler.create(this, fn));
+                    Laya.Scene.open(url, closeOther, data, Laya.Handler.create(this, fn), Laya.Handler.create(this, () => {
+                        console.log('Main中正在打开==================2');
+                    }));
                     return;
                 }
             });
-            this.openSceneViewArr = [{ url: url, closeOther: closeOther, data: data, fn: fn }];
+            this.openSceneViewArr = [{ url: url, closeOther: closeOther, data: data, fn: fn, fn2: fn2 }];
         }
 
         /**
@@ -1294,6 +1341,267 @@
     }
     var PlayerDelayTime$1 = new PlayerDelayTime();
 
+    const
+        Sprite = Laya.Sprite,
+        Event = Laya.Event;
+    class MySlider extends Laya.Script {
+        constructor() {
+            super();
+            // Main.$LOG("this.width:" + this.width + "-" + this.autoSize);
+
+        }
+        onEnable()  {
+            this.InitAttribute();
+            this.InitEvent();
+        }
+
+        /**
+         * 初始化属性
+         */
+        InitAttribute()  {
+            //显示的滑动对象节点
+            this.slider = this.owner;
+            //滑动背景
+            this.sliderBg = this.slider.getChildByName("da_sliderBg");
+            this.sliderHeight = this.sliderBg.getChildByName("da_sliderHeight");
+            //最大值
+            this.maxVal = this.sliderBg.getChildByName("da_maxNum").getChildByName("value");
+            //当前滑动刻度
+            this.handler = this.sliderBg.getChildByName("da_handler");
+            //刻度文字显示
+            this.texNum = this.handler.getChildByName("da_texNum");
+            //激活滑动按钮
+            // this.btnClick = this.owner.getChildByName("da_btnClick");
+            //默认隐藏滑动节点
+            this.slider.visible = false;
+            // this.owner.visible = false;
+            //设置滑动初始位置
+            this.beginPosition = this.handler.y;
+            //设置滑动结束为止
+            this.endPosition = this.handler.y - this.sliderHeight.height;
+            Main$1.$LOG(this.beginPosition, this.endPosition, this.sliderBg.height);
+
+            this.Init();
+        }
+        /**
+         * 初始化事件信息
+         */
+        InitEvent()  {
+            // this.btnClick.on(Event.MOUSE_DOWN, this, this.SliderMouseDown);
+        }
+
+        /**
+         * slider按下
+         * @param startVal 开始数字
+         * @param endVal 结束数字
+         * @param {function} dragAction 变化回调
+         * @param {function} endAction 结束回调
+         */
+        SliderMouseDown(startVal, endVal, dragAction, endAction) {
+            //测试代码（*****************）
+            this.Show(startVal, endVal, dragAction, endAction);
+            //测试代码（*****************）
+
+            //注册事件
+            Laya.stage.on(Event.MOUSE_MOVE, this, this.SliderMouseMove);
+            Laya.stage.on(Event.MOUSE_UP, this, this.SliderMouseUp);
+            // Laya.stage.on(Event.MOUSE_OUT, this, this.SliderMouseOut);
+
+
+            //初始位置
+            this.SliderVal(0);
+            this.handler.y = this.beginPosition;
+            this.maxVal.text = endVal;
+        }
+        /**
+         * 测试1
+         * @param {*} progress 
+         * @param {*} max 
+         */
+        test1(progress, max)  {
+            Main$1.$LOG("进度：" + progress + "-" + max);
+        }
+        testEnd(sVal)  {
+            Main$1.$LOG("抬起:" + sVal);
+        }
+
+        /**
+         * 显示进度条
+         * @param {*} startVal 
+         * @param {*} endVal 
+         * @param {*} dragAction 
+         * @param {*} endAction 
+         */
+        Show(startVal, endVal, dragAction, endAction)  {
+            this.sShow = true;
+            this.sCalibration = 0;
+            this.sStartVal = startVal;
+            this.sEndVal = endVal;
+            this.sEndAction = endAction;
+            this.sDragAction = dragAction;
+            this.sCurDragVal = 0;
+            this.slider.visible = true;
+        }
+
+        /**
+         * 删除滑动事件
+         */
+        RemoveSliderEvent()  {
+            Laya.stage.off(Event.MOUSE_MOVE, this, this.SliderMouseMove);
+            Laya.stage.off(Event.MOUSE_UP, this, this.SliderMouseUp);
+            // Laya.stage.off(Event.MOUSE_OUT, this, this.SliderMouseOut);
+        }
+        /**
+         * 抬起事件处理
+        */
+        SliderMouseUp(e) {
+            //删除滑动事件
+            this.RemoveSliderEvent();
+            //结束回调
+            if (this.sEndAction != null)  {
+                this.sEndAction(this.sCurDragVal);
+            }
+            //初始化
+            this.Init();
+        }
+        /**
+         * 移到事件处理
+         */
+        SliderMouseMove(e) {
+            let point = new Laya.Point(Laya.stage.mouseX, Laya.stage.mouseY);
+            let localPoint = this.sliderBg.globalToLocal(point);
+            //Main.$LOG('localPoint:',localPoint,point,this.owner)
+            this.handler.y = Math.min(Math.max(localPoint.y, this.endPosition), this.beginPosition);
+
+            //Main.$LOG("SliderMouseMove:"+  point.x+':'+point.y +"-" + localPoint.y +"-" + this.beginPosition + "-"+ this.handler.y);
+            this.SliderVal((this.beginPosition - this.handler.y) / (this.beginPosition - this.endPosition));
+        }
+        //初始化
+        Init()  {
+            this.slider.visible = false;
+            this.sShow = false;
+            this.sCalibration = 0;
+            this.sStartVal = 0;
+            this.sEndVal = 0;
+            this.sCurDragVal = 0;
+        }
+        /**
+         * 滑动
+         * @param {*} sVal 
+         */
+        SliderVal(sVal)  {
+            if (!this.sShow)  {
+                RemoveSliderEvent();
+                return;
+            }
+            this.texNum.text = this.CalculationCalibration(this.sStartVal, this.sEndVal, sVal, this.sDragAction);
+        }
+
+        /**
+         * 计算刻度
+         */
+        CalculationCalibration(startVal, endVal, sVal, dragAction) {
+            //每个范围的递增值（）
+            let scope = [2, 5, 100];
+            //范围开始下标
+            let scopeIndex = startVal.toString().length - 1;
+            //单位值范围 每次乘以10（0-10，10-100等。。每次计算当前作用域中的刻度次数）
+            let unitVal = Math.pow(10, scopeIndex + 1);
+            //范围值
+            let scopeVal = scope.length > scopeIndex ? scope[scopeIndex] : scope[scope.length - 1] * Math.pow(10 * scopeIndex - scope.length);
+            //刻度值
+            let calibrationVal = [];
+            //刻度次数
+            let calibrationNum = 1;
+            calibrationVal.push(0);
+            let curVal = startVal;
+            calibrationVal.push(curVal);
+
+            let remainder = curVal % scopeVal;
+            if (remainder > 0)  {
+                curVal = scopeVal - remainder + curVal;
+                calibrationVal.push(curVal);
+                ++calibrationNum;
+            }
+            //上一次的单位值大小
+            let LastUnitVal = startVal + scopeVal - remainder;
+
+            Main$1.$LOG(endVal + "-" + unitVal + "-" + scopeVal);
+            //
+            while (endVal >= unitVal) {
+                //TODO:将每个刻度的值添加到表中
+                let curNum = parseInt((unitVal - LastUnitVal) / scopeVal);
+                let nIndex = 0;
+                while (nIndex < curNum)  {
+                    curVal += scopeVal;
+                    calibrationVal.push(curVal);
+                    ++nIndex;
+                }
+                //累计刻度次数
+                calibrationNum += curNum;
+                //Main.$LOG("curNum:"+curNum + "-"+calibrationNum);
+                //记录上一次单位值
+                LastUnitVal = unitVal;
+                //累计-每次单位x10
+                unitVal = unitVal * 10;
+
+                if (scope.length > ++scopeIndex) {
+                    //不确定范围值配置
+                    scopeVal = scope[scopeIndex];
+                }
+                else {
+                    //范围配置中不存在 原来的基础值x10
+                    scopeVal = scopeVal * 10;
+                    Main$1.$LOG(scopeVal);
+                }
+            }
+
+            let lCurNum = (parseInt((endVal - LastUnitVal) / scopeVal));
+            //计算剩余值能有多少刻度(当前刻度是从0开始)
+            calibrationNum += lCurNum;
+            //TODO:添加刻度值-将每个刻度的值添加到表中
+            let lIndex = 0;
+            while (lIndex < lCurNum) {
+                curVal += scopeVal;
+                calibrationVal.push(curVal);
+                ++lIndex;
+            }
+            //添加最后一次数值
+            if (endVal % scopeVal > 0) {
+                ++calibrationNum;
+                calibrationVal.push(endVal);
+            }
+            //当前刻度
+            let curCalibration = parseInt(sVal * calibrationNum);
+            //Main.$LOG("endVal"+ endVal + "-" + sVal  + "-" + LastUnitVal + "-"+ scopeVal+ "-" + lCurNum + "-" + calibrationNum);
+
+            //Main.$LOG("总刻度次数：" + calibrationNum + ",当前刻度：" + curCalibration + "，值：" + calibrationVal.length);
+            let curCVal = calibrationVal[curCalibration];
+            //回调-返回当前刻度的数值
+            if (this.sDragAction != null && this.sCurDragVal != curCVal)  {
+                // Main.$LOG("=============sDragAction");
+                this.sDragAction(calibrationVal[curCalibration], curCalibration == calibrationNum - 1);
+            }
+            // Main.$LOG("=====calibrationVal:" +curCVal +"-" + this.sCurDragVal);
+            this.sCurDragVal = curCVal;
+            return this.sCurDragVal;
+        }
+        /**
+         * 超出触发范围
+         */
+        SliderMouseOut()  {
+            //删除滑动事件
+            this.RemoveSliderEvent();
+            //结束回调
+            if (this.sEndAction != null)  {
+                this.sEndAction(this.sCurDragVal);
+            }
+            //初始化
+            this.Init();
+        }
+
+    }
+
     /**
      * 游戏控制脚本
      *  */
@@ -1313,7 +1621,9 @@
                 subTimeOut: 'res/sounds/timeout.wav',
                 subEnd: 'res/sounds/pcheck.wav',
                 xiu: 'res/sounds/pcheck.wav',
-                YouWin: 'res/sounds/YouWin.wav'
+                YouWin: 'res/sounds/YouWin.wav',
+                daSlider: 'res/sounds/slider.wav',
+                daSliderTop: 'res/sounds/slider_top.wav',
             };
 
             //定义芒和皮敞常量
@@ -1391,7 +1701,6 @@
             GameControl.instance = this;
         }
         onStart() {
-
             Main$1.$LOG('游戏控制中心:', this, this.owner._openedData);
             this._subCountDownVal = this.owner.subCountDown.getChildByName("timeText").getChildByName('timeVal');
             this._subCountDownLineTop = this.owner.subCountDown.getChildByName("lineBox")._children[0].getChildByName("line_top");
@@ -1451,7 +1760,6 @@
                 arr.push(i);
             }
             let concatArr = arr.splice(index, deskViewUserSeatArr.length).concat(arr.splice(0, index + 1));
-            // console.log(this._playerArray)
             for (let i = 0; i < concatArr.length; i++) {
                 {
                     this._playerArray[concatArr[i]].owner.isMe = false;
@@ -1520,6 +1828,20 @@
             this.netClient.onMessage = function (name, resMsg) {
                 that.dealSoketMessage('onMessage公共消息：', resMsg); //进入处理函数
             };
+
+            // //socket开始连接事件
+            // this.onStartConnect=function(){console.log("开始连接");}
+            // //socket结束连接事件（不管成功还是失败都会进入)
+            // this.onEndConnect=function(ret){console.log("结束连接 ",ret);}
+
+            this.netClient.onStartConnect = function (res) {
+                Main$1.$LOG('soket重新连接开始');
+                that.owner.ceShiText.text='soket重新连接开始';
+            };
+            this.netClient.onEndConnect = function (res) {
+                Main$1.$LOG('soket重新连接结束',this);
+                that.owner.ceShiText.text='soket重新连接结束';
+            };
         }
         /**
          * soket发送消息
@@ -1538,15 +1860,12 @@
             Main$1.$LOG('soket发送消息:', obj);
         }
 
-
         /**
         * soket关闭
         */
         onClose() {
             this.netClient.close();
         }
-
-
 
         /**
          * 获取游戏房间信息
@@ -1582,6 +1901,9 @@
          */
         dealSoketMessage(sign, resData) {
             Main$1.$LOG(sign, resData);
+            if (resData._t == 'GenalResult') {
+                this.errOpenLoginView(resData);
+            }
             if (resData._t == 'R2C_IntoRoom') {
                 if (resData.ret.type == 0) {
                     this.requestRoomUpdateData(resData);
@@ -1644,7 +1966,7 @@
                 if (resData.ret.type == 4) {
                     this.owner.showTips(resData.ret.msg);
                 } else {
-                    this.leaveRoomOpenView();
+                    this.leaveRoomDeal(resData);
                 }
             } else if (resData._t == "CXRoomEnd") {
                 this.roomEnd(resData);
@@ -1698,6 +2020,17 @@
             } else if (resData._t == "G2C_RoundEnd") {
                 this.roundEnd(resData);
             }
+        }
+
+        /**
+         * 未按流程登陆或重复登录就返回登录页面
+         */
+        errOpenLoginView(data) {
+            Main$1.showDialog(data.Message, 1, null, () => {
+                Laya.Scene.open('login.scene', true, Main$1.sign.signOut, Laya.Handler.create(this, () => {
+                    this.destroy();
+                }));
+            });
         }
 
         /**
@@ -1857,6 +2190,20 @@
             // if (clickIndex == 1) {
             //     this.assignPokerCountDown(true, { startTime: (new Date().getTime() / 1000), endTime: (new Date().getTime() / 1000) + 20 });
             // }
+            let data = {
+                delayedNum: 0,
+                delayedNumMax: 4,
+                delayedScore: 10,
+                endTime: 1574818785,
+                maxXiazu: 5,
+                opts: [3, 4, 1],
+                ret: { type: 0, msg: "成功" },
+                score: 235,
+                startTime: 1574818768,
+                uid: 1021354,
+                xiazu: 5
+            };
+            this.setMeHandleBtnZT(true, data);
         }
 
         /**
@@ -2004,13 +2351,6 @@
          */
         playerBindPoker12Val(data) {
             this._dealPoker12Array = data.players;
-            // data.players.forEach(item_data => {
-            //     this._playerArray.forEach(item_player => {
-            //         if (item_player.owner.userId == item_data.uid) {
-            //             item_player.bindPlayerPokerData(this, item_data.poker, this._bindPokerData.poker12)
-            //         }
-            //     })
-            // })
         }
 
         /**
@@ -2029,26 +2369,6 @@
                 });
             });
         }
-
-        /**
-         * 为玩家绑定第4张牌牌数据
-         */
-        // playerBindPoker4Val(data) {
-        //     this._allowStartAction = false;
-        //     this._dealNumber = 0;
-        //     data.players.forEach((item_data, item_index) => {
-        //         this._playerArray.forEach(item_player => {
-        //             if (item_player.owner.userId == item_data.uid) {
-        //                 item_player.bindPlayerPokerData(this, item_data.poker[0], this._bindPokerData.poker4, bindValEnd);
-        //                 function bindValEnd() {
-        //                     let count = data.players.length;
-        //                     item_player.dealPoker(this, 4, count, item_index, false, this.dealPokerEnd);
-        //                 }
-        //                 let pokerName=item_data.poker[0];
-        //             }
-        //         })
-        //     })
-        // }
 
         /**
          * 为玩家绑定第3,4张牌牌数据
@@ -2071,21 +2391,6 @@
             }
         }
 
-        //接上
-        // dealPoker3End() {
-        //     this._dealNumber = 0;
-        //     this._deal34PokerArray.forEach((item_data, item_index) => {
-        //         this._playerArray.forEach(item_player => {
-        //             if (item_player.owner.userId == item_data.uid) {
-        //                 item_player.bindPlayerPokerData(this, item_data.poker[1], this._bindPokerData.poker4, bindValEnd, 0);
-        //                 function bindValEnd() {
-        //                     let count = this._deal34PokerArray.length;
-        //                     item_player.dealPoker(this, 4, count, item_index, false);
-        //                 }
-        //             }
-        //         })
-        //     })
-        // }
 
         /**
         * 显示芒果底池
@@ -2308,7 +2613,11 @@
                             if (dataOption[0] == 5) {
                                 topBtn.getChildByName('qiao_btn').getChildByName('value').text = qiaoScore;
                             }
+                            if (dataOption[0] == 1) {
+                                topBtn.on(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn, [dataOption[0], data]);
+                            }
                             topBtn.on(Laya.Event.CLICK, this, this.onClickTopBtn, [dataOption[0], qiaoScore]);
+
                         }
                     }
                 }
@@ -2383,28 +2692,57 @@
             });
         }
         // 接上(敲)
-        onClickTopBtn(type, qiaoScore) {
-            this.showMeHandleTip(type);
-            this.setMeHandleBtnZT(false, null);//改变操作状态
+        onClickTopBtn(type, data) {
+            let that = this;
             if (type == 5) {
+                this.showMeHandleTip(type);
+                this.setMeHandleBtnZT(false, null);//改变操作状态
                 this._playerArray.forEach(item_player => {
                     if (item_player.owner.isMe)
                         item_player.playerSeatAddGif(true, Main$1.animations.qiao, false);
                 });
-                this.onSend({
-                    name: 'M.Games.CX.C2G_PlayerAction',
-                    data: {
-                        roomId: this.roomId,
-                        score: qiaoScore,
-                        act: type //跟或休 
-                    },
-                    success(res) {
-                        this.dealSoketMessage('操作按钮的点击事件--跟或休：', res);
+                this.daSendSoket(data, type);
+            } else if (type == 1) {
+                let MySliderJS = this.owner.da_slider.getComponent(MySlider);
+                MySliderJS.SliderMouseDown(data.maxXiazu * 2, data.score, (val1) => {
+                    Main$1.$LOG('变化值的时候回调：', val1);
+                    that.daSliderChangeDeal(val1, data);
+                }, (val2) => {
+                    Main$1.$LOG('结束的的时候回调：', val2);
+                    if (val2 != 0) {
+                        that.showMeHandleTip(type);
+                        that.setMeHandleBtnZT(false, null);//改变操作状态
+                        that.daSendSoket(val2 + data.xiazu, type);
                     }
                 });
-            } else {
-                console.log('大---暂时无效！');
             }
+        }
+
+        daSendSoket(data, type) {
+            this.onSend({
+                name: 'M.Games.CX.C2G_PlayerAction',
+                data: {
+                    roomId: this.roomId,
+                    score: data,
+                    act: type //跟或休 
+                },
+                success(res) {
+                    this.dealSoketMessage('操作按钮的点击事件--跟或休：', res);
+                }
+            });
+        }
+
+        /**
+         * 大--拖动的时候变化的回调
+         */
+        daSliderChangeDeal(val, data) {
+            if (Main$1.gameSetVal.gameMusic == 1)
+                if (val < data.score)
+                    Laya.SoundManager.playSound(this._music.daSlider, 1);
+                else {
+                    Laya.SoundManager.playSound(this._music.daSliderTop, 1);
+                }
+
         }
 
         /**
@@ -2432,7 +2770,9 @@
                     text1.text = parseInt(this._totalPi / 2);
                     text1.alpha = 0.5;
                     text2.text = parseInt(text1.text * 2);
+                    text2.alpha = 1;
                     text3.text = parseInt(text1.text * 4);
+                    text3.alpha = 1;
                     this.hideOrShowFastBtn(btn1, 0);
                     this.hideOrShowFastBtn(btn2, 1);
                     this.hideOrShowFastBtn(btn3, 1);
@@ -3681,6 +4021,8 @@
                 } else if (ID == 6) {
                     this._control.openMenuList(false);
                     this._control.beackRoom();
+                }else if (ID == 5) {
+                    this._control.onClose();
                 }
             }
         }
@@ -4613,7 +4955,7 @@
 
         onEnable() {
         }
-      
+
         onStart() {
             this.startLoadPage();
         }
@@ -4750,25 +5092,34 @@
          * 处理登录结果(1.主界面 2.游戏界面)
          */
         dealWithLoginedView(data) {
-            if (data.inRoomPws > 0) {
-                let pageData = {
-                    roomPws: data.inRoomPws,
-                    page: Main$1.pages.page3
-                };
-                Main$1.$openScene('cheXuanGame_8.scene', true, pageData, () => {
-                    Main$1.showLoading(false);
-                    this.showHideNode(false);
-                });
-            } else {
-                Laya.Scene.open('tabPage.scene', true, null, Laya.Handler.create(this, (res) => {
-                    Main$1.showLoading(false);
-                    // this.owner.removeSelf();
-                    // this.owner.ceshi.text='打开结束！';
-                    this.showHideNode(false);
-                }),Laya.Handler.create(this,()=>{
-                    // this.owner.ceshi.text='正在打开！';
-                }));
-            }
+            let pageData = {
+                roomPws: data.inRoomPws,
+                page: Main$1.pages.page3
+            };
+            Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
+                Main$1.showLoading(false);
+                this.showHideNode(false);
+            }));
+
+            // if (data.inRoomPws > 0) {
+            //     let pageData = {
+            //         roomPws: data.inRoomPws,
+            //         page: Main.pages.page3
+            //     }
+            //     Main.$openScene('cheXuanGame_8.scene', true, pageData, () => {
+            //         Main.showLoading(false);
+            //         this.showHideNode(false);
+            //     })
+            // } else {
+            //     Laya.Scene.open('tabPage.scene', true, null, Laya.Handler.create(this, (res) => {
+            //         Main.showLoading(false);
+            //         // this.owner.removeSelf();
+            //         // this.owner.ceshi.text='打开结束！';
+            //         this.showHideNode(false);
+            //     }),Laya.Handler.create(this,()=>{
+            //         // this.owner.ceshi.text='正在打开！';
+            //     }))
+            // }
         }
 
         /**
@@ -5762,6 +6113,7 @@
         }
     }
 
+    // import TabPagesUI from '../TabPages/TabPagesUI'
     class GameHall extends Laya.Script {
         constructor() {
             super();
@@ -5779,6 +6131,10 @@
             Main$1.$LOG('Hall游戏大厅脚本：', this);
             GameHall.instance = this;
         }
+        onStart() {
+            Main$1.$LOG('onStart', this.UI.pageData);
+            // this.openGameView();
+        }
 
         openThisPage() {
             if (this.owner.visible) {
@@ -5789,6 +6145,8 @@
                     Laya.timer.loop(60000, this, this.requestPageData, [false]);
             }
         }
+
+
 
         /**
          * 注册点击事件
@@ -5833,7 +6191,6 @@
             page1List.mouseHandler = new Laya.Handler(this, this.rowOnClick);
         }
         page1ListOnRender(cell, index) {
-            // console.log(cell,index)
             let contentBg = cell.getChildByName("content_bg");
             let roomId = contentBg.getChildByName("roomID").getChildByName("value");
             let pi = contentBg.getChildByName("num1").getChildByName("value");
@@ -5857,7 +6214,7 @@
             time.text = cell.dataSource.roomTime + '分钟';
             state_0.visible = cell.dataSource.participate == 0 && !cell.dataSource.gameStatus ? true : false;
             state_1.visible = cell.dataSource.participate > 0 && !cell.dataSource.gameStatus ? true : false;
-            state_2.visible = cell.dataSource.gameStatus ? true : false; 
+            state_2.visible = cell.dataSource.gameStatus ? true : false;
             state_dairu.visible = cell.dataSource.dairu ? cell.dataSource.dairu : false;
             let roomEndTime = (cell.dataSource.time - Main$1.getTimeChuo()) < 0 ? 0 : cell.dataSource.time - Main$1.getTimeChuo();
             roomLastTime.text = Main$1.secondToDate(roomEndTime);
@@ -5871,8 +6228,8 @@
                     roomPws: Event.target.dataSource.roomPws,
                     page: Main$1.pages.page3
                 };
-                Main$1.showLoading(true,'正在进入游戏...');
-                Main$1.$openScene('cheXuanGame_8.scene',true,data,()=>{
+                Main$1.showLoading(true);
+                Main$1.$openScene('cheXuanGame_8.scene', true, data, () => {
                     Main$1.showLoading(false);
                 });
             }
@@ -5896,10 +6253,12 @@
                     url: '/M.Games.CX/GetRoomList',
                     data: data,
                     success(res) {
+                        Main$1.$LOG('获取大厅列表数据：', res);
                         if (isShowLoading)
                             Main$1.showLoading(false);
                         if (res.data.ret.type == 0) {
                             this.dealWithResData(res.data.rooms);
+                            this.openGameView();
                         } else {
                             Main$1.showDialog(res.data.ret.msg, 1);
                         }
@@ -5909,6 +6268,24 @@
                             Main$1.showLoading(false);
                         Main$1.showDialog('网络异常!', 1);
                     }
+                });
+            }
+        }
+
+        /**
+      * 是否打开游戏界面
+      */
+        openGameView() {
+            console.log('进来打开游戏界面======');
+            let data = this.UI.pageData;
+            if (data.roomPws && data.roomPws > 0) {
+                Main$1.showLoading(true);
+                let pageData = {
+                    roomPws: data.roomPws,
+                    page: Main$1.pages.page3
+                };
+                Main$1.$openScene('cheXuanGame_8.scene', true, pageData, () => {
+                    Main$1.showLoading(false);
                 });
             }
         }
@@ -6100,15 +6477,15 @@
         }
     }
 
-    // import GameControl from '../../GameCenter/GameControl';
     class TabPagesUI extends Laya.Scene {
         constructor() {
             super();
         }
-        onOpened(options){
-            Main$1.$LOG('tab页面所收到的值：',options);
-            this.allowSetInterval=true;
-            let page=!options?Main$1.pages.page3:options.page;
+        onOpened(options) {
+            Main$1.$LOG('tab页面所收到的值：', options);
+            this.pageData = options;
+            this.allowSetInterval = true;
+            let page = !options.page ? Main$1.pages.page3 : options.page;
             this.openView(page);
         }
         onAwake() {
@@ -6121,13 +6498,9 @@
         registerEvent() {
             this.tab_notice.on(Laya.Event.CLICK, this, this.openView, [Main$1.pages.page1]);
             this.tab_paiju.on(Laya.Event.CLICK, this, this.openView, [Main$1.pages.page2]);
-            this.tab_hall.on(Laya.Event.CLICK, this, this.openView, [Main$1.pages.page3]);
+            this.tab_hall.on(Laya.Event.CLICK, this, this.openView, [Main$1.pages.page3, 1]);
             this.tab_data.on(Laya.Event.CLICK, this, this.openView, [Main$1.pages.page4]);
             this.tab_me.on(Laya.Event.CLICK, this, this.openView, [Main$1.pages.page5]);
-
-            // this.ceshi_btn.on(Laya.Event.CLICK, this, ()=>{
-            //     GameControl.instance.beackRoom(41)
-            // });
         }
         /**
          * 切换页面时候先关闭所有页面
@@ -6142,23 +6515,25 @@
          * 打开对应的页面
          * @param {*} page 页面对象
          */
-        openView(page) {
-            Main$1.allowRequesList=false;
+        openView(page, type) {
+            Main$1.allowRequesList = false;
             this.closeAllpages();
             this[page].visible = true;
             this.reloadNavSelect();
             this.setTabSelect(page);
             if (page === Main$1.pages.page5) {
                 Me.instance.openThisPage();
-            }else if(page === Main$1.pages.page1){
+            } else if (page === Main$1.pages.page1) {
                 Notice.instance.openThisPage();
-            }else if(page === Main$1.pages.page3){
-                Main$1.allowRequesList=true;
+            } else if (page === Main$1.pages.page3) {
+                Main$1.allowRequesList = true;
+                Main$1.allowHideLoad = type == 1 ? true : false;
                 GameHall.instance.openThisPage();
-            }else if(page === Main$1.pages.page4){
+            } else if (page === Main$1.pages.page4) {
                 Data.instance.openThisPage();
             }
         }
+
         /**
          * 重置下面导航栏的文字样式
          */
@@ -6207,6 +6582,7 @@
     		reg("game/GameCenter/GameUI.js",GameUI);
     		reg("game/GameCenter/seat.js",seat);
     		reg("game/common/commonSet.js",commonSet);
+    		reg("game/Fuction/MySlider.js",MySlider);
     		reg("game/common/SetHeight.js",SetHeight);
     		reg("game/GameCenter/GameControl.js",GameControl);
     		reg("game/pages/login/LoginUI.js",Login);
