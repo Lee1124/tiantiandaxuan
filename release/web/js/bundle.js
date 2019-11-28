@@ -2442,9 +2442,6 @@
         startAction() {
             if (this._allowStartAction) {
                 if (this._startAction) {
-                    // if (this.prePlayerAciton != 3 && this.prePlayerAciton != 4) {
-                    //     this.autoHandleType = null;
-                    // }
                     this._playerArray.forEach(item_player => {
                         if (this._startAction.uid != this.userId) {
                             this.setPlayerAutoHandleZT(true, item_player);
@@ -2456,17 +2453,6 @@
                             item_player.showPlayerCountDown(this._startAction, true);//开始倒计时
                             console.log('自动操作状态======', this.autoHandleType);
                             this.setMeCurHandleZT(this._startAction, item_player);
-                            // if (item_player.owner.isMe) {
-                            //     if (this.autoHandleType == this.autoHandle.left && this.prePlayerAciton == 3) {
-                            //         this.onClickLeftBtn(this.prePlayerAciton);
-                            //     } else if (this.autoHandleType == this.autoHandle.left && this.prePlayerAciton == 4) {
-                            //         this.onClickRightBtn(this.prePlayerAciton, 0);
-                            //     } else if (this.autoHandleType == this.autoHandle.right && this.prePlayerAciton == 4) {
-                            //         this.onClickRightBtn(this.prePlayerAciton, 0);
-                            //     } else if (!this.autoHandleType) {
-                            //         this.setMeHandleBtnZT(true, this._startAction);
-                            //     }
-                            // }
                         }
                     });
                 }
@@ -2513,8 +2499,12 @@
             if (!isShow)
                 this.owner.autoHandleBtnBox.visible = isShow;
             if (item_player) {
-                Main$1.$LOG('设置玩家自动操作状态:', item_player.owner.isMe, item_player.owner.actionType, item_player.owner.curXiaZhuScore);
-                if (item_player.owner.isMe && isShow && item_player.owner.actionType != 3 && parseInt(item_player.owner.curXiaZhuScore) > 0) {
+                let $visible = this.owner.autoHandleBtnBox.visible;
+                let $actionType = item_player.owner.actionType;
+                let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
+                let $isMe = item_player.owner.isMe;
+                // Main.$LOG('设置玩家自动操作状态:', item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
+                if ($isMe && !$visible && isShow && $actionType != 3 && $curXiaZhuScore > 0) {
                     this._autoBtnArr = [];
                     this.owner.autoHandleBtnBox.visible = isShow;
                     let leftBtn = this.owner.auto_handle_left;
@@ -2528,6 +2518,7 @@
                     this.loadAutoHandleImgEnd(leftBtn, leftBtn_btn_0, leftBtn_btn_1);
                     this.loadAutoHandleImgEnd(rightBtn, rightBtn_btn_0, rightBtn_btn_1);
                     this.autoHandleType = null;
+                    console.log('设置自己的自动操作状态:', this.autoHandleType);
                     leftBtn.on(Laya.Event.CLICK, this, this.onClickAutoLeftBtn, [leftBtn_btn_0, leftBtn_btn_1, rightBtn_btn_0, rightBtn_btn_1]);
                     rightBtn.on(Laya.Event.CLICK, this, this.onClickAutoRightBtn, [leftBtn_btn_0, leftBtn_btn_1, rightBtn_btn_0, rightBtn_btn_1]);
                 }
@@ -2947,10 +2938,6 @@
             });
         }
 
-        // //接上
-        // moveXiaZhuCMEnd() {
-        //     this.bindDiChiPiVal();
-        // }
 
         /**
          * 恢复玩家部分状态
@@ -2964,6 +2951,7 @@
                     item_player.showActionTip(false);//隐藏提示
                 }
             });
+            this.autoHandleType = null;
         }
 
         /**
