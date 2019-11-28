@@ -2,19 +2,32 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":155,
+    "selecteID":272,
     "searchKey":"Scene",
     "props":{"width":1242,"visible":true,"sceneColor":"#000000","height":2208},
     "nodeParent":-1,
-    "maxID":156,
+    "maxID":273,
     "label":"Scene",
     "isOpen":true,
-    "isDirectory":false,
+    "isDirectory":true,
     "isAniNode":true,
-    "hasChild":false,
+    "hasChild":true,
     "compId":2,
     "child":[
-        ],
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,e_bg",
+            "props":{"y":0,"x":0,"top":0,"skin":"images/End/e_bg1.png","right":0,"name":"e_bg","left":0,"bottom":0},
+            "nodeParent":2,
+            "label":"e_bg",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":272,
+            "child":[
+                ]
+        }],
     "animations":[
         {
             "nodes":[

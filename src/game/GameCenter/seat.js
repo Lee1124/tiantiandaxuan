@@ -131,7 +131,8 @@ export default class seat extends Laya.Script {
         let headImg = headBox.getChildByName("headImgBox");
         let name = this.owner.getChildByName("name");
         headBox.visible = true;
-        Main.$LoadImage(headImg, data.head, Main.defaultImg.one, 'skin');
+        // Main.$LoadImage(headImg, data.head, Main.defaultImg.one, 'skin');
+        Main.$LoadImage(headImg, Main.defaultImg.one, Main.defaultImg.one, 'skin');
         this.owner.userId = data.userId;
         if (data.userId == GameControl.instance.userId) {
             name.text = '';

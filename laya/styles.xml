@@ -4,5 +4,14 @@
    <item name="images/common/FightSitatBg.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=10,10,10,10" picType="0" scale="0"/>
    <item name="images/common/functionBg2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=40,40,40,40" picType="0" scale="0"/>
    <item name="images/common/牌局回顾背景.png" type="Image" props="sizeGrid=182,42,79,175" compress="0" quality="80" pack="0" picType="0" scale="0"/>
-   <item name="images/paijuhuigu/p_bg_1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=32,37,37,119" picType="0" scale="0"/>
+   <item name="images/paijuhuigu/p_bg_1.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=51,76,60,300" picType="0" scale="0"/>
+   <item name="images/paijuhuigu/p_bg_2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=31,25,34,28" picType="0" scale="0"/>
+   <item name="images/paijuhuigu/背景-11281039.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="images/paijuhuigu/1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=16,188,23,22" picType="0" scale="0"/>
+   <item name="images/paijuhuigu/背景1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=32,37,28,277" picType="0" scale="0"/>
+   <item name="images/ceshi/背景1.png" type="Sprite" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="images/End/e_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=56,57,64,52" picType="0" scale="0"/>
+   <item name="images/ceshi/3.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=35,35,40,34" picType="0" scale="0"/>
+   <item name="images/End/e_bg1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=20,20,20,20" picType="0" scale="0"/>
+   <item name="images/End/e_kuang.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=40,40,40,40" picType="0" scale="0"/>
 </res>

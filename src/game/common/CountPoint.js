@@ -138,9 +138,23 @@ class CountPoint{
             point2: 6
         },
         {
+            name: '天杠',
+            type1: 1,
+            type2: 1,
+            point1: 10,
+            point2: 6
+        },
+        {
             name: '地杠',
             type1: 1,
             type2: 2,
+            point1: 0,
+            point2: 6
+        },
+        {
+            name: '地杠',
+            type1: 1,
+            type2: 1,
             point1: 0,
             point2: 6
         },
@@ -152,9 +166,23 @@ class CountPoint{
             point2: 5
         },
         {
+            name: '天关九',
+            type1: 1,
+            type2: 1,
+            point1: 10,
+            point2: 5
+        },
+        {
             name: '地关九',
             type1: 1,
             type2: 2,
+            point1: 0,
+            point2: 5
+        },
+        {
+            name: '地关九',
+            type1: 1,
+            type2: 1,
             point1: 0,
             point2: 5
         },
@@ -193,6 +221,7 @@ class CountPoint{
             point1: 1,
             point2: 3
         },
+        
         {
             name: '乌龙九',
             type1: 2,

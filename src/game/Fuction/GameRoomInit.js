@@ -25,12 +25,10 @@ class GameRoomInit {
         playerSeat.mePokerX_2 = [];
         playerSeat.mePokerX_3 = [];
         playerSeat.mePokerX_4 = [];
-        // playerSeat.poker12 = [11, 11];
-        // playerSeat.poker34 = [11, 11];
         playerSeat.sub1 = [];
         playerSeat.sub2 = [];
-        playerSeat.sub1Point = '1点';
-        playerSeat.sub2Point = '2点';
+        playerSeat.sub1Point = '';
+        playerSeat.sub2Point = '';
         playerSeat.index = data.INDEX;
         playerSeat.seatId = data.INDEX;
         playerSeat.userId = '';

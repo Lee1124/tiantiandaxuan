@@ -74,6 +74,10 @@ P C1D5B126 roomChouma.png
 P 2DEFEBA5 roomID.png
 P F178F668 roomPlayerNum.png
 P AF73A60A roomTime.png
+D images/ceshi
+P E9E0E3E1 1.png
+P A19B07C4 3.png
+P 7F601AE4 bg001.png
 D images/club
 P B36F3AAA CarryOn.png
 P 18A4D151 Chip.png
@@ -181,19 +185,19 @@ P B7903AAF gameOverBg5.png
 P 43D49450 gameOverBg6.png
 P 9881FDE7 showSign.png
 D images/End
-R 46FF51E7 1.png
-S 697B8FA4 end_bg.png
-P 84574C1B end_close.png
-P 371ED74B end_head.png
-P 5051626C end_score.png
-P 23DFD4A0 end_share.png
-P 6B3C1BC0 end_time.png
-P C559AD0D end_title.png
-P D4070886 end_title1.png
-P D2345CEA end_title2.png
-P 7D265072 end_title3.png
-P 7731C7F4 end_title4.png
-P DC14C80D id.png
+P 152B963C e_bg.png
+P 40C7CFBA e_bg1.png
+P 84574C1B e_close.png
+P 92DE48B8 e_head.png
+P DC14C80D e_ID.png
+P F0633CD1 e_kuang.png
+P 23B74A0B e_name.png
+P 5051626C e_score.png
+P 23DFD4A0 e_share.png
+P CDF498A0 e_time.png
+R 6EAF53FF e_title.png
+R 030E58B6 e_title1.png
+R A1C3672B e_title2.png
 D images/expression
 P 33B58FFD 0_0.gif
 P 2818EAD4 0_0.png
@@ -265,12 +269,6 @@ P D22D26FB switch0.png
 P 56BFF689 switch1.png
 P FC60CAC4 switch_bg.png
 D images/gameView
-P 09B81770 Action1.png
-P 7A9172CE Action2.png
-P AD9BA3C7 Action3.png
-P 64D466FD Action4.png
-P 55C1AF6F Action5.png
-P 005BB700 Action6.png
 P CDB5BF05 banker.png
 P 5E0B1621 bg1.png
 P EF209866 biaoqingBg.png
@@ -282,7 +280,6 @@ P C4B3D93B choumaBg2.png
 P 4773B062 choumaBg3.png
 P 30371222 choumaKuangBg.png
 P 83C7AE2E close.png
-S 0292745C deakBg2.png
 P 1D308CD7 fightBg2.png
 P FD2F8E13 fightBg3.png
 R FB5220C3 fightBooBg4.png
@@ -295,10 +292,8 @@ P 16287B4F kaishianniuBg.png
 P 87022DBE liantianBg.png
 P 853AD599 paijuhuiguBg.png
 S D9601061 paijutishi.png
-R 59B3C07B paixingtishi.png
 P 46DF2384 progress1.png
 P F6F1C6E5 progress2.png
-R 0C2A742F rub_back.png
 P 095F76CC shuBg.png
 P 6AC85B70 shujuBg.png
 P 23344F43 Status_0.png
@@ -434,10 +429,8 @@ R 456653DD nav.png
 R D9B211E8 nav_bg.png
 R ADC22640 system_notice.png
 D images/paijuhuigu
-P 7DBBE5B2 allSS.png
-P 66832F8F nextBtn.png
-S CE0D4A37 p_bg.png
-P E5AF486B p_bg_1.png
+S 98A5891C p_bg.png
+P 82AD6A80 p_bg_2.png
 P 5A3AAE8E p_dian.png
 R AA7C0C88 p_hd.png
 P 53D647CB p_hd_title.png
@@ -451,10 +444,6 @@ P F405B8A6 p_state1.png
 P 224860F7 p_state2.png
 P F335460E p_xiazhu.png
 P 12FE47CE p_zhuang.png
-P 2AD7A979 preBtn.png
-S D7104F4B right_bg.png
-P D53584E2 title.png
-P 82AD6A80 背景2.png
 D images/PersonNews2
 P 265DB549 news_allwinrate.png
 R E36A2693 news_bg.png

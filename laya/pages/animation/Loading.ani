@@ -181,7 +181,7 @@
                                 "tween":true,
                                 "target":7,
                                 "key":"rotation",
-                                "index":75
+                                "index":50
                             }],
                         "pivotY":[
                             {

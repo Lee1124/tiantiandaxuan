@@ -35,8 +35,7 @@ export default class paijuhuiguUI extends Laya.Scene {
         this.setUI();
     }
     setUI() {
-        console.log(this.p_listBox.top)
-        let nodeArr=[this.p_hd,this.p_listBox]
+        let nodeArr=[this.list_bg]
         Main.setNodeTop(nodeArr);
     }
 }

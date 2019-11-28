@@ -166,6 +166,7 @@ export default class zhanji extends Laya.Script {
                 sanhuaBox.visible = false;
                 let pokerName = 'poker' + (index + 1);
                 let poker = leftPoker.getChildByName(pokerName);
+                let poker12 = leftPoker.getChildByName('poker' + (index + 1));
                 let poker34 = rightPoker.getChildByName('poker' + (index + 3));
                 let showPokerSign = poker.getChildByName("showPokerSign");
                 poker.loadImage('res/img/poker/' + item.poker + '.png');
@@ -173,8 +174,10 @@ export default class zhanji extends Laya.Script {
                 showPokerSign.visible = item.isShow;
                 left_pointText.text = '';
                 right_pointText.text = '';
-                let diPaiSign = poker34.getChildByName("sign");
-                diPaiSign.visible = false;
+                let diPaiSign1 = poker12.getChildByName("sign");
+                let diPaiSign2 = poker34.getChildByName("sign");
+                diPaiSign1.visible = false;
+                diPaiSign2.visible = false;
             } else {
                 nosanhuaBox.visible = !isSanHua ? true : false;
                 sanhuaBox.visible = isSanHua ? true : false;

@@ -36,15 +36,16 @@ export default class roomEnd extends Laya.Script {
      * @param {*} data 数据
      */
     setPageData(data){
-        this.owner.end_userName.text=data.nick+'的牌局'+'['+data.userId+']';
-        this.owner.end_timeValue.text = Main.secondToDate(data.roomTime);//this.owner.end_headImg.
-        Main.$LoadImage(this.owner.end_headImg,data.head);
-        this.owner.end_headName.text=data.nick;
-        this.owner.end_headID.text=data.userId;
-        this.owner.end_score.text=data.self_sf;
-        this.owner.end_value1.text=data.self_shoushu;
-        this.owner.end_value2.text=data.all_shoushu;
-        this.owner.end_value3.text=data.all_dairu;
+        this.owner.e_name.text=data.nick;
+        this.owner.e_userId.text='['+data.userId+']';
+        this.owner.e_timeLong.text = Main.secondToDate(data.roomTime);
+        Main.$LoadImage(this.owner.e_head,data.head);
+        this.owner.e_ct2_name.text=data.nick;
+        this.owner.e_ct2_ID.text=data.userId;
+        this.owner.e_score.text=data.self_sf;
+        this.owner.e_ct3_tb1.text=data.self_shoushu;
+        this.owner.e_ct3_tb2.text=data.all_shoushu;
+        this.owner.e_ct3_tb3.text=data.all_dairu;
     }
 
     setPageListData(data){

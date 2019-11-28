@@ -10,6 +10,7 @@ import HTTP from '../common/HttpRequest';
 import GameRoomInit from '../Fuction/GameRoomInit'
 import PlayerDelayTime from '../Fuction/PlayerDelayTime';
 import MySlider from '../Fuction/MySlider';
+import RecSoketReloadData from '../Fuction/RecSoketReloadData'
 let clickIndex = 0;
 export default class GameControl extends Laya.Script {
     constructor() {
@@ -76,14 +77,16 @@ export default class GameControl extends Laya.Script {
         // 筹码移动速度
         this._speed = {
             changeSeatSpeed: 180,
-            moveCM: 300,
+            moveCM: 260,
             delayCard: 100,
             moveCard: 200,
             fanCard: 100,
             xiuFan: 200,
             diu: 500,
             diuRotation: 300,
-            handle: 120
+            handle: 120,
+            winCMDelay: 200,
+            winShowDelay: 500
         }
 
         this.delayType = {
@@ -208,55 +211,54 @@ export default class GameControl extends Laya.Script {
             }
         }
     }
+
+
+
     /**
      * soket打开
      */
     onConnect() {
         let that = this;
         this.netClient.open();
-        this.onSend({
-            name: 'M.User.C2G_Connect',
-            data: {
-                uid: that.userId,
-                key: that.key,
-                devid: "ime231231231234",
-                ip: "60.255.161.15"
-            },
-            success(resMsg) {
-                Main.$LOG('初始化---[Rpc回调]:', resMsg);
-                if (resMsg._t == "G2C_Connect") {
-                    if (resMsg.ret.type == 0)
-                        this.onSend({
-                            name: 'M.Room.C2R_IntoRoom',
-                            data: {
-                                roomPws: that.roomPwd
-                            },
-                            success(res) {
-                                that.dealSoketMessage('初始化---C2R_IntoRoom进入房间', res);
-                            }
-                        })
+        this.netClient.onConnectSucc = function () {
+            Main.$LOG('连接成功');
+            that.onSend({
+                name: 'M.User.C2G_Connect',
+                data: {
+                    uid: that.userId,
+                    key: that.key,
+                    devid: "ime231231231234",
+                    ip: "60.255.161.15"
+                },
+                success(resMsg) {
+                    Main.$LOG('初始化---[Rpc回调]:', resMsg);
+                    if (resMsg._t == "G2C_Connect") {
+                        if (resMsg.ret.type == 0) {
+                            RecSoketReloadData.reload(this);
+                            Main.showLoading(false);
+                            this.onSend({
+                                name: 'M.Room.C2R_IntoRoom',
+                                data: {
+                                    roomPws: that.roomPwd
+                                },
+                                success(res) {
+                                    that.dealSoketMessage('初始化---C2R_IntoRoom进入房间', res);
+                                }
+                            })
+                        }
+                    }
                 }
+            });
+            /* 接受消息 */
+            that.netClient.onMessage = function (name, resMsg) {
+                that.dealSoketMessage('onMessage公共消息：', resMsg); //进入处理函数
             }
-        });
-        /* 接受消息 */
-        this.netClient.onMessage = function (name, resMsg) {
-            that.dealSoketMessage('onMessage公共消息：', resMsg); //进入处理函数
-        }
 
-        // //socket开始连接事件
-        // this.onStartConnect=function(){console.log("开始连接");}
-        // //socket结束连接事件（不管成功还是失败都会进入)
-        // this.onEndConnect=function(ret){console.log("结束连接 ",ret);}
-
-        this.netClient.onStartConnect = function (res) {
-            Main.$LOG('soket重新连接开始')
-            that.owner.ceShiText.text = 'soket重新连接开始'
-            Main.showLoading(true, '连接中');
-        }
-        this.netClient.onEndConnect = function (res) {
-            Main.$LOG('soket重新连接结束', this)
-            that.owner.ceShiText.text = 'soket重新连接结束';
-            Main.showLoading(false);
+            that.netClient.onStartConnect = function (res) {
+                Main.$LOG('soket重新连接开始')
+                that.owner.ceShiText.text = 'soket重新连接开始'
+                Main.showLoading(true, '连接中');
+            }
         }
     }
     /**
@@ -442,7 +444,7 @@ export default class GameControl extends Laya.Script {
      * 未按流程登陆或重复登录就返回登录页面
      */
     errOpenLoginView(data) {
-        Main.showDialog(data.Message, 1, null, () => {
+        Main.showDialog('登录失效，请重新登录', 1, null, () => {
             Laya.Scene.open('login.scene', true, Main.sign.signOut, Laya.Handler.create(this, () => {
                 this.destroy();
             }));
@@ -477,6 +479,7 @@ export default class GameControl extends Laya.Script {
      * @param {} roomSeatArr 需要更新的数据
      */
     updateRoomData(data, allData) {
+        console.log('更新座位上的数据=========================0000:', this._plyerIndexArray);
         this._totalMango = data.mang;//芒果底池总分
         this._totalPi = data.dichi;//皮底池总分
         if (data.mang) {
@@ -489,8 +492,9 @@ export default class GameControl extends Laya.Script {
         this._dealNumber = 0;
         let meArr = data.roomSeat.filter(item => item._id == this.userId);
         if (meArr.length > 0) {
+            console.log('更新座位上的数据=========================0:', this._plyerIndexArray);
             this.newIndexConcatArr = this._plyerIndexArray.splice(meArr[0].seat_idx, this._plyerIndexArray.length).concat(this._plyerIndexArray.splice(0, meArr[0].seat_idx + 1));
-
+            console.log('更新座位上的数据=========================1:', this.newIndexConcatArr);
             this._playerArray.forEach((item, index) => {
                 item.owner.seatId = this.newIndexConcatArr[index];
             })
@@ -509,7 +513,6 @@ export default class GameControl extends Laya.Script {
             this._playerArray.forEach((item_player, item_index) => {
                 if (item_seatData.userId == item_player.owner.userId) {
                     if (item_seatData.xiazhu > 0) {
-
                         item_player.showOrHidePlayerXiaZhuView(true);
                         item_player.changePlayerScore(item_seatData.score, this._changeScoreType.seat);
                         item_player.changePlayerScore(item_seatData.xiazhu, this._changeScoreType.xiaZhu);
@@ -616,20 +619,38 @@ export default class GameControl extends Laya.Script {
         // if (clickIndex == 1) {
         //     this.assignPokerCountDown(true, { startTime: (new Date().getTime() / 1000), endTime: (new Date().getTime() / 1000) + 20 });
         // }
-        let data = {
-            delayedNum: 0,
-            delayedNumMax: 4,
-            delayedScore: 10,
-            endTime: 1574818785,
-            maxXiazu: 5,
-            opts: [3, 4, 1],
-            ret: { type: 0, msg: "成功" },
-            score: 235,
-            startTime: 1574818768,
-            uid: 1021354,
-            xiazu: 5
+        if (clickIndex == 1) {
+            let data = {
+                delayedNum: 0,
+                delayedNumMax: 4,
+                delayedScore: 10,
+                endTime: 1574818785,
+                maxXiazu: 5,
+                opts: [3, 4, 1],
+                ret: { type: 0, msg: "成功" },
+                score: 235,
+                startTime: 1574818768,
+                uid: 1021354,
+                xiazu: 5
+            }
+            this.setMeHandleBtnZT(true, data);
+        } else {
+            let data = {
+                delayedNum: 0,
+                delayedNumMax: 4,
+                delayedScore: 10,
+                endTime: 1574818785,
+                maxXiazu: 5,
+                opts: [3, 4, 5],
+                ret: { type: 0, msg: "成功" },
+                score: 235,
+                startTime: 1574818768,
+                uid: 1021354,
+                xiazu: 5
+            }
+            this.setMeHandleBtnZT(true, data);
         }
-        this.setMeHandleBtnZT(true, data);
+
     }
 
     /**
@@ -993,7 +1014,7 @@ export default class GameControl extends Laya.Script {
      * @param data 请求的参数
      */
     setMeHandleBtnZT(isShow = true, data) {
-        console.log('进来操作状态')
+        Main.$LOG('进来操作状态======:', data)
         this.owner.handleBtnBox.visible = isShow;
         if (isShow) {
             PlayerDelayTime.init(this.delayType.action, this, data);
@@ -1012,7 +1033,8 @@ export default class GameControl extends Laya.Script {
             {//右边--2跟,4休
                 let dataOption = data.opts.filter(item => item == 2 || item == 4);
                 if (dataOption.length == 1) {
-                    rightBtn.getChildByName('gen_btn').getChildByName('value').text = '';
+                    let genScoreText = rightBtn.getChildByName('gen_btn').getChildByName('value');
+                    genScoreText.text = '';
                     rightBtn._children.forEach(item_btn => {
                         item_btn.visible = false;
                     })
@@ -1028,9 +1050,9 @@ export default class GameControl extends Laya.Script {
                     } else {
                         genScore = dataOption[0] == 2 ? (data.xiazu + data.score) : 0;
                     }
-                    rightBtn.on(Laya.Event.CLICK, this, this.onClickRightBtn, [dataOption[0], genScore])
+                    rightBtn.on(Laya.Event.CLICK, this, this.onClickRightBtn, [dataOption[0], genScore]);
                     if (dataOption[0] == 2) {
-                        rightBtn.getChildByName('gen_btn').getChildByName('value').text = data.maxXiazu - data.xiazu;
+                        genScoreText.text = data.score <= genScore ? data.score : data.maxXiazu - data.xiazu;
                     }
                 }
             }
@@ -1054,11 +1076,12 @@ export default class GameControl extends Laya.Script {
                         if (dataOption[0] == 5) {
                             topBtn.getChildByName('qiao_btn').getChildByName('value').text = qiaoScore;
                         }
+                        topBtn.on(Laya.Event.CLICK, this, this.onClickTopBtn, [dataOption[0], qiaoScore]);
                         if (dataOption[0] == 1) {
                             topBtn.on(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn, [dataOption[0], data]);
+                        } else {
+                            topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                         }
-                        topBtn.on(Laya.Event.CLICK, this, this.onClickTopBtn, [dataOption[0], qiaoScore]);
-
                     }
                 }
             }
@@ -1607,7 +1630,8 @@ export default class GameControl extends Laya.Script {
      */
     playerWinUp(data) {
         this._winUpINDEX = 0;
-        let joinNum = data.players.filter(item => item.losewin >= 0);
+        this.allowWinShou = true;
+        // let joinNum = data.players.filter(item => item.losewin >= 0);
         this.reloadPlayerMoreZT();
         data.players.forEach((item_data, item_index) => {
             this._playerArray.forEach(item_player => {
@@ -1628,8 +1652,8 @@ export default class GameControl extends Laya.Script {
                     setTimeout(() => {
                         item_player.showActionTip(false, null);
                         item_player.showOrHidePlayerXiaZhuView(false);
-                        item_player.showMoveCM(this, 2, true, this._moveCMSeat.show, this._moveCMSeat.pi, this._music.moveMangOrPi, joinNum.length, this.gameEndMoveCMEnd, [data.players])
-                    }, 400)
+                        item_player.showMoveCM(this, 2, true, this._moveCMSeat.show, this._moveCMSeat.pi, this._music.moveMangOrPi, 1, this.gameEndMoveCMEnd, [data.players])
+                    }, this._speed.winShowDelay)
                 }
             })
         })
@@ -1637,34 +1661,37 @@ export default class GameControl extends Laya.Script {
     }
 
     gameEndMoveCMEnd(data) {
-        Main.$LOG('移动结束', data)
-        this._winUpINDEX = 0;
-        let playerLoselg0 = data[0].filter(item => item.losewin >= 0);
-        setTimeout(() => {
-            data[0].forEach(item_data => {
-                this._playerArray.forEach(item_player => {
-                    if (item_data._id == item_player.owner.userId) {
-                        this.showDiChiPi(false);
-                        if (item_data.losewin >= 0) {
-                            item_player.showMoveCM(this, 2, true, this._moveCMSeat.pi, this._moveCMSeat.one, this._music.moveMangOrPi, playerLoselg0.length, getMonenyEnd);
-                            function getMonenyEnd() {
-                                Main.$LOG('玩家受到金币：', item_data.score);
-                                // item_player.changePlayerScore(item_data.score, this._changeScoreType.seat);
-                                this.updatePlayerMoreData(data[0]);
+        if (this.allowWinShou) {
+            Main.$LOG('移动结束', data)
+            this._winUpINDEX = 0;
+            let playerLoselg0 = data[0].filter(item => item.losewin >= 0);
+            this.allowWinShou = false;
+            setTimeout(() => {
+                data[0].forEach(item_data => {
+                    this._playerArray.forEach(item_player => {
+                        if (item_data._id == item_player.owner.userId) {
+                            this.showDiChiPi(false);
+                            if (item_data.losewin >= 0) {
+                                item_player.showMoveCM(this, 2, true, this._moveCMSeat.pi, this._moveCMSeat.one, this._music.moveMangOrPi, playerLoselg0.length, getMonenyEnd);
+                                function getMonenyEnd() {
+                                    Main.$LOG('玩家受到金币：', item_data.score);
+                                    // item_player.changePlayerScore(item_data.score, this._changeScoreType.seat);
+                                    this.updatePlayerMoreData(data[0]);
+                                }
+                            }
+                            if (item_data.mang > 0) {
+                                let lastMang = this._totalMango - item_data.mang;
+                                if (lastMang <= 0) {
+                                    this.showDiChiMang(false);
+                                }
+                                Main.$LOG('进来芒:', lastMang)
+                                this.bindDiChiMangVal(lastMang);
                             }
                         }
-                        if (item_data.mang > 0) {
-                            let lastMang = this._totalMango - item_data.mang;
-                            if (lastMang <= 0) {
-                                this.showDiChiMang(false);
-                            }
-                            Main.$LOG('进来芒:', lastMang)
-                            this.bindDiChiMangVal(lastMang);
-                        }
-                    }
+                    })
                 })
-            })
-        }, 1000)
+            }, this._speed.winCMDelay)
+        }
     }
 
     /**

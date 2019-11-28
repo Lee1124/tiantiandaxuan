@@ -188,7 +188,7 @@ export default class MySlider extends Laya.Script {
             ++calibrationNum;
         }
         //上一次的单位值大小
-        let LastUnitVal = startVal + scopeVal - remainder;
+        let LastUnitVal = startVal + (remainder > 0 ? scopeVal - remainder : 0);
 
         Main.$LOG(endVal + "-" + unitVal + "-" + scopeVal);
         //
@@ -203,7 +203,7 @@ export default class MySlider extends Laya.Script {
             }
             //累计刻度次数
             calibrationNum += curNum
-            //Main.$LOG("curNum:"+curNum + "-"+calibrationNum);
+            // Main.$LOG("curNum1:"+curNum + "-"+calibrationNum + "-"+ unitVal);
             //记录上一次单位值
             LastUnitVal = unitVal;
             //累计-每次单位x10
@@ -239,14 +239,14 @@ export default class MySlider extends Laya.Script {
         let curCalibration = parseInt(sVal * calibrationNum);
         //Main.$LOG("endVal"+ endVal + "-" + sVal  + "-" + LastUnitVal + "-"+ scopeVal+ "-" + lCurNum + "-" + calibrationNum);
 
-        //Main.$LOG("总刻度次数：" + calibrationNum + ",当前刻度：" + curCalibration + "，值：" + calibrationVal.length);
+        //Main.$LOG("总刻度次数：" + calibrationNum + ",当前刻度：" + curCalibration + "，值：" + calibrationVal[curCalibration]);
         let curCVal = calibrationVal[curCalibration];
         //回调-返回当前刻度的数值
         if (this.sDragAction != null && this.sCurDragVal != curCVal)  {
             // Main.$LOG("=============sDragAction");
             this.sDragAction(calibrationVal[curCalibration], curCalibration == calibrationNum - 1);
         }
-        // Main.$LOG("=====calibrationVal:" +curCVal +"-" + this.sCurDragVal);
+        //Main.$LOG("=====calibrationVal:" +curCVal +"-" + this.sCurDragVal);
         this.sCurDragVal = curCVal;
         return this.sCurDragVal;
     }

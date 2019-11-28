@@ -28,9 +28,6 @@ export default class NetClient extends Laya.Script{
 
 		//socket开始连接事件
 		this.onStartConnect=function(){console.log("开始连接");}
-		//socket结束连接事件（不管成功还是失败都会进入)
-		this.onEndConnect=function(ret){console.log("结束连接 ",ret);}
-
 		//链接成功事件,此处可用来初始化数据
 		this.onConnectSucc=function(){ console.log("链接成功");}
 		//接收消息封装,请外部自己实现
@@ -41,7 +38,6 @@ export default class NetClient extends Laya.Script{
 
 	//正确建立连接
 	openHandler(event){
-		this.onEndConnect(true);
 		this.connecting = false;
 		this.socketOpen = true;
 		console.log('WebSocket连接已打开！');
@@ -55,7 +51,6 @@ export default class NetClient extends Laya.Script{
  
 	//关闭事件
 	closeHandler(e){
-		this.onEndConnect(false);
 		this.connecting = false;
 		this.socketOpen = false;
 		console.log('WebSocket 已关闭！', e);
@@ -64,7 +59,6 @@ export default class NetClient extends Laya.Script{
 
 	//连接出错
 	errorHandler(e){
-		this.onEndConnect(false);
 		this.connecting = false;
 		this.socketOpen = false;
 		console.log('WebSocket连接打开失败，请检查！' + e);

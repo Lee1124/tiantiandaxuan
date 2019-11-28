@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":34,
-    "selecteID":35,
+    "selectedBox":62,
+    "selecteID":334,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
-    "maxID":332,
+    "maxID":335,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -262,13 +262,14 @@
                     "props":{"y":0,"x":0,"visible":false,"var":"CreateGamePage","top":0,"right":0,"name":"CreateGamePage","left":0,"bottom":0},
                     "nodeParent":67,
                     "label":"CreateGamePage",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":62,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,hd",
                             "props":{"top":0,"skin":"images/myPaiJu/1.png","name":"hd","centerX":0},
@@ -283,6 +284,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,into",
                             "props":{"x":95,"top":410,"skin":"images/myPaiJu/4.png","name":"into"},
@@ -296,6 +298,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,create",
                             "props":{"top":1020,"skin":"images/myPaiJu/3.png","name":"create","centerX":0},
@@ -307,8 +310,50 @@
                             "compId":65,
                             "child":[
                                 ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{},
+                            "nodeParent":62,
+                            "label":"Sprite",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":332,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Label",
+                            "searchKey":"Label",
+                            "props":{"text":"label"},
+                            "nodeParent":62,
+                            "label":"Label",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":333,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Panel",
+                            "searchKey":"Panel",
+                            "props":{},
+                            "nodeParent":62,
+                            "label":"Panel",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":334,
+                            "child":[
+                                ]
                         }],
-                    "$HIDDEN":true
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,
@@ -317,14 +362,13 @@
                     "props":{"y":0,"x":0,"visible":false,"var":"MePage","top":0,"right":0,"name":"MePage","left":0,"bottom":0},
                     "nodeParent":67,
                     "label":"MePage",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":34,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,list_bg",
                             "props":{"top":135,"skin":"images/newMe/me_bg.png","name":"list_bg","centerX":0},
@@ -337,7 +381,6 @@
                             "compId":35,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,list_bg2",
                                     "props":{"skin":"images/newMe/11.png","name":"list_bg2","centerY":189,"centerX":0},
@@ -507,13 +550,12 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,personal_information",
                                     "props":{"y":50,"width":1050,"top":50,"name":"personal_information","height":330,"centerX":0},
                                     "nodeParent":35,
                                     "label":"personal_information",
-                                    "isOpen":false,
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
@@ -525,7 +567,7 @@
                                             "props":{"width":327,"top":0,"name":"head","left":0,"height":327},
                                             "nodeParent":315,
                                             "label":"head",
-                                            "isOpen":false,
+                                            "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
@@ -547,10 +589,10 @@
                                                 {
                                                     "type":"Sprite",
                                                     "searchKey":"Sprite,head,userHeadImg",
-                                                    "props":{"y":0,"x":0,"width":327,"var":"userHeadImg","name":"head","height":327},
+                                                    "props":{"y":0,"x":0,"width":327,"visible":false,"var":"userHeadImg","name":"head","height":327},
                                                     "nodeParent":316,
                                                     "label":"head",
-                                                    "isOpen":false,
+                                                    "isOpen":true,
                                                     "isDirectory":true,
                                                     "isAniNode":true,
                                                     "hasChild":true,
@@ -563,24 +605,12 @@
                                                             "nodeParent":318,
                                                             "label":"Sprite",
                                                             "isOpen":true,
-                                                            "isDirectory":true,
+                                                            "isDirectory":false,
                                                             "isAniNode":true,
-                                                            "hasChild":true,
+                                                            "hasChild":false,
                                                             "compId":319,
                                                             "child":[
-                                                                {
-                                                                    "type":"Circle",
-                                                                    "searchKey":"Circle",
-                                                                    "props":{"y":163.5,"x":163.5,"radius":156,"lineWidth":1,"fillColor":"#ff0000"},
-                                                                    "nodeParent":319,
-                                                                    "label":"Circle",
-                                                                    "isDirectory":false,
-                                                                    "isAniNode":true,
-                                                                    "hasChild":false,
-                                                                    "compId":320,
-                                                                    "child":[
-                                                                        ]
-                                                                }],
+                                                                ],
                                                             "$HIDDEN":false
                                                         }]
                                                 },
@@ -733,7 +763,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/pages/Me/Me.js",
@@ -749,7 +778,7 @@
                             "child":[
                                 ]
                         }],
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 },
                 {
                     "x":30,
@@ -1761,7 +1790,7 @@
                                                                     "props":{"width":130,"name":"headBox","left":70,"height":130,"centerY":0},
                                                                     "nodeParent":281,
                                                                     "label":"headBox",
-                                                                    "isOpen":false,
+                                                                    "isOpen":true,
                                                                     "isDirectory":true,
                                                                     "isAniNode":false,
                                                                     "hasChild":true,
@@ -1783,10 +1812,10 @@
                                                                         {
                                                                             "type":"Sprite",
                                                                             "searchKey":"Sprite,head",
-                                                                            "props":{"y":0,"x":0,"width":130,"name":"head","height":130},
+                                                                            "props":{"y":0,"x":0,"width":130,"visible":false,"name":"head","height":130},
                                                                             "nodeParent":285,
                                                                             "label":"head",
-                                                                            "isOpen":true,
+                                                                            "isOpen":false,
                                                                             "isDirectory":true,
                                                                             "isAniNode":false,
                                                                             "hasChild":true,
@@ -1799,24 +1828,12 @@
                                                                                     "nodeParent":287,
                                                                                     "label":"Sprite",
                                                                                     "isOpen":true,
-                                                                                    "isDirectory":true,
+                                                                                    "isDirectory":false,
                                                                                     "isAniNode":false,
-                                                                                    "hasChild":true,
+                                                                                    "hasChild":false,
                                                                                     "compId":288,
                                                                                     "child":[
-                                                                                        {
-                                                                                            "type":"Circle",
-                                                                                            "searchKey":"Circle",
-                                                                                            "props":{"y":65,"x":65,"radius":62,"lineWidth":1,"fillColor":"#ff0000"},
-                                                                                            "nodeParent":288,
-                                                                                            "label":"Circle",
-                                                                                            "isDirectory":false,
-                                                                                            "isAniNode":false,
-                                                                                            "hasChild":false,
-                                                                                            "compId":289,
-                                                                                            "child":[
-                                                                                                ]
-                                                                                        }]
+                                                                                        ]
                                                                                 }]
                                                                         }],
                                                                     "$HIDDEN":false

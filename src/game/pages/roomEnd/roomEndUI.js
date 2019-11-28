@@ -7,12 +7,14 @@ export default class RoomEndUI extends Laya.Scene{
     constructor(){
         super();
     }
-    onAwake(){
-      
-    }
     onOpened(options){
         Main.$LOG('房间结束界面所收到的值:',options);
         this._openedData=options;
         this.visible=options.show?options.show:false;
+        this.setUI();
+    }
+    setUI() {
+        let nodeArr=[this.e_bg2]
+        Main.setNodeTop(nodeArr);
     }
 }

@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":6,
-    "selecteID":76,
+    "selectedBox":2,
+    "selecteID":112,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/shishizhanji/shishizhanjiUI.js","height":2208},
     "nodeParent":-1,
@@ -257,13 +257,14 @@
                     "props":{"x":32,"var":"s_bg3","top":990,"skin":"images/shishizhanji/s_bg3.png","name":"s_bg3","bottom":150},
                     "nodeParent":6,
                     "label":"s_bg3",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":95,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,left_line",
                             "props":{"y":46,"x":17,"texture":"images/shishizhanji/2_03.png","name":"left_line"},
@@ -277,6 +278,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,right_line",
                             "props":{"y":46,"x":563,"texture":"images/shishizhanji/2_03.png","name":"right_line"},
@@ -290,6 +292,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,weiGuanTitle,weiGuanTitle",
                             "props":{"y":46,"var":"weiGuanTitle","text":"(0)","name":"weiGuanTitle","height":39,"fontSize":40,"color":"#935F13","centerX":41,"align":"center"},
@@ -302,6 +305,7 @@
                             "compId":101,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,title_weiguan",
                                     "props":{"skin":"images/shishizhanji/s_title5.png","name":"title_weiguan","left":-82,"centerY":0},
@@ -316,18 +320,20 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,listBox",
                             "props":{"width":900,"top":120,"name":"listBox","height":920,"centerX":0},
                             "nodeParent":95,
                             "label":"listBox",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
                             "compId":106,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"List",
                                     "searchKey":"List,PersonList,PersonList",
                                     "props":{"x":0,"visible":false,"var":"PersonList","top":0,"spaceY":20,"spaceX":70,"right":0,"repeatX":4,"name":"PersonList","left":0,"bottom":0},
@@ -340,6 +346,7 @@
                                     "compId":107,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,PersonBox",
                                             "props":{"y":0,"x":15,"width":165,"renderType":"render","name":"PersonBox","height":165},
@@ -352,6 +359,7 @@
                                             "compId":108,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,headBorder",
                                                     "props":{"y":10,"x":17,"width":130,"skin":"images/shishizhanji/s_head.png","name":"headBorder","height":130},
@@ -365,45 +373,36 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,headImg",
                                                     "props":{"y":10,"x":17,"width":130,"name":"headImg","height":130},
                                                     "nodeParent":108,
                                                     "label":"headImg",
-                                                    "isOpen":false,
+                                                    "isOpen":true,
                                                     "isDirectory":true,
                                                     "isAniNode":false,
                                                     "hasChild":true,
                                                     "compId":110,
                                                     "child":[
                                                         {
+                                                            "x":105,
                                                             "type":"Sprite",
                                                             "searchKey":"Sprite",
                                                             "props":{"y":54,"x":54,"width":130,"renderType":"mask","pivotY":54,"pivotX":54,"height":130},
                                                             "nodeParent":110,
                                                             "label":"Sprite",
                                                             "isOpen":true,
-                                                            "isDirectory":true,
+                                                            "isDirectory":false,
                                                             "isAniNode":false,
-                                                            "hasChild":true,
+                                                            "hasChild":false,
                                                             "compId":111,
                                                             "child":[
-                                                                {
-                                                                    "type":"Circle",
-                                                                    "searchKey":"Circle",
-                                                                    "props":{"y":66,"x":65,"radius":61,"fillColor":"#ff0000"},
-                                                                    "nodeParent":111,
-                                                                    "label":"Circle",
-                                                                    "isDirectory":false,
-                                                                    "isAniNode":false,
-                                                                    "hasChild":false,
-                                                                    "compId":112,
-                                                                    "child":[
-                                                                        ]
-                                                                }]
+                                                                ]
                                                         }]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label,name",
                                                     "props":{"width":182,"overflow":"hidden","name":"name","height":30,"fontSize":30,"color":"#935F13","centerX":0,"bottom":-12,"align":"center"},

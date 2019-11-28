@@ -159,9 +159,23 @@
                 point2: 6
             },
             {
+                name: '天杠',
+                type1: 1,
+                type2: 1,
+                point1: 10,
+                point2: 6
+            },
+            {
                 name: '地杠',
                 type1: 1,
                 type2: 2,
+                point1: 0,
+                point2: 6
+            },
+            {
+                name: '地杠',
+                type1: 1,
+                type2: 1,
                 point1: 0,
                 point2: 6
             },
@@ -173,9 +187,23 @@
                 point2: 5
             },
             {
+                name: '天关九',
+                type1: 1,
+                type2: 1,
+                point1: 10,
+                point2: 5
+            },
+            {
                 name: '地关九',
                 type1: 1,
                 type2: 2,
+                point1: 0,
+                point2: 5
+            },
+            {
+                name: '地关九',
+                type1: 1,
+                type2: 1,
                 point1: 0,
                 point2: 5
             },
@@ -214,6 +242,7 @@
                 point1: 1,
                 point2: 3
             },
+            
             {
                 name: '乌龙九',
                 type1: 2,
@@ -419,9 +448,6 @@
 
     		//socket开始连接事件
     		this.onStartConnect=function(){console.log("开始连接");};
-    		//socket结束连接事件（不管成功还是失败都会进入)
-    		this.onEndConnect=function(ret){console.log("结束连接 ",ret);};
-
     		//链接成功事件,此处可用来初始化数据
     		this.onConnectSucc=function(){ console.log("链接成功");};
     		//接收消息封装,请外部自己实现
@@ -432,7 +458,6 @@
 
     	//正确建立连接
     	openHandler(event){
-    		this.onEndConnect(true);
     		this.connecting = false;
     		this.socketOpen = true;
     		console.log('WebSocket连接已打开！');
@@ -446,7 +471,6 @@
      
     	//关闭事件
     	closeHandler(e){
-    		this.onEndConnect(false);
     		this.connecting = false;
     		this.socketOpen = false;
     		console.log('WebSocket 已关闭！', e);
@@ -455,7 +479,6 @@
 
     	//连接出错
     	errorHandler(e){
-    		this.onEndConnect(false);
     		this.connecting = false;
     		this.socketOpen = false;
     		console.log('WebSocket连接打开失败，请检查！' + e);
@@ -1213,12 +1236,10 @@
             playerSeat.mePokerX_2 = [];
             playerSeat.mePokerX_3 = [];
             playerSeat.mePokerX_4 = [];
-            // playerSeat.poker12 = [11, 11];
-            // playerSeat.poker34 = [11, 11];
             playerSeat.sub1 = [];
             playerSeat.sub2 = [];
-            playerSeat.sub1Point = '1点';
-            playerSeat.sub2Point = '2点';
+            playerSeat.sub1Point = '';
+            playerSeat.sub2Point = '';
             playerSeat.index = data.INDEX;
             playerSeat.seatId = data.INDEX;
             playerSeat.userId = '';
@@ -1527,7 +1548,7 @@
                 ++calibrationNum;
             }
             //上一次的单位值大小
-            let LastUnitVal = startVal + scopeVal - remainder;
+            let LastUnitVal = startVal + (remainder > 0 ? scopeVal - remainder : 0);
 
             Main$1.$LOG(endVal + "-" + unitVal + "-" + scopeVal);
             //
@@ -1542,7 +1563,7 @@
                 }
                 //累计刻度次数
                 calibrationNum += curNum;
-                //Main.$LOG("curNum:"+curNum + "-"+calibrationNum);
+                // Main.$LOG("curNum1:"+curNum + "-"+calibrationNum + "-"+ unitVal);
                 //记录上一次单位值
                 LastUnitVal = unitVal;
                 //累计-每次单位x10
@@ -1578,14 +1599,14 @@
             let curCalibration = parseInt(sVal * calibrationNum);
             //Main.$LOG("endVal"+ endVal + "-" + sVal  + "-" + LastUnitVal + "-"+ scopeVal+ "-" + lCurNum + "-" + calibrationNum);
 
-            //Main.$LOG("总刻度次数：" + calibrationNum + ",当前刻度：" + curCalibration + "，值：" + calibrationVal.length);
+            //Main.$LOG("总刻度次数：" + calibrationNum + ",当前刻度：" + curCalibration + "，值：" + calibrationVal[curCalibration]);
             let curCVal = calibrationVal[curCalibration];
             //回调-返回当前刻度的数值
             if (this.sDragAction != null && this.sCurDragVal != curCVal)  {
                 // Main.$LOG("=============sDragAction");
                 this.sDragAction(calibrationVal[curCalibration], curCalibration == calibrationNum - 1);
             }
-            // Main.$LOG("=====calibrationVal:" +curCVal +"-" + this.sCurDragVal);
+            //Main.$LOG("=====calibrationVal:" +curCVal +"-" + this.sCurDragVal);
             this.sCurDragVal = curCVal;
             return this.sCurDragVal;
         }
@@ -1606,8 +1627,112 @@
     }
 
     /**
+     * 该脚本为了soket断开重连后重置数据,保证数据正确性
+     */
+    class RecSoketReloadData {
+        reload(that) {
+            console.log(that._playerArray);
+            // GameRoomInit.init(that);
+            let me_handleBox = that.owner.getChildByName("me_handleBox");
+            me_handleBox._children.forEach(item => {
+                item.visible = false;
+            });
+            that.owner.me_sub_pokerBox.visible=false;
+            that.owner.subCountDown.visible=false;
+            that.owner.meAnimationBox.visible=false;
+            that.owner.delayTimeBtn.visible=false;
+            that._playerArray.forEach(item_player => {
+                // GameRoomInit.keepValue(that,item_player);
+                let playerSeat = item_player.owner;
+                that._plyerIndexArray[item_player.INDEX]=item_player.INDEX;
+                playerSeat.userId = '';
+                playerSeat.mePokerX_2 = [];
+                playerSeat.mePokerX_3 = [];
+                playerSeat.mePokerX_4 = [];
+                playerSeat.sub1 = [];
+                playerSeat.sub2 = [];
+                playerSeat.sub1Point = '';
+                playerSeat.sub2Point = '';
+                playerSeat.isMe = false;
+                playerSeat.showXiaZhuScore = false;
+                playerSeat.xiaZhuScore = 0;
+                playerSeat.index = item_player.INDEX;
+                playerSeat.seatId = item_player.INDEX;
+                playerSeat.x=that.owner._playerSeatXYArray[item_player.INDEX].x;
+                playerSeat.y=that.owner._playerSeatXYArray[item_player.INDEX].y;
+                playerSeat.getChildByName("xiaZhuScore").x=that.owner._xiaZhuSeatXYArray[item_player.INDEX].x;
+                playerSeat.getChildByName("xiaZhuScore").y=that.owner._xiaZhuSeatXYArray[item_player.INDEX].y;
+                playerSeat.getChildByName("tipsBox").x=that.owner._tipsSeatXYArray[item_player.INDEX].x;
+                playerSeat.getChildByName("tipsBox").y=that.owner._tipsSeatXYArray[item_player.INDEX].y;
+                playerSeat.getChildByName("show_poker_box").x=that.owner._pokerBoxSeat[item_player.INDEX].x;
+                playerSeat.getChildByName("show_poker_box").y=that.owner._pokerBoxSeat[item_player.INDEX].y;
+                let create_cm_seat_children=playerSeat.getChildByName("create_cm_seat")._children;
+                create_cm_seat_children.forEach(item => {
+                    item.x=that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
+                    item.y=that.owner._showCMFaceToPlayerXY[item_player.INDEX].y;
+                });
+                playerSeat.getChildByName("sub_poker_box").x=that.owner._subPokerBoxSeat[item_player.INDEX].x;
+                playerSeat.getChildByName("sub_poker_box").y=that.owner._subPokerBoxSeat[item_player.INDEX].y;
+
+               playerSeat._showCMFaceToPlayerXY.x = that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
+               playerSeat._showCMFaceToPlayerXY.y = that.owner._showCMFaceToPlayerXY[item_player.INDEX].y;
+               playerSeat._mangDiChiFaceToPlayerXY.x = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].x;
+               playerSeat._mangDiChiFaceToPlayerXY.y = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].y;
+               playerSeat._piDiChiFaceToPlayerXY.x = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].x;
+               playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
+
+                let headBox = playerSeat.getChildByName("head-box");
+                let headImg = headBox.getChildByName("headImgBox");
+                let xiaZhuScore = playerSeat.getChildByName("xiaZhuScore");
+                let deal_cards_seat = playerSeat.getChildByName("deal_cards_seat");
+                let deal_cards_seat34 = playerSeat.getChildByName("deal_cards_seat34");
+                let move_cm = playerSeat.getChildByName("create_cm_seat").getChildByName("move_cm");
+                let show_poker_box = playerSeat.getChildByName("create_cm_seat").getChildByName("move_cm");
+                let sub_poker_box = playerSeat.getChildByName("sub_poker_box");
+                let score = playerSeat.getChildByName("score");
+                let banker = playerSeat.getChildByName("banker");
+                let name = playerSeat.getChildByName("name");
+                let countDownBox = playerSeat.getChildByName("countDownBox");
+                let show_me_poker_box = playerSeat.getChildByName("show_me_poker_box");
+                let show_me_sub_poker = playerSeat.getChildByName("show_me_poker_box");
+                let xiuPokerBox = playerSeat.getChildByName("xiuPokerBox");
+                let gifBox = playerSeat.getChildByName("gifBox");
+                let winScore = playerSeat.getChildByName("winScore");
+                let tipsBox = playerSeat.getChildByName("tipsBox");
+                headBox.visible = false;
+                xiaZhuScore.visible = false;
+                move_cm.visible = false;
+                deal_cards_seat._children.forEach(item => {
+                    item.visible = false;
+                });
+                deal_cards_seat34._children.forEach(item => {
+                    item.visible = false;
+                });
+                show_me_poker_box._children.forEach(item => {
+                    item.visible = false;
+                });
+                headImg.skin = '';
+                tipsBox.loadImage('');
+                sub_poker_box.visible = false;
+                score.visible = false;
+                banker.visible = false;
+                countDownBox.visible = false;
+                xiuPokerBox.visible = false;
+                gifBox.visible = false;
+                winScore.visible = false;
+                name.text = '';
+            });
+
+        }
+
+
+    }
+    var RecSoketReloadData$1 = new RecSoketReloadData();
+
+    /**
      * 游戏控制脚本
      *  */
+    let clickIndex = 0;
     class GameControl extends Laya.Script {
         constructor() {
             super();
@@ -1665,14 +1790,16 @@
             // 筹码移动速度
             this._speed = {
                 changeSeatSpeed: 180,
-                moveCM: 300,
+                moveCM: 260,
                 delayCard: 100,
                 moveCard: 200,
                 fanCard: 100,
                 xiuFan: 200,
                 diu: 500,
                 diuRotation: 300,
-                handle: 120
+                handle: 120,
+                winCMDelay: 200,
+                winShowDelay: 500
             };
 
             this.delayType = {
@@ -1797,55 +1924,54 @@
                 }
             }
         }
+
+
+
         /**
          * soket打开
          */
         onConnect() {
             let that = this;
             this.netClient.open();
-            this.onSend({
-                name: 'M.User.C2G_Connect',
-                data: {
-                    uid: that.userId,
-                    key: that.key,
-                    devid: "ime231231231234",
-                    ip: "60.255.161.15"
-                },
-                success(resMsg) {
-                    Main$1.$LOG('初始化---[Rpc回调]:', resMsg);
-                    if (resMsg._t == "G2C_Connect") {
-                        if (resMsg.ret.type == 0)
-                            this.onSend({
-                                name: 'M.Room.C2R_IntoRoom',
-                                data: {
-                                    roomPws: that.roomPwd
-                                },
-                                success(res) {
-                                    that.dealSoketMessage('初始化---C2R_IntoRoom进入房间', res);
-                                }
-                            });
+            this.netClient.onConnectSucc = function () {
+                Main$1.$LOG('连接成功');
+                that.onSend({
+                    name: 'M.User.C2G_Connect',
+                    data: {
+                        uid: that.userId,
+                        key: that.key,
+                        devid: "ime231231231234",
+                        ip: "60.255.161.15"
+                    },
+                    success(resMsg) {
+                        Main$1.$LOG('初始化---[Rpc回调]:', resMsg);
+                        if (resMsg._t == "G2C_Connect") {
+                            if (resMsg.ret.type == 0) {
+                                RecSoketReloadData$1.reload(this);
+                                Main$1.showLoading(false);
+                                this.onSend({
+                                    name: 'M.Room.C2R_IntoRoom',
+                                    data: {
+                                        roomPws: that.roomPwd
+                                    },
+                                    success(res) {
+                                        that.dealSoketMessage('初始化---C2R_IntoRoom进入房间', res);
+                                    }
+                                });
+                            }
+                        }
                     }
-                }
-            });
-            /* 接受消息 */
-            this.netClient.onMessage = function (name, resMsg) {
-                that.dealSoketMessage('onMessage公共消息：', resMsg); //进入处理函数
-            };
+                });
+                /* 接受消息 */
+                that.netClient.onMessage = function (name, resMsg) {
+                    that.dealSoketMessage('onMessage公共消息：', resMsg); //进入处理函数
+                };
 
-            // //socket开始连接事件
-            // this.onStartConnect=function(){console.log("开始连接");}
-            // //socket结束连接事件（不管成功还是失败都会进入)
-            // this.onEndConnect=function(ret){console.log("结束连接 ",ret);}
-
-            this.netClient.onStartConnect = function (res) {
-                Main$1.$LOG('soket重新连接开始');
-                that.owner.ceShiText.text = 'soket重新连接开始';
-                Main$1.showLoading(true, '连接中');
-            };
-            this.netClient.onEndConnect = function (res) {
-                Main$1.$LOG('soket重新连接结束', this);
-                that.owner.ceShiText.text = 'soket重新连接结束';
-                Main$1.showLoading(false);
+                that.netClient.onStartConnect = function (res) {
+                    Main$1.$LOG('soket重新连接开始');
+                    that.owner.ceShiText.text = 'soket重新连接开始';
+                    Main$1.showLoading(true, '连接中');
+                };
             };
         }
         /**
@@ -2031,7 +2157,7 @@
          * 未按流程登陆或重复登录就返回登录页面
          */
         errOpenLoginView(data) {
-            Main$1.showDialog(data.Message, 1, null, () => {
+            Main$1.showDialog('登录失效，请重新登录', 1, null, () => {
                 Laya.Scene.open('login.scene', true, Main$1.sign.signOut, Laya.Handler.create(this, () => {
                     this.destroy();
                 }));
@@ -2066,6 +2192,7 @@
          * @param {} roomSeatArr 需要更新的数据
          */
         updateRoomData(data, allData) {
+            console.log('更新座位上的数据=========================0000:', this._plyerIndexArray);
             this._totalMango = data.mang;//芒果底池总分
             this._totalPi = data.dichi;//皮底池总分
             if (data.mang) {
@@ -2078,8 +2205,9 @@
             this._dealNumber = 0;
             let meArr = data.roomSeat.filter(item => item._id == this.userId);
             if (meArr.length > 0) {
+                console.log('更新座位上的数据=========================0:', this._plyerIndexArray);
                 this.newIndexConcatArr = this._plyerIndexArray.splice(meArr[0].seat_idx, this._plyerIndexArray.length).concat(this._plyerIndexArray.splice(0, meArr[0].seat_idx + 1));
-
+                console.log('更新座位上的数据=========================1:', this.newIndexConcatArr);
                 this._playerArray.forEach((item, index) => {
                     item.owner.seatId = this.newIndexConcatArr[index];
                 });
@@ -2098,7 +2226,6 @@
                 this._playerArray.forEach((item_player, item_index) => {
                     if (item_seatData.userId == item_player.owner.userId) {
                         if (item_seatData.xiazhu > 0) {
-
                             item_player.showOrHidePlayerXiaZhuView(true);
                             item_player.changePlayerScore(item_seatData.score, this._changeScoreType.seat);
                             item_player.changePlayerScore(item_seatData.xiazhu, this._changeScoreType.xiaZhu);
@@ -2170,6 +2297,15 @@
          * ========================测试==============
          *  */
         ceShi() {
+            // this.owner.mang_cm_pool.visible=true;
+            // console.log(this.owner.mang_cm_pool)
+            // let ME=this._playerArray[0].owner.getChildByName("create_cm_seat").getChildByName('move_cm');
+            // let XY=ME.globalToLocal(new Laya.Point(this.owner.mang_cm_pool.x,this.owner.mang_cm_pool.y))
+            // Laya.Tween.to(ME,{x:XY.x+50,y:XY.y},1000)
+            // console.log(XY.x,XY.y)
+            // this.startAssignPoker()
+            // return
+            clickIndex++;
             // if(clickIndex==1){
             //     this._playerArray.forEach(item=>{
             //         item.showPlayerXiuView(true,[1,10]);
@@ -2196,20 +2332,38 @@
             // if (clickIndex == 1) {
             //     this.assignPokerCountDown(true, { startTime: (new Date().getTime() / 1000), endTime: (new Date().getTime() / 1000) + 20 });
             // }
-            let data = {
-                delayedNum: 0,
-                delayedNumMax: 4,
-                delayedScore: 10,
-                endTime: 1574818785,
-                maxXiazu: 5,
-                opts: [3, 4, 1],
-                ret: { type: 0, msg: "成功" },
-                score: 235,
-                startTime: 1574818768,
-                uid: 1021354,
-                xiazu: 5
-            };
-            this.setMeHandleBtnZT(true, data);
+            if (clickIndex == 1) {
+                let data = {
+                    delayedNum: 0,
+                    delayedNumMax: 4,
+                    delayedScore: 10,
+                    endTime: 1574818785,
+                    maxXiazu: 5,
+                    opts: [3, 4, 1],
+                    ret: { type: 0, msg: "成功" },
+                    score: 235,
+                    startTime: 1574818768,
+                    uid: 1021354,
+                    xiazu: 5
+                };
+                this.setMeHandleBtnZT(true, data);
+            } else {
+                let data = {
+                    delayedNum: 0,
+                    delayedNumMax: 4,
+                    delayedScore: 10,
+                    endTime: 1574818785,
+                    maxXiazu: 5,
+                    opts: [3, 4, 5],
+                    ret: { type: 0, msg: "成功" },
+                    score: 235,
+                    startTime: 1574818768,
+                    uid: 1021354,
+                    xiazu: 5
+                };
+                this.setMeHandleBtnZT(true, data);
+            }
+
         }
 
         /**
@@ -2573,7 +2727,7 @@
          * @param data 请求的参数
          */
         setMeHandleBtnZT(isShow = true, data) {
-            console.log('进来操作状态');
+            Main$1.$LOG('进来操作状态======:', data);
             this.owner.handleBtnBox.visible = isShow;
             if (isShow) {
                 PlayerDelayTime$1.init(this.delayType.action, this, data);
@@ -2592,7 +2746,8 @@
                 {//右边--2跟,4休
                     let dataOption = data.opts.filter(item => item == 2 || item == 4);
                     if (dataOption.length == 1) {
-                        rightBtn.getChildByName('gen_btn').getChildByName('value').text = '';
+                        let genScoreText = rightBtn.getChildByName('gen_btn').getChildByName('value');
+                        genScoreText.text = '';
                         rightBtn._children.forEach(item_btn => {
                             item_btn.visible = false;
                         });
@@ -2610,7 +2765,7 @@
                         }
                         rightBtn.on(Laya.Event.CLICK, this, this.onClickRightBtn, [dataOption[0], genScore]);
                         if (dataOption[0] == 2) {
-                            rightBtn.getChildByName('gen_btn').getChildByName('value').text = data.maxXiazu - data.xiazu;
+                            genScoreText.text = data.score <= genScore ? data.score : data.maxXiazu - data.xiazu;
                         }
                     }
                 }
@@ -2634,11 +2789,12 @@
                             if (dataOption[0] == 5) {
                                 topBtn.getChildByName('qiao_btn').getChildByName('value').text = qiaoScore;
                             }
+                            topBtn.on(Laya.Event.CLICK, this, this.onClickTopBtn, [dataOption[0], qiaoScore]);
                             if (dataOption[0] == 1) {
                                 topBtn.on(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn, [dataOption[0], data]);
+                            } else {
+                                topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                             }
-                            topBtn.on(Laya.Event.CLICK, this, this.onClickTopBtn, [dataOption[0], qiaoScore]);
-
                         }
                     }
                 }
@@ -3187,7 +3343,8 @@
          */
         playerWinUp(data) {
             this._winUpINDEX = 0;
-            let joinNum = data.players.filter(item => item.losewin >= 0);
+            this.allowWinShou = true;
+            // let joinNum = data.players.filter(item => item.losewin >= 0);
             this.reloadPlayerMoreZT();
             data.players.forEach((item_data, item_index) => {
                 this._playerArray.forEach(item_player => {
@@ -3208,8 +3365,8 @@
                         setTimeout(() => {
                             item_player.showActionTip(false, null);
                             item_player.showOrHidePlayerXiaZhuView(false);
-                            item_player.showMoveCM(this, 2, true, this._moveCMSeat.show, this._moveCMSeat.pi, this._music.moveMangOrPi, joinNum.length, this.gameEndMoveCMEnd, [data.players]);
-                        }, 400);
+                            item_player.showMoveCM(this, 2, true, this._moveCMSeat.show, this._moveCMSeat.pi, this._music.moveMangOrPi, 1, this.gameEndMoveCMEnd, [data.players]);
+                        }, this._speed.winShowDelay);
                     }
                 });
             });
@@ -3217,34 +3374,37 @@
         }
 
         gameEndMoveCMEnd(data) {
-            Main$1.$LOG('移动结束', data);
-            this._winUpINDEX = 0;
-            let playerLoselg0 = data[0].filter(item => item.losewin >= 0);
-            setTimeout(() => {
-                data[0].forEach(item_data => {
-                    this._playerArray.forEach(item_player => {
-                        if (item_data._id == item_player.owner.userId) {
-                            this.showDiChiPi(false);
-                            if (item_data.losewin >= 0) {
-                                item_player.showMoveCM(this, 2, true, this._moveCMSeat.pi, this._moveCMSeat.one, this._music.moveMangOrPi, playerLoselg0.length, getMonenyEnd);
-                                function getMonenyEnd() {
-                                    Main$1.$LOG('玩家受到金币：', item_data.score);
-                                    // item_player.changePlayerScore(item_data.score, this._changeScoreType.seat);
-                                    this.updatePlayerMoreData(data[0]);
+            if (this.allowWinShou) {
+                Main$1.$LOG('移动结束', data);
+                this._winUpINDEX = 0;
+                let playerLoselg0 = data[0].filter(item => item.losewin >= 0);
+                this.allowWinShou = false;
+                setTimeout(() => {
+                    data[0].forEach(item_data => {
+                        this._playerArray.forEach(item_player => {
+                            if (item_data._id == item_player.owner.userId) {
+                                this.showDiChiPi(false);
+                                if (item_data.losewin >= 0) {
+                                    item_player.showMoveCM(this, 2, true, this._moveCMSeat.pi, this._moveCMSeat.one, this._music.moveMangOrPi, playerLoselg0.length, getMonenyEnd);
+                                    function getMonenyEnd() {
+                                        Main$1.$LOG('玩家受到金币：', item_data.score);
+                                        // item_player.changePlayerScore(item_data.score, this._changeScoreType.seat);
+                                        this.updatePlayerMoreData(data[0]);
+                                    }
+                                }
+                                if (item_data.mang > 0) {
+                                    let lastMang = this._totalMango - item_data.mang;
+                                    if (lastMang <= 0) {
+                                        this.showDiChiMang(false);
+                                    }
+                                    Main$1.$LOG('进来芒:', lastMang);
+                                    this.bindDiChiMangVal(lastMang);
                                 }
                             }
-                            if (item_data.mang > 0) {
-                                let lastMang = this._totalMango - item_data.mang;
-                                if (lastMang <= 0) {
-                                    this.showDiChiMang(false);
-                                }
-                                Main$1.$LOG('进来芒:', lastMang);
-                                this.bindDiChiMangVal(lastMang);
-                            }
-                        }
+                        });
                     });
-                });
-            }, 1000);
+                }, this._speed.winCMDelay);
+            }
         }
 
         /**
@@ -4173,7 +4333,8 @@
             let headImg = headBox.getChildByName("headImgBox");
             let name = this.owner.getChildByName("name");
             headBox.visible = true;
-            Main$1.$LoadImage(headImg, data.head, Main$1.defaultImg.one, 'skin');
+            // Main.$LoadImage(headImg, data.head, Main.defaultImg.one, 'skin');
+            Main$1.$LoadImage(headImg, Main$1.defaultImg.one, Main$1.defaultImg.one, 'skin');
             this.owner.userId = data.userId;
             if (data.userId == GameControl.instance.userId) {
                 name.text = '';
@@ -5242,13 +5403,15 @@
         constructor(){
             super();
         }
-        onAwake(){
-          
-        }
         onOpened(options){
             Main$1.$LOG('房间结束界面所收到的值:',options);
             this._openedData=options;
             this.visible=options.show?options.show:false;
+            this.setUI();
+        }
+        setUI() {
+            let nodeArr=[this.e_bg2];
+            Main$1.setNodeTop(nodeArr);
         }
     }
 
@@ -5280,15 +5443,16 @@
          * @param {*} data 数据
          */
         setPageData(data){
-            this.owner.end_userName.text=data.nick+'的牌局'+'['+data.userId+']';
-            this.owner.end_timeValue.text = Main$1.secondToDate(data.roomTime);//this.owner.end_headImg.
-            Main$1.$LoadImage(this.owner.end_headImg,data.head);
-            this.owner.end_headName.text=data.nick;
-            this.owner.end_headID.text=data.userId;
-            this.owner.end_score.text=data.self_sf;
-            this.owner.end_value1.text=data.self_shoushu;
-            this.owner.end_value2.text=data.all_shoushu;
-            this.owner.end_value3.text=data.all_dairu;
+            this.owner.e_name.text=data.nick;
+            this.owner.e_userId.text='['+data.userId+']';
+            this.owner.e_timeLong.text = Main$1.secondToDate(data.roomTime);
+            Main$1.$LoadImage(this.owner.e_head,data.head);
+            this.owner.e_ct2_name.text=data.nick;
+            this.owner.e_ct2_ID.text=data.userId;
+            this.owner.e_score.text=data.self_sf;
+            this.owner.e_ct3_tb1.text=data.self_shoushu;
+            this.owner.e_ct3_tb2.text=data.all_shoushu;
+            this.owner.e_ct3_tb3.text=data.all_dairu;
         }
 
         setPageListData(data){
@@ -5350,8 +5514,7 @@
             this.setUI();
         }
         setUI() {
-            console.log(this.p_listBox.top);
-            let nodeArr=[this.p_hd,this.p_listBox];
+            let nodeArr=[this.list_bg];
             Main$1.setNodeTop(nodeArr);
         }
     }
@@ -5513,6 +5676,7 @@
                     sanhuaBox.visible = false;
                     let pokerName = 'poker' + (index + 1);
                     let poker = leftPoker.getChildByName(pokerName);
+                    let poker12 = leftPoker.getChildByName('poker' + (index + 1));
                     let poker34 = rightPoker.getChildByName('poker' + (index + 3));
                     let showPokerSign = poker.getChildByName("showPokerSign");
                     poker.loadImage('res/img/poker/' + item.poker + '.png');
@@ -5520,8 +5684,10 @@
                     showPokerSign.visible = item.isShow;
                     left_pointText.text = '';
                     right_pointText.text = '';
-                    let diPaiSign = poker34.getChildByName("sign");
-                    diPaiSign.visible = false;
+                    let diPaiSign1 = poker12.getChildByName("sign");
+                    let diPaiSign2 = poker34.getChildByName("sign");
+                    diPaiSign1.visible = false;
+                    diPaiSign2.visible = false;
                 } else {
                     nosanhuaBox.visible = !isSanHua ? true : false;
                     sanhuaBox.visible = isSanHua ? true : false;
@@ -6080,15 +6246,6 @@
                 page1: 'systemNotice',
                 page2: 'myNews'
             };
-
-
-            // this._navType={//游戏大厅页面类型  全部， 小 ，中， 大
-            //     all:1,
-            //     small:2,
-            //     center:3,
-            //     big:4
-            // }
-            // this._selectNavType=1;//选中的类型
         }
 
         onEnable() {
@@ -6098,7 +6255,7 @@
         openThisPage() {
             if (this.owner.visible) {
                 this.UI = this.owner.scene;
-                this.openSelectView(this._page.page1);
+                this.openSelectView(this._page.page2);
                 this.registerEvent();
                 this.openSystemList();
             }

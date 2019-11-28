@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":1933,
+    "selecteID":3,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":1934,
+    "maxID":1941,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -82,6 +82,7 @@
             "compId":3,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-1",
                     "props":{"zOrder":1,"x":621,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-1","height":167,"bottom":342},
@@ -123,41 +124,16 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
-                                    "props":{"y":-1,"x":5,"width":166,"visible":true,"name":"headImgBox","height":166},
+                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
                                     "nodeParent":158,
                                     "label":"headImgBox",
-                                    "isOpen":false,
-                                    "isDirectory":true,
+                                    "isOpen":true,
+                                    "isDirectory":false,
                                     "isAniNode":true,
-                                    "hasChild":true,
+                                    "hasChild":false,
                                     "compId":1100,
                                     "child":[
-                                        {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
-                                            "nodeParent":1100,
-                                            "label":"Sprite",
-                                            "isOpen":true,
-                                            "isDirectory":true,
-                                            "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":1105,
-                                            "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
-                                                    "nodeParent":1105,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1106,
-                                                    "child":[
-                                                        ]
-                                                }]
-                                        }],
+                                        ],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
@@ -1022,6 +998,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"bottom":660},
@@ -1063,41 +1040,17 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
-                                    "props":{"y":-1,"x":5,"width":166,"name":"headImgBox","height":166},
+                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
                                     "nodeParent":1109,
                                     "label":"headImgBox",
                                     "isOpen":true,
-                                    "isDirectory":true,
+                                    "isDirectory":false,
                                     "isAniNode":true,
-                                    "hasChild":true,
-                                    "compId":1116,
+                                    "hasChild":false,
+                                    "compId":1934,
                                     "child":[
-                                        {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
-                                            "nodeParent":1116,
-                                            "label":"Sprite",
-                                            "isOpen":true,
-                                            "isDirectory":true,
-                                            "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":1117,
-                                            "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
-                                                    "nodeParent":1117,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1118,
-                                                    "child":[
-                                                        ]
-                                                }]
-                                        }]
+                                        ],
+                                    "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
                         },
@@ -1945,6 +1898,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-3",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-3","left":45,"height":167,"centerY":-95},
@@ -1986,41 +1940,17 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
-                                    "props":{"y":-1,"x":5,"width":166,"name":"headImgBox","height":166},
+                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
                                     "nodeParent":1121,
                                     "label":"headImgBox",
                                     "isOpen":true,
-                                    "isDirectory":true,
+                                    "isDirectory":false,
                                     "isAniNode":true,
-                                    "hasChild":true,
-                                    "compId":1129,
+                                    "hasChild":false,
+                                    "compId":1935,
                                     "child":[
-                                        {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
-                                            "nodeParent":1129,
-                                            "label":"Sprite",
-                                            "isOpen":true,
-                                            "isDirectory":true,
-                                            "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":1130,
-                                            "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
-                                                    "nodeParent":1130,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1131,
-                                                    "child":[
-                                                        ]
-                                                }]
-                                        }]
+                                        ],
+                                    "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
                         },
@@ -2863,6 +2793,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
                     "props":{"zOrder":1,"width":167,"top":470,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167},
@@ -2880,7 +2811,7 @@
                             "props":{"y":0,"x":-5,"width":176,"visible":false,"name":"head-box","height":164},
                             "nodeParent":27,
                             "label":"head-box",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -2904,41 +2835,17 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
-                                    "props":{"y":-1,"x":5,"width":166,"name":"headImgBox","height":166},
+                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
                                     "nodeParent":1133,
                                     "label":"headImgBox",
                                     "isOpen":true,
-                                    "isDirectory":true,
+                                    "isDirectory":false,
                                     "isAniNode":true,
-                                    "hasChild":true,
-                                    "compId":1141,
+                                    "hasChild":false,
+                                    "compId":1936,
                                     "child":[
-                                        {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
-                                            "nodeParent":1141,
-                                            "label":"Sprite",
-                                            "isOpen":true,
-                                            "isDirectory":true,
-                                            "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":1142,
-                                            "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
-                                                    "nodeParent":1142,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1143,
-                                                    "child":[
-                                                        ]
-                                                }]
-                                        }]
+                                        ],
+                                    "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
                         },
@@ -3781,6 +3688,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-5",
                     "props":{"zOrder":1,"x":621,"width":167,"top":130,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-5","height":167},
@@ -3822,41 +3730,17 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
-                                    "props":{"y":-1,"x":5,"width":166,"name":"headImgBox","height":166},
+                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
                                     "nodeParent":1145,
                                     "label":"headImgBox",
                                     "isOpen":true,
-                                    "isDirectory":true,
+                                    "isDirectory":false,
                                     "isAniNode":true,
-                                    "hasChild":true,
-                                    "compId":1153,
+                                    "hasChild":false,
+                                    "compId":1937,
                                     "child":[
-                                        {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
-                                            "nodeParent":1153,
-                                            "label":"Sprite",
-                                            "isOpen":true,
-                                            "isDirectory":true,
-                                            "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":1154,
-                                            "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
-                                                    "nodeParent":1154,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1155,
-                                                    "child":[
-                                                        ]
-                                                }]
-                                        }]
+                                        ],
+                                    "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
                         },
@@ -4699,6 +4583,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
                     "props":{"zOrder":1,"width":167,"top":470,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167},
@@ -4740,41 +4625,17 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
-                                    "props":{"y":-1,"x":5,"width":166,"name":"headImgBox","height":166},
+                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
                                     "nodeParent":1157,
                                     "label":"headImgBox",
                                     "isOpen":true,
-                                    "isDirectory":true,
+                                    "isDirectory":false,
                                     "isAniNode":true,
-                                    "hasChild":true,
-                                    "compId":1165,
+                                    "hasChild":false,
+                                    "compId":1938,
                                     "child":[
-                                        {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
-                                            "nodeParent":1165,
-                                            "label":"Sprite",
-                                            "isOpen":true,
-                                            "isDirectory":true,
-                                            "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":1166,
-                                            "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
-                                                    "nodeParent":1166,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1167,
-                                                    "child":[
-                                                        ]
-                                                }]
-                                        }]
+                                        ],
+                                    "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
                         },
@@ -5617,6 +5478,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-7",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-7","height":167,"centerY":-95},
@@ -5658,41 +5520,17 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
-                                    "props":{"y":-1,"x":5,"width":166,"name":"headImgBox","height":166},
+                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
                                     "nodeParent":1169,
                                     "label":"headImgBox",
                                     "isOpen":true,
-                                    "isDirectory":true,
+                                    "isDirectory":false,
                                     "isAniNode":true,
-                                    "hasChild":true,
-                                    "compId":1177,
+                                    "hasChild":false,
+                                    "compId":1939,
                                     "child":[
-                                        {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
-                                            "nodeParent":1177,
-                                            "label":"Sprite",
-                                            "isOpen":true,
-                                            "isDirectory":true,
-                                            "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":1178,
-                                            "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
-                                                    "nodeParent":1178,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1179,
-                                                    "child":[
-                                                        ]
-                                                }]
-                                        }]
+                                        ],
+                                    "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
                         },
@@ -6535,6 +6373,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"bottom":660},
@@ -6576,41 +6415,17 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,headImgBox",
-                                    "props":{"y":-1,"x":5,"width":166,"name":"headImgBox","height":166},
+                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
                                     "nodeParent":1181,
                                     "label":"headImgBox",
                                     "isOpen":true,
-                                    "isDirectory":true,
+                                    "isDirectory":false,
                                     "isAniNode":true,
-                                    "hasChild":true,
-                                    "compId":1189,
+                                    "hasChild":false,
+                                    "compId":1940,
                                     "child":[
-                                        {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"y":0,"x":0,"width":166,"renderType":"mask","height":166},
-                                            "nodeParent":1189,
-                                            "label":"Sprite",
-                                            "isOpen":true,
-                                            "isDirectory":true,
-                                            "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":1190,
-                                            "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":83,"x":83,"radius":73,"lineWidth":0,"fillColor":"#ff0000"},
-                                                    "nodeParent":1190,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1191,
-                                                    "child":[
-                                                        ]
-                                                }]
-                                        }]
+                                        ],
+                                    "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
                         },
@@ -7453,6 +7268,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,paijurule",
                     "props":{"x":421,"width":400,"name":"paijurule","height":180,"centerY":80,"centerX":0,"alpha":0.6},
@@ -9732,23 +9548,6 @@
         },
         {
             "x":15,
-            "type":"Script",
-            "switchAble":true,
-            "source":"src/game/GameCenter/GameControl.js",
-            "searchKey":"Script,GameControl",
-            "removeAble":true,
-            "props":{},
-            "nodeParent":2,
-            "label":"GameControl",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":1598,
-            "child":[
-                ]
-        },
-        {
-            "x":15,
             "type":"Label",
             "searchKey":"Label,ceShiText,ceShiText",
             "props":{"visible":false,"var":"ceShiText","valign":"middle","top":0,"right":0,"name":"ceShiText","left":0,"height":50,"fontSize":50,"color":"#FF0000","align":"center"},
@@ -9758,6 +9557,23 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":1933,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Script",
+            "switchAble":true,
+            "source":"src/game/GameCenter/GameControl.js",
+            "searchKey":"Script,GameControl",
+            "removeAble":true,
+            "props":{"y":0,"x":0},
+            "nodeParent":2,
+            "label":"GameControl",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":1598,
             "child":[
                 ]
         }],

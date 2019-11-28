@@ -1,4 +1,5 @@
 import Main from '../../common/Main';
+import HTTP from '../../common/HttpRequest'
 export default class Notice extends Laya.Script {
     constructor() {
         super();
@@ -15,15 +16,6 @@ export default class Notice extends Laya.Script {
             page1: 'systemNotice',
             page2: 'myNews'
         }
-
-
-        // this._navType={//游戏大厅页面类型  全部， 小 ，中， 大
-        //     all:1,
-        //     small:2,
-        //     center:3,
-        //     big:4
-        // }
-        // this._selectNavType=1;//选中的类型
     }
 
     onEnable() {
@@ -33,7 +25,7 @@ export default class Notice extends Laya.Script {
     openThisPage() {
         if (this.owner.visible) {
             this.UI = this.owner.scene;
-            this.openSelectView(this._page.page1);
+            this.openSelectView(this._page.page2);
             this.registerEvent();
             this.openSystemList();
         }
