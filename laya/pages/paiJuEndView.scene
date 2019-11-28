@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":60,
+    "selecteID":98,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/roomEnd/roomEndUI.js","height":2208},
     "nodeParent":-1,
@@ -70,13 +70,14 @@
             "props":{"var":"e_bg2","top":45,"skin":"images/End/e_bg.png","right":50,"name":"e_bg2","left":50,"bottom":45},
             "nodeParent":2,
             "label":"e_bg2",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":60,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,e_title",
                     "props":{"top":-13,"skin":"images/End/e_title.png","name":"e_title","centerX":0},
@@ -90,6 +91,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,e_close,end_close",
                     "props":{"var":"end_close","top":30,"skin":"images/End/e_close.png","right":35,"name":"e_close"},
@@ -103,6 +105,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,e_share,end_share",
                     "props":{"y":0,"var":"end_share","top":30,"skin":"images/End/e_share.png","name":"e_share","left":35},
@@ -116,6 +119,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,e_content1",
                     "props":{"top":230,"right":100,"name":"e_content1","left":100,"height":50},
@@ -195,6 +199,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,e_content2",
                     "props":{"top":320,"right":110,"name":"e_content2","left":110,"height":195},
@@ -207,6 +212,7 @@
                     "compId":86,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,e_personNews",
                             "props":{"width":690,"top":0,"skin":"images/End/e_kuang.png","name":"e_personNews","left":0,"height":195,"bottom":0},
@@ -219,18 +225,20 @@
                             "compId":92,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,e_head_bg",
                                     "props":{"x":22,"skin":"images/End/e_head.png","name":"e_head_bg","centerY":0},
                                     "nodeParent":92,
                                     "label":"e_head_bg",
-                                    "isOpen":false,
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
                                     "compId":95,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Sprite",
                                             "searchKey":"Sprite,e_head,e_head",
                                             "props":{"y":0,"x":0,"width":154,"var":"e_head","name":"e_head","height":154},
@@ -243,35 +251,25 @@
                                             "compId":96,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Sprite",
                                                     "searchKey":"Sprite",
                                                     "props":{"y":0,"x":1,"width":154,"renderType":"mask","height":154},
                                                     "nodeParent":96,
                                                     "label":"Sprite",
                                                     "isOpen":true,
-                                                    "isDirectory":true,
+                                                    "isDirectory":false,
                                                     "isAniNode":true,
-                                                    "hasChild":true,
+                                                    "hasChild":false,
                                                     "compId":97,
                                                     "child":[
-                                                        {
-                                                            "type":"Circle",
-                                                            "searchKey":"Circle",
-                                                            "props":{"y":78,"x":76,"radius":74,"lineWidth":1,"fillColor":"#ff0000"},
-                                                            "nodeParent":97,
-                                                            "label":"Circle",
-                                                            "isDirectory":false,
-                                                            "isAniNode":true,
-                                                            "hasChild":false,
-                                                            "compId":98,
-                                                            "child":[
-                                                                ]
-                                                        }],
+                                                        ],
                                                     "$HIDDEN":true
                                                 }]
                                         }]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,e_ct2_name,e_ct2_name",
                                     "props":{"x":230,"var":"e_ct2_name","top":30,"text":"×××","name":"e_ct2_name","fontSize":60,"color":"#FFFFFF"},
@@ -285,6 +283,7 @@
                                         ]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,e_ct2_ID,e_ct2_ID",
                                     "props":{"x":284,"var":"e_ct2_ID","text":"××××××","name":"e_ct2_ID","fontSize":35,"color":"#FFFFFF","bottom":33},
@@ -297,6 +296,7 @@
                                     "compId":100,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,ID",
                                             "props":{"skin":"images/End/e_ID.png","name":"ID","left":-50,"centerY":0},
@@ -312,6 +312,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,e_score",
                             "props":{"y":0,"width":195,"top":0,"skin":"images/End/e_kuang.png","right":0,"name":"e_score","height":195,"bottom":0},
@@ -324,6 +325,7 @@
                             "compId":93,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,e_score,e_score",
                                     "props":{"wordWrap":true,"width":189,"var":"e_score","text":"0","name":"e_score","fontSize":35,"color":"#FF0000","centerY":35,"centerX":0,"align":"center"},
@@ -336,6 +338,7 @@
                                     "compId":102,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,title",
                                             "props":{"skin":"images/End/e_score.png","name":"title","centerY":-60,"centerX":0},
@@ -352,6 +355,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,e_content3",
                     "props":{"top":559,"right":0,"name":"e_content3","left":0,"height":195},
@@ -417,6 +421,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,e_content4",
                     "props":{"top":856,"right":0,"name":"e_content4","left":0,"bottom":30},
@@ -429,6 +434,7 @@
                     "compId":120,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,e_ct4_thead",
                             "props":{"top":-102,"skin":"images/End/e_title2.png","right":0,"name":"e_ct4_thead","left":0},
@@ -442,6 +448,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"List",
                             "searchKey":"List,endList,end_list",
                             "props":{"x":0,"visible":false,"var":"end_list","top":0,"right":0,"name":"endList","left":0,"bottom":0},
@@ -454,12 +461,13 @@
                             "compId":125,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,tbodyBox",
                                     "props":{"right":0,"renderType":"render","name":"tbodyBox","left":0,"height":100},
                                     "nodeParent":125,
                                     "label":"tbodyBox",
-                                    "isOpen":true,
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":false,
                                     "hasChild":true,

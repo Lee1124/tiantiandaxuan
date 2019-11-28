@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":3,
+    "selectedBox":913,
+    "selecteID":1006,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
@@ -82,7 +82,6 @@
             "compId":3,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-1",
                     "props":{"zOrder":1,"x":621,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-1","height":167,"bottom":342},
@@ -998,7 +997,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"bottom":660},
@@ -1898,7 +1896,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-3",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-3","left":45,"height":167,"centerY":-95},
@@ -2793,7 +2790,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
                     "props":{"zOrder":1,"width":167,"top":470,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167},
@@ -3688,7 +3684,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-5",
                     "props":{"zOrder":1,"x":621,"width":167,"top":130,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-5","height":167},
@@ -4583,7 +4578,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
                     "props":{"zOrder":1,"width":167,"top":470,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167},
@@ -5478,7 +5472,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-7",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-7","height":167,"centerY":-95},
@@ -6373,7 +6366,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"bottom":660},
@@ -7268,7 +7260,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,paijurule",
                     "props":{"x":421,"width":400,"name":"paijurule","height":180,"centerY":80,"centerX":0,"alpha":0.6},
@@ -8328,13 +8319,14 @@
             "props":{"zOrder":3,"y":-1,"x":0,"width":0,"visible":true,"name":"dialog_box","isModal":true,"height":0,"bgColor":"#a42624","alpha":1},
             "nodeParent":2,
             "label":"dialog_box",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":913,
             "child":[
                 {
+                    "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,_mask,_mask",
                     "props":{"y":0,"x":0,"width":1242,"visible":false,"var":"_mask","name":"_mask","height":2208,"bgColor":"#000000","alpha":0.5},
@@ -8364,6 +8356,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,menu,menu",
                     "props":{"y":-1239,"x":5,"visible":false,"var":"menu","skin":"images/menu/menu_bg.png","name":"menu"},
@@ -8376,6 +8369,7 @@
                     "compId":1006,
                     "child":[
                         {
+                            "x":45,
                             "type":"List",
                             "searchKey":"List,menuList",
                             "props":{"y":20,"width":600,"spaceY":0,"repeatY":7,"repeatX":1,"name":"menuList","height":1170,"centerX":-4},
@@ -8388,6 +8382,7 @@
                             "compId":1022,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,menuList_box",
                                     "props":{"y":0,"right":0,"renderType":"render","name":"menuList_box","left":0,"height":165},
@@ -8400,6 +8395,7 @@
                                     "compId":1021,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,menu_row_node",
                                             "props":{"top":0,"right":0,"name":"menu_row_node","left":0,"bottom":0},
@@ -8412,6 +8408,7 @@
                                             "compId":1622,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,line",
                                                     "props":{"y":162,"x":-15,"skin":"images/menu/menu_line.png","name":"line"},
@@ -8425,6 +8422,7 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,listContent",
                                                     "props":{"name":"listContent","centerY":0,"centerX":-10},
@@ -8443,6 +8441,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,paijuguize,paijuguize",
                     "props":{"y":0,"x":-971,"width":971,"visible":false,"var":"paijuguize","skin":"images/common/fightBg22.png","pivotY":0,"pivotX":0,"name":"paijuguize","height":2208},
@@ -8455,6 +8454,7 @@
                     "compId":1035,
                     "child":[
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/common/SetHeight.js",
@@ -8471,6 +8471,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":136,"x":65,"texture":"images/gameView/paixingtishi.png"},
@@ -8484,6 +8485,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,title",
                             "props":{"y":42,"x":358.5,"text":"牌局提示","name":"title","fontSize":50,"color":"#FFFFFF"},
@@ -8499,6 +8501,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,makeUp_bobo,makeUp_bobo",
                     "props":{"y":-400,"x":612,"visible":true,"var":"makeUp_bobo","skin":"images/dialog/bobo_bg.png","pivotY":500,"pivotX":525,"name":"makeUp_bobo"},
@@ -8511,6 +8514,7 @@
                     "compId":1640,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,close,bobo_close",
                             "props":{"y":60,"x":939,"var":"bobo_close","top":60,"skin":"images/dialog/bobo_close.png","right":60,"name":"close"},
@@ -8524,6 +8528,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,title",
                             "props":{"y":80,"x":393,"top":80,"skin":"images/dialog/bobo_title.png","name":"title","centerX":0},
@@ -8537,6 +8542,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,personNews",
                             "props":{"width":860,"top":560,"name":"personNews","height":65,"centerX":0},
@@ -8641,6 +8647,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,selectTitle",
                             "props":{"width":860,"top":250,"name":"selectTitle","height":65,"centerX":0},
@@ -8653,6 +8660,7 @@
                             "compId":1641,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,title1",
                                     "props":{"skin":"images/dialog/bobo_small.png","name":"title1","left":0,"centerY":0},
@@ -8666,6 +8674,7 @@
                                         ]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,title3",
                                     "props":{"skin":"images/dialog/bobo_big.png","right":0,"name":"title3","centerY":0},
@@ -8679,6 +8688,7 @@
                                         ]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,title2",
                                     "props":{"skin":"images/dialog/bobo_dairu.png","name":"title2","centerY":0,"centerX":-81},
@@ -8691,6 +8701,7 @@
                                     "compId":1644,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Text",
                                             "searchKey":"Text,bobo_daiRuScore,bobo_daiRuScore",
                                             "props":{"y":-7,"x":209,"width":192,"var":"bobo_daiRuScore","text":"0","name":"bobo_daiRuScore","height":60,"fontSize":60,"color":"#FF9E2D","bold":true},
@@ -8706,6 +8717,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,sliderView,sliderView",
                             "props":{"width":817,"var":"sliderView","name":"sliderView","height":100,"centerY":-30,"centerX":10},
@@ -8745,6 +8757,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,confirmDaiRuBtn",
                             "props":{"skin":"images/dialog/bobo_comfirm.png","name":"confirmDaiRuBtn","centerX":0,"bottom":60},
@@ -8760,6 +8773,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,gameSet_dialog,gameSet_dialog",
                     "props":{"y":-1186,"x":59,"visible":true,"var":"gameSet_dialog","skin":"images/GameSet/gameSet_bg.png","name":"gameSet_dialog"},
@@ -8772,6 +8786,7 @@
                     "compId":1676,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,close,gameSet_close",
                             "props":{"var":"gameSet_close","top":85,"skin":"images/dialog/bobo_close.png","right":85,"name":"close"},
@@ -8785,6 +8800,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,gameSet_title",
                             "props":{"x":0,"top":100,"skin":"images/GameSet/gameSet_title.png","name":"gameSet_title","centerX":0},
@@ -8798,6 +8814,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,gameSet_selectDesk",
                             "props":{"x":0,"width":800,"top":240,"name":"gameSet_selectDesk","height":450,"centerX":0},
@@ -8810,6 +8827,7 @@
                             "compId":1701,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,gameSet_title2",
                                     "props":{"y":0,"x":0,"skin":"images/GameSet/gameSet_deskselect.png","name":"gameSet_title2"},
@@ -8823,6 +8841,7 @@
                                         ]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,deskViewBox,gameSet_deskViewBox",
                                     "props":{"y":93,"width":800,"var":"gameSet_deskViewBox","name":"deskViewBox","height":353,"centerX":0},
@@ -8835,6 +8854,7 @@
                                     "compId":1729,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,desk_bg1",
                                             "props":{"y":-22.5,"skin":"images/GameSet/desk_bg.png","name":"desk_bg1","centerX":-150},
@@ -8847,6 +8867,7 @@
                                             "compId":1894,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,desk",
                                                     "props":{"y":23,"width":195,"skin":"images/GameSet/desk2.png","name":"desk","height":353,"centerY":0,"centerX":0},
@@ -8874,6 +8895,7 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,desk_bg2",
                                             "props":{"y":-22,"skin":"images/GameSet/desk_bg.png","name":"desk_bg2","centerX":150},
@@ -8886,6 +8908,7 @@
                                             "compId":1895,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,desk",
                                                     "props":{"y":22,"width":195,"skin":"images/GameSet/desk1.png","name":"desk","height":353,"centerY":0,"centerX":0},
@@ -8915,6 +8938,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,switch_bg",
                             "props":{"skin":"images/GameSet/switch_bg.png","name":"switch_bg","left":118,"bottom":285},
@@ -8927,6 +8951,7 @@
                             "compId":1896,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,game_music",
                                     "props":{"skin":"images/GameSet/gameSet_1.png","name":"game_music","centerY":0,"centerX":-75},
@@ -8980,6 +9005,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,switch_bg",
                             "props":{"y":0,"skin":"images/GameSet/switch_bg.png","right":118,"name":"switch_bg","bottom":285},
@@ -8992,6 +9018,7 @@
                             "compId":1897,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,game_chat",
                                     "props":{"skin":"images/GameSet/gameSet_label2.png","name":"game_chat","centerY":0,"centerX":-75},
@@ -9047,6 +9074,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,PlayerNews,PlayerNews_dialog",
                     "props":{"y":-920,"x":72,"var":"PlayerNews_dialog","skin":"images/PersonNews2/news_bg.png","name":"PlayerNews"},
@@ -9117,24 +9145,12 @@
                                             "nodeParent":1860,
                                             "label":"Sprite",
                                             "isOpen":true,
-                                            "isDirectory":true,
+                                            "isDirectory":false,
                                             "isAniNode":true,
-                                            "hasChild":true,
+                                            "hasChild":false,
                                             "compId":1861,
                                             "child":[
-                                                {
-                                                    "type":"Circle",
-                                                    "searchKey":"Circle",
-                                                    "props":{"y":138,"x":138,"radius":128,"lineWidth":1,"fillColor":"#ff0000"},
-                                                    "nodeParent":1861,
-                                                    "label":"Circle",
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":1862,
-                                                    "child":[
-                                                        ]
-                                                }]
+                                                ]
                                         }]
                                 }]
                         },
