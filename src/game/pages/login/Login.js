@@ -12,6 +12,7 @@ export default class login extends Laya.Script {
         /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
         let boolType = true;
         // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+        this.flag=true;
     }
 
     onEnable() {
@@ -89,57 +90,65 @@ export default class login extends Laya.Script {
 
     login() {
         // this.owner.ceshi.text='开始请求！';
-        Main.showLoading(true);
-        let user = this.textInput.value;
-        let pwd = this.passwordInput.value;
-        if (user == '') {
-            Main.showDialog('账号不能为空!', 1, [this.textInput, this.passwordInput]);
-            Main.showLoading(false);
-            return false;
-        } else if (pwd == '') {
-            Main.showDialog('密码不能为空!', 1, [this.textInput, this.passwordInput]);
-            Main.showLoading(false);
-            return false;
-        }
-        let jsonObj = {
-            pws: pwd
-        }
-        jsonObj = escape(JSON.stringify(jsonObj))
-        let data = {
-            acc: user,
-            ip: '192.168.0.112',
-            type: 'accpws',//accpws账号密码  phone手机 wechat微信 weibo微博
-            json: jsonObj,
-            devid: 1234
-        }
-        HTTP.$request({
-            that: this,
-            url: '/M.Acc/Login',
-            data: data,
-            success(res) {
-                // this.owner.ceshi.text='请求成功！';
-                //    console.log(res.data)
-                if (res.data.ret.type == 0) {
-                    let data = {
-                        user: user,
-                        pwd: pwd,
-                        userId: res.data.userId,
-                        key: res.data.key,
-                        inRoomPws: res.data.inRoomPws
-                    }
-                    this.changeMainUserInfo(data);
-                    this.dealWithLoginedView(data);
-                } else {
-                    Main.showLoading(false);
-                    Main.showDialog(res.data.ret.msg, 1, [this.textInput, this.passwordInput]);
-                }
-            },
-            fail() {
+        if(this.flag){
+            this.flag=false;
+            Main.showLoading(true);
+            let user = this.textInput.value;
+            let pwd = this.passwordInput.value;
+            if (user == '') {
+                this.flag=true;
+                Main.showDialog('账号不能为空!', 1, [this.textInput, this.passwordInput]);
                 Main.showLoading(false);
-                this.showHideNode(false);
-                Main.showDialog('网络异常!', 1, [this.textInput, this.passwordInput]);
+                return false;
+            } else if (pwd == '') {
+                this.flag=true;
+                Main.showDialog('密码不能为空!', 1, [this.textInput, this.passwordInput]);
+                Main.showLoading(false);
+                return false;
             }
-        })
+            let jsonObj = {
+                pws: pwd
+            }
+            jsonObj = escape(JSON.stringify(jsonObj))
+            let data = {
+                acc: user,
+                ip: '192.168.0.112',
+                type: 'accpws',//accpws账号密码  phone手机 wechat微信 weibo微博
+                json: jsonObj,
+                devid: 1234
+            }
+            HTTP.$request({
+                that: this,
+                url: '/M.Acc/Login',
+                data: data,
+                success(res) {
+                    
+                    // this.owner.ceshi.text='请求成功！';
+                    //    console.log(res.data)
+                    if (res.data.ret.type == 0) {
+                        let data = {
+                            user: user,
+                            pwd: pwd,
+                            userId: res.data.userId,
+                            key: res.data.key,
+                            inRoomPws: res.data.inRoomPws
+                        }
+                        this.changeMainUserInfo(data);
+                        this.dealWithLoginedView(data);
+                    } else {
+                        this.flag=true;
+                        Main.showLoading(false);
+                        Main.showDialog(res.data.ret.msg, 1, [this.textInput, this.passwordInput]);
+                    }
+                },
+                fail() {
+                    this.flag=true;
+                    Main.showLoading(false);
+                    this.showHideNode(false);
+                    Main.showDialog('网络异常!', 1, [this.textInput, this.passwordInput]);
+                }
+            })
+        }
     }
 
     /**
@@ -160,27 +169,15 @@ export default class login extends Laya.Script {
         Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
             Main.showLoading(false);
             this.showHideNode(false);
+            clearTimeout(this.loadTimeID);
+            this.flag=true;
+        }),Laya.Handler.create(this,()=>{
+            this.loadTimeID=setTimeout(()=>{
+                Main.showLoading(false);
+                Main.$LOG('加载超时！');
+                clearTimeout(this.loadTimeID);
+            },10000)
         }))
-
-        // if (data.inRoomPws > 0) {
-        //     let pageData = {
-        //         roomPws: data.inRoomPws,
-        //         page: Main.pages.page3
-        //     }
-        //     Main.$openScene('cheXuanGame_8.scene', true, pageData, () => {
-        //         Main.showLoading(false);
-        //         this.showHideNode(false);
-        //     })
-        // } else {
-        //     Laya.Scene.open('tabPage.scene', true, null, Laya.Handler.create(this, (res) => {
-        //         Main.showLoading(false);
-        //         // this.owner.removeSelf();
-        //         // this.owner.ceshi.text='打开结束！';
-        //         this.showHideNode(false);
-        //     }),Laya.Handler.create(this,()=>{
-        //         // this.owner.ceshi.text='正在打开！';
-        //     }))
-        // }
     }
 
     /**

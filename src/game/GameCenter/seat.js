@@ -306,6 +306,7 @@ export default class seat extends Laya.Script {
         } else if (GameControl.instance._changeScoreType.xiaZhu == type) {
             let xiaZhuScoreVal = this.owner.getChildByName("xiaZhuScore").getChildByName("scoreVal");
             xiaZhuScoreVal.text = data;
+            this.owner.curXiaZhuScore = xiaZhuScoreVal.text;
         }
     }
 
@@ -670,6 +671,8 @@ export default class seat extends Laya.Script {
         if (isShow) {
             tipsBox.loadImage('res/img/Action/Action' + actionType + '.png', Laya.Handler.create(this, this.loadTipEnd, [tipsBox]))
             this.owner.actionType = actionType;
+        }else{
+            this.owner.actionType = null;
         }
     }
 

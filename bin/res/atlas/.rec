@@ -294,7 +294,7 @@ P 10A09442 ic_zong_i6p_0.png
 P 16287B4F kaishianniuBg.png
 P 87022DBE liantianBg.png
 P 853AD599 paijuhuiguBg.png
-S 24A08723 paijutishi.png
+S D9601061 paijutishi.png
 R 59B3C07B paixingtishi.png
 P 46DF2384 progress1.png
 P F6F1C6E5 progress2.png
@@ -437,6 +437,7 @@ D images/paijuhuigu
 P 7DBBE5B2 allSS.png
 P 66832F8F nextBtn.png
 S CE0D4A37 p_bg.png
+P E5AF486B p_bg_1.png
 P 5A3AAE8E p_dian.png
 R AA7C0C88 p_hd.png
 P 53D647CB p_hd_title.png
@@ -453,13 +454,7 @@ P 12FE47CE p_zhuang.png
 P 2AD7A979 preBtn.png
 S D7104F4B right_bg.png
 P D53584E2 title.png
-P B0B1B7A5 圆.png
-P 3D73277F 庄.png
-P 16D6DDC7 开牌.png
-P 8719BC72 弃牌.png
-P 653447E7 横条.png
-R 9D6C3EDF 滑动条.png
-P 193A55E5 牌.png
+P 82AD6A80 背景2.png
 D images/PersonNews2
 P 265DB549 news_allwinrate.png
 R E36A2693 news_bg.png

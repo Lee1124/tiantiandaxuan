@@ -171,7 +171,6 @@ export default class GameHall extends Laya.Script {
   * 是否打开游戏界面
   */
     openGameView() {
-        console.log('进来打开游戏界面======')
         let data = this.UI.pageData;
         if (data.roomPws && data.roomPws > 0) {
             Main.showLoading(true);

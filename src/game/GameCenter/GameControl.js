@@ -250,12 +250,12 @@ export default class GameControl extends Laya.Script {
 
         this.netClient.onStartConnect = function (res) {
             Main.$LOG('soket重新连接开始')
-            that.owner.ceShiText.text='soket重新连接开始'
-            Main.showLoading(true,'连接中');
+            that.owner.ceShiText.text = 'soket重新连接开始'
+            Main.showLoading(true, '连接中');
         }
         this.netClient.onEndConnect = function (res) {
-            Main.$LOG('soket重新连接结束',this)
-            that.owner.ceShiText.text='soket重新连接结束';
+            Main.$LOG('soket重新连接结束', this)
+            that.owner.ceShiText.text = 'soket重新连接结束';
             Main.showLoading(false);
         }
     }
@@ -509,6 +509,7 @@ export default class GameControl extends Laya.Script {
             this._playerArray.forEach((item_player, item_index) => {
                 if (item_seatData.userId == item_player.owner.userId) {
                     if (item_seatData.xiazhu > 0) {
+
                         item_player.showOrHidePlayerXiaZhuView(true);
                         item_player.changePlayerScore(item_seatData.score, this._changeScoreType.seat);
                         item_player.changePlayerScore(item_seatData.xiazhu, this._changeScoreType.xiaZhu);
@@ -665,7 +666,7 @@ export default class GameControl extends Laya.Script {
     setMoreStartVal() {
         this._allowXiuPoker = true;
         this._allowStartAction = false;
-        this.prePlayerAciton = null;
+        this.autoHandleType = null;
         {
             this._allowAssignPoker = false;
         }
@@ -861,9 +862,9 @@ export default class GameControl extends Laya.Script {
     startAction() {
         if (this._allowStartAction) {
             if (this._startAction) {
-                if (this.prePlayerAciton != 3 && this.prePlayerAciton != 4) {
-                    this.autoHandleType = null;
-                }
+                // if (this.prePlayerAciton != 3 && this.prePlayerAciton != 4) {
+                //     this.autoHandleType = null;
+                // }
                 this._playerArray.forEach(item_player => {
                     if (this._startAction.uid != this.userId) {
                         this.setPlayerAutoHandleZT(true, item_player);
@@ -873,19 +874,41 @@ export default class GameControl extends Laya.Script {
                     if (item_player.owner.userId == this._startAction.uid) {
                         item_player.showActionTip(false);//隐藏提示
                         item_player.showPlayerCountDown(this._startAction, true);//开始倒计时
-                        if (item_player.owner.isMe) {
-                            if (this.autoHandleType == this.autoHandle.left && this.prePlayerAciton == 3) {
-                                this.onClickLeftBtn(this.prePlayerAciton);
-                            } else if (this.autoHandleType == this.autoHandle.left && this.prePlayerAciton == 4) {
-                                this.onClickRightBtn(this.prePlayerAciton, 0);
-                            } else if (this.autoHandleType == this.autoHandle.right && this.prePlayerAciton == 4) {
-                                this.onClickRightBtn(this.prePlayerAciton, 0);
-                            } else if (!this.autoHandleType) {
-                                this.setMeHandleBtnZT(true, this._startAction);
-                            }
-                        }
+                        console.log('自动操作状态======', this.autoHandleType)
+                        this.setMeCurHandleZT(this._startAction, item_player);
+                        // if (item_player.owner.isMe) {
+                        //     if (this.autoHandleType == this.autoHandle.left && this.prePlayerAciton == 3) {
+                        //         this.onClickLeftBtn(this.prePlayerAciton);
+                        //     } else if (this.autoHandleType == this.autoHandle.left && this.prePlayerAciton == 4) {
+                        //         this.onClickRightBtn(this.prePlayerAciton, 0);
+                        //     } else if (this.autoHandleType == this.autoHandle.right && this.prePlayerAciton == 4) {
+                        //         this.onClickRightBtn(this.prePlayerAciton, 0);
+                        //     } else if (!this.autoHandleType) {
+                        //         this.setMeHandleBtnZT(true, this._startAction);
+                        //     }
+                        // }
                     }
                 })
+            }
+        }
+    }
+
+    /**
+     * 设置自己当前操作状态
+     */
+    setMeCurHandleZT(data, item_player) {
+        if (item_player.owner.isMe) {
+            if (this.autoHandleType) {
+                let haveXiuArr = data.opts.filter(item => item == 4);
+                if ((haveXiuArr.length > 0 && this.autoHandleType == this.autoHandle.right) || haveXiuArr.length > 0 && this.autoHandleType == this.autoHandle.left) {
+                    this.onClickRightBtn(4, 0);
+                } else if (haveXiuArr.length == 0 && this.autoHandleType == this.autoHandle.right) {
+                    this.setMeHandleBtnZT(true, data);
+                } else if (haveXiuArr.length == 0 && this.autoHandleType == this.autoHandle.left) {
+                    this.onClickLeftBtn(3);
+                }
+            } else {
+                this.setMeHandleBtnZT(true, data);
             }
         }
     }
@@ -907,9 +930,11 @@ export default class GameControl extends Laya.Script {
      * @param item_player 玩家对象
      */
     setPlayerAutoHandleZT(isShow, item_player) {
-        // this.autoHandleType=null;
+        if (!isShow)
+            this.owner.autoHandleBtnBox.visible = isShow;
         if (item_player) {
-            if (item_player.owner.isMe && item_player.owner.actionType != 3 && item_player.owner.curXiaZhuScore > 0) {
+            Main.$LOG('设置玩家自动操作状态:', item_player.owner.isMe, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
+            if (item_player.owner.isMe && isShow && item_player.owner.actionType != 3 && parseInt(item_player.owner.curXiaZhuScore) > 0) {
                 this._autoBtnArr = [];
                 this.owner.autoHandleBtnBox.visible = isShow;
                 let leftBtn = this.owner.auto_handle_left;
@@ -922,11 +947,10 @@ export default class GameControl extends Laya.Script {
                 this.meHandleBtnCommonSet(rightBtn, { x: 280, y: 0 });
                 this.loadAutoHandleImgEnd(leftBtn, leftBtn_btn_0, leftBtn_btn_1);
                 this.loadAutoHandleImgEnd(rightBtn, rightBtn_btn_0, rightBtn_btn_1);
+                this.autoHandleType = null;
                 leftBtn.on(Laya.Event.CLICK, this, this.onClickAutoLeftBtn, [leftBtn_btn_0, leftBtn_btn_1, rightBtn_btn_0, rightBtn_btn_1]);
                 rightBtn.on(Laya.Event.CLICK, this, this.onClickAutoRightBtn, [leftBtn_btn_0, leftBtn_btn_1, rightBtn_btn_0, rightBtn_btn_1]);
             }
-        } else {
-            this.owner.autoHandleBtnBox.visible = isShow;
         }
     }
 
@@ -978,6 +1002,7 @@ export default class GameControl extends Laya.Script {
      * @param data 请求的参数
      */
     setMeHandleBtnZT(isShow = true, data) {
+        console.log('进来操作状态')
         this.owner.handleBtnBox.visible = isShow;
         if (isShow) {
             PlayerDelayTime.init(this.delayType.action, this, data);
@@ -1048,7 +1073,7 @@ export default class GameControl extends Laya.Script {
             }
         } else {
             this.showFastBtnAndBindVal(false);
-            PlayerDelayTime.offEvent();
+            PlayerDelayTime.offEvent(this);
         }
     }
 
@@ -1380,10 +1405,18 @@ export default class GameControl extends Laya.Script {
                 }
                 this.showAssignPokerView(isShow);
             }
-            PlayerDelayTime.init(this.delayType.sub, this, data);
+            data.players.forEach(item => {
+                this._playerArray.forEach(item_player => {
+                    if (item == item_player.owner.userId)
+                        PlayerDelayTime.init(this.delayType.sub, this, data);
+                    else {
+                        PlayerDelayTime.offEvent(this);
+                    }
+                })
+            })
         } else {
             this.showAssignPokerView(isShow);
-            PlayerDelayTime.offEvent(this, data);
+            PlayerDelayTime.offEvent(this);
         }
     }
 

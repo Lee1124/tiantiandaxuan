@@ -3,4 +3,6 @@
    <item name="images/common/fightBooBg2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=10,10,10,10" picType="0" scale="0"/>
    <item name="images/common/FightSitatBg.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=10,10,10,10" picType="0" scale="0"/>
    <item name="images/common/functionBg2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=40,40,40,40" picType="0" scale="0"/>
+   <item name="images/common/牌局回顾背景.png" type="Image" props="sizeGrid=182,42,79,175" compress="0" quality="80" pack="0" picType="0" scale="0"/>
+   <item name="images/paijuhuigu/p_bg_1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=32,37,37,119" picType="0" scale="0"/>
 </res>
