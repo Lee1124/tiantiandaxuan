@@ -2964,6 +2964,7 @@
                     item_player.showActionTip(false);//隐藏提示
                 }
             });
+            this.autoHandleType=null;
         }
 
         /**

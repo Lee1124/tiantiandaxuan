@@ -1384,6 +1384,7 @@ export default class GameControl extends Laya.Script {
                 item_player.showActionTip(false);//隐藏提示
             }
         })
+        this.autoHandleType=null;
     }
 
     /**
