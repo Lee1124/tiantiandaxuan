@@ -320,27 +320,6 @@ export default class seat extends Laya.Script {
         xiaZhuScoreView.visible = show;
     }
 
-
-
-    /**
-   * 为玩家第1,2张牌绑定数据
-   * @param data 牌数据
-   * @param type 类型 负责给哪张牌绑数据
-   */
-    // bindPlayerPokerData(that, data, type, fn, delay = 200) {
-    //     if (GameControl.instance._bindPokerData.poker12 == type) {
-    //         this.owner.poker12 = data;
-    //     } else if (GameControl.instance._bindPokerData.poker3 == type) {
-    //         this.owner.poker34[0] = data;
-    //     } else if (GameControl.instance._bindPokerData.poker4 == type) {
-    //         this.owner.poker34[1] = data;
-    //     }
-    //     setTimeout(() => {
-    //         if (fn)
-    //             fn.call(that)
-    //     }, delay)
-    // }
-
     /**
      * 显示移动筹码,并初始化位置
      * @param {*} that 指向调用的组件对象 
@@ -399,7 +378,6 @@ export default class seat extends Laya.Script {
         function moveEnd(that, move_cm, fn) {
             move_cm.visible = false;
             GameControl.instance._winUpINDEX++;
-            // console.log(GameControl.instance._winUpINDEX,joinNum,fn)
             if (GameControl.instance._winUpINDEX == joinNum) {
                 if (Main.gameSetVal.gameMusic == 1)
                     Laya.SoundManager.playSound(music, 1);
@@ -409,8 +387,6 @@ export default class seat extends Laya.Script {
             }
         }
     }
-
-
 
     /**
      * 使玩家的牌的数据重置状态(隐藏)

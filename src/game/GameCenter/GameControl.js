@@ -1661,9 +1661,9 @@ export default class GameControl extends Laya.Script {
     }
 
     gameEndMoveCMEnd(data) {
+        this._winUpINDEX = 0;
         if (this.allowWinShou) {
             Main.$LOG('移动结束', data)
-            this._winUpINDEX = 0;
             let playerLoselg0 = data[0].filter(item => item.losewin >= 0);
             this.allowWinShou = false;
             setTimeout(() => {

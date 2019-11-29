@@ -3374,9 +3374,9 @@
         }
 
         gameEndMoveCMEnd(data) {
+            this._winUpINDEX = 0;
             if (this.allowWinShou) {
                 Main$1.$LOG('移动结束', data);
-                this._winUpINDEX = 0;
                 let playerLoselg0 = data[0].filter(item => item.losewin >= 0);
                 this.allowWinShou = false;
                 setTimeout(() => {
@@ -3385,6 +3385,7 @@
                             if (item_data._id == item_player.owner.userId) {
                                 this.showDiChiPi(false);
                                 if (item_data.losewin >= 0) {
+                                    console.log('item_data.losewin >= 0',playerLoselg0,playerLoselg0.length);
                                     item_player.showMoveCM(this, 2, true, this._moveCMSeat.pi, this._moveCMSeat.one, this._music.moveMangOrPi, playerLoselg0.length, getMonenyEnd);
                                     function getMonenyEnd() {
                                         Main$1.$LOG('玩家受到金币：', item_data.score);
