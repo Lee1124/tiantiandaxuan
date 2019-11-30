@@ -4191,7 +4191,7 @@
             this.ceshiNum++;
             if (this.ceshiNum == 5) {
                 this.ceshi_view.visible = true;
-                Laya.Tween.to(this.ceshi_view, { x: 0, alpha: 1 }, 200);
+                Laya.Tween.to(this.ceshi_view, { x: 20, alpha: 1 }, 200);
                 this.ceshiNum = -1;
             } else {
                 Laya.Tween.to(this.ceshi_view, { x: -200, alpha: 0 }, 100, null, Laya.Handler.create(this, () => {
