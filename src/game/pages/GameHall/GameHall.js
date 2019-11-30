@@ -27,7 +27,8 @@ export default class GameHall extends Laya.Script {
         GameHall.instance = this;
     }
     onStart() {
-        Main.$LOG('onStart', this.UI.pageData)
+        // Main.$LOG('onStart', this.UI.pageData)
+
         // this.openGameView();
     }
 

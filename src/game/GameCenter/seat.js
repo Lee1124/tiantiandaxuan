@@ -74,14 +74,14 @@ export default class seat extends Laya.Script {
         scoreBox.visible = true;
         let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
         scoreVal.text = '等待' + this.lastTime + 's';
-        Laya.timer.loop(1000,this,this.palyerSeatAtTime,[scoreVal])
+        Laya.timer.loop(1000, this, this.palyerSeatAtTime, [scoreVal])
     }
 
-    palyerSeatAtTime(scoreVal){
+    palyerSeatAtTime(scoreVal) {
         this.lastTime--;
         scoreVal.text = '等待' + this.lastTime + 's';
-        if(this.lastTime<=0)
-            Laya.timer.clear(this,this.palyerSeatAtTime);
+        if (this.lastTime <= 0)
+            Laya.timer.clear(this, this.palyerSeatAtTime);
     }
 
     /**
@@ -127,7 +127,7 @@ export default class seat extends Laya.Script {
      * @param {*} data 剩余时间
      */
     playerSeatDownOrSeatAtCommon(isShow, data, isUpdate) {
-        Laya.timer.clear(this,this.palyerSeatAtTime);
+        Laya.timer.clear(this, this.palyerSeatAtTime);
         let headBox = this.owner.getChildByName("head-box");
         let headImg = headBox.getChildByName("headImgBox");
         let name = this.owner.getChildByName("name");
@@ -175,7 +175,7 @@ export default class seat extends Laya.Script {
      * 补充钵钵后变更分数处理
      */
     setAddDaiRuScore(data) {
-        Laya.timer.clear(this,this.palyerSeatAtTime);
+        Laya.timer.clear(this, this.palyerSeatAtTime);
         let scoreBox = this.owner.getChildByName("score");
         let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
         scoreVal.text = data.score;
@@ -198,7 +198,7 @@ export default class seat extends Laya.Script {
         let countDownBox = this.owner.getChildByName("countDownBox");
         countDownBox.visible = isShow;
         if (isShow) {
-            this._allTime = data.endTime - data.startTime - 1;
+            this._allTime = data.endTime - data.startTime - 2;
             this._rotation = 360 * (((new Date().getTime() / 1000 - data.startTime)) / this._allTime);
             this._timeOutFlag = true;
             this._showTimePlayerObj = this.owner;
@@ -425,6 +425,23 @@ export default class seat extends Laya.Script {
     }
 
     /**
+     * 根据数据显示是否秀牌的标志
+     */
+    showPlayerXiuSign(data) {
+        let mePokerBox = this.owner.getChildByName("show_me_poker_box");
+        let mePoker1 = mePokerBox.getChildByName("poker1");
+        let mePoker2 = mePokerBox.getChildByName("poker2");
+        let mePoker1Arr=data.filter(item=>item==mePoker1.pokerName);
+        let mePoker2Arr=data.filter(item=>item==mePoker2.pokerName);
+        let mePoker1Show = mePoker1.getChildByName("xiuSign");
+        let mePoker2Show = mePoker2.getChildByName("xiuSign");
+        mePoker1Show.visible=mePoker1Arr.length>0?true:false;
+        mePoker2Show.visible=mePoker2Arr.length>0?true:false;
+        mePoker1.isShow = mePoker1Show.visible;
+        mePoker2.isShow = mePoker2Show.visible;
+    }
+
+    /**
      * 发牌
      * @param that 指向
      * @param num 代表第几张牌(从1开始)
@@ -433,7 +450,7 @@ export default class seat extends Laya.Script {
      * @param fn 回调函数
      */
     dealPoker(that, num, count, playerPokerName, index, isUpdate, fn) {
-        ErrText.ERR(that,'this.owner.isMe:',this.owner.isMe);
+        ErrText.ERR(that, 'this.owner.isMe:', this.owner.isMe);
         if (this.owner.isMe) {
             let mePokerBox = this.owner.getChildByName("show_me_poker_box");
             let mePoker = mePokerBox.getChildByName("poker" + num);
@@ -586,7 +603,7 @@ export default class seat extends Laya.Script {
         }
         let speed = isUpdate ? 0 : GameControl.instance._speed.fanCard;
         Laya.Tween.to(mePoker, { scaleX: 0 }, speed, null, Laya.Handler.create(this, this.fanCardMePokerEnd, [mePoker, num, playerPokerName, isUpdate]))
-        // console.log(GameControl.instance._dealNumber,count)
+        // console.log('自己',GameControl.instance._dealNumber,count)
         if (GameControl.instance._dealNumber == count) {
             if (fn)
                 fn.call(that)
@@ -610,6 +627,7 @@ export default class seat extends Laya.Script {
         if (isUpdate && !this.owner.isMe) {
             Laya.Tween.to(poker, { alpha: 1 }, 0);
         }
+        // console.log('非自己12',GameControl.instance._dealNumber,count)
         if (GameControl.instance._dealNumber == count) {
             if (fn)
                 fn.call(that)
@@ -618,6 +636,7 @@ export default class seat extends Laya.Script {
 
     moveCard3Or4End(that, poker, num, count, playerPokerName, index, isUpdate, fn) {
         GameControl.instance._dealNumber++;
+        // console.log('非自己34',GameControl.instance._dealNumber,count)
         if (GameControl.instance._dealNumber == count) {
             if (fn)
                 fn.call(that)

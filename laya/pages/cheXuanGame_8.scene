@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":1941,
-    "selecteID":1953,
+    "selectedBox":2,
+    "selecteID":1955,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":1955,
+    "maxID":1956,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -75,13 +75,14 @@
             "props":{"var":"deskView","top":0,"skin":"images/gameView/newDesk.png","right":0,"name":"deskView","left":0,"bottom":0},
             "nodeParent":2,
             "label":"deskView",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":3,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-1",
                     "props":{"zOrder":1,"x":621,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-1","height":167,"bottom":342},
@@ -997,12 +998,13 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"centerY":360},
                     "nodeParent":3,
                     "label":"empty-seat-2",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -1896,6 +1898,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-3",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-3","left":45,"height":167,"centerY":-95},
@@ -2790,6 +2793,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167,"centerY":-552},
@@ -3684,6 +3688,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-5",
                     "props":{"zOrder":1,"x":621,"width":167,"top":130,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-5","height":167},
@@ -4578,6 +4583,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167,"centerY":-552},
@@ -5472,6 +5478,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-7",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-7","height":167,"centerY":-95},
@@ -6366,6 +6373,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"centerY":360},
@@ -7260,9 +7268,10 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,paijurule",
-                    "props":{"x":421,"width":400,"name":"paijurule","height":180,"centerY":80,"centerX":0,"alpha":0.6},
+                    "props":{"x":421,"width":400,"name":"paijurule","height":180,"centerY":10,"centerX":0,"alpha":0.6},
                     "nodeParent":3,
                     "label":"paijurule",
                     "isOpen":false,
@@ -7918,7 +7927,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,me_sub_pokerBox,me_sub_pokerBox",
-            "props":{"y":1778,"x":625,"width":332,"visible":false,"var":"me_sub_pokerBox","pivotY":110,"pivotX":170,"name":"me_sub_pokerBox","height":220},
+            "props":{"x":625,"width":332,"visible":false,"var":"me_sub_pokerBox","pivotY":110,"pivotX":170,"name":"me_sub_pokerBox","height":220,"bottom":330},
             "nodeParent":2,
             "label":"me_sub_pokerBox",
             "isOpen":false,
@@ -7927,22 +7936,6 @@
             "hasChild":true,
             "compId":787,
             "child":[
-                {
-                    "type":"Script",
-                    "switchAble":true,
-                    "source":"src/game/common/commonSet.js",
-                    "searchKey":"Script,commonSet",
-                    "removeAble":true,
-                    "props":{},
-                    "nodeParent":787,
-                    "label":"commonSet",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":788,
-                    "child":[
-                        ]
-                },
                 {
                     "type":"Image",
                     "searchKey":"Image,poker1Box",
@@ -9349,16 +9342,17 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,subCountDown,subCountDown",
-            "props":{"zOrder":2,"y":1557,"x":413,"width":446,"visible":false,"var":"subCountDown","name":"subCountDown","height":24},
+            "props":{"zOrder":2,"x":413,"width":446,"visible":false,"var":"subCountDown","name":"subCountDown","height":24,"bottom":630},
             "nodeParent":2,
             "label":"subCountDown",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":1290,
             "child":[
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,timeText",
                     "props":{"y":-51,"x":86,"width":274,"valign":"middle","text":"分牌倒计时：","name":"timeText","height":36,"fontSize":36,"color":"#FFFFFF","align":"left"},
@@ -9385,6 +9379,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,lineBox",
                     "props":{"y":0,"x":0,"width":428,"name":"lineBox","height":24},
@@ -9422,22 +9417,6 @@
                             "child":[
                                 ]
                         }]
-                },
-                {
-                    "type":"Script",
-                    "switchAble":true,
-                    "source":"src/game/common/commonSet.js",
-                    "searchKey":"Script,commonSet",
-                    "removeAble":true,
-                    "props":{},
-                    "nodeParent":1290,
-                    "label":"commonSet",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":1296,
-                    "child":[
-                        ]
                 }]
         },
         {
@@ -9515,17 +9494,16 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,ceshi_view,ceshi_view",
-            "props":{"width":200,"visible":false,"var":"ceshi_view","name":"ceshi_view","left":20,"height":242,"bottom":0},
+            "props":{"width":200,"visible":false,"var":"ceshi_view","name":"ceshi_view","left":-200,"height":242,"bottom":0},
             "nodeParent":2,
             "label":"ceshi_view",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":1941,
             "child":[
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,LOG,ceshi_LOG",
                     "props":{"var":"ceshi_LOG","valign":"middle","top":0,"text":"log","right":0,"name":"LOG","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
@@ -9539,7 +9517,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,ERRROLAD,ceshi_ERRROLAD",
                     "props":{"var":"ceshi_ERRROLAD","valign":"middle","top":100,"text":"异常刷新","right":0,"name":"ERRROLAD","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},

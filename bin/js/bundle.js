@@ -1593,14 +1593,15 @@
 
             let lCurNum = (parseInt((endVal - LastUnitVal) / scopeVal));
             //计算剩余值能有多少刻度(当前刻度是从0开始)
-            calibrationNum += lCurNum;
             //TODO:添加刻度值-将每个刻度的值添加到表中
             let lIndex = 0;
-            while (lIndex < lCurNum) {
+            while (lIndex < lCurNum && curVal < endVal) {
                 curVal += scopeVal;
                 calibrationVal.push(curVal);
                 ++lIndex;
             }
+            let subnum = lCurNum - lIndex;
+            calibrationNum += lCurNum - subnum;
             //添加最后一次数值
             if (endVal % scopeVal > 0) {
                 ++calibrationNum;
@@ -1853,6 +1854,12 @@
             this._allowStartAction = true;
             //是否是刷新或者重连的数据
             this._isUpdateData = false;
+            //开始分牌的数据
+            this.StartAssignPokerArr = [];
+            //敲发牌是否结束
+            this.qiaoDealPokerEnd = false;
+            //soket重连次数
+            this.soketConnetNum=0;
         }
 
         beackRoom(roomId) {
@@ -1994,14 +2001,7 @@
                             if (resMsg.ret.type == 0) {
                                 RecSoketReloadData$1.reload(this);
                                 Main$1.showLoading(false, Main$1.loadingType.two);
-                                /**
-                                 * this, (res) => {
-
-                                    ErrText.ERR(this, '重置后的回调fanhui：', res)
-                                    Main.showLoading(false, Main.loadingType.two);
-                                   
-                                }
-                                 */
+                                this.soketConnetNum=0;
                                 this.onSend({
                                     name: 'M.Room.C2R_IntoRoom',
                                     data: {
@@ -2021,6 +2021,10 @@
                 };
 
                 that.netClient.onStartConnect = function (res) {
+                    this.soketConnetNum++;
+                    if(this.soketConnetNum>15){
+                        this.soketConnetNum=0;
+                    }
                     Main$1.errList = [];
                     Main$1.$LOG('soket重新连接开始');
                     Main$1.showLoading(true, Main$1.loadingType.two);
@@ -2172,7 +2176,6 @@
                     if (resData.type == 0) {//首牌(第1、2张)
                         this.playerBindPoker12Val(resData);
                         if (this._isUpdateData) {
-                            console.log('进来了');
                             this.startDealPoker1And2();
                         }
                     } else if (resData.type == 1) {//第3张
@@ -2193,10 +2196,16 @@
                 } else if (resData._t == "G2C_PlayerAction") {
                     this.playerAction(resData);
                 } else if (resData._t == "G2C_PlayerActionEnd") {
+                    this.qiaoDealPokerEnd = true;
                     this.playerActionEnd(resData);
                 } else if (resData._t == "G2C_StartAssignPoker") {//分牌
-                    this.assignPokerCountDown(true, resData);
-                    this.startAssignPoker(true, false, resData);
+                    this.StartAssignPokerArr = [];
+                    if (this.qiaoDealPokerEnd) {
+                        this.assignPokerCountDown(true, resData);
+                        this.startAssignPoker(true, false, resData);
+                    } else {
+                        this.StartAssignPokerArr = [{ data: resData }];
+                    }
                 } else if (resData._t == "G2C_AssignPoker") {//分牌
                     if (resData.ret.type == 0) {
                         this.assignPokerReturn(resData);
@@ -2289,6 +2298,7 @@
                 // ====更新牌数据
                 this._playerArray.forEach((item_player, item_index) => {
                     if (item_seatData.userId == item_player.owner.userId) {
+
                         if (item_seatData.xiazhu > 0) {
                             item_player.showOrHidePlayerXiaZhuView(true);
                             item_player.changePlayerScore(item_seatData.score, this._changeScoreType.seat);
@@ -2316,24 +2326,24 @@
                             let curIsSubPoker = [];
                             if (cur.length != 0)
                                 curIsSubPoker = cur[0].curData.filter(item => item._t == "G2C_StartAssignPoker");
-                            if (item_seatData.action != 0 && item_seatData.action != -1 && curIsSubPoker.length == 0) {
-                                item_player.showActionTip(true, item_seatData.action);
+                            if (curIsSubPoker.length == 0) {
+                                if (item_seatData.action > 0)
+                                    item_player.showActionTip(true, item_seatData.action);
                                 this._allowXiuPoker = true;
                             } else {
                                 this._allowXiuPoker = false;
                             }
-
                             ErrText$1.ERR(this, '重置牌数据' + item_seatData.userId, item_seatData.pokers);
-                            // if (item_seatData.pokers.length==0) {
-                            //     this._isUpdateData = true;
-                            // }else{
-                            //     this._isUpdateData = false;
-                            // }
+                            if (item_seatData.pokers.length > 0) {
+                                this._isUpdateData = false;
+                            }
                             //重置牌数据
                             item_seatData.pokers.forEach((item_val, item_val_index) => {
                                 item_player.dealPoker(this, item_val_index + 1, data.roomSeat.length, item_val, item_index, true);
                             });
                         }
+                        if (item_player.owner.isMe)
+                            item_player.showPlayerXiuSign(item_seatData.showPoker);
                     }
                 });
                 // ====/更新牌数据
@@ -2353,12 +2363,10 @@
                     this.startAction();
                 } else if (item._t == "G2C_StartAssignPoker") {
                     this.assignPokerCountDown(true, item);
-                    let curRoomSeat = allData.param.json.filter(item => item._t == "CXIntoRoom")[0].roomSeat.filter(item2 => item2.assignPoker);
-                    curRoomSeat.forEach(item => {
-                        if (item.userId === this.userId) {
-                            this.startAssignPoker(true, true, item);
-                        }
-                    });
+                    let curRoomSeat = allData.param.json.filter(item => item._t == "CXIntoRoom")[0].roomSeat.filter(item2 => item2.userId == this.userId && !item2.assignPoker);
+                    let noFenPaiArr = item.players.filter(item => curRoomSeat.find(item2 => item2.userId == item));
+                    if (noFenPaiArr.length > 0)
+                        this.startAssignPoker(true, true, item);
                 }
             });
         }
@@ -2485,6 +2493,7 @@
             this._allowXiuPoker = true;
             this._allowStartAction = false;
             // this._isUpdateData=false;
+            this.qiaoDealPokerEnd = false;
             this.autoHandleType = null;
             {
                 this._allowAssignPoker = false;
@@ -2621,21 +2630,36 @@
          */
         playerBindPoker34Val(data) {
             let count = data.players.length;
+            this._dealNumber = 0;
             for (let i = 3; i <= 4; i++) {
-                this._dealNumber = 0;
                 data.players.forEach((item_data, item_index) => {
                     this._playerArray.forEach(item_player => {
                         if (item_player.owner.userId == item_data.uid) {
                             let num = i;//代表第几张牌(1,2,3,4)
                             let index = item_index + ((num - 3) * count);
                             let pokerName = num == 3 ? item_data.poker[0] : item_data.poker[1];
-                            item_player.dealPoker(this, num, count, pokerName, index, false, null);
+                            item_player.dealPoker(this, num, count, pokerName, index, false, dealPokerEnd);
+                            function dealPokerEnd() {
+                                if (num == 4) {
+                                    Main$1.$LOG('敲发34结束：', num);
+                                    this.qiaoDeal34PokerEnd();
+                                } else {
+                                    this._dealNumber = 0;
+                                }
+                            }
                         }
                     });
                 });
             }
         }
 
+        qiaoDeal34PokerEnd() {
+            this.qiaoDealPokerEnd = true;
+            this.StartAssignPokerArr.forEach(item => {
+                this.assignPokerCountDown(true, item.data);
+                this.startAssignPoker(true, false, item.data);
+            });
+        }
 
         /**
         * 显示芒果底池
@@ -2679,6 +2703,7 @@
          * 操作游戏按钮显示
          */
         startAction() {
+            ErrText$1.ERR(this, '操作游戏按钮显示状态：', this._allowStartAction);
             if (this._allowStartAction && this._startAction) {
                 this._playerArray.forEach(item_player => {
                     if (this._startAction.uid != this.userId) {
@@ -2741,7 +2766,7 @@
                 let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
                 let $isMe = item_player.owner.isMe;
                 // Main.$LOG('设置玩家自动操作状态:',item_player.owner.userId, item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
-                if ($isMe && !$visible && isShow && $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
+                if ($isMe && !$visible && isShow &&$actionType&& $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
                     this._autoBtnArr = [];
                     this.owner.autoHandleBtnBox.visible = isShow;
                     let leftBtn = this.owner.auto_handle_left;
@@ -2755,7 +2780,7 @@
                     this.loadAutoHandleImgEnd(leftBtn, leftBtn_btn_0, leftBtn_btn_1);
                     this.loadAutoHandleImgEnd(rightBtn, rightBtn_btn_0, rightBtn_btn_1);
                     this.autoHandleType = null;
-                    console.log('设置自己的自动操作状态:', this.autoHandleType);
+                    // console.log('设置自己的自动操作状态:', this.autoHandleType)
                     leftBtn.on(Laya.Event.CLICK, this, this.onClickAutoLeftBtn, [leftBtn_btn_0, leftBtn_btn_1, rightBtn_btn_0, rightBtn_btn_1]);
                     rightBtn.on(Laya.Event.CLICK, this, this.onClickAutoRightBtn, [leftBtn_btn_0, leftBtn_btn_1, rightBtn_btn_0, rightBtn_btn_1]);
                 }
@@ -2971,7 +2996,7 @@
             } else if (type == 1) {
                 ErrText$1.ERR(this, '大----处值：data', data);
                 let MySliderJS = this.owner.da_slider.getComponent(MySlider);
-                MySliderJS.SliderMouseDown(data.maxXiazu * 2, data.score, (val1) => {
+                MySliderJS.SliderMouseDown(data.maxXiazu * 2 + data.xiazu, data.score + data.xiazu, (val1) => {
                     Main$1.$LOG('变化值的时候回调：', val1);
                     that.daSliderChangeDeal(val1, data);
                 }, (val2) => {
@@ -2979,7 +3004,8 @@
                     if (val2 != 0) {
                         that.showMeHandleTip(type);
                         that.setMeHandleBtnZT(false, null);//改变操作状态
-                        that.daSendSoket(val2 + data.xiazu, type);
+                        ErrText$1.ERR(this, '大----处回调的分数：data', data);
+                        that.daSendSoket(val2, type);
                     }
                 });
             }
@@ -3209,6 +3235,7 @@
          */
         startAssignPoker(isShow = true, isUpdate = false, data) {
             if (isShow) {
+                this.qiaoDealPokerEnd = false;
                 this.clearQiaoAni();
                 this.reloadPlayerMoreZT();
                 let meSubData = data.players.filter(item => item == this.userId);
@@ -3281,7 +3308,7 @@
             this.allowTimeOutSound = isShow;
             this.owner.subCountDown.visible = isShow;
             if (isShow) {
-                this.subAllTime = data.endTime - data.startTime - 1;//剩余时间
+                this.subAllTime = data.endTime - data.startTime - 2;//剩余时间
                 let nowTime = (new Date().getTime() / 1000);
                 this._subCountDownLineTop.x = -this._subCountDownLineTop.width * ((nowTime - data.startTime) / this.subAllTime);
                 this._subCountDownVal.text = this.subAllTime + 's';
@@ -4395,14 +4422,14 @@
             scoreBox.visible = true;
             let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
             scoreVal.text = '等待' + this.lastTime + 's';
-            Laya.timer.loop(1000,this,this.palyerSeatAtTime,[scoreVal]);
+            Laya.timer.loop(1000, this, this.palyerSeatAtTime, [scoreVal]);
         }
 
-        palyerSeatAtTime(scoreVal){
+        palyerSeatAtTime(scoreVal) {
             this.lastTime--;
             scoreVal.text = '等待' + this.lastTime + 's';
-            if(this.lastTime<=0)
-                Laya.timer.clear(this,this.palyerSeatAtTime);
+            if (this.lastTime <= 0)
+                Laya.timer.clear(this, this.palyerSeatAtTime);
         }
 
         /**
@@ -4448,7 +4475,7 @@
          * @param {*} data 剩余时间
          */
         playerSeatDownOrSeatAtCommon(isShow, data, isUpdate) {
-            Laya.timer.clear(this,this.palyerSeatAtTime);
+            Laya.timer.clear(this, this.palyerSeatAtTime);
             let headBox = this.owner.getChildByName("head-box");
             let headImg = headBox.getChildByName("headImgBox");
             let name = this.owner.getChildByName("name");
@@ -4496,7 +4523,7 @@
          * 补充钵钵后变更分数处理
          */
         setAddDaiRuScore(data) {
-            Laya.timer.clear(this,this.palyerSeatAtTime);
+            Laya.timer.clear(this, this.palyerSeatAtTime);
             let scoreBox = this.owner.getChildByName("score");
             let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
             scoreVal.text = data.score;
@@ -4519,7 +4546,7 @@
             let countDownBox = this.owner.getChildByName("countDownBox");
             countDownBox.visible = isShow;
             if (isShow) {
-                this._allTime = data.endTime - data.startTime - 1;
+                this._allTime = data.endTime - data.startTime - 2;
                 this._rotation = 360 * (((new Date().getTime() / 1000 - data.startTime)) / this._allTime);
                 this._timeOutFlag = true;
                 this._showTimePlayerObj = this.owner;
@@ -4746,6 +4773,23 @@
         }
 
         /**
+         * 根据数据显示是否秀牌的标志
+         */
+        showPlayerXiuSign(data) {
+            let mePokerBox = this.owner.getChildByName("show_me_poker_box");
+            let mePoker1 = mePokerBox.getChildByName("poker1");
+            let mePoker2 = mePokerBox.getChildByName("poker2");
+            let mePoker1Arr=data.filter(item=>item==mePoker1.pokerName);
+            let mePoker2Arr=data.filter(item=>item==mePoker2.pokerName);
+            let mePoker1Show = mePoker1.getChildByName("xiuSign");
+            let mePoker2Show = mePoker2.getChildByName("xiuSign");
+            mePoker1Show.visible=mePoker1Arr.length>0?true:false;
+            mePoker2Show.visible=mePoker2Arr.length>0?true:false;
+            mePoker1.isShow = mePoker1Show.visible;
+            mePoker2.isShow = mePoker2Show.visible;
+        }
+
+        /**
          * 发牌
          * @param that 指向
          * @param num 代表第几张牌(从1开始)
@@ -4754,7 +4798,7 @@
          * @param fn 回调函数
          */
         dealPoker(that, num, count, playerPokerName, index, isUpdate, fn) {
-            ErrText$1.ERR(that,'this.owner.isMe:',this.owner.isMe);
+            ErrText$1.ERR(that, 'this.owner.isMe:', this.owner.isMe);
             if (this.owner.isMe) {
                 let mePokerBox = this.owner.getChildByName("show_me_poker_box");
                 let mePoker = mePokerBox.getChildByName("poker" + num);
@@ -4907,7 +4951,7 @@
             }
             let speed = isUpdate ? 0 : GameControl.instance._speed.fanCard;
             Laya.Tween.to(mePoker, { scaleX: 0 }, speed, null, Laya.Handler.create(this, this.fanCardMePokerEnd, [mePoker, num, playerPokerName, isUpdate]));
-            // console.log(GameControl.instance._dealNumber,count)
+            // console.log('自己',GameControl.instance._dealNumber,count)
             if (GameControl.instance._dealNumber == count) {
                 if (fn)
                     fn.call(that);
@@ -4931,6 +4975,7 @@
             if (isUpdate && !this.owner.isMe) {
                 Laya.Tween.to(poker, { alpha: 1 }, 0);
             }
+            // console.log('非自己12',GameControl.instance._dealNumber,count)
             if (GameControl.instance._dealNumber == count) {
                 if (fn)
                     fn.call(that);
@@ -4939,6 +4984,7 @@
 
         moveCard3Or4End(that, poker, num, count, playerPokerName, index, isUpdate, fn) {
             GameControl.instance._dealNumber++;
+            // console.log('非自己34',GameControl.instance._dealNumber,count)
             if (GameControl.instance._dealNumber == count) {
                 if (fn)
                     fn.call(that);
@@ -6416,7 +6462,8 @@
             GameHall.instance = this;
         }
         onStart() {
-            Main$1.$LOG('onStart', this.UI.pageData);
+            // Main.$LOG('onStart', this.UI.pageData)
+
             // this.openGameView();
         }
 

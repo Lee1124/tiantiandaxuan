@@ -222,14 +222,15 @@ export default class MySlider extends Laya.Script {
 
         let lCurNum = (parseInt((endVal - LastUnitVal) / scopeVal));
         //计算剩余值能有多少刻度(当前刻度是从0开始)
-        calibrationNum += lCurNum;
         //TODO:添加刻度值-将每个刻度的值添加到表中
         let lIndex = 0;
-        while (lIndex < lCurNum) {
+        while (lIndex < lCurNum && curVal < endVal) {
             curVal += scopeVal;
             calibrationVal.push(curVal);
             ++lIndex;
         }
+        let subnum = lCurNum - lIndex;
+        calibrationNum += lCurNum - subnum;
         //添加最后一次数值
         if (endVal % scopeVal > 0) {
             ++calibrationNum;
