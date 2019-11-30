@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":1947,
+    "selecteID":3,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":1950,
+    "maxID":1951,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -999,7 +999,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
-                    "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"bottom":660},
+                    "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"centerY":360},
                     "nodeParent":3,
                     "label":"empty-seat-2",
                     "isOpen":false,
@@ -2792,7 +2792,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
-                    "props":{"zOrder":1,"width":167,"top":470,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167},
+                    "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167,"centerY":-552},
                     "nodeParent":3,
                     "label":"empty-seat-4",
                     "isOpen":false,
@@ -4580,7 +4580,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
-                    "props":{"zOrder":1,"width":167,"top":470,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167},
+                    "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167,"centerY":-552},
                     "nodeParent":3,
                     "label":"empty-seat-6",
                     "isOpen":false,
@@ -6368,7 +6368,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
-                    "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"bottom":660},
+                    "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"centerY":360},
                     "nodeParent":3,
                     "label":"empty-seat-8",
                     "isOpen":false,
@@ -9592,7 +9592,8 @@
                             "child":[
                                 ]
                         }]
-                }]
+                }],
+            "$HIDDEN":true
         }],
     "animations":[
         {

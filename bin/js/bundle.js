@@ -1850,7 +1850,9 @@
 
             this._allowSeatUp = true;
             //允许操作显示
-            this._allowStartAction=true;
+            this._allowStartAction = true;
+            //是否是刷新或者重连的数据
+            this._isUpdateData = false;
         }
 
         beackRoom(roomId) {
@@ -2019,7 +2021,7 @@
                 };
 
                 that.netClient.onStartConnect = function (res) {
-                    Main$1.errList=[];
+                    Main$1.errList = [];
                     Main$1.$LOG('soket重新连接开始');
                     Main$1.showLoading(true, Main$1.loadingType.two);
                 };
@@ -2166,17 +2168,18 @@
                 } else if (resData._t == "G2C_BetPiAndMango") {
                     this.betPiAndMango(resData);
                 } else if (resData._t == "G2C_Deal") {
+                    this._startAction = null;
                     if (resData.type == 0) {//首牌(第1、2张)
-                        this._startAction = null;
                         this.playerBindPoker12Val(resData);
+                        if (this._isUpdateData) {
+                            console.log('进来了');
+                            this.startDealPoker1And2();
+                        }
                     } else if (resData.type == 1) {//第3张
-                        this._startAction = null;
                         this.playerBindPoker3Or4Val(resData, 3);
                     } else if (resData.type == 2) {//第4张
-                        this._startAction = null;
                         this.playerBindPoker3Or4Val(resData, 4);
                     } else if (resData.type == 3) {//第4张
-                        this._startAction = null;
                         this._allowStartAction = true;
                         this.playerBindPoker34Val(resData);
                     }
@@ -2252,9 +2255,9 @@
          * @param {} roomSeatArr 需要更新的数据
          */
         updateRoomData(data, allData) {
-            console.log('更新座位上的数据=========================0000:', this._plyerIndexArray);
+            // console.log('更新座位上的数据=========================0000:', this._plyerIndexArray);
             ErrText$1.ERR(this, '更新座位上的数据Date', new Date().getTime());
-            this._allowStartAction=true;
+            this._allowStartAction = true;
             this._totalMango = data.mang;//芒果底池总分
             this._totalPi = data.dichi;//皮底池总分
             if (data.mang) {
@@ -2262,6 +2265,7 @@
             }
             if (data.dichi > 0) {
                 this.showDiChiPi(true);
+                this._isUpdateData = true;
             }
             /* =====更新座位上的数据===== */
             this._dealNumber = 0;
@@ -2319,7 +2323,12 @@
                                 this._allowXiuPoker = false;
                             }
 
-                            ErrText$1.ERR(this,'重置牌数据'+item_seatData.userId,item_seatData.pokers);
+                            ErrText$1.ERR(this, '重置牌数据' + item_seatData.userId, item_seatData.pokers);
+                            // if (item_seatData.pokers.length==0) {
+                            //     this._isUpdateData = true;
+                            // }else{
+                            //     this._isUpdateData = false;
+                            // }
                             //重置牌数据
                             item_seatData.pokers.forEach((item_val, item_val_index) => {
                                 item_player.dealPoker(this, item_val_index + 1, data.roomSeat.length, item_val, item_index, true);
@@ -2427,6 +2436,7 @@
         setMoreStartVal() {
             this._allowXiuPoker = true;
             this._allowStartAction = false;
+            // this._isUpdateData=false;
             this.autoHandleType = null;
             {
                 this._allowAssignPoker = false;
@@ -2621,23 +2631,20 @@
          * 操作游戏按钮显示
          */
         startAction() {
-            console.log('操作====================：',this._allowStartAction,this._startAction);
-            if (this._allowStartAction) {
-                if (this._startAction) {
-                    this._playerArray.forEach(item_player => {
-                        if (this._startAction.uid != this.userId) {
-                            this.setPlayerAutoHandleZT(true, item_player);
-                        } else {
-                            this.setPlayerAutoHandleZT(false, item_player);
-                        }
-                        if (item_player.owner.userId == this._startAction.uid) {
-                            item_player.showActionTip(false);//隐藏提示
-                            item_player.showPlayerCountDown(this._startAction, true);//开始倒计时
-                            Main$1.$LOG('自动操作状态======', this.autoHandleType);
-                            this.setMeCurHandleZT(this._startAction, item_player);
-                        }
-                    });
-                }
+            if (this._allowStartAction && this._startAction) {
+                this._playerArray.forEach(item_player => {
+                    if (this._startAction.uid != this.userId) {
+                        this.setPlayerAutoHandleZT(true, item_player);
+                    } else {
+                        this.setPlayerAutoHandleZT(false, item_player);
+                    }
+                    if (item_player.owner.userId == this._startAction.uid) {
+                        item_player.showActionTip(false);//隐藏提示
+                        item_player.showPlayerCountDown(this._startAction, true);//开始倒计时
+                        Main$1.$LOG('自动操作状态======', this.autoHandleType);
+                        this.setMeCurHandleZT(this._startAction, item_player);
+                    }
+                });
             }
         }
 
@@ -2823,7 +2830,7 @@
                             } else {
                                 topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                             }
-                        }else if(dataOption[0] == 6){
+                        } else if (dataOption[0] == 6) {
                             topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                         }
                     }
@@ -3162,14 +3169,15 @@
                 }
                 data.players.forEach(item => {
                     this._playerArray.forEach(item_player => {
-                        if (item == item_player.owner.userId)
+                        if (item == item_player.owner.userId){
                             PlayerDelayTime$1.init(this.delayType.sub, this, data);
-                        else {
+                        }else {
                             PlayerDelayTime$1.offEvent(this);
                         }
                     });
                 });
             } else {
+                console.log('开始分牌隐藏处=============================9999');
                 this.showAssignPokerView(isShow);
                 PlayerDelayTime$1.offEvent(this);
             }
@@ -3796,6 +3804,7 @@
         * 开始发首牌(第1张牌)
         */
         startDealPoker1And2() {
+            this._isUpdateData = false;
             let count = this._dealPoker12Array.length;
             this._dealNumber = 0;
             for (let i = 1; i <= 2; i++) {
