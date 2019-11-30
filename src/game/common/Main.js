@@ -33,12 +33,17 @@ class Main {
         this.allowRequesList = true;
         this.allowHideLoad = false;
         this.defaultImg = {
-            one: 'res/img/defaultHead.png'
+            one: 'res/img/common/defaultHead.png'
         }
 
         this.animations = {
             qiao: 'qiao',
             win: 'win'
+        }
+
+        this.loadingType = {
+            one: 'Loading',
+            two: 'Loading2',
         }
 
         this._speed = {
@@ -51,6 +56,8 @@ class Main {
         this.loadShowArr = [];
         this.loadShowArr2 = [];
         this.debug = true;
+
+        this.errList=[];
     }
 
     $LOG(...data) {
@@ -124,14 +131,14 @@ class Main {
      * @param {bool} showNode 在弹框隐藏时，是否隐藏节点
      */
     showDialog(text = '内容为空', type = 1, node = [], comfirmFn = Function, cancelFn = Function, textColor = '#935F13', showNode = true) {
-        
-        let myMask=Laya.stage.getChildByName("dialogMask");
-        console.log('ji=====',myMask)
-        if(myMask){
+
+        let myMask = Laya.stage.getChildByName("dialogMask");
+        console.log('ji=====', myMask)
+        if (myMask) {
             myMask.removeSelf();
         }
         let Mask = new Laya.Sprite();
-        Mask.name='dialogMask';
+        Mask.name = 'dialogMask';
         Mask.zOrder = 4;
         Mask.pos(0, 0);
         Mask.size(Laya.stage.width, Laya.stage.height);
@@ -227,8 +234,9 @@ class Main {
 
     /**
     * 创建加载图标到stage
+    * @param type 加载图标类型
     */
-    createLoading() {
+    createLoading(type = this.loadingType.one) {
         Laya.loader.load("res/atlas/images/common.atlas", Laya.Handler.create(this, onMyLoaded));
         function onMyLoaded() {
             let loadingMask = new Laya.Image();
@@ -238,7 +246,7 @@ class Main {
             loadingMask.bottom = 0;
             loadingMask.right = 0;
             loadingMask.zOrder = 10;
-            loadingMask.name = 'loadingMask';
+            loadingMask.name = 'loadingMask-' + type;
             loadingMask.on(Laya.Event.CLICK, this, () => { });
             let animationBox = new Laya.Sprite();
             let animationText = new Laya.Label();
@@ -254,15 +262,15 @@ class Main {
             animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
             let ani = new Laya.Animation();
             ani.name = 'loadingAni';
-            ani.loadAnimation("animation/Loading.ani");
+            ani.loadAnimation("animation/" + type + ".ani");
             animationBox.addChild(ani);
             loadingMask.addChild(animationBox);
             Laya.stage.addChild(loadingMask)
-            //播放Animation动画
             this.loadAniArr1.push('LOADING');
             this.loadAniArr2.forEach(item => {
                 if (item.key == 'LOADING') {
-                    loadingMask.visible = item.show;
+                    let $loadingMask = Laya.stage.getChildByName('loadingMask-' + item.type);
+                    $loadingMask.visible = item.show;
                     animationText.text = '';
                     if (item.show) {
                         animationText.text = item.text;
@@ -278,27 +286,30 @@ class Main {
     /**
      * 显示或隐藏加载图标
      * @param isShow 是否显示
+     * @param type 显示类型
+     * @param msg 显示文字
      */
-    showLoading(isShow = true, msg = '') {
+    showLoading(isShow = true, type = this.loadingType.one, msg = '') {
         this.loadAniArr1.forEach(item => {
             if (item == 'LOADING') {
-                let loadingMask = Laya.stage.getChildByName('loadingMask');
+                let loadingMask = Laya.stage.getChildByName('loadingMask-' + type);
                 let loadingBox = loadingMask.getChildByName('loadingBox');
                 let loadingAni = loadingBox.getChildByName('loadingAni');
                 let loadingText = loadingBox.getChildByName('loadingText');
                 loadingText.text = '';
-                loadingMask.visible = isShow;
-                if (isShow) {
+                if (!loadingMask.visible && isShow) {
                     loadingText.text = msg;
                     loadingAni.play();
-                } else {
+                } else if (!isShow) {
                     loadingAni.stop();
                 }
+                loadingMask.visible = isShow;
                 return;
             }
         })
-        this.loadAniArr2 = [{ key: 'LOADING', show: isShow, text: msg }];
+        this.loadAniArr2 = [{ key: 'LOADING', show: isShow, type: type, text: msg }];
     }
+
 
     /**
      * 加载图片资源,判断加载失败则显示默认图片(默认图片分多种，根据需要)

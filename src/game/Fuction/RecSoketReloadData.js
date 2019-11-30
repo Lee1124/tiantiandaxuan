@@ -3,10 +3,16 @@
  */
 import Main from '../common/Main'
 import GameRoomInit from '../Fuction/GameRoomInit'
+import ErrText from '../Fuction/ErrText'
 class RecSoketReloadData {
-    reload(that) {
-        console.log(that._playerArray)
+   
+    reload(that,fn) {
+        // console.log(that._playerArray)
         // GameRoomInit.init(that);
+        
+        ErrText.ERR(that, 'start-----Date', new Date().getTime());
+        that.showDiChiMang(false);
+        that.showDiChiPi(false);
         let me_handleBox = that.owner.getChildByName("me_handleBox");
         me_handleBox._children.forEach(item => {
             item.visible = false;
@@ -15,7 +21,7 @@ class RecSoketReloadData {
         that.owner.subCountDown.visible=false;
         that.owner.meAnimationBox.visible=false;
         that.owner.delayTimeBtn.visible=false;
-        that._playerArray.forEach(item_player => {
+        that._playerArray.forEach((item_player,item_index) => {
             // GameRoomInit.keepValue(that,item_player);
             let playerSeat = item_player.owner;
             that._plyerIndexArray[item_player.INDEX]=item_player.INDEX;
@@ -95,10 +101,14 @@ class RecSoketReloadData {
             gifBox.visible = false;
             winScore.visible = false;
             name.text = '';
+            if(item_index+1==that._playerArray.length){
+                console.log('重置进来======')
+                ErrText.ERR(that, 'end-----Date', new Date().getTime());
+                if(fn)
+                    fn.call(that,item_index+1)
+            }
         });
-
+        
     }
-
-
 }
 export default new RecSoketReloadData();

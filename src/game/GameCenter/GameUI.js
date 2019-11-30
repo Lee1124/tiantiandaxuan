@@ -18,9 +18,10 @@ export default class GameUI extends Laya.Scene {
         // Laya.MouseManager.multiTouchEnabled = false;
         //加载场景文件
         // this.loadScene("cheXuanGame_8.scene");
+        this.ceshiNum = 0;
     }
-    
-    onAwake(){
+
+    onAwake() {
     }
 
     onOpened(data) {
@@ -36,8 +37,8 @@ export default class GameUI extends Laya.Scene {
     /**
      * 设置UI的位置
      */
-    setUISite(){
-        this.TOPHandleBtnBox.top=Main.phoneNews.statusHeight;
+    setUISite() {
+        this.TOPHandleBtnBox.top = Main.phoneNews.statusHeight;
     }
 
     /**
@@ -55,7 +56,7 @@ export default class GameUI extends Laya.Scene {
         text.height = 110;
         text.align = 'center';
         text.valign = 'middle';
-        tip.loadImage('res/img/tip.png', Laya.Handler.create(this, loadImgEnd));
+        tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
         function loadImgEnd() {
             this.tipsBox.addChild(tip);
         }
@@ -79,7 +80,7 @@ export default class GameUI extends Laya.Scene {
         // this.gameSetRegisterEvent();
         this._confirmDaiRuBtn = this.makeUp_bobo.getChildByName("confirmDaiRuBtn");
         this._control = this.getComponent(GameControl);
-        this.start_game_btn.on(Laya.Event.CLICK, this, this.onClickStartBtn);//游戏开始事件
+        // this.start_game_btn.on(Laya.Event.CLICK, this, this.onClickStartBtn);//游戏开始事件
         this.confrimSubBtn1.on(Laya.Event.CLICK, this, this.onClickConfrimSubBtn1);//确认分牌事件
         this.ExpressionUI.on(Laya.Event.CLICK, this, this.onClickExpression);//表情
         this._mask.on(Laya.Event.CLICK, this, this.onClickMask);//蒙板
@@ -90,20 +91,23 @@ export default class GameUI extends Laya.Scene {
         this.bobo_close.on(Laya.Event.CLICK, this, this.onClickMask);//补充钵钵关闭按钮关闭
         this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
         this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
-        // this.delayTimeBtn.on(Laya.Event.CLICK, this, this.onClickDelayTime);
+        this.ceShiBtn.on(Laya.Event.CLICK, this, this.onClickceShiBtn);
     }
-    /**
-     * 玩家延时
-     */
-    // onClickDelayTime(){
-    //     // PlayerDelayTime.delayTime();
-    // }
+
+    onClickceShiBtn() {
+        this.ceshiNum++;
+        if (this.ceshiNum % 2 == 0) {
+            this.ErrList.visible = false;
+        } else {
+            this.ErrList.visible = true;
+        }
+    }
     /** 
      * 开始游戏
     */
-    onClickStartBtn() {
-        this._control.clickStartGame();
-    }
+    // onClickStartBtn() {
+    //     this._control.clickStartGame();
+    // }
 
     onClickVoiceBtn() {
         this._control.ceShi();
@@ -199,7 +203,7 @@ export default class GameUI extends Laya.Scene {
             if (ID == 2) {
                 this._control.openMenuList(false);
                 // this._control.openPaiJuGuiZe(true);
-                Laya.Scene.open('paijutishi.scene', false,{show:true});
+                Laya.Scene.open('paijutishi.scene', false, { show: true });
             } else if (ID == 1) {
                 this._control.openMenuList(false);
                 this._control.playerSeatUpSend();
@@ -216,7 +220,7 @@ export default class GameUI extends Laya.Scene {
             } else if (ID == 6) {
                 this._control.openMenuList(false);
                 this._control.beackRoom();
-            }else if (ID == 5) {
+            } else if (ID == 5) {
                 this._control.onClose();
             }
         }

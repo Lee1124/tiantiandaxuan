@@ -11,6 +11,7 @@ import GameRoomInit from '../Fuction/GameRoomInit'
 import PlayerDelayTime from '../Fuction/PlayerDelayTime';
 import MySlider from '../Fuction/MySlider';
 import RecSoketReloadData from '../Fuction/RecSoketReloadData'
+import ErrText from '../Fuction/ErrText'
 let clickIndex = 0;
 export default class GameControl extends Laya.Script {
     constructor() {
@@ -85,7 +86,7 @@ export default class GameControl extends Laya.Script {
             diu: 500,
             diuRotation: 300,
             handle: 120,
-            winCMDelay: 200,
+            winCMDelay: 500,
             winShowDelay: 500
         }
 
@@ -95,6 +96,8 @@ export default class GameControl extends Laya.Script {
         }
 
         this._allowSeatUp = true;
+        //允许操作显示
+        this._allowStartAction=true;
     }
 
     beackRoom(roomId) {
@@ -235,7 +238,15 @@ export default class GameControl extends Laya.Script {
                     if (resMsg._t == "G2C_Connect") {
                         if (resMsg.ret.type == 0) {
                             RecSoketReloadData.reload(this);
-                            Main.showLoading(false);
+                            Main.showLoading(false, Main.loadingType.two);
+                            /**
+                             * this, (res) => {
+
+                                ErrText.ERR(this, '重置后的回调fanhui：', res)
+                                Main.showLoading(false, Main.loadingType.two);
+                               
+                            }
+                             */
                             this.onSend({
                                 name: 'M.Room.C2R_IntoRoom',
                                 data: {
@@ -255,9 +266,9 @@ export default class GameControl extends Laya.Script {
             }
 
             that.netClient.onStartConnect = function (res) {
+                Main.errList=[];
                 Main.$LOG('soket重新连接开始')
-                that.owner.ceShiText.text = 'soket重新连接开始'
-                Main.showLoading(true, '连接中');
+                Main.showLoading(true, Main.loadingType.two);
             }
         }
     }
@@ -298,7 +309,7 @@ export default class GameControl extends Laya.Script {
      * @param {*} data 房间数据
      */
     setRoomData(data) {
-        this.owner.start_game_btn.visible = !data.start && parseInt(data.administration) === parseInt(this.userId) ? true : false;
+        // this.owner.start_game_btn.visible = !data.start && parseInt(data.administration) === parseInt(this.userId) ? true : false;
         this.owner.rule_roomPws.text = data.roomPws;
         this.owner.rule_roomName.text = data.roomName;
         this.owner.rule_pi.text = '皮：' + data.option.dizhu;
@@ -318,125 +329,134 @@ export default class GameControl extends Laya.Script {
      * 处理websoket收到的消息
      */
     dealSoketMessage(sign, resData) {
-        Main.$LOG(sign, resData);
-        if (resData._t == 'GenalResult') {
-            this.errOpenLoginView(resData);
-        }
-        if (resData._t == 'R2C_IntoRoom') {
-            if (resData.ret.type == 0) {
-                this.requestRoomUpdateData(resData);
-            } else {
-                this.owner.showTips(resData.ret.msg);
-                this.leaveRoomOpenView();
+        try {
+            Main.$LOG(sign, resData);
+            if (resData._t == 'GenalResult') {
+                this.errOpenLoginView(resData);
             }
-        }
-        // 进入房间数据(即刷新数据)
-        if (resData._t == 'R2C_UpdateRoom') {
-            if (resData.ret.type == 0) {
-                resData.param.json.forEach(item => {
-                    if (item._t == "CXIntoRoom") {
-                        this.getGameNews(item);//获取游戏信息
-                        this.updateRoomData(item, resData);
-                    } else if (item._t == "UpdateRoomData") {
-                        this.updateCurData(item, resData);//更新当前数据
-                    }
-                })
-            } else {
-                this.owner.showTips(resData.ret.msg);
-            }
-        }
-
-        if (resData._t == "R2C_AddDairu") {
-            resData.param.json.forEach(item => {
-                if (item._t == "CXAddBobo") {
-                    this.playerAddDairu(item);
+            if (resData._t == 'R2C_IntoRoom') {
+                if (resData.ret.type == 0) {
+                    this.requestRoomUpdateData(resData);
+                } else {
+                    this.owner.showTips(resData.ret.msg);
+                    this.leaveRoomOpenView();
                 }
-            })
-        }
+            }
+            // 进入房间数据(即刷新数据)
+            if (resData._t == 'R2C_UpdateRoom') {
+                if (resData.ret.type == 0) {
+                    resData.param.json.forEach(item => {
+                        if (item._t == "CXIntoRoom") {
+                            this.getGameNews(item);//获取游戏信息
+                            this.updateRoomData(item, resData);
+                        } else if (item._t == "UpdateRoomData") {
+                            this.updateCurData(item, resData);//更新当前数据
+                        }
+                    })
+                } else {
+                    this.owner.showTips(resData.ret.msg);
+                }
+            }
 
-        if (resData._t == 'R2C_SeatAt') {
-            if (resData.ret.type == 0) {
-                resData.param.json.forEach(item => {
-                    if (item._t == "CXSeatAt") {
-                        this.playerSeatAt(item);
-                    } else if (item._t == "CXSitDown") {
+            if (resData._t == "R2C_AddDairu") {
+                this.owner.showTips(resData.ret.msg);
+                if (resData.ret.type == 0 || resData.ret.type == 4) {
+                    this.showMakeUpBoBo(false);
+                    resData.param.json.forEach(item => {
+                        if (item._t == "CXAddBobo") {
+                            this.playerAddDairu(item);
+                        }
+                    })
+                }
+            }
+
+            if (resData._t == 'R2C_SeatAt') {
+                if (resData.ret.type == 0) {
+                    resData.param.json.forEach(item => {
+                        if (item._t == "CXSeatAt") {
+                            this.playerSeatAt(item);
+                        } else if (item._t == "CXSitDown") {
+                            this.playerSeatDown(item);
+                        }
+                    })
+                } else {
+                    this.owner.showTips(resData.ret.msg);
+                }
+            } else if (resData._t == 'R2C_SeatUp') {
+                if (resData.ret.type == 0) {
+                    this.playerSeatUp(resData);
+                } else {
+                    this.owner.showTips(resData.ret.msg);
+                }
+            } else if (resData._t == 'R2C_SitDown') {
+                if (resData.ret.type == 0) {
+                    resData.param.json.forEach(item => {
                         this.playerSeatDown(item);
-                    }
-                })
-            } else {
-                this.owner.showTips(resData.ret.msg);
+                    })
+                } else {
+                    this.owner.showTips(resData.ret.msg);
+                }
+            } else if (resData._t == "R2C_LeaveRoom") {
+                if (resData.ret.type == 4) {
+                    this.owner.showTips(resData.ret.msg);
+                } else {
+                    this.leaveRoomDeal(resData);
+                }
+            } else if (resData._t == "CXRoomEnd") {
+                this.roomEnd(resData);
             }
-        } else if (resData._t == 'R2C_SeatUp') {
-            if (resData.ret.type == 0) {
-                this.playerSeatUp(resData);
-            } else {
-                this.owner.showTips(resData.ret.msg);
-            }
-        } else if (resData._t == 'R2C_SitDown') {
-            if (resData.ret.type == 0) {
-                resData.param.json.forEach(item => {
-                    this.playerSeatDown(item);
-                })
-            } else {
-                this.owner.showTips(resData.ret.msg);
-            }
-        } else if (resData._t == "R2C_LeaveRoom") {
-            if (resData.ret.type == 4) {
-                this.owner.showTips(resData.ret.msg);
-            } else {
-                this.leaveRoomDeal(resData);
-            }
-        } else if (resData._t == "CXRoomEnd") {
-            this.roomEnd(resData);
-        }
 
-        if (resData._t == "G2C_TimeDelay") {
-            PlayerDelayTime.dealWithRes(this, resData);
-        } else if (resData._t == "G2C_StartNewRound") {
-            this.startNewRound(resData);
-        } else if (resData._t == "G2C_BetPiAndMango") {
-            this.betPiAndMango(resData);
-        } else if (resData._t == "G2C_Deal") {
-            if (resData.type == 0) {//首牌(第1、2张)
-                this._startAction = null;
-                this.playerBindPoker12Val(resData);
-            } else if (resData.type == 1) {//第3张
-                this._startAction = null;
-                this.playerBindPoker3Or4Val(resData, 3);
-            } else if (resData.type == 2) {//第4张
-                this._startAction = null;
-                this.playerBindPoker3Or4Val(resData, 4);
-            } else if (resData.type == 3) {//第4张
-                this._startAction = null;
-                this._allowStartAction = true;
-                this.playerBindPoker34Val(resData);
+            if (resData._t == "G2C_TimeDelay") {
+                PlayerDelayTime.dealWithRes(this, resData);
+            } else if (resData._t == "G2C_StartNewRound") {
+                this.startNewRound(resData);
+            } else if (resData._t == "G2C_BetPiAndMango") {
+                this.betPiAndMango(resData);
+            } else if (resData._t == "G2C_Deal") {
+                if (resData.type == 0) {//首牌(第1、2张)
+                    this._startAction = null;
+                    this.playerBindPoker12Val(resData);
+                } else if (resData.type == 1) {//第3张
+                    this._startAction = null;
+                    this.playerBindPoker3Or4Val(resData, 3);
+                } else if (resData.type == 2) {//第4张
+                    this._startAction = null;
+                    this.playerBindPoker3Or4Val(resData, 4);
+                } else if (resData.type == 3) {//第4张
+                    this._startAction = null;
+                    this._allowStartAction = true;
+                    this.playerBindPoker34Val(resData);
+                }
+            } else if (resData._t == "G2C_StartAction") {
+                this._startAction = resData;
+                if (resData.ret.type == 0) {
+                    this.startAction();
+                } else if (resData.ret.type == 6) {
+                    this.sanhuaAction(resData)
+                }
+            } else if (resData._t == "G2C_PlayerAction") {
+                this.playerAction(resData);
+            } else if (resData._t == "G2C_PlayerActionEnd") {
+                this.playerActionEnd(resData);
+            } else if (resData._t == "G2C_StartAssignPoker") {//分牌
+                this.assignPokerCountDown(true, resData);
+                this.startAssignPoker(true, false, resData);
+            } else if (resData._t == "G2C_AssignPoker") {//分牌
+                if (resData.ret.type == 0) {
+                    this.assignPokerReturn(resData);
+                } else {
+                    this.owner.showTips(resData.ret.msg);
+                }
+            } else if (resData._t == "G2C_WinUp") {
+                this.playerWinUp(resData);
+            } else if (resData._t == "G2C_RecyclingMang") {
+                this.recyclingMang(resData);
+            } else if (resData._t == "G2C_RoundEnd") {
+                this.roundEnd(resData);
             }
-        } else if (resData._t == "G2C_StartAction") {
-            this._startAction = resData;
-            if (resData.ret.type == 0) {
-                this.startAction();
-            } else if (resData.ret.type == 6) {
-                this.sanhuaAction(resData)
-            }
-        } else if (resData._t == "G2C_PlayerAction") {
-            this.playerAction(resData);
-        } else if (resData._t == "G2C_PlayerActionEnd") {
-            this.playerActionEnd(resData);
-        } else if (resData._t == "G2C_StartAssignPoker") {//分牌
-            this.assignPokerCountDown(true, resData);
-            this.startAssignPoker(true, false, resData);
-        } else if (resData._t == "G2C_AssignPoker") {//分牌
-            if (resData.ret.type == 0) {
-                this.assignPokerReturn(resData);
-            } else {
-                this.owner.showTips(resData.ret.msg);
-            }
-        } else if (resData._t == "G2C_WinUp") {
-            this.playerWinUp(resData);
-        } else if (resData._t == "G2C_RecyclingMang") {
-            this.recyclingMang(resData);
-        } else if (resData._t == "G2C_RoundEnd") {
-            this.roundEnd(resData);
+        } catch (error) {
+            Main.$LOG('error', error);
+            ErrText.ERR(this, 'try-catc处异常：', error);
         }
     }
 
@@ -480,6 +500,8 @@ export default class GameControl extends Laya.Script {
      */
     updateRoomData(data, allData) {
         console.log('更新座位上的数据=========================0000:', this._plyerIndexArray);
+        ErrText.ERR(this, '更新座位上的数据Date', new Date().getTime());
+        this._allowStartAction=true;
         this._totalMango = data.mang;//芒果底池总分
         this._totalPi = data.dichi;//皮底池总分
         if (data.mang) {
@@ -492,9 +514,7 @@ export default class GameControl extends Laya.Script {
         this._dealNumber = 0;
         let meArr = data.roomSeat.filter(item => item._id == this.userId);
         if (meArr.length > 0) {
-            console.log('更新座位上的数据=========================0:', this._plyerIndexArray);
             this.newIndexConcatArr = this._plyerIndexArray.splice(meArr[0].seat_idx, this._plyerIndexArray.length).concat(this._plyerIndexArray.splice(0, meArr[0].seat_idx + 1));
-            console.log('更新座位上的数据=========================1:', this.newIndexConcatArr);
             this._playerArray.forEach((item, index) => {
                 item.owner.seatId = this.newIndexConcatArr[index];
             })
@@ -546,6 +566,7 @@ export default class GameControl extends Laya.Script {
                             this._allowXiuPoker = false;
                         }
 
+                        ErrText.ERR(this,'重置牌数据'+item_seatData.userId,item_seatData.pokers)
                         //重置牌数据
                         item_seatData.pokers.forEach((item_val, item_val_index) => {
                             item_player.dealPoker(this, item_val_index + 1, data.roomSeat.length, item_val, item_index, true);
@@ -610,67 +631,42 @@ export default class GameControl extends Laya.Script {
         //     })
         // }
         console.log('测试进了')
-        // this.meAnimationZT(true, Main.animations.win)
-        // if (clickIndex == 1) {
-        //     this.meAnimationZT(true,Main.animations.win)
-        // } else {
-        //     this.meAnimationZT(false,Main.animations.win)
+        // Main.showLoading(true, Main.loadingType.two);
+        // // this.meAnimationZT(true, Main.animations.win)
+        // // if (clickIndex == 1) {
+        // //     this.meAnimationZT(true,Main.animations.win)
+        // // } else {
+        // //     this.meAnimationZT(false,Main.animations.win)
+        // // }
+        // if (clickIndex == 4) {
+        //     Main.showLoading(false, Main.loadingType.two)
         // }
-        // if (clickIndex == 1) {
-        //     this.assignPokerCountDown(true, { startTime: (new Date().getTime() / 1000), endTime: (new Date().getTime() / 1000) + 20 });
-        // }
-        if (clickIndex == 1) {
-            let data = {
-                delayedNum: 0,
-                delayedNumMax: 4,
-                delayedScore: 10,
-                endTime: 1574818785,
-                maxXiazu: 5,
-                opts: [3, 4, 1],
-                ret: { type: 0, msg: "成功" },
-                score: 235,
-                startTime: 1574818768,
-                uid: 1021354,
-                xiazu: 5
-            }
-            this.setMeHandleBtnZT(true, data);
-        } else {
-            let data = {
-                delayedNum: 0,
-                delayedNumMax: 4,
-                delayedScore: 10,
-                endTime: 1574818785,
-                maxXiazu: 5,
-                opts: [3, 4, 5],
-                ret: { type: 0, msg: "成功" },
-                score: 235,
-                startTime: 1574818768,
-                uid: 1021354,
-                xiazu: 5
-            }
-            this.setMeHandleBtnZT(true, data);
-        }
+
+        this._playerArray.forEach((item, index) => {
+            if (index == 0)
+                item.showActionTip(true, 1)
+        })
 
     }
 
     /**
      * 开始游戏
      */
-    clickStartGame() {
-        this.onSend({
-            name: 'M.Room.C2R_StartGame',
-            data: {
-                roomid: this.roomId
-            },
-            success(res) {
-                if (res.ret.type == 0) {
-                    this.owner.start_game_btn.visible = false;
-                } else {
-                    this.owner.showTips(res.ret.msg);
-                }
-            }
-        })
-    }
+    // clickStartGame() {
+    //     this.onSend({
+    //         name: 'M.Room.C2R_StartGame',
+    //         data: {
+    //             roomid: this.roomId
+    //         },
+    //         success(res) {
+    //             if (res.ret.type == 0) {
+    //                 this.owner.start_game_btn.visible = false;
+    //             } else {
+    //                 this.owner.showTips(res.ret.msg);
+    //             }
+    //         }
+    //     })
+    // }
 
     /**
      * 去除敲动画
@@ -881,6 +877,7 @@ export default class GameControl extends Laya.Script {
      * 操作游戏按钮显示
      */
     startAction() {
+        console.log('操作====================：',this._allowStartAction,this._startAction)
         if (this._allowStartAction) {
             if (this._startAction) {
                 this._playerArray.forEach(item_player => {
@@ -892,7 +889,7 @@ export default class GameControl extends Laya.Script {
                     if (item_player.owner.userId == this._startAction.uid) {
                         item_player.showActionTip(false);//隐藏提示
                         item_player.showPlayerCountDown(this._startAction, true);//开始倒计时
-                        console.log('自动操作状态======', this.autoHandleType)
+                        Main.$LOG('自动操作状态======', this.autoHandleType)
                         this.setMeCurHandleZT(this._startAction, item_player);
                     }
                 })
@@ -945,7 +942,7 @@ export default class GameControl extends Laya.Script {
             let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
             let $isMe = item_player.owner.isMe;
             // Main.$LOG('设置玩家自动操作状态:', item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
-            if ($isMe && !$visible && isShow && $actionType != 3 && $curXiaZhuScore > 0) {
+            if ($isMe && !$visible && isShow && $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
                 this._autoBtnArr = [];
                 this.owner.autoHandleBtnBox.visible = isShow;
                 let leftBtn = this.owner.auto_handle_left;
@@ -1082,6 +1079,8 @@ export default class GameControl extends Laya.Script {
                         } else {
                             topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                         }
+                    }else if(dataOption[0] == 6){
+                        topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                     }
                 }
             }
@@ -1167,6 +1166,7 @@ export default class GameControl extends Laya.Script {
             })
             this.daSendSoket(data, type);
         } else if (type == 1) {
+            ErrText.ERR(this, '大----处值：data', data);
             let MySliderJS = this.owner.da_slider.getComponent(MySlider);
             MySliderJS.SliderMouseDown(data.maxXiazu * 2, data.score, (val1) => {
                 Main.$LOG('变化值的时候回调：', val1);
@@ -1461,16 +1461,15 @@ export default class GameControl extends Laya.Script {
         this._allowAssignPoker = isShow;
         this._confrimSubBtn0.visible = isShow;
         this._confrimSubBtn1.visible = !isShow;
+        this._subPoint1Text.text = '';
+        this._subPoint2Text.text = '';
+        this._subPokerResult = [];
+        this._subView1.loadImage('');
+        this._subView1.pokerName = '';
+        this._subView2.loadImage('');
+        this._subView2.pokerName = '';
         if (isShow) {
             this.setAssignPokerData();
-        } else {
-            this._subPoint1Text.text = '';
-            this._subPoint2Text.text = '';
-            this._subPokerResult = [];
-            this._subView1.loadImage('');
-            this._subView1.pokerName = '';
-            this._subView2.loadImage('');
-            this._subView2.pokerName = '';
         }
     }
 
@@ -1933,8 +1932,8 @@ export default class GameControl extends Laya.Script {
         this._playerArray.forEach(item_player => {
             if (data.userId == item_player.owner.userId) {
                 item_player.setAddDaiRuScore(data);
-                if (data.userId == this.userId)
-                    this.showMakeUpBoBo(false);
+                // if (data.userId == this.userId)
+                //     this.showMakeUpBoBo(false);
             }
         })
     }
@@ -2015,7 +2014,6 @@ export default class GameControl extends Laya.Script {
      */
     leaveRoomDeal(data) {
         if (data.userid == this.userId) {
-            this.onClose();
             this.leaveRoomOpenView();
         } else {
             this.playerSeatUp(data);
@@ -2026,6 +2024,7 @@ export default class GameControl extends Laya.Script {
      * 离开房间打开的界面
      */
     leaveRoomOpenView() {
+        this.onClose();
         Main.$openScene('tabPage.scene', true, { page: this.owner._openedData.page });
     }
 

@@ -14,7 +14,8 @@ export default class Login extends Laya.Scene {
         this.login_btn.on(Laya.Event.CLICK, this, this.login);
         this.register_btn.on(Laya.Event.CLICK, this, this.register);
         this.change_btn.on(Laya.Event.CLICK, this, this.change);
-        Main.createLoading();
+        Main.createLoading(Main.loadingType.one);
+        Main.createLoading(Main.loadingType.two);
         Main.getStatusHeight();
         setTimeout(()=>{
             this.ceshi.text=Main.phoneNews.statusHeight+';'+Main.phoneNews.deviceNews

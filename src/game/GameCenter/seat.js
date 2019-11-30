@@ -3,6 +3,7 @@ import GameControl from './GameControl'
 import MyCenter from '../common/MyCenter';
 import Main from '../common/Main';//Main.js
 import PlyerNews from '../Fuction/PlyerNews';
+import ErrText from '../Fuction/ErrText'
 let _num3 = 0;
 export default class seat extends Laya.Script {
     constructor() {
@@ -102,23 +103,23 @@ export default class seat extends Laya.Script {
     /**
      * 玩家坐下注册点击事件
      */
-    playerSeatDownRegisterEvent(){
-        this.owner.getChildByName("head-box").on(Laya.Event.CLICK,this,this.getPlayerNews);
+    playerSeatDownRegisterEvent() {
+        this.owner.getChildByName("head-box").on(Laya.Event.CLICK, this, this.getPlayerNews);
     }
     /**
      * 玩家离开去除点击事件
      */
-    playerSeatUpOffEvent(){
-        this.owner.getChildByName("head-box").off(Laya.Event.CLICK,this,this.getPlayerNews);
+    playerSeatUpOffEvent() {
+        this.owner.getChildByName("head-box").off(Laya.Event.CLICK, this, this.getPlayerNews);
     }
     /**
      * 获取玩家个人信息
      */
-    getPlayerNews(){
-        let data={
-            userId:this.owner.userId
+    getPlayerNews() {
+        let data = {
+            userId: this.owner.userId
         }
-        PlyerNews.GetNews(true,data);
+        PlyerNews.GetNews(true, data);
     }
 
     /**
@@ -192,16 +193,16 @@ export default class seat extends Laya.Script {
     * @param {number} data 数据
     * @param {Object} isShow 是否显示
     */
-    showPlayerCountDown(data, isShow=true) {
+    showPlayerCountDown(data, isShow = true) {
         let countDownBox = this.owner.getChildByName("countDownBox");
         countDownBox.visible = isShow;
         if (isShow) {
-            this._allTime = data.endTime - data.startTime-1;
-            this._rotation = 360 * (((new Date().getTime()/1000 - data.startTime)) / this._allTime);
+            this._allTime = data.endTime - data.startTime - 1;
+            this._rotation = 360 * (((new Date().getTime() / 1000 - data.startTime)) / this._allTime);
             this._timeOutFlag = true;
             this._showTimePlayerObj = this.owner;
             this._imgNode = countDownBox.getChildByName("countDown");
-            this._imgNode.loadImage('res/img/progress1.png', Laya.Handler.create(this, this.loadImgEnd,[data]));
+            this._imgNode.loadImage('res/img/gameView/progress1.png', Laya.Handler.create(this, this.loadImgEnd, [data]));
             this._countDownText = this.owner.getChildByName("countDownBox").getChildByName("timeText");
         } else {
             Laya.timer.clear(this, this.drawPie);
@@ -215,13 +216,13 @@ export default class seat extends Laya.Script {
     }
     // 接上
     drawPie(data) {
-        this._countDownText.text = this._allTime - parseInt(((new Date().getTime() / 1000 -  data.startTime))) + 's';
-        if (this._allTime - parseInt(((new Date().getTime()/ 1000 - data.startTime) )) == 5 && this._showTimePlayerObj.isMe) {
+        this._countDownText.text = this._allTime - parseInt(((new Date().getTime() / 1000 - data.startTime))) + 's';
+        if (this._allTime - parseInt(((new Date().getTime() / 1000 - data.startTime))) == 5 && this._showTimePlayerObj.isMe) {
             if (this._timeOutFlag) {
                 this._timeOutFlag = false;
                 if (Main.gameSetVal.gameMusic == 1)
                     Laya.SoundManager.playSound(GameControl.instance._music.subTimeOut, 1);
-                this._imgNode.loadImage('res/img/progress2.png');
+                this._imgNode.loadImage('res/img/gameView/progress2.png');
             }
         }
         this._rotation = 360 * (((new Date().getTime() / 1000 - data.startTime)) / this._allTime);
@@ -247,7 +248,7 @@ export default class seat extends Laya.Script {
         let xiaZhuScoreBox = this.owner.getChildByName("xiaZhuScore");
         xiaZhuScoreBox.visible = show;
         let cm_show_seat = xiaZhuScoreBox.getChildByName("cm_show_seat");
-        cm_show_seat.loadImage('res/img/choumaBg' + cmType + '.png', Laya.Handler.create(this, end, [that, joinNum]));
+        cm_show_seat.loadImage('res/img/gameView/choumaBg' + cmType + '.png', Laya.Handler.create(this, end, [that, joinNum]));
         function end(that, joinNum) {
             // console.log('修改显示筹码：',index+1,joinNum)
             if (index + 1 == joinNum) {
@@ -348,7 +349,7 @@ export default class seat extends Laya.Script {
                 move_cm.pos(this.owner._piDiChiFaceToPlayerXY.x, this.owner._piDiChiFaceToPlayerXY.y);
                 break;
         }
-        move_cm.loadImage('res/img/choumaBg' + cmType + '.png', Laya.Handler.create(this, this.moveShowCM, [that, move_cm, moveXY, music, joinNum, fn, param]));
+        move_cm.loadImage('res/img/gameView/choumaBg' + cmType + '.png', Laya.Handler.create(this, this.moveShowCM, [that, move_cm, moveXY, music, joinNum, fn, param]));
     }
 
     /**
@@ -431,6 +432,7 @@ export default class seat extends Laya.Script {
      * @param fn 回调函数
      */
     dealPoker(that, num, count, playerPokerName, index, isUpdate, fn) {
+        ErrText.ERR(that,'this.owner.isMe:',this.owner.isMe);
         if (this.owner.isMe) {
             let mePokerBox = this.owner.getChildByName("show_me_poker_box");
             let mePoker = mePokerBox.getChildByName("poker" + num);
@@ -443,7 +445,7 @@ export default class seat extends Laya.Script {
             // console.log('自己的牌数据：',mePoker)
             let deal_me_cards_seat_xy = mePokerBox.globalToLocal(new Laya.Point(Laya.stage.width / 2, Laya.stage.height / 2));
             mePoker.pos(deal_me_cards_seat_xy.x, deal_me_cards_seat_xy.y);
-            mePoker.loadImage('res/img/fightPokerBg.png', Laya.Handler.create(this, this.loadDealMePokerEnd, [that, mePoker, num, count, playerPokerName, index, isUpdate, fn]));
+            mePoker.loadImage('res/img/poker/-1.png', Laya.Handler.create(this, this.loadDealMePokerEnd, [that, mePoker, num, count, playerPokerName, index, isUpdate, fn]));
             if (num <= 2) {
                 let pokerBox = this.owner.getChildByName("deal_cards_seat");
                 let poker = pokerBox.getChildByName("poker" + num);
@@ -482,7 +484,7 @@ export default class seat extends Laya.Script {
             poker.scaleY = 1;
             poker.rotation = 180;
             poker.pos(deal_cards_seat_xy.x, deal_cards_seat_xy.y);
-            poker.loadImage('res/img/fightPokerBg.png', Laya.Handler.create(this, this.loadDealPokerEnd, [that, poker, num, count, playerPokerName, index, isUpdate, fn]))
+            poker.loadImage('res/img/poker/-1.png', Laya.Handler.create(this, this.loadDealPokerEnd, [that, poker, num, count, playerPokerName, index, isUpdate, fn]))
         }
     }
 
@@ -643,32 +645,34 @@ export default class seat extends Laya.Script {
      * @param isShow  是否显示
      */
     showActionTip(isShow, actionType) {
+        this.$y = 28;
         let tipsBox = this.owner.getChildByName("tipsBox");
         tipsBox.visible = isShow;
+        tipsBox.y = this.$y;
+        Laya.timer.clear(this, this.TimeEnd);
         if (isShow) {
             tipsBox.loadImage('res/img/Action/Action' + actionType + '.png', Laya.Handler.create(this, this.loadTipEnd, [tipsBox]))
             this.owner.actionType = actionType;
-        }else{
+        } else {
             this.owner.actionType = null;
         }
     }
 
     // 接上
     loadTipEnd(tipsBox) {
-        let y = tipsBox.y;
         _num3 = 0;
-        Laya.timer.frameLoop(2, this, this.TimeEnd, [y, tipsBox])
+        Laya.timer.frameLoop(2, this, this.TimeEnd, [tipsBox])
     }
     // 接上
-    TimeEnd(y, tipsBox) {
+    TimeEnd(tipsBox) {
         _num3++;
         if (_num3 % 2 == 0) {
-            Laya.Tween.to(tipsBox, { y: y + 20 }, 100);
+            Laya.Tween.to(tipsBox, { y: this.$y + 20 }, 100);
         } else {
-            Laya.Tween.to(tipsBox, { y: y }, 100);
+            Laya.Tween.to(tipsBox, { y: this.$y }, 100);
         }
         if (_num3 >= 5) {
-            Laya.timer.clear(this, this.TimeEnd)
+            Laya.timer.clear(this, this.TimeEnd);
         }
     }
 
@@ -863,7 +867,7 @@ export default class seat extends Laya.Script {
         let win_img = animationBox.getChildByName("WIN_IMG");
         animationBox.visible = isShow;
         win.visible = isShow;
-        win_img.visible=isShow;
+        win_img.visible = isShow;
         win.rotation = 0;
         if (isShow) {
             Laya.timer.loop(1, this, this.winRotation, [win])
