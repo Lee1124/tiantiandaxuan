@@ -19,6 +19,7 @@ export default class GameUI extends Laya.Scene {
         //加载场景文件
         // this.loadScene("cheXuanGame_8.scene");
         this.ceshiNum = 0;
+        this.ceshiNum2 = 0;
     }
 
     onAwake() {
@@ -77,10 +78,8 @@ export default class GameUI extends Laya.Scene {
     }
     onEnable() {
         this.loadMenuContent();
-        // this.gameSetRegisterEvent();
         this._confirmDaiRuBtn = this.makeUp_bobo.getChildByName("confirmDaiRuBtn");
         this._control = this.getComponent(GameControl);
-        // this.start_game_btn.on(Laya.Event.CLICK, this, this.onClickStartBtn);//游戏开始事件
         this.confrimSubBtn1.on(Laya.Event.CLICK, this, this.onClickConfrimSubBtn1);//确认分牌事件
         this.ExpressionUI.on(Laya.Event.CLICK, this, this.onClickExpression);//表情
         this._mask.on(Laya.Event.CLICK, this, this.onClickMask);//蒙板
@@ -91,23 +90,43 @@ export default class GameUI extends Laya.Scene {
         this.bobo_close.on(Laya.Event.CLICK, this, this.onClickMask);//补充钵钵关闭按钮关闭
         this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
         this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
-        this.ceShiBtn.on(Laya.Event.CLICK, this, this.onClickceShiBtn);
+        this.ceshiEvent();//有关于测试事件
     }
 
-    onClickceShiBtn() {
+    ceshiEvent() {
+        this.ceshi_show_view_btn.on(Laya.Event.CLICK, this, this.click_ceshi_btn);
+        this.ceshi_LOG.on(Laya.Event.CLICK, this, this.ceshiContent, [1]);
+        this.ceshi_ERRROLAD.on(Laya.Event.CLICK, this, this.ceshiContent, [2]);
+    }
+
+    click_ceshi_btn() {
         this.ceshiNum++;
-        if (this.ceshiNum % 2 == 0) {
-            this.ErrList.visible = false;
+        if (this.ceshiNum == 5) {
+            this.ceshi_view.visible = true;
+            Laya.Tween.to(this.ceshi_view, { x: 0, alpha: 1 }, 200)
+            this.ceshiNum = -1;
         } else {
-            this.ErrList.visible = true;
+            Laya.Tween.to(this.ceshi_view, { x: -200, alpha: 0 }, 100, null, Laya.Handler.create(this, () => {
+                this.ceshi_view.visible = false;
+            }))
         }
     }
-    /** 
-     * 开始游戏
-    */
-    // onClickStartBtn() {
-    //     this._control.clickStartGame();
-    // }
+
+    ceshiContent(type) {
+        if (type == 1) {
+            this.ceshiNum2++;
+            if (this.ceshiNum2 % 2 == 0) {
+                this.ceshi_log_list.visible = false;
+            } else {
+                this.ceshi_log_list.visible = true;
+            }
+        } else if (type == 2) {
+            GameControl.instance.onClose();
+            GameControl.instance.onConnect();
+            this.showTips('正在刷新数据，请稍后...');
+        }
+    }
+
 
     onClickVoiceBtn() {
         this._control.ceShi();

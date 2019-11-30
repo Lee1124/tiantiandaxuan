@@ -65,23 +65,23 @@ export default class seat extends Laya.Script {
      * @param {*} data 需要的参数
      */
     playerSeatAtSetContent(data) {
-        let lastTime = data.seatAtTime - Main.getTimeChuo();//占座剩余时间
-        if (lastTime > data.totalTime) {
-            lastTime = data.totalTime;
+        this.owner.curXiaZhuScore = 0;
+        this.lastTime = data.seatAtTime - Main.getTimeChuo();//占座剩余时间
+        if (this.lastTime > data.totalTime) {
+            this.lastTime = data.totalTime;
         }
         let scoreBox = this.owner.getChildByName("score");
         scoreBox.visible = true;
         let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
-        scoreVal.text = '等待' + lastTime + 's';
-        if (this.owner.timeID)
-            clearInterval(this.owner.timeID);
-        this.owner.timeID = setInterval(() => {
-            lastTime--;
-            scoreVal.text = '等待' + lastTime + 's';
-            if (lastTime == 0) {
-                clearInterval(this.owner.timeID);
-            }
-        }, 1000)
+        scoreVal.text = '等待' + this.lastTime + 's';
+        Laya.timer.loop(1000,this,this.palyerSeatAtTime,[scoreVal])
+    }
+
+    palyerSeatAtTime(scoreVal){
+        this.lastTime--;
+        scoreVal.text = '等待' + this.lastTime + 's';
+        if(this.lastTime<=0)
+            Laya.timer.clear(this,this.palyerSeatAtTime);
     }
 
     /**
@@ -97,7 +97,6 @@ export default class seat extends Laya.Script {
         let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
         scoreBox.visible = true;
         scoreVal.text = data.score;
-        this.owner.curXiaZhuScore = 0;
     }
 
     /**
@@ -128,6 +127,7 @@ export default class seat extends Laya.Script {
      * @param {*} data 剩余时间
      */
     playerSeatDownOrSeatAtCommon(isShow, data, isUpdate) {
+        Laya.timer.clear(this,this.palyerSeatAtTime);
         let headBox = this.owner.getChildByName("head-box");
         let headImg = headBox.getChildByName("headImgBox");
         let name = this.owner.getChildByName("name");
@@ -175,6 +175,7 @@ export default class seat extends Laya.Script {
      * 补充钵钵后变更分数处理
      */
     setAddDaiRuScore(data) {
+        Laya.timer.clear(this,this.palyerSeatAtTime);
         let scoreBox = this.owner.getChildByName("score");
         let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
         scoreVal.text = data.score;

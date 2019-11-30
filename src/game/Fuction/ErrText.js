@@ -6,7 +6,7 @@ class ErrText{
         if(typeof msg == 'object'){
             value=JSON.stringify(msg)
         }
-        this.list=that.owner.ErrList;
+        this.list=that.owner.ceshi_log_list;
         this.list.vScrollBarSkin = "";//运用滚动
         Main.errList.push({tip:tip,value:value});
         this.list.array=Main.errList;

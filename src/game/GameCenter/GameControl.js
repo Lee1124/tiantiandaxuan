@@ -651,11 +651,59 @@ export default class GameControl extends Laya.Script {
         //     Main.showLoading(false, Main.loadingType.two)
         // }
 
-        this._playerArray.forEach((item, index) => {
-            if (index == 0)
-                item.showActionTip(true, 1)
-        })
-
+        // this._playerArray.forEach((item, index) => {
+        //     if (index == 0)
+        //         item.showActionTip(true, 1)
+        // })
+        // if (clickIndex == 1) {
+        //     let data = {
+        //         countdown: 17,
+        //         delayedNum: 0,
+        //         delayedNumMax: 4,
+        //         delayedScore: 10,
+        //         endTime: 1575088008,
+        //         maxXiazu: 196,
+        //         opts: [3, 2, 1],
+        //         ret: { type: 0, msg: "成功" },
+        //         score: 94,
+        //         startTime: 1575087991,
+        //         uid: 1021354,
+        //         xiazu: 102,
+        //     }
+        //     this.setMeHandleBtnZT(true, data);
+        // } else if(clickIndex == 2){
+        //     let data = {
+        //         countdown: 17,
+        //         delayedNum: 0,
+        //         delayedNumMax: 4,
+        //         delayedScore: 10,
+        //         endTime: 1575088008,
+        //         maxXiazu: 196,
+        //         opts: [3, 2, 5],
+        //         ret: { type: 0, msg: "成功" },
+        //         score: 94,
+        //         startTime: 1575087991,
+        //         uid: 1021354,
+        //         xiazu: 102,
+        //     }
+        //     this.setMeHandleBtnZT(true, data);
+        // }else if(clickIndex == 3){
+        //     let data = {
+        //         countdown: 17,
+        //         delayedNum: 0,
+        //         delayedNumMax: 4,
+        //         delayedScore: 10,
+        //         endTime: 1575088008,
+        //         maxXiazu: 196,
+        //         opts: [3, 2, 6],
+        //         ret: { type: 0, msg: "成功" },
+        //         score: 94,
+        //         startTime: 1575087991,
+        //         uid: 1021354,
+        //         xiazu: 102,
+        //     }
+        //     this.setMeHandleBtnZT(true, data);
+        // }
     }
 
     /**
@@ -948,7 +996,7 @@ export default class GameControl extends Laya.Script {
             let $actionType = item_player.owner.actionType;
             let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
             let $isMe = item_player.owner.isMe;
-            // Main.$LOG('设置玩家自动操作状态:', item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
+            // Main.$LOG('设置玩家自动操作状态:',item_player.owner.userId, item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
             if ($isMe && !$visible && isShow && $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
                 this._autoBtnArr = [];
                 this.owner.autoHandleBtnBox.visible = isShow;
@@ -1012,16 +1060,19 @@ export default class GameControl extends Laya.Script {
     }
 
 
+
+
     /**
      * 关于自己的操作按钮的一些状态设置
      * @param isShow 是否显示
      * @param data 请求的参数
      */
     setMeHandleBtnZT(isShow = true, data) {
-        Main.$LOG('进来操作状态======:', data)
+        Main.$LOG('进来操作状态======:', isShow, data)
         this.owner.handleBtnBox.visible = isShow;
         if (isShow) {
             PlayerDelayTime.init(this.delayType.action, this, data);
+            // this.playerSeatFn('playerDelayHandle', data);
             this._btnArr = [];
             this._btnMoveNum = 0;
             let leftBtn = this.owner.handle_left;
@@ -1087,6 +1138,7 @@ export default class GameControl extends Laya.Script {
                             topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                         }
                     } else if (dataOption[0] == 6) {
+                        topBtn.off(Laya.Event.CLICK, this, this.onClickTopBtn);
                         topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                     }
                 }
@@ -1423,17 +1475,10 @@ export default class GameControl extends Laya.Script {
                 }
                 this.showAssignPokerView(isShow);
             }
-            data.players.forEach(item => {
-                this._playerArray.forEach(item_player => {
-                    if (item == item_player.owner.userId){
-                        PlayerDelayTime.init(this.delayType.sub, this, data);
-                    }else {
-                        PlayerDelayTime.offEvent(this);
-                    }
-                })
-            })
+            let meJoinArr = this._playerArray.filter(item_player => data.players.find(item2 => item_player.owner.isMe && item2 == item_player.owner.userId));
+            if (meJoinArr.length > 0)
+                PlayerDelayTime.init(this.delayType.sub, this, data);
         } else {
-            console.log('开始分牌隐藏处=============================9999')
             this.showAssignPokerView(isShow);
             PlayerDelayTime.offEvent(this);
         }
@@ -1464,20 +1509,22 @@ export default class GameControl extends Laya.Script {
      * 显示分牌容器
      * @param {bool} isShow 是否显示
      */
-    showAssignPokerView(isShow) {
+    showAssignPokerView(isShow, type) {
         this.owner.me_sub_pokerBox.visible = isShow;
         this._allowAssignPoker = isShow;
         this._confrimSubBtn0.visible = isShow;
         this._confrimSubBtn1.visible = !isShow;
         this._subPoint1Text.text = '';
         this._subPoint2Text.text = '';
-        this._subPokerResult = [];
         this._subView1.loadImage('');
         this._subView1.pokerName = '';
         this._subView2.loadImage('');
         this._subView2.pokerName = '';
         if (isShow) {
             this.setAssignPokerData();
+        }
+        if (!type) {
+            this._subPokerResult = [];
         }
     }
 
@@ -1613,12 +1660,14 @@ export default class GameControl extends Laya.Script {
      */
     confrimSubResult() {
         if (this._subPokerResult) {
+            this.showAssignPokerView(false, 'view');
             this._playerArray.forEach(item_player => {
                 if (item_player.owner.isMe) {
                     item_player.showActionTip(true, 6);
                     item_player.reloadPlayerPokerZT(false, [1, 2, 3, 4]);
                 }
             })
+            ErrText.ERR(this, '点击了确认分牌=====：', this._subPokerResult);
             this.onSend({
                 name: 'M.Games.CX.C2G_AssignPoker',
                 data: {
@@ -1633,6 +1682,17 @@ export default class GameControl extends Laya.Script {
     }
 
     /**
+   * 方便关于玩家位置下的数据重置
+   * @param type 函数名称 eg:'playerDelayHandle'
+   * @param data 数据
+   */
+    playerSeatFn(type, data) {
+        this._playerArray.forEach(item_player => {
+            this[type](data);
+        })
+    }
+
+    /**
      * 玩家输赢收金币效果
      */
     playerWinUp(data) {
@@ -1640,12 +1700,12 @@ export default class GameControl extends Laya.Script {
         this.allowWinShou = true;
         // let joinNum = data.players.filter(item => item.losewin >= 0);
         this.reloadPlayerMoreZT();
+        this.playerSeatFn('assignPokerCountDown', false);
         data.players.forEach((item_data, item_index) => {
             this._playerArray.forEach(item_player => {
                 if (item_data._id == item_player.owner.userId) {
                     if (item_data.assignPoker.length != 0) {
                         this.startAssignPoker(false);
-                        this.assignPokerCountDown(false);
                         item_player.reloadPlayerPokerZT(false, [1, 2, 3, 4]);
                         let returnData1 = [item_data.assignPoker[0], item_data.assignPoker[1]];
                         let returnData2 = [item_data.assignPoker[2], item_data.assignPoker[3]];
@@ -1664,7 +1724,6 @@ export default class GameControl extends Laya.Script {
                 }
             })
         })
-
     }
 
     gameEndMoveCMEnd(data) {
@@ -1756,6 +1815,7 @@ export default class GameControl extends Laya.Script {
             item_player.showPlayerLastWinScore(false)
         })
         this.meAnimationZT(false, Main.animations.win);
+        this.playerSeatFn('assignPokerCountDown', false);
     }
 
     /**
@@ -1940,8 +2000,6 @@ export default class GameControl extends Laya.Script {
         this._playerArray.forEach(item_player => {
             if (data.userId == item_player.owner.userId) {
                 item_player.setAddDaiRuScore(data);
-                // if (data.userId == this.userId)
-                //     this.showMakeUpBoBo(false);
             }
         })
     }

@@ -17,7 +17,7 @@ class PlayerDelayTime {
         this.GameControl.owner.delayTimeBtn.on(Laya.Event.CLICK, this, this.onClickDelayTime);
     }
     offEvent(that) {
-        Main.$LOG('该脚本为玩家延时操作offEvent:',that)
+        Main.$LOG('玩家延时操作offEvent:',that)
         if(that.owner.delayTimeBtn){
             that.owner.delayTimeBtn.visible = false;
             that.owner.delayTimeBtn.off(Laya.Event.CLICK, this, this.onClickDelayTime);

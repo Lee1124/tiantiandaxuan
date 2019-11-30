@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":3,
+    "selectedBox":1941,
+    "selecteID":1942,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":1951,
+    "maxID":1955,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -1002,7 +1002,7 @@
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"centerY":360},
                     "nodeParent":3,
                     "label":"empty-seat-2",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -9514,26 +9514,41 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,ceShi,ceShiBtn",
-            "props":{"width":165,"var":"ceShiBtn","skin":"images/common/scoreBg.png","right":0,"name":"ceShi","height":95,"bottom":0},
+            "searchKey":"Image,ceshi_view,ceshi_view",
+            "props":{"x":0,"width":200,"visible":false,"var":"ceshi_view","name":"ceshi_view","left":0,"height":242,"bottom":0},
             "nodeParent":2,
-            "label":"ceShi",
-            "isOpen":false,
+            "label":"ceshi_view",
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":1941,
             "child":[
                 {
+                    "x":30,
                     "type":"Label",
-                    "searchKey":"Label",
-                    "props":{"text":"测试","fontSize":40,"color":"#935F13","centerY":0,"centerX":0},
+                    "searchKey":"Label,LOG,ceshi_LOG",
+                    "props":{"var":"ceshi_LOG","valign":"middle","top":0,"text":"log","right":0,"name":"LOG","left":0,"height":80,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
                     "nodeParent":1941,
-                    "label":"Label",
+                    "label":"LOG",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":1942,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Label",
+                    "searchKey":"Label,ERRROLAD,ceshi_ERRROLAD",
+                    "props":{"var":"ceshi_ERRROLAD","valign":"middle","top":80,"text":"异常刷新","right":0,"name":"ERRROLAD","left":0,"height":80,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
+                    "nodeParent":1941,
+                    "label":"ERRROLAD",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1953,
                     "child":[
                         ]
                 }]
@@ -9541,21 +9556,20 @@
         {
             "x":15,
             "type":"List",
-            "searchKey":"List,ErrList,ErrList",
-            "props":{"zOrder":30,"y":0,"width":1242,"visible":false,"var":"ErrList","right":0,"name":"ErrList","left":0,"height":809},
+            "searchKey":"List,ceshi_log_list,ceshi_log_list",
+            "props":{"zOrder":30,"y":0,"width":1242,"visible":false,"var":"ceshi_log_list","right":0,"name":"ceshi_log_list","left":0,"height":809},
             "nodeParent":2,
-            "label":"ErrList",
-            "isOpen":true,
+            "label":"ceshi_log_list",
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":1947,
             "child":[
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box",
-                    "props":{"right":0,"renderType":"render","left":0,"height":200},
+                    "props":{"y":0,"width":1242,"right":0,"renderType":"render","left":0,"height":200},
                     "nodeParent":1947,
                     "label":"Box",
                     "isOpen":true,
@@ -9565,10 +9579,9 @@
                     "compId":1945,
                     "child":[
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,tip",
-                            "props":{"y":0,"x":0,"wordWrap":true,"visible":true,"text":"无","right":0,"name":"tip","left":0,"fontSize":50,"color":"#F7C333"},
+                            "props":{"y":0,"x":0,"wordWrap":true,"visible":true,"text":"无备注：","right":0,"name":"tip","left":0,"fontSize":50,"color":"#FF0000","borderColor":"#935F13"},
                             "nodeParent":1945,
                             "label":"tip",
                             "isDirectory":false,
@@ -9579,10 +9592,9 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,value",
-                            "props":{"wordWrap":true,"visible":true,"top":50,"text":"无","right":0,"name":"value","left":0,"fontSize":50,"color":"#F7C333","bgColor":"#FFFFFF"},
+                            "props":{"wordWrap":true,"visible":true,"top":50,"text":"无打印值：","right":0,"name":"value","left":0,"fontSize":50,"color":"#F7C333"},
                             "nodeParent":1945,
                             "label":"value",
                             "isDirectory":false,
@@ -9591,9 +9603,36 @@
                             "compId":1948,
                             "child":[
                                 ]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"top":0,"skin":"images/End/e_bg1.png","right":0,"left":0,"bottom":0},
+                            "nodeParent":1945,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":false,
+                            "hasChild":false,
+                            "compId":1952,
+                            "child":[
+                                ]
                         }]
                 }],
             "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,ceshi_show_view_btn,ceshi_show_view_btn",
+            "props":{"width":100,"var":"ceshi_show_view_btn","right":0,"name":"ceshi_show_view_btn","height":152,"bottom":0},
+            "nodeParent":2,
+            "label":"ceshi_show_view_btn",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":1954,
+            "child":[
+                ]
         }],
     "animations":[
         {

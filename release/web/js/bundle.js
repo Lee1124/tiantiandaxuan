@@ -1336,7 +1336,7 @@
             this.GameControl.owner.delayTimeBtn.on(Laya.Event.CLICK, this, this.onClickDelayTime);
         }
         offEvent(that) {
-            Main$1.$LOG('该脚本为玩家延时操作offEvent:',that);
+            Main$1.$LOG('玩家延时操作offEvent:',that);
             if(that.owner.delayTimeBtn){
                 that.owner.delayTimeBtn.visible = false;
                 that.owner.delayTimeBtn.off(Laya.Event.CLICK, this, this.onClickDelayTime);
@@ -1644,7 +1644,7 @@
             if(typeof msg == 'object'){
                 value=JSON.stringify(msg);
             }
-            this.list=that.owner.ErrList;
+            this.list=that.owner.ceshi_log_list;
             this.list.vScrollBarSkin = "";//运用滚动
             Main$1.errList.push({tip:tip,value:value});
             this.list.array=Main$1.errList;
@@ -1852,7 +1852,7 @@
             //允许操作显示
             this._allowStartAction = true;
             //是否是刷新或者重连的数据
-            this._isUpdateData=false;
+            this._isUpdateData = false;
         }
 
         beackRoom(roomId) {
@@ -2171,6 +2171,10 @@
                     this._startAction = null;
                     if (resData.type == 0) {//首牌(第1、2张)
                         this.playerBindPoker12Val(resData);
+                        if (this._isUpdateData) {
+                            console.log('进来了');
+                            this.startDealPoker1And2();
+                        }
                     } else if (resData.type == 1) {//第3张
                         this.playerBindPoker3Or4Val(resData, 3);
                     } else if (resData.type == 2) {//第4张
@@ -2251,7 +2255,7 @@
          * @param {} roomSeatArr 需要更新的数据
          */
         updateRoomData(data, allData) {
-            console.log('更新座位上的数据=========================0000:', this._plyerIndexArray);
+            // console.log('更新座位上的数据=========================0000:', this._plyerIndexArray);
             ErrText$1.ERR(this, '更新座位上的数据Date', new Date().getTime());
             this._allowStartAction = true;
             this._totalMango = data.mang;//芒果底池总分
@@ -2261,6 +2265,7 @@
             }
             if (data.dichi > 0) {
                 this.showDiChiPi(true);
+                this._isUpdateData = true;
             }
             /* =====更新座位上的数据===== */
             this._dealNumber = 0;
@@ -2319,6 +2324,11 @@
                             }
 
                             ErrText$1.ERR(this, '重置牌数据' + item_seatData.userId, item_seatData.pokers);
+                            // if (item_seatData.pokers.length==0) {
+                            //     this._isUpdateData = true;
+                            // }else{
+                            //     this._isUpdateData = false;
+                            // }
                             //重置牌数据
                             item_seatData.pokers.forEach((item_val, item_val_index) => {
                                 item_player.dealPoker(this, item_val_index + 1, data.roomSeat.length, item_val, item_index, true);
@@ -2385,11 +2395,59 @@
             //     Main.showLoading(false, Main.loadingType.two)
             // }
 
-            this._playerArray.forEach((item, index) => {
-                if (index == 0)
-                    item.showActionTip(true, 1);
-            });
-
+            // this._playerArray.forEach((item, index) => {
+            //     if (index == 0)
+            //         item.showActionTip(true, 1)
+            // })
+            // if (clickIndex == 1) {
+            //     let data = {
+            //         countdown: 17,
+            //         delayedNum: 0,
+            //         delayedNumMax: 4,
+            //         delayedScore: 10,
+            //         endTime: 1575088008,
+            //         maxXiazu: 196,
+            //         opts: [3, 2, 1],
+            //         ret: { type: 0, msg: "成功" },
+            //         score: 94,
+            //         startTime: 1575087991,
+            //         uid: 1021354,
+            //         xiazu: 102,
+            //     }
+            //     this.setMeHandleBtnZT(true, data);
+            // } else if(clickIndex == 2){
+            //     let data = {
+            //         countdown: 17,
+            //         delayedNum: 0,
+            //         delayedNumMax: 4,
+            //         delayedScore: 10,
+            //         endTime: 1575088008,
+            //         maxXiazu: 196,
+            //         opts: [3, 2, 5],
+            //         ret: { type: 0, msg: "成功" },
+            //         score: 94,
+            //         startTime: 1575087991,
+            //         uid: 1021354,
+            //         xiazu: 102,
+            //     }
+            //     this.setMeHandleBtnZT(true, data);
+            // }else if(clickIndex == 3){
+            //     let data = {
+            //         countdown: 17,
+            //         delayedNum: 0,
+            //         delayedNumMax: 4,
+            //         delayedScore: 10,
+            //         endTime: 1575088008,
+            //         maxXiazu: 196,
+            //         opts: [3, 2, 6],
+            //         ret: { type: 0, msg: "成功" },
+            //         score: 94,
+            //         startTime: 1575087991,
+            //         uid: 1021354,
+            //         xiazu: 102,
+            //     }
+            //     this.setMeHandleBtnZT(true, data);
+            // }
         }
 
         /**
@@ -2426,6 +2484,7 @@
         setMoreStartVal() {
             this._allowXiuPoker = true;
             this._allowStartAction = false;
+            // this._isUpdateData=false;
             this.autoHandleType = null;
             {
                 this._allowAssignPoker = false;
@@ -2681,7 +2740,7 @@
                 let $actionType = item_player.owner.actionType;
                 let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
                 let $isMe = item_player.owner.isMe;
-                // Main.$LOG('设置玩家自动操作状态:', item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
+                // Main.$LOG('设置玩家自动操作状态:',item_player.owner.userId, item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
                 if ($isMe && !$visible && isShow && $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
                     this._autoBtnArr = [];
                     this.owner.autoHandleBtnBox.visible = isShow;
@@ -2745,16 +2804,19 @@
         }
 
 
+
+
         /**
          * 关于自己的操作按钮的一些状态设置
          * @param isShow 是否显示
          * @param data 请求的参数
          */
         setMeHandleBtnZT(isShow = true, data) {
-            Main$1.$LOG('进来操作状态======:', data);
+            Main$1.$LOG('进来操作状态======:', isShow, data);
             this.owner.handleBtnBox.visible = isShow;
             if (isShow) {
                 PlayerDelayTime$1.init(this.delayType.action, this, data);
+                // this.playerSeatFn('playerDelayHandle', data);
                 this._btnArr = [];
                 this._btnMoveNum = 0;
                 let leftBtn = this.owner.handle_left;
@@ -2820,6 +2882,7 @@
                                 topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                             }
                         } else if (dataOption[0] == 6) {
+                            topBtn.off(Laya.Event.CLICK, this, this.onClickTopBtn);
                             topBtn.off(Laya.Event.MOUSE_DOWN, this, this.onClickTopBtn);
                         }
                     }
@@ -3156,15 +3219,9 @@
                     }
                     this.showAssignPokerView(isShow);
                 }
-                data.players.forEach(item => {
-                    this._playerArray.forEach(item_player => {
-                        if (item == item_player.owner.userId)
-                            PlayerDelayTime$1.init(this.delayType.sub, this, data);
-                        else {
-                            PlayerDelayTime$1.offEvent(this);
-                        }
-                    });
-                });
+                let meJoinArr = this._playerArray.filter(item_player => data.players.find(item2 => item_player.owner.isMe && item2 == item_player.owner.userId));
+                if (meJoinArr.length > 0)
+                    PlayerDelayTime$1.init(this.delayType.sub, this, data);
             } else {
                 this.showAssignPokerView(isShow);
                 PlayerDelayTime$1.offEvent(this);
@@ -3196,20 +3253,22 @@
          * 显示分牌容器
          * @param {bool} isShow 是否显示
          */
-        showAssignPokerView(isShow) {
+        showAssignPokerView(isShow, type) {
             this.owner.me_sub_pokerBox.visible = isShow;
             this._allowAssignPoker = isShow;
             this._confrimSubBtn0.visible = isShow;
             this._confrimSubBtn1.visible = !isShow;
             this._subPoint1Text.text = '';
             this._subPoint2Text.text = '';
-            this._subPokerResult = [];
             this._subView1.loadImage('');
             this._subView1.pokerName = '';
             this._subView2.loadImage('');
             this._subView2.pokerName = '';
             if (isShow) {
                 this.setAssignPokerData();
+            }
+            if (!type) {
+                this._subPokerResult = [];
             }
         }
 
@@ -3345,12 +3404,14 @@
          */
         confrimSubResult() {
             if (this._subPokerResult) {
+                this.showAssignPokerView(false, 'view');
                 this._playerArray.forEach(item_player => {
                     if (item_player.owner.isMe) {
                         item_player.showActionTip(true, 6);
                         item_player.reloadPlayerPokerZT(false, [1, 2, 3, 4]);
                     }
                 });
+                ErrText$1.ERR(this, '点击了确认分牌=====：', this._subPokerResult);
                 this.onSend({
                     name: 'M.Games.CX.C2G_AssignPoker',
                     data: {
@@ -3365,6 +3426,17 @@
         }
 
         /**
+       * 方便关于玩家位置下的数据重置
+       * @param type 函数名称 eg:'playerDelayHandle'
+       * @param data 数据
+       */
+        playerSeatFn(type, data) {
+            this._playerArray.forEach(item_player => {
+                this[type](data);
+            });
+        }
+
+        /**
          * 玩家输赢收金币效果
          */
         playerWinUp(data) {
@@ -3372,12 +3444,12 @@
             this.allowWinShou = true;
             // let joinNum = data.players.filter(item => item.losewin >= 0);
             this.reloadPlayerMoreZT();
+            this.playerSeatFn('assignPokerCountDown', false);
             data.players.forEach((item_data, item_index) => {
                 this._playerArray.forEach(item_player => {
                     if (item_data._id == item_player.owner.userId) {
                         if (item_data.assignPoker.length != 0) {
                             this.startAssignPoker(false);
-                            this.assignPokerCountDown(false);
                             item_player.reloadPlayerPokerZT(false, [1, 2, 3, 4]);
                             let returnData1 = [item_data.assignPoker[0], item_data.assignPoker[1]];
                             let returnData2 = [item_data.assignPoker[2], item_data.assignPoker[3]];
@@ -3396,7 +3468,6 @@
                     }
                 });
             });
-
         }
 
         gameEndMoveCMEnd(data) {
@@ -3488,6 +3559,7 @@
                 item_player.showPlayerLastWinScore(false);
             });
             this.meAnimationZT(false, Main$1.animations.win);
+            this.playerSeatFn('assignPokerCountDown', false);
         }
 
         /**
@@ -3672,8 +3744,6 @@
             this._playerArray.forEach(item_player => {
                 if (data.userId == item_player.owner.userId) {
                     item_player.setAddDaiRuScore(data);
-                    // if (data.userId == this.userId)
-                    //     this.showMakeUpBoBo(false);
                 }
             });
         }
@@ -3792,6 +3862,7 @@
         * 开始发首牌(第1张牌)
         */
         startDealPoker1And2() {
+            this._isUpdateData = false;
             let count = this._dealPoker12Array.length;
             this._dealNumber = 0;
             for (let i = 1; i <= 2; i++) {
@@ -4036,6 +4107,7 @@
             //加载场景文件
             // this.loadScene("cheXuanGame_8.scene");
             this.ceshiNum = 0;
+            this.ceshiNum2 = 0;
         }
 
         onAwake() {
@@ -4094,10 +4166,8 @@
         }
         onEnable() {
             this.loadMenuContent();
-            // this.gameSetRegisterEvent();
             this._confirmDaiRuBtn = this.makeUp_bobo.getChildByName("confirmDaiRuBtn");
             this._control = this.getComponent(GameControl);
-            // this.start_game_btn.on(Laya.Event.CLICK, this, this.onClickStartBtn);//游戏开始事件
             this.confrimSubBtn1.on(Laya.Event.CLICK, this, this.onClickConfrimSubBtn1);//确认分牌事件
             this.ExpressionUI.on(Laya.Event.CLICK, this, this.onClickExpression);//表情
             this._mask.on(Laya.Event.CLICK, this, this.onClickMask);//蒙板
@@ -4108,23 +4178,43 @@
             this.bobo_close.on(Laya.Event.CLICK, this, this.onClickMask);//补充钵钵关闭按钮关闭
             this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
             this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
-            this.ceShiBtn.on(Laya.Event.CLICK, this, this.onClickceShiBtn);
+            this.ceshiEvent();//有关于测试事件
         }
 
-        onClickceShiBtn() {
+        ceshiEvent() {
+            this.ceshi_show_view_btn.on(Laya.Event.CLICK, this, this.click_ceshi_btn);
+            this.ceshi_LOG.on(Laya.Event.CLICK, this, this.ceshiContent, [1]);
+            this.ceshi_ERRROLAD.on(Laya.Event.CLICK, this, this.ceshiContent, [2]);
+        }
+
+        click_ceshi_btn() {
             this.ceshiNum++;
-            if (this.ceshiNum % 2 == 0) {
-                this.ErrList.visible = false;
+            if (this.ceshiNum == 5) {
+                this.ceshi_view.visible = true;
+                Laya.Tween.to(this.ceshi_view, { x: 0, alpha: 1 }, 200);
+                this.ceshiNum = -1;
             } else {
-                this.ErrList.visible = true;
+                Laya.Tween.to(this.ceshi_view, { x: -200, alpha: 0 }, 100, null, Laya.Handler.create(this, () => {
+                    this.ceshi_view.visible = false;
+                }));
             }
         }
-        /** 
-         * 开始游戏
-        */
-        // onClickStartBtn() {
-        //     this._control.clickStartGame();
-        // }
+
+        ceshiContent(type) {
+            if (type == 1) {
+                this.ceshiNum2++;
+                if (this.ceshiNum2 % 2 == 0) {
+                    this.ceshi_log_list.visible = false;
+                } else {
+                    this.ceshi_log_list.visible = true;
+                }
+            } else if (type == 2) {
+                GameControl.instance.onClose();
+                GameControl.instance.onConnect();
+                this.showTips('正在刷新数据，请稍后...');
+            }
+        }
+
 
         onClickVoiceBtn() {
             this._control.ceShi();
@@ -4296,23 +4386,23 @@
          * @param {*} data 需要的参数
          */
         playerSeatAtSetContent(data) {
-            let lastTime = data.seatAtTime - Main$1.getTimeChuo();//占座剩余时间
-            if (lastTime > data.totalTime) {
-                lastTime = data.totalTime;
+            this.owner.curXiaZhuScore = 0;
+            this.lastTime = data.seatAtTime - Main$1.getTimeChuo();//占座剩余时间
+            if (this.lastTime > data.totalTime) {
+                this.lastTime = data.totalTime;
             }
             let scoreBox = this.owner.getChildByName("score");
             scoreBox.visible = true;
             let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
-            scoreVal.text = '等待' + lastTime + 's';
-            if (this.owner.timeID)
-                clearInterval(this.owner.timeID);
-            this.owner.timeID = setInterval(() => {
-                lastTime--;
-                scoreVal.text = '等待' + lastTime + 's';
-                if (lastTime == 0) {
-                    clearInterval(this.owner.timeID);
-                }
-            }, 1000);
+            scoreVal.text = '等待' + this.lastTime + 's';
+            Laya.timer.loop(1000,this,this.palyerSeatAtTime,[scoreVal]);
+        }
+
+        palyerSeatAtTime(scoreVal){
+            this.lastTime--;
+            scoreVal.text = '等待' + this.lastTime + 's';
+            if(this.lastTime<=0)
+                Laya.timer.clear(this,this.palyerSeatAtTime);
         }
 
         /**
@@ -4328,7 +4418,6 @@
             let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
             scoreBox.visible = true;
             scoreVal.text = data.score;
-            this.owner.curXiaZhuScore = 0;
         }
 
         /**
@@ -4359,6 +4448,7 @@
          * @param {*} data 剩余时间
          */
         playerSeatDownOrSeatAtCommon(isShow, data, isUpdate) {
+            Laya.timer.clear(this,this.palyerSeatAtTime);
             let headBox = this.owner.getChildByName("head-box");
             let headImg = headBox.getChildByName("headImgBox");
             let name = this.owner.getChildByName("name");
@@ -4406,6 +4496,7 @@
          * 补充钵钵后变更分数处理
          */
         setAddDaiRuScore(data) {
+            Laya.timer.clear(this,this.palyerSeatAtTime);
             let scoreBox = this.owner.getChildByName("score");
             let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
             scoreVal.text = data.score;
