@@ -4,6 +4,7 @@ import seat from "./game/GameCenter/seat"
 import MySlider from "./game/Fuction/MySlider"
 import commonSet from "./game/common/commonSet"
 import SetHeight from "./game/common/SetHeight"
+import MyClickSelect from "./game/Fuction/MyClickSelect"
 import GameControl from "./game/GameCenter/GameControl"
 import LoginUI from "./game/pages/login/LoginUI"
 import setSceneWH from "./game/common/setSceneWH"
@@ -35,6 +36,7 @@ export default class GameConfig {
 		reg("game/Fuction/MySlider.js",MySlider);
 		reg("game/common/commonSet.js",commonSet);
 		reg("game/common/SetHeight.js",SetHeight);
+		reg("game/Fuction/MyClickSelect.js",MyClickSelect);
 		reg("game/GameCenter/GameControl.js",GameControl);
 		reg("game/pages/login/LoginUI.js",LoginUI);
 		reg("game/common/setSceneWH.js",setSceneWH);

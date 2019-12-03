@@ -3,7 +3,8 @@ import GameControl from './GameControl'
 import MyCenter from '../common/MyCenter';
 import Main from '../common/Main';//Main.js
 import PlyerNews from '../Fuction/PlyerNews';
-import ErrText from '../Fuction/ErrText'
+import ErrText from '../Fuction/ErrText';
+import PlayerLiuZuo from '../Fuction/PlayerLiuZuo';
 let _num3 = 0;
 export default class seat extends Laya.Script {
     constructor() {
@@ -82,6 +83,26 @@ export default class seat extends Laya.Script {
         scoreVal.text = '等待' + this.lastTime + 's';
         if (this.lastTime <= 0)
             Laya.timer.clear(this, this.palyerSeatAtTime);
+    }
+
+    /**
+     * 有关于玩家离桌的设置
+     * @param {*} data 所需数据{seatAtTime: 1575336287，totalTime: 120，userId: 5986855}
+     */
+    aboutPlayerLiuZuo(data){
+        PlayerLiuZuo.start(this,data);
+    }
+
+     /**
+     * 有关于玩家离桌后时间满后的设置(即起立)
+     * @param {*} data 所需数据{userId:XXX}
+     */
+    aboutPlayerLiuZuoEnd(data){
+        PlayerLiuZuo.end(this,data);
+    }
+
+    palyerLiuZuoTime(node){
+        PlayerLiuZuo.time(this,node);
     }
 
     /**
@@ -431,12 +452,12 @@ export default class seat extends Laya.Script {
         let mePokerBox = this.owner.getChildByName("show_me_poker_box");
         let mePoker1 = mePokerBox.getChildByName("poker1");
         let mePoker2 = mePokerBox.getChildByName("poker2");
-        let mePoker1Arr=data.filter(item=>item==mePoker1.pokerName);
-        let mePoker2Arr=data.filter(item=>item==mePoker2.pokerName);
+        let mePoker1Arr = data.filter(item => item == mePoker1.pokerName);
+        let mePoker2Arr = data.filter(item => item == mePoker2.pokerName);
         let mePoker1Show = mePoker1.getChildByName("xiuSign");
         let mePoker2Show = mePoker2.getChildByName("xiuSign");
-        mePoker1Show.visible=mePoker1Arr.length>0?true:false;
-        mePoker2Show.visible=mePoker2Arr.length>0?true:false;
+        mePoker1Show.visible = mePoker1Arr.length > 0 ? true : false;
+        mePoker2Show.visible = mePoker2Arr.length > 0 ? true : false;
         mePoker1.isShow = mePoker1Show.visible;
         mePoker2.isShow = mePoker2Show.visible;
     }
@@ -843,9 +864,8 @@ export default class seat extends Laya.Script {
      * 玩家座位上添加帧动画(gif动画)
      * @param {*} isShow 是否显示
      * @param {*} aniType 显示类型
-     * @param {*} autoClose 是否自动关闭
      */
-    playerSeatAddGif(isShow = true, aniType = Main.animations.qiao, autoClose = false) {
+    playerSeatAddGif(isShow = true, aniType = Main.animations.qiao) {
         let animationBox = this.owner.getChildByName("gifBox");
         // console.log('playerGIF'+aniType)
         animationBox.visible = isShow;
@@ -866,12 +886,46 @@ export default class seat extends Laya.Script {
                 animationBox.addChild(ani);
                 //播放Animation动画
                 ani.play();
+            }
+        }
+    }
+
+    /**
+    * 玩家座位上添加表情动画(动画)
+    * @param {*} isShow 是否显示
+    * @param {*} aniType 显示类型
+    * @param {*} autoClose 是否自动关闭
+    */
+    playerSeatAddExpression(isShow = true, aniType = 0, autoClose = true) {
+        let animationBox = this.owner.getChildByName("gifBox");
+        // console.log('playerGIF'+aniType)
+        animationBox.visible = isShow;
+        let thisAni = animationBox.getChildByName('expressionAni');
+        if (thisAni) {
+            thisAni.removeSelf();
+        }
+        if (this.aniTimeID) {
+            clearTimeout(this.aniTimeID);
+        }
+        if (isShow) {
+            Laya.loader.load("res/atlas/images/GIF/expression.atlas", Laya.Handler.create(this, onMyLoaded));
+            function onMyLoaded() {
+                let ani = new Laya.Animation();
+                ani.name = 'expressionAni';
+                ani.pos(this.owner.pivotX, this.owner.pivotY);
+                ani.loadAnimation("animation/expression/" + aniType + ".ani");
+                animationBox.addChild(ani);
+                //播放Animation动画
+                ani.play();
                 if (autoClose) {
                     this.aniTimeID = setTimeout(() => {
-                        animationBox._children = [];
+                        let thisAni = animationBox.getChildByName('expressionAni');
+                        if (thisAni) {
+                            thisAni.removeSelf();
+                        }
                         animationBox.visible = false;
                         clearTimeout(this.aniTimeID);
-                    }, 2000)
+                    }, 4000)
                 }
             }
         }

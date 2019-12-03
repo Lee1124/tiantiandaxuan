@@ -14,7 +14,7 @@ class PlayerNews {
         let that = GameControl.instance;
         if (isShow)
             this.getPageNews(that, data);
-        that._allowSeatUp = false;
+        // that._allowSeatUp = false;
         this.showObj = that.owner.PlayerNews_dialog;
         let maskAlpha = 0;
         let y = isShow ? (Laya.stage.height - this.showObj.height) / 2 : -this.showObj.height;
@@ -37,7 +37,7 @@ class PlayerNews {
                 }
             },
             fail() {
-                that._allowSeatUp = true;
+                // that._allowSeatUp = true;
                 that.owner.showTips('网络异常');
             }
         })

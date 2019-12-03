@@ -9,7 +9,6 @@ class RecSoketReloadData {
     reload(that,fn) {
         // console.log(that._playerArray)
         // GameRoomInit.init(that);
-        
         ErrText.ERR(that, 'start-----Date', new Date().getTime());
         that.showDiChiMang(false);
         that.showDiChiPi(false);
@@ -21,6 +20,7 @@ class RecSoketReloadData {
         that.owner.subCountDown.visible=false;
         that.owner.meAnimationBox.visible=false;
         that.owner.delayTimeBtn.visible=false;
+        that.owner.returnSeatBtn.visible = false;
         that._playerArray.forEach((item_player,item_index) => {
             // GameRoomInit.keepValue(that,item_player);
             let playerSeat = item_player.owner;
@@ -79,6 +79,8 @@ class RecSoketReloadData {
             let gifBox = playerSeat.getChildByName("gifBox");
             let winScore = playerSeat.getChildByName("winScore");
             let tipsBox = playerSeat.getChildByName("tipsBox");
+            let liuzuosign = playerSeat.getChildByName('liuzuoSign');
+            liuzuosign.visible = false;
             headBox.visible = false;
             xiaZhuScore.visible = false;
             move_cm.visible = false;

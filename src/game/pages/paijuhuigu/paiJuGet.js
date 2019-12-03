@@ -107,9 +107,9 @@ export default class zhanji extends Laya.Script {
         Main.$LoadImage(head, cell.dataSource.head, Main.defaultImg.one);
         zhuang.visible = cell.dataSource.zhuang;
         if (cell.dataSource.opt==2) {
-            zt.loadImage('res/img/Status_1.png');
+            zt.loadImage('res/img/common/status_1.png');
         } else if(cell.dataSource.opt==1){
-            zt.loadImage('res/img/Status_0.png');
+            zt.loadImage('res/img/common/status_0.png');
         }else if(cell.dataSource.opt==0){
             zt.loadImage('');
         }

@@ -1,5 +1,11 @@
 import Main from './Main'
 class HttpRequest{
+    /**
+     * @param {*} obj.that 执行域
+     * @param {*} obj.url 请求地址
+     * @param {*} obj.data 请求数据
+     * @param {*} obj.method 请求方式(暂时支持get和post)
+     */
     $request(obj){
         let that=obj.that;
         let xhr = new Laya.HttpRequest();

@@ -64,7 +64,7 @@ export default class MySlider extends Laya.Script {
         //注册事件
         Laya.stage.on(Event.MOUSE_MOVE, this, this.SliderMouseMove);
         Laya.stage.on(Event.MOUSE_UP, this, this.SliderMouseUp);
-        // Laya.stage.on(Event.MOUSE_OUT, this, this.SliderMouseOut);
+        Laya.stage.on(Event.MOUSE_OUT, this, this.SliderMouseUp);
 
 
         //初始位置
@@ -108,7 +108,7 @@ export default class MySlider extends Laya.Script {
     RemoveSliderEvent()  {
         Laya.stage.off(Event.MOUSE_MOVE, this, this.SliderMouseMove);
         Laya.stage.off(Event.MOUSE_UP, this, this.SliderMouseUp);
-        // Laya.stage.off(Event.MOUSE_OUT, this, this.SliderMouseOut);
+        Laya.stage.off(Event.MOUSE_OUT, this, this.SliderMouseUp);
     }
     /**
      * 抬起事件处理

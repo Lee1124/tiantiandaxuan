@@ -124,9 +124,9 @@ export default class GameHall extends Laya.Script {
                 roomPws: Event.target.dataSource.roomPws,
                 page: Main.pages.page3
             }
-            Main.showLoading(true);
+            Main.showLoading(true,Main.loadingType.three,'正在进入房间...');
             Main.$openScene('cheXuanGame_8.scene', true, data, () => {
-                Main.showLoading(false);
+                Main.showLoading(false,Main.loadingType.three,'');
             });
         }
     }
@@ -174,13 +174,13 @@ export default class GameHall extends Laya.Script {
     openGameView() {
         let data = this.UI.pageData;
         if (data.roomPws && data.roomPws > 0) {
-            Main.showLoading(true);
+            Main.showLoading(true,Main.loadingType.three,'正在进入房间...');
             let pageData = {
                 roomPws: data.roomPws,
                 page: Main.pages.page3
             }
             Main.$openScene('cheXuanGame_8.scene', true, pageData, () => {
-                Main.showLoading(false);
+                Main.showLoading(false,Main.loadingType.three,'');
             })
         }
     }

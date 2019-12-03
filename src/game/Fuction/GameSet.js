@@ -38,7 +38,6 @@ class GameSet {
         this.setGameView();
     }
     gameSet(show) {
-        this.GameControl._allowSeatUp = false;
         let showObj = this.GameUI.gameSet_dialog;
         let maskAlpha = 0;
         let y = show ? (Laya.stage.height - showObj.height) / 2 : -showObj.height;

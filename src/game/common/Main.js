@@ -38,12 +38,14 @@ class Main {
 
         this.animations = {
             qiao: 'qiao',
-            win: 'win'
+            win: 'win',
+            expression: 'expression'
         }
 
         this.loadingType = {
             one: 'Loading',
             two: 'Loading2',
+            three: 'Loading3',
         }
 
         this._speed = {
@@ -57,7 +59,7 @@ class Main {
         this.loadShowArr2 = [];
         this.debug = true;
 
-        this.errList=[];
+        this.errList = [];
     }
 
     $LOG(...data) {
@@ -131,9 +133,7 @@ class Main {
      * @param {bool} showNode 在弹框隐藏时，是否隐藏节点
      */
     showDialog(text = '内容为空', type = 1, node = [], comfirmFn = Function, cancelFn = Function, textColor = '#935F13', showNode = true) {
-
         let myMask = Laya.stage.getChildByName("dialogMask");
-        console.log('ji=====', myMask)
         if (myMask) {
             myMask.removeSelf();
         }
@@ -160,8 +160,8 @@ class Main {
         if (type == 1) {
             let btn_one = new Laya.Image();
             btn_one.size(609, 163);
-            dialogBg.addChild(btn_one);
             btn_one.loadImage('res/img/diglog/btn_one.png', Laya.Handler.create(this, () => {
+                dialogBg.addChild(btn_one);
                 btn_one.pos((1132 - btn_one.width) / 2, 764 - btn_one.height - 60);
                 btn_one.on(Laya.Event.CLICK, this, () => {
                     if (comfirmFn)
@@ -175,9 +175,8 @@ class Main {
             let btn_comfirm = new Laya.Image();
             btn_cancel.size(460, 163);
             btn_comfirm.size(460, 163);
-            dialogBg.addChild(btn_cancel);
-            dialogBg.addChild(btn_comfirm);
             btn_cancel.loadImage('res/img/diglog/btn_cancel.png', Laya.Handler.create(this, () => {
+                dialogBg.addChild(btn_cancel);
                 btn_cancel.pos(72, 764 - btn_cancel.height - 60);
                 btn_cancel.on(Laya.Event.CLICK, this, () => {
                     if (cancelFn)
@@ -187,6 +186,7 @@ class Main {
                 })
             }))
             btn_comfirm.loadImage('res/img/diglog/btn_comfirm.png', Laya.Handler.create(this, () => {
+                dialogBg.addChild(btn_comfirm);
                 btn_comfirm.pos(600, 764 - btn_comfirm.height - 60);
                 btn_comfirm.on(Laya.Event.CLICK, this, () => {
                     if (comfirmFn)
@@ -210,19 +210,19 @@ class Main {
             closeDiaLog();
             Mask.removeSelf();
         })
-        if (node)
-            node.forEach(item => {
-                item.style.display = 'none';
-            })
+        // if (node)
+        //     node.forEach(item => {
+        //         item.style.display = 'none';
+        //     })
 
         function closeDiaLog() {
             diaLog.close();
-            if (node) {
-                if (showNode)
-                    node.forEach(item => {
-                        item.style.display = 'block';
-                    })
-            }
+            // if (node) {
+            //     if (showNode)
+            //         node.forEach(item => {
+            //             item.style.display = 'block';
+            //         })
+            // }
         }
     }
 
@@ -250,25 +250,27 @@ class Main {
             loadingMask.on(Laya.Event.CLICK, this, () => { });
             let animationBox = new Laya.Sprite();
             let animationText = new Laya.Label();
-            animationText.name = 'loadingText';
-            animationText.width = 300;
-            animationText.centerX = 0;
-            animationText.align = 'center';
-            animationText.zOrder = 2;
-            animationText.bottom = '-150';
-            let aniText = this.setText(animationText, 60, '#000000');
-            animationBox.addChild(aniText);
+            if (type == this.loadingType.three) {
+                animationText.name = 'loadingText';
+                animationText.width = 220;
+                animationText.centerX = 0;
+                animationText.align = 'center';
+                animationText.zOrder = 10;
+                animationText.bottom = -85;
+                let aniText = this.setText(animationText, 30, '#FFFFFF');
+                animationBox.addChild(aniText);
+            }
             animationBox.name = 'loadingBox';
             animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
             let ani = new Laya.Animation();
             ani.name = 'loadingAni';
-            ani.loadAnimation("animation/" + type + ".ani");
+            ani.loadAnimation("animation/loading/" + type + ".ani");
             animationBox.addChild(ani);
             loadingMask.addChild(animationBox);
             Laya.stage.addChild(loadingMask)
-            this.loadAniArr1.push('LOADING');
+            this.loadAniArr1.push(type);
             this.loadAniArr2.forEach(item => {
-                if (item.key == 'LOADING') {
+                if (item.key == type) {
                     let $loadingMask = Laya.stage.getChildByName('loadingMask-' + item.type);
                     $loadingMask.visible = item.show;
                     animationText.text = '';
@@ -291,14 +293,18 @@ class Main {
      */
     showLoading(isShow = true, type = this.loadingType.one, msg = '') {
         this.loadAniArr1.forEach(item => {
-            if (item == 'LOADING') {
+            if (item == type) {
                 let loadingMask = Laya.stage.getChildByName('loadingMask-' + type);
                 let loadingBox = loadingMask.getChildByName('loadingBox');
                 let loadingAni = loadingBox.getChildByName('loadingAni');
-                let loadingText = loadingBox.getChildByName('loadingText');
-                loadingText.text = '';
+                let loadingText;
+                if (type == this.loadingType.three) {
+                    loadingText = loadingBox.getChildByName('loadingText');
+                    loadingText.text = '';
+                }
                 if (!loadingMask.visible && isShow) {
-                    loadingText.text = msg;
+                    if (type == this.loadingType.three)
+                        loadingText.text = msg;
                     loadingAni.play();
                 } else if (!isShow) {
                     loadingAni.stop();
@@ -307,7 +313,7 @@ class Main {
                 return;
             }
         })
-        this.loadAniArr2 = [{ key: 'LOADING', show: isShow, type: type, text: msg }];
+        this.loadAniArr2 = [{ key: type, show: isShow, type: type, text: msg }];
     }
 
 

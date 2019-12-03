@@ -3,6 +3,8 @@ import COMMON from '../common/common'
 import Main from '../common/Main';
 import PlyerNews from '../Fuction/PlyerNews';
 import GameSet from '../Fuction/GameSet';
+import ExpressionChat from '../Fuction/ExpressionChat';
+import PlayerLiuZuo from '../Fuction/PlayerLiuZuo';
 /**
 * 本示例采用非脚本的方式实现，而使用继承页面基类，实现页面逻辑。在IDE里面设置场景的Runtime属性即可和场景进行关联
 * 相比脚本方式，继承式页面类，可以直接使用页面定义的属性（通过IDE内var属性定义），比如this.tipLbll，this.scoreLbl，具有代码提示效果
@@ -86,11 +88,22 @@ export default class GameUI extends Laya.Scene {
         this.menuBtnUI.on(Laya.Event.CLICK, this, this.onClickMenuBtn);//左上方菜单
         this.nowPaiJuUI.on(Laya.Event.CLICK, this, this.onClickNowPaiJuBtn);//实时战绩
         this.paiJuHuiGuBtnUI.on(Laya.Event.CLICK, this, this.onClickPaijuhuiguBtn);//牌局回顾
+        this.errReloadBtnUI.on(Laya.Event.CLICK, this, this.onClickErrReloadBtn);//异常刷新
         this._confirmDaiRuBtn.on(Laya.Event.CLICK, this, this.onClickConfirmDaiRuBtn);//补充钵钵确认带入
         this.bobo_close.on(Laya.Event.CLICK, this, this.onClickMask);//补充钵钵关闭按钮关闭
         this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
         this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
+
         this.ceshiEvent();//有关于测试事件
+    }
+
+    /**
+     * 异常刷新
+     */
+    onClickErrReloadBtn() {
+        GameControl.instance.onClose();
+        GameControl.instance.onConnect();
+        this.showTips('正在刷新数据，请稍后...');
     }
 
     ceshiEvent() {
@@ -143,7 +156,8 @@ export default class GameUI extends Laya.Scene {
      * 表情
      */
     onClickExpression(msg) {
-        this.showTips('旁观者不能发表情!');
+        // this.showTips('旁观者不能发表情!');
+        ExpressionChat.open(this);
     }
 
     //补充钵钵(确认带入)    
@@ -160,7 +174,8 @@ export default class GameUI extends Laya.Scene {
         this._control.openMenuList(false);
         GameSet.gameSet(false);
         PlyerNews.GetNews(false);
-        GameControl.instance._allowSeatUp = true;
+        ExpressionChat.close();
+        PlayerLiuZuo.close();
     }
 
     onClickMenuBtn() {
@@ -201,7 +216,6 @@ export default class GameUI extends Laya.Scene {
      * @param {*} index 返回的索引
      */
     menuOnRender(cell, index) {
-        // console.log(cell)
         let menuContent = cell.getChildByName("menu_row_node").getChildByName("listContent");
         menuContent.skin = cell.dataSource.imgUrl;
         if (cell.dataSource.id == 7) {
@@ -219,28 +233,21 @@ export default class GameUI extends Laya.Scene {
         if (Event.type == 'click') {
             // console.log(Event.target)
             let ID = Event.target.dataSource.id;
+            this._control.openMenuList(false);
             if (ID == 2) {
-                this._control.openMenuList(false);
-                // this._control.openPaiJuGuiZe(true);
                 Laya.Scene.open('paijutishi.scene', false, { show: true });
             } else if (ID == 1) {
-                this._control.openMenuList(false);
                 this._control.playerSeatUpSend();
             } else if (ID == 7) {
-                this._control.openMenuList(false);
                 this._control.playerLeaveRoomSend();
             } else if (ID == 4) {
-                this._control.openMenuList(false);
                 this._control.playerAddBOBOSend();
             } else if (ID == 3) {
-                this._control.openMenuList(false);
-                // this._control.gameSet(true);
                 GameSet.gameSet(true);
             } else if (ID == 6) {
-                this._control.openMenuList(false);
                 this._control.beackRoom();
-            } else if (ID == 5) {
-                this._control.onClose();
+            } else if (ID == 5) {//留座离桌
+                PlayerLiuZuo.open(this);
             }
         }
     }

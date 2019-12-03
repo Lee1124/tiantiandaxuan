@@ -14,12 +14,13 @@ export default class Login extends Laya.Scene {
         this.login_btn.on(Laya.Event.CLICK, this, this.login);
         this.register_btn.on(Laya.Event.CLICK, this, this.register);
         this.change_btn.on(Laya.Event.CLICK, this, this.change);
-        Main.createLoading(Main.loadingType.one);
-        Main.createLoading(Main.loadingType.two);
+        Main.createLoading(Main.loadingType.one);//预创建HTTP请求加载中的资源
+        Main.createLoading(Main.loadingType.two);//预创建断线重连加载中的资源
+        Main.createLoading(Main.loadingType.three);//预创建带文字加载中的资源
         Main.getStatusHeight();
-        setTimeout(()=>{
-            this.ceshi.text=Main.phoneNews.statusHeight+';'+Main.phoneNews.deviceNews
-        },500)
+        // setTimeout(()=>{
+        //     this.ceshi.text=Main.phoneNews.statusHeight+';'+Main.phoneNews.deviceNews
+        // },500)
     }
     onOpened(options) {
         this.opendNumber = 0;

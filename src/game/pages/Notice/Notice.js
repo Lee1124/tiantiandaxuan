@@ -25,43 +25,73 @@ export default class Notice extends Laya.Script {
     openThisPage() {
         if (this.owner.visible) {
             this.UI = this.owner.scene;
-            this.openSelectView(this._page.page2);
+            this.openSelectView(this._page.page1);
             this.registerEvent();
-            this.openSystemList();
         }
     }
-
-    onDisable() {
-    }
+    /**
+     * 注册事件
+     */
     registerEvent() {
         this.UI.systemNotice_box.on(Laya.Event.CLICK, this, this.openSelectView, [this._page.page1]);
         this.UI.myNews_box.on(Laya.Event.CLICK, this, this.openSelectView, [this._page.page2]);
     }
+    //重置选中状态
     reloadSelectZt() {
         this.UI.systemNotice.visible = false;
         this.UI.myNews.visible = false;
     }
+    /**
+     * 选中当前页面(系统公告+我的消息)
+     * @param {*} page 选中的页面地址
+     */
     openSelectView(page) {
         this.reloadSelectZt();
         this.UI[page].visible = true;
+        if(page==this._page.page1){
+            this.requestSystemData();
+        }
     }
 
-    openSystemList() {
+    /**
+     * 获取公告数据
+     */
+    requestSystemData(){
+        Main.showLoading(true);
+        HTTP.$request({
+            that:this,
+            url:'/M.Lobby/Popularize/GetNoticeData',
+            data:{
+                userId:Main.userInfo.userId
+            },
+            success(res){
+                Main.$LOG('获取公告数据:',res);
+                Main.showLoading(false);
+                this.setPage1(res);
+            },
+            fail(err){
+                Main.showLoading(false);
+            }
+        })
+    }
+
+    /**
+     * 设置公告列表
+     * @param {*} data 请求的数据
+     */
+    setPage1(data){
+        this.openSystemList(data);
+    }
+
+    openSystemList(data) {
         this.systemList=this.UI.sysytem_list;
         this.systemList.vScrollBarSkin = "";//运用滚动
-        this.systemList.array = [
-            {
-                imgUrl: 'res/img/Notice/notice1.png'
-            },
-            {
-                imgUrl: 'res/img/Notice/notice2.png'
-            }
-        ];
+        this.systemList.array = data.data.requestDatas;
         this.systemList.renderHandler = new Laya.Handler(this, this.systemListOnRender);
     }
 
-    systemListOnRender(cell,index){
+    systemListOnRender(cell){
         let systemContent=cell.getChildByName("sysytem_content");
-        systemContent.skin=cell.dataSource.imgUrl;
+        systemContent.skin=cell.dataSource.title;
     }
 }

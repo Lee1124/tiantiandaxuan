@@ -105,7 +105,7 @@ export default class GameControl extends Laya.Script {
         //敲发牌是否结束
         this.qiaoDealPokerEnd = false;
         //soket重连次数
-        this.soketConnetNum=0;
+        this.soketConnetNum = 0;
     }
 
     beackRoom(roomId) {
@@ -247,7 +247,7 @@ export default class GameControl extends Laya.Script {
                         if (resMsg.ret.type == 0) {
                             RecSoketReloadData.reload(this);
                             Main.showLoading(false, Main.loadingType.two);
-                            this.soketConnetNum=0;
+                            this.soketConnetNum = 0;
                             this.onSend({
                                 name: 'M.Room.C2R_IntoRoom',
                                 data: {
@@ -267,13 +267,20 @@ export default class GameControl extends Laya.Script {
             }
 
             that.netClient.onStartConnect = function (res) {
-                this.soketConnetNum++;
-                if(this.soketConnetNum>15){
-                    this.soketConnetNum=0;
-                }
                 Main.errList = [];
                 Main.$LOG('soket重新连接开始')
                 Main.showLoading(true, Main.loadingType.two);
+                that.soketConnetNum++;
+                if (that.soketConnetNum >= 15) {
+                    Main.showLoading(false, Main.loadingType.two);
+                    that.soketConnetNum = 0;
+                    Main.showDialog('网络错误,请重新登录', 1, null, () => {
+                        that.onClose();
+                        Laya.Scene.open('login.scene', true, Main.sign.signOut);
+                    })
+                } else if (that.soketConnetNum == 1) {
+                    that.owner.showTips('检测到网络丢失!')
+                }
             }
         }
     }
@@ -465,10 +472,41 @@ export default class GameControl extends Laya.Script {
             } else if (resData._t == "G2C_RoundEnd") {
                 this.roundEnd(resData);
             }
+
+            //表情
+            if (resData._t == "G2C_GameChat") {
+                this.showPlayerExpression(resData);
+            }
+
+            //留座
+            if (resData._t == "R2C_Reservation") {
+                if (resData.ret.type == 0) {
+                    resData.param.json.forEach(item => {
+                        if (item._t == "CXSeatReservation") {
+                            this.playerLiuZuo(item);
+                        } else if (item._t == "CXSitDown") {
+                            this.playerSeatDown(item);
+                        }
+                    })
+                } else {
+                    this.owner.showTips(resData.ret.msg)
+                }
+            }
         } catch (error) {
             Main.$LOG('error', error);
             ErrText.ERR(this, 'try-catc处异常：', error);
         }
+    }
+
+    /**
+     * 表情
+     */
+    showPlayerExpression(data) {
+        this._playerArray.forEach(item_player => {
+            if (item_player.owner.userId == data.chat.sender) {
+                item_player.playerSeatAddExpression(true, data.chat.content, true);
+            }
+        })
     }
 
     /**
@@ -540,6 +578,10 @@ export default class GameControl extends Laya.Script {
                 this.playerSeatAt(item_seatData);
             } else if (item_seatData.seatAtTime == 0) {
                 this.playerSeatDown(item_seatData);
+            }
+            if (item_seatData.seatAtTime > 0 && item_seatData.score != 0 && item_seatData.seatReservation) {
+                this.playerSeatDown(item_seatData);
+                this.playerLiuZuo(item_seatData);
             }
             // ====更新牌数据
             this._playerArray.forEach((item_player, item_index) => {
@@ -630,6 +672,7 @@ export default class GameControl extends Laya.Script {
         // this.startAssignPoker()
         // return
         clickIndex++;
+        // Main.showLoading(true,Main.loadingType.three,'正在进入房间...')
         // if(clickIndex==1){
         //     this._playerArray.forEach(item=>{
         //         item.showPlayerXiuView(true,[1,10]);
@@ -1021,7 +1064,7 @@ export default class GameControl extends Laya.Script {
             let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
             let $isMe = item_player.owner.isMe;
             // Main.$LOG('设置玩家自动操作状态:',item_player.owner.userId, item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
-            if ($isMe && !$visible && isShow &&$actionType&& $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
+            if ($isMe && !$visible && isShow && $actionType && $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
                 this._autoBtnArr = [];
                 this.owner.autoHandleBtnBox.visible = isShow;
                 let leftBtn = this.owner.auto_handle_left;
@@ -1845,6 +1888,17 @@ export default class GameControl extends Laya.Script {
     }
 
     /**
+     * 留座处理
+     */
+    playerLiuZuo(data) {
+        this._playerArray.forEach(item_player => {
+            if (item_player.owner.userId == data.userId) {
+                item_player.aboutPlayerLiuZuo(data);
+            }
+        })
+    }
+
+    /**
      * 占座处理
      * @param data 数据
      * @param isUpdate 是否是刷新状态
@@ -1863,6 +1917,7 @@ export default class GameControl extends Laya.Script {
     playerSeatDown(data, isUpdate) {
         this._playerArray.forEach(item_player => {
             if (item_player.owner.seatId == data.seatidx) {
+                item_player.aboutPlayerLiuZuoEnd(data);
                 this.keepMeSeatIndex(data, data.seatidx);
                 item_player.playerSeatDownOrSeatAtCommon(false, data);
                 item_player.playerSeatDownSetContent(data);
@@ -1890,6 +1945,7 @@ export default class GameControl extends Laya.Script {
                 item_player.showBanker(false);
                 item_player.showActionTip(false, null);
                 item_player.showOrHidePlayerXiaZhuView(false);
+                item_player.aboutPlayerLiuZuoEnd(data);
                 if (data.userid == this.userId) {
                     this.showMakeUpBoBo(false);
                     item_player.reloadPlayerPokerZT(false, [1, 2, 3, 4]);
@@ -1921,7 +1977,6 @@ export default class GameControl extends Laya.Script {
      * 打开菜单选项
      */
     openMenuList(show) {
-        this._allowSeatUp = false;
         let showObj = this.owner.menu;
         let maskAlpha = 0.2;
         let y = show ? 0 + Main.phoneNews.statusHeight : -this.owner.menu.height;
@@ -1932,9 +1987,7 @@ export default class GameControl extends Laya.Script {
      * 游戏中菜单点击补充钵钵
      */
     playerAddBOBOSend(index) {
-        this._allowSeatUp = false;
         if (this._seatIndex == null) {
-            this._allowSeatUp = true;
             this.owner.showTips('您当前为观战模式,无法添加钵钵!');
         } else {
             this.getPlayerUsableScore((res) => {
@@ -1965,7 +2018,6 @@ export default class GameControl extends Laya.Script {
                 }
             },
             fail() {
-                this._allowSeatUp = true;
                 this.owner.showTips('网络异常');
             }
         })
@@ -2124,6 +2176,8 @@ export default class GameControl extends Laya.Script {
      * 打开弹窗公用方法
      */
     openDiaLogCommon(show, showObj, maskAlpha, XORY, XORYVal) {
+        this._allowSeatUp = show ? false : true;
+        // Main.$LOG('打开弹窗公用方法_allowSeatUp:',this._allowSeatUp);
         if (showObj.visible) {
             setTimeout(() => {
                 showObj.visible = show;

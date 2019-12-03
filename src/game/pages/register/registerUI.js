@@ -23,7 +23,7 @@ export default class register extends Laya.Scene {
         //     this.zOrder = -1;
         // }
         this.zOrder = 4;
-        this._RegisterJS.createNode();
+        // this._RegisterJS.createNode();
         this._RegisterJS.setPageData(options);
     }
     /**

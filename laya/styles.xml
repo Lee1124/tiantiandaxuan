@@ -14,4 +14,7 @@
    <item name="images/ceshi/3.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=35,35,40,34" picType="0" scale="0"/>
    <item name="images/End/e_bg1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=20,20,20,20" picType="0" scale="0"/>
    <item name="images/End/e_kuang.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=40,40,40,40" picType="0" scale="0"/>
+   <item name="images/expression/e_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,80,80,80" picType="0" scale="0"/>
+   <item name="images/dialog/expression_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,80,80,80" picType="0" scale="0"/>
+   <item name="images/LiuZuo/l_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,80,80,80" picType="0" scale="0"/>
 </res>
