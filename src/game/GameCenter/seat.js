@@ -5,6 +5,7 @@ import Main from '../common/Main';//Main.js
 import PlyerNews from '../Fuction/PlyerNews';
 import ErrText from '../Fuction/ErrText';
 import PlayerLiuZuo from '../Fuction/PlayerLiuZuo';
+import MakeBOBO from '../Fuction/MakeBOBO';
 let _num3 = 0;
 export default class seat extends Laya.Script {
     constructor() {
@@ -89,20 +90,20 @@ export default class seat extends Laya.Script {
      * 有关于玩家离桌的设置
      * @param {*} data 所需数据{seatAtTime: 1575336287，totalTime: 120，userId: 5986855}
      */
-    aboutPlayerLiuZuo(data){
-        PlayerLiuZuo.start(this,data);
+    aboutPlayerLiuZuo(data) {
+        PlayerLiuZuo.start(this, data);
     }
 
-     /**
-     * 有关于玩家离桌后时间满后的设置(即起立)
-     * @param {*} data 所需数据{userId:XXX}
-     */
-    aboutPlayerLiuZuoEnd(data){
-        PlayerLiuZuo.end(this,data);
+    /**
+    * 有关于玩家离桌后时间满后的设置(即起立)
+    * @param {*} data 所需数据{userId:XXX}
+    */
+    aboutPlayerLiuZuoEnd(data) {
+        PlayerLiuZuo.end(this, data);
     }
 
-    palyerLiuZuoTime(node){
-        PlayerLiuZuo.time(this,node);
+    palyerLiuZuoTime(node) {
+        PlayerLiuZuo.time(this, node);
     }
 
     /**
@@ -142,6 +143,9 @@ export default class seat extends Laya.Script {
         PlyerNews.GetNews(true, data);
     }
 
+    setMeMakeBOBO(){
+        MakeBOBO.close();
+    }
     /**
      * 占座或坐下公共设置
      * @param {*} isShow 剩余时间
@@ -153,16 +157,15 @@ export default class seat extends Laya.Script {
         let headImg = headBox.getChildByName("headImgBox");
         let name = this.owner.getChildByName("name");
         headBox.visible = true;
-        // Main.$LoadImage(headImg, data.head, Main.defaultImg.one, 'skin');
         Main.$LoadImage(headImg, Main.defaultImg.one, Main.defaultImg.one, 'skin');
         this.owner.userId = data.userId;
         if (data.userId == GameControl.instance.userId) {
             name.text = '';
-            // console.log('进来000')
-            // if (isUpdate)
-            //     GameControl.instance.changeSeatXY(this.owner.index, 0);//调整位置
             this.owner.isMe = true;
-            GameControl.instance.showMakeUpBoBo(isShow);
+            if (isShow)
+                MakeBOBO.open();
+            else
+                MakeBOBO.close();
         } else {
             name.text = data.name;
             this.owner.isMe = false;
@@ -187,6 +190,7 @@ export default class seat extends Laya.Script {
         this.owner.userId = '';
         if (data.userid == GameControl.instance.userId) {
             this.owner.isMe = false;
+            MakeBOBO.close();
         } else {
             name.text = '';
         }

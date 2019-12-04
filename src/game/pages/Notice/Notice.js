@@ -1,5 +1,5 @@
 import Main from '../../common/Main';
-import HTTP from '../../common/HttpRequest'
+import HTTP from '../../common/HttpRequest';
 export default class Notice extends Laya.Script {
     constructor() {
         super();

@@ -1,8 +1,8 @@
 import Main from '../../common/Main';
 export default class shopMall extends Laya.Script {
 
-    constructor() { 
-        super(); 
+    constructor() {
+        super();
         /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
         let intType = 1000;
         /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
@@ -13,14 +13,28 @@ export default class shopMall extends Laya.Script {
         let boolType = true;
         // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
     }
-    
+
     onEnable() {
     }
 
     onDisable() {
     }
     back() {
-        Laya.Scene.open('tabPage.scene', false, {page:Main.pages.page5}, Laya.Handler.create(this, (res) => {
+        if (this.owner.openedData.isTabPage) {
+            this.signoutthisPage('tabPage.scene', Main.pages.page5);
+        } else {
+            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
+                this.owner.removeSelf();
+            }))
+        }
+    }
+    /**
+     * 打开界面
+     * @param {*} openSceneUrl 打开场景
+     * @param {*} openView 打开界面
+     */
+    signoutthisPage(openSceneUrl, openView) {
+        Laya.Scene.open(openSceneUrl, false, { page: openView }, Laya.Handler.create(this, (res) => {
             Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
                 this.owner.removeSelf();
             }))

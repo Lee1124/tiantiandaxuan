@@ -1,20 +1,24 @@
-import Main from './Main'
-class HttpRequest{
+import Main from './Main';
+import md5 from './md5'
+class HttpRequest {
     /**
      * @param {*} obj.that 执行域
      * @param {*} obj.url 请求地址
      * @param {*} obj.data 请求数据
      * @param {*} obj.method 请求方式(暂时支持get和post)
      */
-    $request(obj){
-        let that=obj.that;
+    $request(obj) {
+        let that = obj.that;
         let xhr = new Laya.HttpRequest();
-        let url=Main.requestApi+obj.url;
-        let dataObj=obj.data;
-        let postData='';
-        let method=obj.method?obj.method:'get';
+        let url = Main.requestApi + obj.url;
+        let dataObj = obj.data;
+        let postData = '';
+        let method = obj.method ? obj.method : 'get';
         let dataObjArr = [];
-        if(method=='get'){
+        if (method == 'get') {
+            var timestamp = new Date().getTime();
+            let sstr = Main.userInfo.key + '&' + timestamp;
+
             for (var key in dataObj) {
                 if (dataObj.hasOwnProperty(key)) {
                     dataObjArr.push(key);
@@ -23,9 +27,18 @@ class HttpRequest{
                     } else {
                         url = url + '&' + key + '=' + dataObj[key];
                     }
+
+                    sstr += "&" + dataObj[key];
                 }
             }
-        }else if(method=='post'){
+
+            //{"user":"1236555","pwd":"1","userId":5986855,"key":3009340712064337000,"inRoomPws":101823}
+            if (Main.userInfo) {
+                url += '&t=' + timestamp;
+                url += '&sign=' + md5.md5(sstr);
+            }
+
+        } else if (method == 'post') {
             for (var key in dataObj) {
                 if (dataObj.hasOwnProperty(key)) {
                     dataObjArr.push(key);
@@ -38,20 +51,32 @@ class HttpRequest{
             }
         }
         xhr.http.timeout = 20000;//设置超时时间；
-        xhr.once(Laya.Event.COMPLETE, this, (res)=>{
-            obj.success.call(that,res)
+        xhr.once(Laya.Event.COMPLETE, this, (res) => {
+            if (!res.status) {
+                Main.$ERROR('冲突登录:', res);
+                if (res.code == 1003 || //参数错误
+                    res.code == 1004) //签名验证失败
+                {
+                    Main.showDialog('登录失效，请重新登录', 1, null, () => {
+                        Main.hideAllLoading();
+                        Laya.Scene.open('login.scene', true, Main.sign.signOut);
+                    });
+                }
+                return;
+            }
+            obj.success.call(that, res)
         });
-        xhr.once(Laya.Event.ERROR, this, (err)=>{
-            console.log('请求异常:',err)
-            if(obj.fail)
-            obj.fail.call(that,err)
+        xhr.once(Laya.Event.ERROR, this, (err) => {
+            console.log('请求异常:', err)
+            if (obj.fail)
+                obj.fail.call(that, err)
         });
-        xhr.on(Laya.Event.PROGRESS, this, (ess)=>{
+        xhr.on(Laya.Event.PROGRESS, this, (ess) => {
             console.log(ess)
-            if(obj.ess)
-            obj.ess(ess)
+            if (obj.ess)
+                obj.ess(ess)
         });
-        xhr.send(url,postData, method, 'json');
+        xhr.send(url, postData, method, 'json');
     }
 }
 export default new HttpRequest();

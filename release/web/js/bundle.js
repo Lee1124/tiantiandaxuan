@@ -636,22 +636,26 @@
     class Main {
         constructor() {
             Main.instance = this;
-            this.websoketApi = '192.168.0.125:8082';
-            this.requestApi = 'http://192.168.0.125:8081';
-            // this.websoketApi = '132.232.34.32:8082';
-            // this.requestApi = 'http://132.232.34.32:8081';
+            // this.websoketApi = '192.168.0.125:8082';
+            // this.requestApi = 'http://192.168.0.125:8081';
+            this.websoketApi = '132.232.34.32:8082';
+            this.requestApi = 'http://132.232.34.32:8081';
+            //手机信息
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
                 deviceNews: '',//系统名称：Android / iOS
             };
+            //用户信息
             this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            this.$LOG('Main.js获取用户信息：', this.userInfo);
+            // this.$LOG('Main.js获取用户信息：', this.userInfo);
+            //跳转划出界面标志
             this.sign = {
                 signOut: 1,
                 register: 2,
                 changePwd: 3,
                 shop: 4
             };
+            //tab界面
             this.pages = {
                 page1: 'NoticePage',
                 page2: 'CreateGamePage',
@@ -663,7 +667,7 @@
                 desk_bg1: 'res/img/gameView/desk_bg1.png',
                 desk_bg2: 'res/img/gameView/desk_bg2.png'
             };
-            this.loadScene = ['cheXuanGame_8.scene', 'register.scene', 'shishizhanji.scene', 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene'];
+            this.loadScene = ['cheXuanGame_8.scene', 'register.scene', 'shishizhanji.scene', 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
             this.allowGameHallSetInterval = false;
             this.allowRequesList = true;
             this.allowHideLoad = false;
@@ -680,6 +684,7 @@
             this.loadingType = {
                 one: 'Loading',
                 two: 'Loading2',
+                three: 'Loading3',
             };
 
             this._speed = {
@@ -884,25 +889,27 @@
                 loadingMask.on(Laya.Event.CLICK, this, () => { });
                 let animationBox = new Laya.Sprite();
                 let animationText = new Laya.Label();
-                animationText.name = 'loadingText';
-                animationText.width = 300;
-                animationText.centerX = 0;
-                animationText.align = 'center';
-                animationText.zOrder = 2;
-                animationText.bottom = '-150';
-                let aniText = this.setText(animationText, 60, '#000000');
-                animationBox.addChild(aniText);
+                if (type == this.loadingType.three) {
+                    animationText.name = 'loadingText';
+                    animationText.width = 220;
+                    animationText.centerX = 0;
+                    animationText.align = 'center';
+                    animationText.zOrder = 10;
+                    animationText.bottom = -85;
+                    let aniText = this.setText(animationText, 30, '#FFFFFF');
+                    animationBox.addChild(aniText);
+                }
                 animationBox.name = 'loadingBox';
                 animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
                 let ani = new Laya.Animation();
                 ani.name = 'loadingAni';
-                ani.loadAnimation("animation/" + type + ".ani");
+                ani.loadAnimation("animation/loading/" + type + ".ani");
                 animationBox.addChild(ani);
                 loadingMask.addChild(animationBox);
                 Laya.stage.addChild(loadingMask);
-                this.loadAniArr1.push('LOADING');
+                this.loadAniArr1.push(type);
                 this.loadAniArr2.forEach(item => {
-                    if (item.key == 'LOADING') {
+                    if (item.key == type) {
                         let $loadingMask = Laya.stage.getChildByName('loadingMask-' + item.type);
                         $loadingMask.visible = item.show;
                         animationText.text = '';
@@ -925,14 +932,18 @@
          */
         showLoading(isShow = true, type = this.loadingType.one, msg = '') {
             this.loadAniArr1.forEach(item => {
-                if (item == 'LOADING') {
+                if (item == type) {
                     let loadingMask = Laya.stage.getChildByName('loadingMask-' + type);
                     let loadingBox = loadingMask.getChildByName('loadingBox');
                     let loadingAni = loadingBox.getChildByName('loadingAni');
-                    let loadingText = loadingBox.getChildByName('loadingText');
-                    loadingText.text = '';
+                    let loadingText;
+                    if (type == this.loadingType.three) {
+                        loadingText = loadingBox.getChildByName('loadingText');
+                        loadingText.text = '';
+                    }
                     if (!loadingMask.visible && isShow) {
-                        loadingText.text = msg;
+                        if (type == this.loadingType.three)
+                            loadingText.text = msg;
                         loadingAni.play();
                     } else if (!isShow) {
                         loadingAni.stop();
@@ -941,7 +952,7 @@
                     return;
                 }
             });
-            this.loadAniArr2 = [{ key: 'LOADING', show: isShow, type: type, text: msg }];
+            this.loadAniArr2 = [{ key: type, show: isShow, type: type, text: msg }];
         }
 
 
@@ -1169,6 +1180,401 @@
 
     var MyCenter$1 = new MyCenter();
 
+    /*
+     * JavaScript MD5
+     * https://github.com/blueimp/JavaScript-MD5
+     *
+     * Copyright 2011, Sebastian Tschan
+     * https://blueimp.net
+     *
+     * Licensed under the MIT license:
+     * https://opensource.org/licenses/MIT
+     *
+     * Based on
+     * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+     * Digest Algorithm, as defined in RFC 1321.
+     * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
+     * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+     * Distributed under the BSD License
+     * See http://pajhome.org.uk/crypt/md5 for more info.
+     */
+
+    /* global define */
+
+    /* eslint-disable strict */
+
+    //;(function($) {
+    //  'use strict'
+
+      /**
+       * Add integers, wrapping at 2^32.
+       * This uses 16-bit operations internally to work around bugs in interpreters.
+       *
+       * @param {number} x First integer
+       * @param {number} y Second integer
+       * @returns {number} Sum
+       */
+      function safeAdd(x, y) {
+        var lsw = (x & 0xffff) + (y & 0xffff);
+        var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+        return (msw << 16) | (lsw & 0xffff)
+      }
+
+      /**
+       * Bitwise rotate a 32-bit number to the left.
+       *
+       * @param {number} num 32-bit number
+       * @param {number} cnt Rotation count
+       * @returns {number} Rotated number
+       */
+      function bitRotateLeft(num, cnt) {
+        return (num << cnt) | (num >>> (32 - cnt))
+      }
+
+      /**
+       * Basic operation the algorithm uses.
+       *
+       * @param {number} q q
+       * @param {number} a a
+       * @param {number} b b
+       * @param {number} x x
+       * @param {number} s s
+       * @param {number} t t
+       * @returns {number} Result
+       */
+      function md5cmn(q, a, b, x, s, t) {
+        return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b)
+      }
+      /**
+       * Basic operation the algorithm uses.
+       *
+       * @param {number} a a
+       * @param {number} b b
+       * @param {number} c c
+       * @param {number} d d
+       * @param {number} x x
+       * @param {number} s s
+       * @param {number} t t
+       * @returns {number} Result
+       */
+      function md5ff(a, b, c, d, x, s, t) {
+        return md5cmn((b & c) | (~b & d), a, b, x, s, t)
+      }
+      /**
+       * Basic operation the algorithm uses.
+       *
+       * @param {number} a a
+       * @param {number} b b
+       * @param {number} c c
+       * @param {number} d d
+       * @param {number} x x
+       * @param {number} s s
+       * @param {number} t t
+       * @returns {number} Result
+       */
+      function md5gg(a, b, c, d, x, s, t) {
+        return md5cmn((b & d) | (c & ~d), a, b, x, s, t)
+      }
+      /**
+       * Basic operation the algorithm uses.
+       *
+       * @param {number} a a
+       * @param {number} b b
+       * @param {number} c c
+       * @param {number} d d
+       * @param {number} x x
+       * @param {number} s s
+       * @param {number} t t
+       * @returns {number} Result
+       */
+      function md5hh(a, b, c, d, x, s, t) {
+        return md5cmn(b ^ c ^ d, a, b, x, s, t)
+      }
+      /**
+       * Basic operation the algorithm uses.
+       *
+       * @param {number} a a
+       * @param {number} b b
+       * @param {number} c c
+       * @param {number} d d
+       * @param {number} x x
+       * @param {number} s s
+       * @param {number} t t
+       * @returns {number} Result
+       */
+      function md5ii(a, b, c, d, x, s, t) {
+        return md5cmn(c ^ (b | ~d), a, b, x, s, t)
+      }
+
+      /**
+       * Calculate the MD5 of an array of little-endian words, and a bit length.
+       *
+       * @param {Array} x Array of little-endian words
+       * @param {number} len Bit length
+       * @returns {Array<number>} MD5 Array
+       */
+      function binlMD5(x, len) {
+        /* append padding */
+        x[len >> 5] |= 0x80 << len % 32;
+        x[(((len + 64) >>> 9) << 4) + 14] = len;
+
+        var i;
+        var olda;
+        var oldb;
+        var oldc;
+        var oldd;
+        var a = 1732584193;
+        var b = -271733879;
+        var c = -1732584194;
+        var d = 271733878;
+
+        for (i = 0; i < x.length; i += 16) {
+          olda = a;
+          oldb = b;
+          oldc = c;
+          oldd = d;
+
+          a = md5ff(a, b, c, d, x[i], 7, -680876936);
+          d = md5ff(d, a, b, c, x[i + 1], 12, -389564586);
+          c = md5ff(c, d, a, b, x[i + 2], 17, 606105819);
+          b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330);
+          a = md5ff(a, b, c, d, x[i + 4], 7, -176418897);
+          d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426);
+          c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341);
+          b = md5ff(b, c, d, a, x[i + 7], 22, -45705983);
+          a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416);
+          d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417);
+          c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
+          b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
+          a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
+          d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
+          c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
+          b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
+
+          a = md5gg(a, b, c, d, x[i + 1], 5, -165796510);
+          d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632);
+          c = md5gg(c, d, a, b, x[i + 11], 14, 643717713);
+          b = md5gg(b, c, d, a, x[i], 20, -373897302);
+          a = md5gg(a, b, c, d, x[i + 5], 5, -701558691);
+          d = md5gg(d, a, b, c, x[i + 10], 9, 38016083);
+          c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
+          b = md5gg(b, c, d, a, x[i + 4], 20, -405537848);
+          a = md5gg(a, b, c, d, x[i + 9], 5, 568446438);
+          d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
+          c = md5gg(c, d, a, b, x[i + 3], 14, -187363961);
+          b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501);
+          a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
+          d = md5gg(d, a, b, c, x[i + 2], 9, -51403784);
+          c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473);
+          b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
+
+          a = md5hh(a, b, c, d, x[i + 5], 4, -378558);
+          d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463);
+          c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
+          b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
+          a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060);
+          d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353);
+          c = md5hh(c, d, a, b, x[i + 7], 16, -155497632);
+          b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
+          a = md5hh(a, b, c, d, x[i + 13], 4, 681279174);
+          d = md5hh(d, a, b, c, x[i], 11, -358537222);
+          c = md5hh(c, d, a, b, x[i + 3], 16, -722521979);
+          b = md5hh(b, c, d, a, x[i + 6], 23, 76029189);
+          a = md5hh(a, b, c, d, x[i + 9], 4, -640364487);
+          d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
+          c = md5hh(c, d, a, b, x[i + 15], 16, 530742520);
+          b = md5hh(b, c, d, a, x[i + 2], 23, -995338651);
+
+          a = md5ii(a, b, c, d, x[i], 6, -198630844);
+          d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415);
+          c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
+          b = md5ii(b, c, d, a, x[i + 5], 21, -57434055);
+          a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
+          d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606);
+          c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
+          b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799);
+          a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359);
+          d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
+          c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380);
+          b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
+          a = md5ii(a, b, c, d, x[i + 4], 6, -145523070);
+          d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
+          c = md5ii(c, d, a, b, x[i + 2], 15, 718787259);
+          b = md5ii(b, c, d, a, x[i + 9], 21, -343485551);
+
+          a = safeAdd(a, olda);
+          b = safeAdd(b, oldb);
+          c = safeAdd(c, oldc);
+          d = safeAdd(d, oldd);
+        }
+        return [a, b, c, d]
+      }
+
+      /**
+       * Convert an array of little-endian words to a string
+       *
+       * @param {Array<number>} input MD5 Array
+       * @returns {string} MD5 string
+       */
+      function binl2rstr(input) {
+        var i;
+        var output = '';
+        var length32 = input.length * 32;
+        for (i = 0; i < length32; i += 8) {
+          output += String.fromCharCode((input[i >> 5] >>> i % 32) & 0xff);
+        }
+        return output
+      }
+
+      /**
+       * Convert a raw string to an array of little-endian words
+       * Characters >255 have their high-byte silently ignored.
+       *
+       * @param {string} input Raw input string
+       * @returns {Array<number>} Array of little-endian words
+       */
+      function rstr2binl(input) {
+        var i;
+        var output = [];
+        output[(input.length >> 2) - 1] = undefined;
+        for (i = 0; i < output.length; i += 1) {
+          output[i] = 0;
+        }
+        var length8 = input.length * 8;
+        for (i = 0; i < length8; i += 8) {
+          output[i >> 5] |= (input.charCodeAt(i / 8) & 0xff) << i % 32;
+        }
+        return output
+      }
+
+      /**
+       * Calculate the MD5 of a raw string
+       *
+       * @param {string} s Input string
+       * @returns {string} Raw MD5 string
+       */
+      function rstrMD5(s) {
+        return binl2rstr(binlMD5(rstr2binl(s), s.length * 8))
+      }
+
+      /**
+       * Calculates the HMAC-MD5 of a key and some data (raw strings)
+       *
+       * @param {string} key HMAC key
+       * @param {string} data Raw input string
+       * @returns {string} Raw MD5 string
+       */
+      function rstrHMACMD5(key, data) {
+        var i;
+        var bkey = rstr2binl(key);
+        var ipad = [];
+        var opad = [];
+        var hash;
+        ipad[15] = opad[15] = undefined;
+        if (bkey.length > 16) {
+          bkey = binlMD5(bkey, key.length * 8);
+        }
+        for (i = 0; i < 16; i += 1) {
+          ipad[i] = bkey[i] ^ 0x36363636;
+          opad[i] = bkey[i] ^ 0x5c5c5c5c;
+        }
+        hash = binlMD5(ipad.concat(rstr2binl(data)), 512 + data.length * 8);
+        return binl2rstr(binlMD5(opad.concat(hash), 512 + 128))
+      }
+
+      /**
+       * Convert a raw string to a hex string
+       *
+       * @param {string} input Raw input string
+       * @returns {string} Hex encoded string
+       */
+      function rstr2hex(input) {
+        var hexTab = '0123456789abcdef';
+        var output = '';
+        var x;
+        var i;
+        for (i = 0; i < input.length; i += 1) {
+          x = input.charCodeAt(i);
+          output += hexTab.charAt((x >>> 4) & 0x0f) + hexTab.charAt(x & 0x0f);
+        }
+        return output
+      }
+
+      /**
+       * Encode a string as UTF-8
+       *
+       * @param {string} input Input string
+       * @returns {string} UTF8 string
+       */
+      function str2rstrUTF8(input) {
+        return unescape(encodeURIComponent(input))
+      }
+
+      /**
+       * Encodes input string as raw MD5 string
+       *
+       * @param {string} s Input string
+       * @returns {string} Raw MD5 string
+       */
+      function rawMD5(s) {
+        return rstrMD5(str2rstrUTF8(s))
+      }
+      /**
+       * Encodes input string as Hex encoded string
+       *
+       * @param {string} s Input string
+       * @returns {string} Hex encoded string
+       */
+      function hexMD5(s) {
+        return rstr2hex(rawMD5(s))
+      }
+      /**
+       * Calculates the raw HMAC-MD5 for the given key and data
+       *
+       * @param {string} k HMAC key
+       * @param {string} d Input string
+       * @returns {string} Raw MD5 string
+       */
+      function rawHMACMD5(k, d) {
+        return rstrHMACMD5(str2rstrUTF8(k), str2rstrUTF8(d))
+      }
+      /**
+       * Calculates the Hex encoded HMAC-MD5 for the given key and data
+       *
+       * @param {string} k HMAC key
+       * @param {string} d Input string
+       * @returns {string} Raw MD5 string
+       */
+      function hexHMACMD5(k, d) {
+        return rstr2hex(rawHMACMD5(k, d))
+      }
+
+      /**
+       * Calculates MD5 value for a given string.
+       * If a key is provided, calculates the HMAC-MD5 value.
+       * Returns a Hex encoded string unless the raw argument is given.
+       *
+       * @param {string} string Input string
+       * @param {string} [key] HMAC key
+       * @param {boolean} [raw] Raw output switch
+       * @returns {string} MD5 output
+       */
+      function md5(string, key, raw) {
+        if (!key) {
+          if (!raw) {
+            return hexMD5(string)
+          }
+          return rawMD5(string)
+        }
+        if (!raw) {
+          return hexHMACMD5(key, string)
+        }
+        return rawHMACMD5(key, string)
+      }
+    var md5$1 = {
+        md5
+    };
+
     class HttpRequest{
         /**
          * @param {*} obj.that 执行域
@@ -1185,6 +1591,9 @@
             let method=obj.method?obj.method:'get';
             let dataObjArr = [];
             if(method=='get'){
+                var timestamp=new Date().getTime();
+                let sstr=Main$1.userInfo.key+'&'+timestamp;
+                
                 for (var key in dataObj) {
                     if (dataObj.hasOwnProperty(key)) {
                         dataObjArr.push(key);
@@ -1193,8 +1602,18 @@
                         } else {
                             url = url + '&' + key + '=' + dataObj[key];
                         }
+
+                        sstr +="&"+dataObj[key];
                     }
                 }
+
+                //{"user":"1236555","pwd":"1","userId":5986855,"key":3009340712064337000,"inRoomPws":101823}
+                if(Main$1.userInfo)
+                {
+                    url +='&t=' + timestamp;
+                    url +='&sign='+md5$1.md5(sstr);
+                }
+
             }else if(method=='post'){
                 for (var key in dataObj) {
                     if (dataObj.hasOwnProperty(key)) {
@@ -1209,6 +1628,21 @@
             }
             xhr.http.timeout = 20000;//设置超时时间；
             xhr.once(Laya.Event.COMPLETE, this, (res)=>{
+                if(!res.status) 
+                {
+                    console.error(res);
+                    if(res.code==1003 || //参数错误
+                        res.code==1004) //签名验证失败
+                    {
+                        Main$1.showDialog('登录失效，请重新登录', 1, null, () => {
+                            Laya.Scene.open('login.scene', true, Main$1.sign.signOut, Laya.Handler.create(this, () => {
+                                //this.destroy();
+                            }));
+                        });
+                    }
+                    return;
+                }
+
                 obj.success.call(that,res);
             });
             xhr.once(Laya.Event.ERROR, this, (err)=>{
@@ -1856,7 +2290,6 @@
                 sub: 2
             };
 
-            this._allowSeatUp = true;
             //允许操作显示
             this._allowStartAction = true;
             //是否是刷新或者重连的数据
@@ -1867,6 +2300,8 @@
             this.qiaoDealPokerEnd = false;
             //soket重连次数
             this.soketConnetNum = 0;
+            //是否已留座
+            this.isLiuZuo = false;
         }
 
         beackRoom(roomId) {
@@ -2028,13 +2463,20 @@
                 };
 
                 that.netClient.onStartConnect = function (res) {
-                    this.soketConnetNum++;
-                    if (this.soketConnetNum > 15) {
-                        this.soketConnetNum = 0;
-                    }
                     Main$1.errList = [];
                     Main$1.$LOG('soket重新连接开始');
                     Main$1.showLoading(true, Main$1.loadingType.two);
+                    that.soketConnetNum++;
+                    if (that.soketConnetNum >= 15) {
+                        Main$1.showLoading(false, Main$1.loadingType.two);
+                        that.soketConnetNum = 0;
+                        Main$1.showDialog('网络错误,请重新登录', 1, null, () => {
+                            that.onClose();
+                            Laya.Scene.open('login.scene', true, Main$1.sign.signOut);
+                        });
+                    } else if (that.soketConnetNum == 1) {
+                        that.owner.showTips('检测到网络丢失!');
+                    }
                 };
             };
         }
@@ -2125,14 +2567,16 @@
                 }
 
                 if (resData._t == "R2C_AddDairu") {
-                    this.owner.showTips(resData.ret.msg);
                     if (resData.ret.type == 0 || resData.ret.type == 4) {
-                        this.showMakeUpBoBo(false);
+                        this.setMeMakeBOBO();
                         resData.param.json.forEach(item => {
                             if (item._t == "CXAddBobo") {
                                 this.playerAddDairu(item);
                             }
                         });
+                    }
+                    if (resData.ret.type == 4) {
+                        this.owner.showTips(resData.ret.msg);
                     }
                 }
 
@@ -2236,9 +2680,10 @@
                 if (resData._t == "R2C_Reservation") {
                     if (resData.ret.type == 0) {
                         resData.param.json.forEach(item => {
-                            if(item._t=="CXSeatReservation"){
+                            if (item._t == "CXSeatReservation") {
                                 this.playerLiuZuo(item);
-                            }else if(item._t=="CXSitDown"){
+                            } else if (item._t == "CXSitDown") {
+                                this.isLiuZuo = false;
                                 this.playerSeatDown(item);
                             }
                         });
@@ -2333,7 +2778,7 @@
                 } else if (item_seatData.seatAtTime == 0) {
                     this.playerSeatDown(item_seatData);
                 }
-                if (item_seatData.seatAtTime > 0 && item_seatData.score != 0&&item_seatData.seatReservation) {
+                if (item_seatData.seatAtTime > 0 && item_seatData.score != 0 && item_seatData.seatReservation) {
                     this.playerSeatDown(item_seatData);
                     this.playerLiuZuo(item_seatData);
                 }
@@ -2417,6 +2862,7 @@
          * ========================测试==============
          *  */
         ceShi() {
+            // Main.showLoading(true,Main.loadingType.three,'正在进入房间...')
             // if(clickIndex==1){
             //     this._playerArray.forEach(item=>{
             //         item.showPlayerXiuView(true,[1,10]);
@@ -3396,7 +3842,6 @@
         onClickPoker(mePokerObj, pokerArr, meItemObj) {
             if (this._allowAssignPoker) {
                 let pokerArrScaleXIs0 = pokerArr.filter(item => item.scaleX == 0);
-                // console.log(pokerArrScaleXIs0.length,this._subView1.pokerName,this._subView2.pokerName)
                 if (pokerArrScaleXIs0.length == 0) {
                     this.changeSubViewContent(this._subView1, mePokerObj, pokerArr, meItemObj);
                 } else if (pokerArrScaleXIs0.length == 1 && this._subView1.pokerName === '') {
@@ -3511,7 +3956,6 @@
         playerWinUp(data) {
             this._winUpINDEX = 0;
             this.allowWinShou = true;
-            // let joinNum = data.players.filter(item => item.losewin >= 0);
             this.reloadPlayerMoreZT();
             this.playerSeatFn('assignPokerCountDown', false);
             data.players.forEach((item_data, item_index) => {
@@ -3554,7 +3998,6 @@
                                     item_player.showMoveCM(this, 2, true, this._moveCMSeat.pi, this._moveCMSeat.one, this._music.moveMangOrPi, playerLoselg0.length, getMonenyEnd);
                                     function getMonenyEnd() {
                                         Main$1.$LOG('玩家受到金币：', item_data.score);
-                                        // item_player.changePlayerScore(item_data.score, this._changeScoreType.seat);
                                         this.updatePlayerMoreData(data[0]);
                                     }
                                 }
@@ -3601,7 +4044,7 @@
             let num = 0;
             this._playerArray.forEach(item_player => {
                 if (item_player.owner.userId == data.userId) {
-                    Main$1.$LOG('进来回收=======================0');
+                    // Main.$LOG('进来回收=======================0');
                     item_player.showMoveCM(this, 1, true, this._moveCMSeat.mang, this._moveCMSeat.one, this._music.moveMangOrPi, 1);
                     this.showDiChiMang(false);
                 } else {
@@ -3634,7 +4077,9 @@
         /**
          * 留座处理
          */
-        playerLiuZuo(data){
+        playerLiuZuo(data) {
+            if (data.userId == this.userId)
+                this.isLiuZuo = true;
             this._playerArray.forEach(item_player => {
                 if (item_player.owner.userId == data.userId) {
                     item_player.aboutPlayerLiuZuo(data);
@@ -3691,7 +4136,6 @@
                     item_player.showOrHidePlayerXiaZhuView(false);
                     item_player.aboutPlayerLiuZuoEnd(data);
                     if (data.userid == this.userId) {
-                        this.showMakeUpBoBo(false);
                         item_player.reloadPlayerPokerZT(false, [1, 2, 3, 4]);
                     }
                 }
@@ -3704,7 +4148,6 @@
         getPlayerNews() {
             console.log('激励理论绿');
         }
-
 
         /**
          * 打开实时战绩或牌局回顾
@@ -3727,98 +4170,35 @@
             this.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
         }
 
-        /**
-         * 游戏中菜单点击补充钵钵
-         */
-        playerAddBOBOSend(index) {
-            if (this._seatIndex == null) {
-                this.owner.showTips('您当前为观战模式,无法添加钵钵!');
-            } else {
-                this.getPlayerUsableScore((res) => {
-                    this.showMakeUpBoBo(true);
-                });
-            }
-        }
-
-        /**
-         * 请求获取玩家的可用积分等信息
-         * @param fn 获取结束的回调函数
-         */
-        getPlayerUsableScore(fn) {
-            let that = this;
-            HTTP.$request({
-                that: this,
-                url: '/M.User/GetInfo',
-                data: {
-                    uid: this.userId
-                },
-                success(res) {
-                    if (res.data.ret.type == 0) {
-                        this._usableScore = res.data.score;
-                        let data = { score: res.data.score };
-                        fn.call(that, data);
-                    } else {
-                        this.owner.showTips(res.data.ret.msg);
-                    }
-                },
-                fail() {
-                    this.owner.showTips('网络异常');
-                }
+        setMeMakeBOBO() {
+            this._playerArray.forEach(item_player => {
+                item_player.setMeMakeBOBO();
             });
         }
 
-        /**
-         * 补充钵钵(占座带入)
-         */
-        showMakeUpBoBo(show, type) {
-            let showObj = this.owner.makeUp_bobo;
-            if (showObj.visible && type == 'hand') {//手动关闭
-                if (this._allowSeatUp)
-                    this.playerSeatUpSend();
-            }
-            if (show)
-                this.getPlayerUsableScore((res) => {
-                    this.setBOBO();
-                });
-            let maskAlpha = 0;
-            let y = show ? Laya.stage.height / 2 : -this.owner.makeUp_bobo.height;
-            this.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
-        }
 
         // 确认带入钵钵
         makeUpBoBoConfirmDaiRu() {
             let daiRuScore = this.owner.bobo_daiRuScore.text;
-            if (this._allowSeatUp) {
-                this.onSend({
-                    name: 'M.Room.C2R_SitDown',
-                    data: {
-                        roomid: this.roomId,
-                        idx: this._seatIndex,
-                        score: daiRuScore
-                    },
-                    success(res) {
-                        this.dealSoketMessage('补充钵钵确认带入', res);
-                    }
-                });
-            } else {
-                this.onSend({
-                    name: 'M.Room.C2R_AddDairu',
-                    data: {
-                        roomid: this.roomId,
-                        idx: this._seatIndex,
-                        score: daiRuScore
-                    },
-                    success(res) {
-                        this.dealSoketMessage('补充钵钵：', res);
-                    }
-                });
-            }
+            this.onSend({
+                name: 'M.Room.C2R_AddDairu',
+                data: {
+                    roomid: this.roomId,
+                    idx: this._seatIndex,
+                    score: daiRuScore
+                },
+                success(res) {
+                    this.dealSoketMessage('补充钵钵：', res);
+                }
+            });
         }
 
         /**
          * 补充钵钵后处理
          */
         playerAddDairu(data) {
+            if (data.userId == this.userId)
+                this.owner.showTips('带入成功');
             this._playerArray.forEach(item_player => {
                 if (data.userId == item_player.owner.userId) {
                     item_player.setAddDaiRuScore(data);
@@ -3832,39 +4212,6 @@
         playerNews(data) {
             this._usableScore = data.score;//可用积分
         }
-
-        /**
-         * 设置钵钵带入中的滑动选择事件，已经值的初始化
-         */
-        setBOBO() {
-
-            this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu;
-            this.owner.bobo_ID.text = this.userId;
-            this.owner.bobo_fuwufei.text = this.owner.bobo_daiRuScore.text * (1 / 10);
-            this.owner.bobo_trueScore.text = this._usableScore;
-            let showObj = this.owner.makeUp_bobo;
-            let boboSliderView = showObj.getChildByName("sliderView");
-            let slider_btn = boboSliderView.getChildByName("slider_btn");
-            let SCALE = boboSliderView.width / 5;
-            Main$1.$slider(boboSliderView, slider_btn, this, (res) => {
-                if (res >= 0 && res < SCALE * 1) {
-                    this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 1;
-                } else if (res >= SCALE * 1 && res < SCALE * 2) {
-                    this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 2;
-                } else if (res >= SCALE * 2 && res < SCALE * 3) {
-                    this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 3;
-                } else if (res >= SCALE * 3 && res < SCALE * 4) {
-                    this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 4;
-                } else if (res >= SCALE * 4 && res < SCALE * 5) {
-                    this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 5;
-                } else if (res == SCALE * 5) {
-                    this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 6;
-                }
-                this.owner.bobo_fuwufei.text = this.owner.bobo_daiRuScore.text * (1 / 10);
-            });
-        }
-
-
 
         // 起立请求
         playerSeatUpSend() {
@@ -3920,8 +4267,6 @@
          * 打开弹窗公用方法
          */
         openDiaLogCommon(show, showObj, maskAlpha, XORY, XORYVal) {
-            this._allowSeatUp = show ? false : true;
-            // Main.$LOG('打开弹窗公用方法_allowSeatUp:',this._allowSeatUp);
             if (showObj.visible) {
                 setTimeout(() => {
                     showObj.visible = show;
@@ -4335,8 +4680,12 @@
             this.GameControl = GameControl.instance;
             this.MeSeatArr = this.GameControl._playerArray.filter(item => item.owner.isMe);
             if (this.MeSeatArr.length > 0) {
-                this.init();
-                this.common(true);
+                if(this.GameControl.isLiuZuo){
+                    this.GameUI.showTips('您当前已留座，不能再留座了!');
+                }else{
+                    this.init();
+                    this.common(true);
+                }
             } else {
                 this.GameUI.showTips('您当前为观战模式，无法留座!');
             }
@@ -4484,6 +4833,106 @@
     var PlayerLiuZuo$1 = new PlayerLiuZuo();
 
     /**
+     * 该脚本为站位带入积分或补充钵钵功能
+     */
+    class MakeBOBO {
+        init() {
+
+        }
+        open() {
+            // if (showObj.visible && type == 'hand') {//手动关闭
+            //     if (this._allowSeatUp)
+            //         this.playerSeatUpSend();
+            // }
+            // if (show)
+            //     this.getPlayerUsableScore((res) => {
+            //         this.setBOBO();
+            //     })
+            this.getPlayerUsableScore((res) => {
+                this.setBOBO();
+            });
+            this.common(true);
+        }
+        common(show) {
+            let showObj = GameControl.instance.owner.makeUp_bobo;
+            let maskAlpha = 0;
+            let y = show ? Laya.stage.height / 2 : -showObj.height;
+            GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
+        }
+        /**
+         * 关闭带入弹框
+         * @param {*} isRequest 是否请求
+         */
+        close(isRequest = false) {
+            let showObj = GameControl.instance.owner.makeUp_bobo;
+            if (showObj.visible) {
+                this.common(false);
+                if (isRequest)
+                    GameControl.instance.playerSeatUpSend();
+            }
+        }
+
+        /**
+        * 请求获取玩家的可用积分等信息
+        * @param fn 获取结束的回调函数
+        */
+        getPlayerUsableScore(fn) {
+            let that = this;
+            HTTP.$request({
+                that: this,
+                url: '/M.User/GetInfo',
+                data: {
+                    uid: GameControl.instance.userId
+                },
+                success(res) {
+                    if (res.data.ret.type == 0) {
+                        that._usableScore = res.data.score;
+                        let data = { score: res.data.score };
+                        fn.call(that, data);
+                    } else {
+                        GameControl.instance.owner.showTips(res.data.ret.msg);
+                    }
+                },
+                fail() {
+                    GameControl.instance.owner.showTips('网络异常');
+                }
+            });
+        }
+
+        /**
+        * 设置钵钵带入中的滑动选择事件，已经值的初始化
+        */
+        setBOBO() {
+            let that = GameControl.instance;
+            that.owner.bobo_daiRuScore.text = that._gameRoomeNews.dairu;
+            that.owner.bobo_ID.text = that.userId;
+            that.owner.bobo_fuwufei.text = that.owner.bobo_daiRuScore.text * (1 / 10);
+            that.owner.bobo_trueScore.text = this._usableScore;
+            let showObj = that.owner.makeUp_bobo;
+            let boboSliderView = showObj.getChildByName("sliderView");
+            let slider_btn = boboSliderView.getChildByName("slider_btn");
+            let SCALE = boboSliderView.width / 5;
+            Main$1.$slider(boboSliderView, slider_btn, that, (res) => {
+                if (res >= 0 && res < SCALE * 1) {
+                    that.owner.bobo_daiRuScore.text = that._gameRoomeNews.dairu * 1;
+                } else if (res >= SCALE * 1 && res < SCALE * 2) {
+                    that.owner.bobo_daiRuScore.text = that._gameRoomeNews.dairu * 2;
+                } else if (res >= SCALE * 2 && res < SCALE * 3) {
+                    that.owner.bobo_daiRuScore.text = that._gameRoomeNews.dairu * 3;
+                } else if (res >= SCALE * 3 && res < SCALE * 4) {
+                    that.owner.bobo_daiRuScore.text = that._gameRoomeNews.dairu * 4;
+                } else if (res >= SCALE * 4 && res < SCALE * 5) {
+                    that.owner.bobo_daiRuScore.text = that._gameRoomeNews.dairu * 5;
+                } else if (res == SCALE * 5) {
+                    that.owner.bobo_daiRuScore.text = that._gameRoomeNews.dairu * 6;
+                }
+                that.owner.bobo_fuwufei.text = that.owner.bobo_daiRuScore.text * (1 / 10);
+            });
+        }
+    }
+    var MakeBOBO$1 = new MakeBOBO();
+
+    /**
     * 本示例采用非脚本的方式实现，而使用继承页面基类，实现页面逻辑。在IDE里面设置场景的Runtime属性即可和场景进行关联
     * 相比脚本方式，继承式页面类，可以直接使用页面定义的属性（通过IDE内var属性定义），比如this.tipLbll，this.scoreLbl，具有代码提示效果
     * 建议：如果是页面级的逻辑，需要频繁访问页面内多个元素，使用继承式写法，如果是独立小模块，功能单一，建议用脚本方式实现，比如子弹脚本。
@@ -4500,6 +4949,7 @@
             // this.loadScene("cheXuanGame_8.scene");
             this.ceshiNum = 0;
             this.ceshiNum2 = 0;
+            this.isADDBOBO = false;
         }
 
         onAwake() {
@@ -4571,7 +5021,6 @@
             this.bobo_close.on(Laya.Event.CLICK, this, this.onClickMask);//补充钵钵关闭按钮关闭
             this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
             this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
-
             this.ceshiEvent();//有关于测试事件
         }
 
@@ -4648,12 +5097,13 @@
          * 所有弹框的蒙板事件
          */
         onClickMask() {
-            this._control.showMakeUpBoBo(false, 'hand');
+            MakeBOBO$1.close(!this.isADDBOBO);
             this._control.openMenuList(false);
             GameSet$1.gameSet(false);
             PlyerNews.GetNews(false);
             ExpressionChat$1.close();
             PlayerLiuZuo$1.close();
+            this.isADDBOBO = false;
         }
 
         onClickMenuBtn() {
@@ -4719,13 +5169,15 @@
                 } else if (ID == 7) {
                     this._control.playerLeaveRoomSend();
                 } else if (ID == 4) {
-                    this._control.playerAddBOBOSend();
-                } else if (ID == 3) {
+                    this.isADDBOBO = true;
+                    MakeBOBO$1.open();
+                } else if (ID == 3) {//游戏设置
                     GameSet$1.gameSet(true);
-                } else if (ID == 6) {
-                    this._control.beackRoom();
                 } else if (ID == 5) {//留座离桌
                     PlayerLiuZuo$1.open(this);
+                } else if (ID == 6) {//充值商城
+                    this._control.beackRoom();
+                    Main$1.$openScene('shoppingMall.scene',false,{});
                 }
             }
         }
@@ -4806,20 +5258,20 @@
          * 有关于玩家离桌的设置
          * @param {*} data 所需数据{seatAtTime: 1575336287，totalTime: 120，userId: 5986855}
          */
-        aboutPlayerLiuZuo(data){
-            PlayerLiuZuo$1.start(this,data);
+        aboutPlayerLiuZuo(data) {
+            PlayerLiuZuo$1.start(this, data);
         }
 
-         /**
-         * 有关于玩家离桌后时间满后的设置(即起立)
-         * @param {*} data 所需数据{userId:XXX}
-         */
-        aboutPlayerLiuZuoEnd(data){
-            PlayerLiuZuo$1.end(this,data);
+        /**
+        * 有关于玩家离桌后时间满后的设置(即起立)
+        * @param {*} data 所需数据{userId:XXX}
+        */
+        aboutPlayerLiuZuoEnd(data) {
+            PlayerLiuZuo$1.end(this, data);
         }
 
-        palyerLiuZuoTime(node){
-            PlayerLiuZuo$1.time(this,node);
+        palyerLiuZuoTime(node) {
+            PlayerLiuZuo$1.time(this, node);
         }
 
         /**
@@ -4859,6 +5311,9 @@
             PlyerNews.GetNews(true, data);
         }
 
+        setMeMakeBOBO(){
+            MakeBOBO$1.close();
+        }
         /**
          * 占座或坐下公共设置
          * @param {*} isShow 剩余时间
@@ -4870,16 +5325,15 @@
             let headImg = headBox.getChildByName("headImgBox");
             let name = this.owner.getChildByName("name");
             headBox.visible = true;
-            // Main.$LoadImage(headImg, data.head, Main.defaultImg.one, 'skin');
             Main$1.$LoadImage(headImg, Main$1.defaultImg.one, Main$1.defaultImg.one, 'skin');
             this.owner.userId = data.userId;
             if (data.userId == GameControl.instance.userId) {
                 name.text = '';
-                // console.log('进来000')
-                // if (isUpdate)
-                //     GameControl.instance.changeSeatXY(this.owner.index, 0);//调整位置
                 this.owner.isMe = true;
-                GameControl.instance.showMakeUpBoBo(isShow);
+                if (isShow)
+                    MakeBOBO$1.open();
+                else
+                    MakeBOBO$1.close();
             } else {
                 name.text = data.name;
                 this.owner.isMe = false;
@@ -4904,6 +5358,7 @@
             this.owner.userId = '';
             if (data.userid == GameControl.instance.userId) {
                 this.owner.isMe = false;
+                MakeBOBO$1.close();
             } else {
                 name.text = '';
             }
@@ -5706,6 +6161,116 @@
         }
     }
 
+    /**
+    * 该脚本为滑动选择
+    */
+    class sliderSelect extends Laya.Script {
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+        }
+
+        onEnable() {
+            console.log('demo：', this);
+            this.i = 0;
+            // let game_music=this.owner.game_music;
+            // let switchBox=game_music.getChildByName("switchBox");
+            // Main.$switch(switchBox,true,this,(res)=>{
+            //     console.log(res)
+            // })
+            // this.listArr=[1,2,3,4];
+            // this.list1=this.owner.tipList;
+            // this.list1.vScrollBarSkin = "";
+            // this.list1.array= this.listArr;
+            // this.i=100000000000;
+            // setInterval(()=>{
+            //     listArr.push(i++);
+            //     this.list1.array=listArr;
+            //     this.list1.scrollTo(listArr.length-1);
+            //     this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
+            // },2000)
+            // this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
+            this.owner.createBtn.on(Laya.Event.CLICK, this, this.demo);
+
+        }
+
+
+        demo() {
+            // this.owner.Tipbox._children = [];
+            this.i++;
+            // let tip = new Laya.Sprite();
+            // let text = new Laya.Text();
+            // text.text = '就哈哈哈哈阿'+this.i;
+            // tip.addChild(text);
+            // text.color = '#FFFFFF';
+            // text.fontSize = 40;
+            // text.width = 720;
+            // text.height = 110;
+            // text.align = 'center';
+            // text.valign = 'middle';
+            // tip.name=this.i;
+            // tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
+            // function loadImgEnd() {
+            //     this.TipBox.addChild(tip);
+            // }
+            // tip.width = 720;
+            // tip.height = 110;
+            let tip = Laya.Pool.getItemByCreateFun("tip", this.tip.create, this.tip);
+            // tip.pos((Laya.stage.width-tip.width)/2,(Laya.stage.height-tip.height)/2)
+            tip.name = 'tip' + this.i;
+            this.owner.TipBox.addChild(tip);
+            // console.log(tip)
+            // setTimeout(() => {
+            //     Laya.Tween.to(tip, { y: -300 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]))
+            // }, 100)
+            console.log(this.owner.TipBox._children);
+            // setTimeout(() => {
+              
+            // }, 300)
+            let length = this.owner.TipBox._children.length;
+            this.owner.TipBox._children.forEach((item, index) => {
+                if (index < length - 1) {
+                    item.y = -200 - (120 * (length - index - 1));
+                    console.log(item.y);
+                }
+            });
+            Laya.Tween.to(tip, { y: -200 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]));
+        }
+        tipMoveEnd(tipObj) {
+            console.log('结束');
+            // this.owner.Tipbox._children.forEach((item,index)=>{
+            //     item.y=-300-(this.owner.Tipbox._children.length-(index+1))*120
+            // })
+            // tipObj.y=tipObj.y-110*(this.owner.Tipbox._children.length-1);
+            // Laya.Tween.to(tipObj, { alpha: 0 }, 300, null, Laya.Handler.create(this, this.tipAlphaEnd, [tipObj]));
+            // let length = this.owner.TipBox._children.length;
+            // this.owner.TipBox._children.forEach((item, index) => {
+            //     // if (index < length - 1) {
+
+            //     //     console.log(item.y)
+            //     // }
+            //     item.y = -120 - (120 * (length - index - 1));
+            // });
+        }
+        tipAlphaEnd(tipObj) {
+            // tipObj.removeSelf();
+        }
+
+        page1ListOnRender(cell, index) {
+            // console.log(cell)
+            // let text=cell.getChildByName('bg').getChildByName("text");
+            // text.text=cell.dataSource;
+            // // if(index==this.list1.array.length-1){
+            // //     cell.alpha=1;
+            // //     cell.y=300;
+            // //     Laya.Tween.to(cell,{y:index*90},400)
+            // // }
+            // cell.alpha=1;
+            // cell.y=300;
+            // Laya.Tween.to(cell,{y:index*90},400)
+        }
+    }
+
     class login extends Laya.Script {
         constructor() {
             super();
@@ -5869,8 +6434,9 @@
             this.login_btn.on(Laya.Event.CLICK, this, this.login);
             this.register_btn.on(Laya.Event.CLICK, this, this.register);
             this.change_btn.on(Laya.Event.CLICK, this, this.change);
-            Main$1.createLoading(Main$1.loadingType.one);
-            Main$1.createLoading(Main$1.loadingType.two);
+            Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
+            Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
+            Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
             Main$1.getStatusHeight();
             // setTimeout(()=>{
             //     this.ceshi.text=Main.phoneNews.statusHeight+';'+Main.phoneNews.deviceNews
@@ -6651,6 +7217,7 @@
             // Main.$LOG('商城界面所收到的值:',options);
             // this._RegisterJS.createNode();
             // this._RegisterJS.setPageData(options);
+            this.openedData=options;
         }
         /**
          * 返回登录界面
@@ -6708,12 +7275,18 @@
          * 打开商城界面
          */
         openShopView(){
-            Laya.Scene.open('shoppingMall.scene', false, Main$1.sign.shop, Laya.Handler.create(this, (res) => {
+            // Laya.Scene.open('shoppingMall.scene', false, Main.sign.shop, Laya.Handler.create(this, (res) => {
+            //     res.x = Laya.stage.width;
+            //     Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
+            //         this.owner.removeSelf();
+            //     }));
+            // }))
+            Main$1.$openScene('shoppingMall.scene',false,{isTabPage:true,page:Main$1.pages.page5},(res)=>{
                 res.x = Laya.stage.width;
                 Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
                     this.owner.removeSelf();
                 }));
-            }));
+            });
         }
 
         /**
@@ -6912,10 +7485,10 @@
         setPage1Data(data) {
             let page1List = this.UI.gameHall_page1_list;
             page1List.vScrollBarSkin = "";
-            page1List.visible = true;
             page1List.array = data;
             page1List.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
             page1List.mouseHandler = new Laya.Handler(this, this.rowOnClick);
+            page1List.visible = true;
         }
         page1ListOnRender(cell, index) {
             let contentBg = cell.getChildByName("content_bg");
@@ -6955,9 +7528,9 @@
                     roomPws: Event.target.dataSource.roomPws,
                     page: Main$1.pages.page3
                 };
-                Main$1.showLoading(true);
+                Main$1.showLoading(true,Main$1.loadingType.three,'正在进入房间...');
                 Main$1.$openScene('cheXuanGame_8.scene', true, data, () => {
-                    Main$1.showLoading(false);
+                    Main$1.showLoading(false,Main$1.loadingType.three,'');
                 });
             }
         }
@@ -7005,13 +7578,13 @@
         openGameView() {
             let data = this.UI.pageData;
             if (data.roomPws && data.roomPws > 0) {
-                Main$1.showLoading(true);
+                Main$1.showLoading(true,Main$1.loadingType.three,'正在进入房间...');
                 let pageData = {
                     roomPws: data.roomPws,
                     page: Main$1.pages.page3
                 };
                 Main$1.$openScene('cheXuanGame_8.scene', true, pageData, () => {
-                    Main$1.showLoading(false);
+                    Main$1.showLoading(false,Main$1.loadingType.three,'');
                 });
             }
         }
@@ -7299,6 +7872,38 @@
         }
     }
 
+    class tip extends Laya.Script {
+
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+        }
+
+        onEnable() {
+            this.flag = true;
+            console.log('进来了');
+        }
+
+        onDisable() {
+        }
+
+        onTriggerEnter(other, self, contact) {
+            // other.owner._components[0]._isSensor=true;
+            // Laya.Tween.to(other.owner, { y: other.owner.y-200 }, 600)
+            // if (this.flag) {
+            //     this.flag = false;
+            //     console.log('被碰撞了', other)
+            //     let length = other.owner.parent._children.length;
+            //     other.owner.parent._children.forEach((item, index) => {
+            //         if (index < length - 1) {
+            //             item.y = -300-(120*(length-index-1));
+            //             console.log(item.y)
+            //         }
+            //     });
+            // }
+        }
+    }
+
     /**This class is automatically generated by LayaAirIDE, please do not make any modifications. */
 
     class GameConfig {
@@ -7312,6 +7917,7 @@
     		reg("game/common/SetHeight.js",SetHeight);
     		reg("game/Fuction/MyClickSelect.js",MyClickSelect);
     		reg("game/GameCenter/GameControl.js",GameControl);
+    		reg("game/common/demo.js",sliderSelect);
     		reg("game/pages/login/LoginUI.js",Login);
     		reg("game/common/setSceneWH.js",setSceneWH);
     		reg("game/pages/login/Login.js",login);
@@ -7332,6 +7938,7 @@
     		reg("game/pages/Notice/Notice.js",Notice);
     		reg("game/pages/GameHall/GameHall.js",GameHall);
     		reg("game/pages/Data/Data.js",Data);
+    		reg("game/common/tip.js",tip);
         }
     }
     GameConfig.width = 1242;

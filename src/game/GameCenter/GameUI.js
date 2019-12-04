@@ -5,6 +5,7 @@ import PlyerNews from '../Fuction/PlyerNews';
 import GameSet from '../Fuction/GameSet';
 import ExpressionChat from '../Fuction/ExpressionChat';
 import PlayerLiuZuo from '../Fuction/PlayerLiuZuo';
+import MakeBOBO from '../Fuction/MakeBOBO';
 /**
 * 本示例采用非脚本的方式实现，而使用继承页面基类，实现页面逻辑。在IDE里面设置场景的Runtime属性即可和场景进行关联
 * 相比脚本方式，继承式页面类，可以直接使用页面定义的属性（通过IDE内var属性定义），比如this.tipLbll，this.scoreLbl，具有代码提示效果
@@ -22,6 +23,7 @@ export default class GameUI extends Laya.Scene {
         // this.loadScene("cheXuanGame_8.scene");
         this.ceshiNum = 0;
         this.ceshiNum2 = 0;
+        this.isADDBOBO = false;
     }
 
     onAwake() {
@@ -93,7 +95,6 @@ export default class GameUI extends Laya.Scene {
         this.bobo_close.on(Laya.Event.CLICK, this, this.onClickMask);//补充钵钵关闭按钮关闭
         this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
         this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
-
         this.ceshiEvent();//有关于测试事件
     }
 
@@ -170,12 +171,13 @@ export default class GameUI extends Laya.Scene {
      * 所有弹框的蒙板事件
      */
     onClickMask() {
-        this._control.showMakeUpBoBo(false, 'hand');
+        MakeBOBO.close(!this.isADDBOBO);
         this._control.openMenuList(false);
         GameSet.gameSet(false);
         PlyerNews.GetNews(false);
         ExpressionChat.close();
         PlayerLiuZuo.close();
+        this.isADDBOBO = false;
     }
 
     onClickMenuBtn() {
@@ -234,20 +236,26 @@ export default class GameUI extends Laya.Scene {
             // console.log(Event.target)
             let ID = Event.target.dataSource.id;
             this._control.openMenuList(false);
-            if (ID == 2) {
+            if (ID == 2) {//牌局提示界面
                 Laya.Scene.open('paijutishi.scene', false, { show: true });
-            } else if (ID == 1) {
+            } else if (ID == 1) {//起立
                 this._control.playerSeatUpSend();
-            } else if (ID == 7) {
+            } else if (ID == 7) {//离开房间
                 this._control.playerLeaveRoomSend();
-            } else if (ID == 4) {
-                this._control.playerAddBOBOSend();
-            } else if (ID == 3) {
+            } else if (ID == 4) {//补充钵钵
+                this.isADDBOBO = true;
+                MakeBOBO.open();
+            } else if (ID == 3) {//游戏设置
                 GameSet.gameSet(true);
-            } else if (ID == 6) {
-                this._control.beackRoom();
             } else if (ID == 5) {//留座离桌
                 PlayerLiuZuo.open(this);
+            } else if (ID == 6) {//充值商城
+                // this._control.beackRoom();
+                Main.$openScene('shoppingMall.scene', false, { isTabPage: false }, (res) => {
+                    res.zOrder = 30;
+                    res.x = Laya.stage.width;
+                    Laya.Tween.to(res, { x: 0 }, Main._speed.page);
+                })
             }
         }
     }

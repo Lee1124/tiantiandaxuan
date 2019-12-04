@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":62,
-    "selecteID":334,
+    "selectedBox":80,
+    "selecteID":335,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
-    "maxID":335,
+    "maxID":336,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -262,14 +262,13 @@
                     "props":{"y":0,"x":0,"visible":false,"var":"CreateGamePage","top":0,"right":0,"name":"CreateGamePage","left":0,"bottom":0},
                     "nodeParent":67,
                     "label":"CreateGamePage",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":62,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,hd",
                             "props":{"top":0,"skin":"images/myPaiJu/1.png","name":"hd","centerX":0},
@@ -284,7 +283,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,into",
                             "props":{"x":95,"top":410,"skin":"images/myPaiJu/4.png","name":"into"},
@@ -298,7 +296,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,create",
                             "props":{"top":1020,"skin":"images/myPaiJu/3.png","name":"create","centerX":0},
@@ -312,7 +309,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{},
@@ -326,7 +322,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"text":"label"},
@@ -340,7 +335,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Panel",
                             "searchKey":"Panel",
                             "props":{},
@@ -353,7 +347,7 @@
                             "child":[
                                 ]
                         }],
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 },
                 {
                     "x":30,
@@ -787,13 +781,14 @@
                     "props":{"visible":true,"var":"NoticePage","top":0,"right":0,"name":"NoticePage","left":0,"bottom":0},
                     "nodeParent":67,
                     "label":"NoticePage",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":80,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,hd",
                             "props":{"y":0,"x":0,"top":0,"skin":"images/Notice/hd.png","name":"hd","centerX":0},
@@ -808,6 +803,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,nav",
                             "props":{"top":280,"skin":"images/Notice/nav_bg.png","name":"nav","centerX":0},
@@ -888,12 +884,13 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,page_bg",
                             "props":{"top":470,"skin":"images/Notice/bg.png","name":"page_bg","centerX":0,"bottom":200},
                             "nodeParent":80,
                             "label":"page_bg",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -968,6 +965,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/pages/Notice/Notice.js",
@@ -983,7 +981,7 @@
                             "child":[
                                 ]
                         }],
-                    "$HIDDEN":true
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,

@@ -81,10 +81,10 @@ export default class GameHall extends Laya.Script {
     setPage1Data(data) {
         let page1List = this.UI.gameHall_page1_list;
         page1List.vScrollBarSkin = "";
-        page1List.visible = true;
         page1List.array = data;
         page1List.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
         page1List.mouseHandler = new Laya.Handler(this, this.rowOnClick);
+        page1List.visible = true;
     }
     page1ListOnRender(cell, index) {
         let contentBg = cell.getChildByName("content_bg");

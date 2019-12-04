@@ -1,22 +1,26 @@
 class Main {
     constructor() {
         Main.instance = this;
-        this.websoketApi = '192.168.0.125:8082';
-        this.requestApi = 'http://192.168.0.125:8081';
-        // this.websoketApi = '132.232.34.32:8082';
-        // this.requestApi = 'http://132.232.34.32:8081';
+        // this.websoketApi = '192.168.0.125:8082';
+        // this.requestApi = 'http://192.168.0.125:8081';
+        this.websoketApi = '132.232.34.32:8082';
+        this.requestApi = 'http://132.232.34.32:8081';
+        //手机信息
         this.phoneNews = {
             statusHeight: 0,//手机系统栏的高度
             deviceNews: '',//系统名称：Android / iOS
         }
+        //用户信息
         this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        this.$LOG('Main.js获取用户信息：', this.userInfo);
+        // this.$LOG('Main.js获取用户信息：', this.userInfo);
+        //跳转划出界面标志
         this.sign = {
             signOut: 1,
             register: 2,
             changePwd: 3,
             shop: 4
         }
+        //tab界面
         this.pages = {
             page1: 'NoticePage',
             page2: 'CreateGamePage',
@@ -28,7 +32,7 @@ class Main {
             desk_bg1: 'res/img/gameView/desk_bg1.png',
             desk_bg2: 'res/img/gameView/desk_bg2.png'
         }
-        this.loadScene = ['cheXuanGame_8.scene', 'register.scene', 'shishizhanji.scene', 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene']
+        this.loadScene = ['cheXuanGame_8.scene', 'register.scene', 'shishizhanji.scene', 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene']
         this.allowGameHallSetInterval = false;
         this.allowRequesList = true;
         this.allowHideLoad = false;
@@ -67,7 +71,10 @@ class Main {
             console.log(...data);
     }
 
-
+    $ERROR(...data){
+        if (this.debug)
+        console.error(...data);
+    }
 
     /**
     * 获取状态栏高度入口
@@ -314,6 +321,15 @@ class Main {
             }
         })
         this.loadAniArr2 = [{ key: type, show: isShow, type: type, text: msg }];
+    }
+
+    /**
+     * 隐藏所有的加载
+     */
+    hideAllLoading(){
+        this.showLoading(false,this.loadingType.one);
+        this.showLoading(false,this.loadingType.two);
+        this.showLoading(false,this.loadingType.three);
     }
 
 

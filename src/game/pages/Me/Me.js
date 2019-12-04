@@ -49,12 +49,18 @@ export default class Me extends Laya.Script {
      * 打开商城界面
      */
     openShopView(){
-        Laya.Scene.open('shoppingMall.scene', false, Main.sign.shop, Laya.Handler.create(this, (res) => {
+        // Laya.Scene.open('shoppingMall.scene', false, Main.sign.shop, Laya.Handler.create(this, (res) => {
+        //     res.x = Laya.stage.width;
+        //     Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
+        //         this.owner.removeSelf();
+        //     }));
+        // }))
+        Main.$openScene('shoppingMall.scene',false,{isTabPage:true,page:Main.pages.page5},(res)=>{
             res.x = Laya.stage.width;
             Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
                 this.owner.removeSelf();
             }));
-        }))
+        })
     }
 
     /**

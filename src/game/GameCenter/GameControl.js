@@ -95,7 +95,6 @@ export default class GameControl extends Laya.Script {
             sub: 2
         }
 
-        this._allowSeatUp = true;
         //允许操作显示
         this._allowStartAction = true;
         //是否是刷新或者重连的数据
@@ -106,6 +105,8 @@ export default class GameControl extends Laya.Script {
         this.qiaoDealPokerEnd = false;
         //soket重连次数
         this.soketConnetNum = 0;
+        //是否已留座
+        this.isLiuZuo = false;
     }
 
     beackRoom(roomId) {
@@ -371,14 +372,16 @@ export default class GameControl extends Laya.Script {
             }
 
             if (resData._t == "R2C_AddDairu") {
-                this.owner.showTips(resData.ret.msg);
                 if (resData.ret.type == 0 || resData.ret.type == 4) {
-                    this.showMakeUpBoBo(false);
+                    this.setMeMakeBOBO();
                     resData.param.json.forEach(item => {
                         if (item._t == "CXAddBobo") {
                             this.playerAddDairu(item);
                         }
                     })
+                }
+                if (resData.ret.type == 4) {
+                    this.owner.showTips(resData.ret.msg);
                 }
             }
 
@@ -485,6 +488,7 @@ export default class GameControl extends Laya.Script {
                         if (item._t == "CXSeatReservation") {
                             this.playerLiuZuo(item);
                         } else if (item._t == "CXSitDown") {
+                            this.isLiuZuo = false;
                             this.playerSeatDown(item);
                         }
                     })
@@ -1652,7 +1656,6 @@ export default class GameControl extends Laya.Script {
     onClickPoker(mePokerObj, pokerArr, meItemObj) {
         if (this._allowAssignPoker) {
             let pokerArrScaleXIs0 = pokerArr.filter(item => item.scaleX == 0);
-            // console.log(pokerArrScaleXIs0.length,this._subView1.pokerName,this._subView2.pokerName)
             if (pokerArrScaleXIs0.length == 0) {
                 this.changeSubViewContent(this._subView1, mePokerObj, pokerArr, meItemObj);
             } else if (pokerArrScaleXIs0.length == 1 && this._subView1.pokerName === '') {
@@ -1767,7 +1770,6 @@ export default class GameControl extends Laya.Script {
     playerWinUp(data) {
         this._winUpINDEX = 0;
         this.allowWinShou = true;
-        // let joinNum = data.players.filter(item => item.losewin >= 0);
         this.reloadPlayerMoreZT();
         this.playerSeatFn('assignPokerCountDown', false);
         data.players.forEach((item_data, item_index) => {
@@ -1810,7 +1812,6 @@ export default class GameControl extends Laya.Script {
                                 item_player.showMoveCM(this, 2, true, this._moveCMSeat.pi, this._moveCMSeat.one, this._music.moveMangOrPi, playerLoselg0.length, getMonenyEnd);
                                 function getMonenyEnd() {
                                     Main.$LOG('玩家受到金币：', item_data.score);
-                                    // item_player.changePlayerScore(item_data.score, this._changeScoreType.seat);
                                     this.updatePlayerMoreData(data[0]);
                                 }
                             }
@@ -1857,7 +1858,7 @@ export default class GameControl extends Laya.Script {
         let num = 0;
         this._playerArray.forEach(item_player => {
             if (item_player.owner.userId == data.userId) {
-                Main.$LOG('进来回收=======================0');
+                // Main.$LOG('进来回收=======================0');
                 item_player.showMoveCM(this, 1, true, this._moveCMSeat.mang, this._moveCMSeat.one, this._music.moveMangOrPi, 1);
                 this.showDiChiMang(false);
             } else {
@@ -1891,6 +1892,8 @@ export default class GameControl extends Laya.Script {
      * 留座处理
      */
     playerLiuZuo(data) {
+        if (data.userId == this.userId)
+            this.isLiuZuo = true;
         this._playerArray.forEach(item_player => {
             if (item_player.owner.userId == data.userId) {
                 item_player.aboutPlayerLiuZuo(data);
@@ -1947,7 +1950,6 @@ export default class GameControl extends Laya.Script {
                 item_player.showOrHidePlayerXiaZhuView(false);
                 item_player.aboutPlayerLiuZuoEnd(data);
                 if (data.userid == this.userId) {
-                    this.showMakeUpBoBo(false);
                     item_player.reloadPlayerPokerZT(false, [1, 2, 3, 4]);
                 }
             }
@@ -1960,7 +1962,6 @@ export default class GameControl extends Laya.Script {
     getPlayerNews() {
         console.log('激励理论绿')
     }
-
 
     /**
      * 打开实时战绩或牌局回顾
@@ -1983,98 +1984,35 @@ export default class GameControl extends Laya.Script {
         this.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
     }
 
-    /**
-     * 游戏中菜单点击补充钵钵
-     */
-    playerAddBOBOSend(index) {
-        if (this._seatIndex == null) {
-            this.owner.showTips('您当前为观战模式,无法添加钵钵!');
-        } else {
-            this.getPlayerUsableScore((res) => {
-                this.showMakeUpBoBo(true);
-            })
-        }
-    }
-
-    /**
-     * 请求获取玩家的可用积分等信息
-     * @param fn 获取结束的回调函数
-     */
-    getPlayerUsableScore(fn) {
-        let that = this;
-        HTTP.$request({
-            that: this,
-            url: '/M.User/GetInfo',
-            data: {
-                uid: this.userId
-            },
-            success(res) {
-                if (res.data.ret.type == 0) {
-                    this._usableScore = res.data.score;
-                    let data = { score: res.data.score };
-                    fn.call(that, data);
-                } else {
-                    this.owner.showTips(res.data.ret.msg);
-                }
-            },
-            fail() {
-                this.owner.showTips('网络异常');
-            }
+    setMeMakeBOBO() {
+        this._playerArray.forEach(item_player => {
+            item_player.setMeMakeBOBO();
         })
     }
 
-    /**
-     * 补充钵钵(占座带入)
-     */
-    showMakeUpBoBo(show, type) {
-        let showObj = this.owner.makeUp_bobo;
-        if (showObj.visible && type == 'hand') {//手动关闭
-            if (this._allowSeatUp)
-                this.playerSeatUpSend();
-        }
-        if (show)
-            this.getPlayerUsableScore((res) => {
-                this.setBOBO();
-            })
-        let maskAlpha = 0;
-        let y = show ? Laya.stage.height / 2 : -this.owner.makeUp_bobo.height;
-        this.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
-    }
 
     // 确认带入钵钵
     makeUpBoBoConfirmDaiRu() {
         let daiRuScore = this.owner.bobo_daiRuScore.text;
-        if (this._allowSeatUp) {
-            this.onSend({
-                name: 'M.Room.C2R_SitDown',
-                data: {
-                    roomid: this.roomId,
-                    idx: this._seatIndex,
-                    score: daiRuScore
-                },
-                success(res) {
-                    this.dealSoketMessage('补充钵钵确认带入', res);
-                }
-            })
-        } else {
-            this.onSend({
-                name: 'M.Room.C2R_AddDairu',
-                data: {
-                    roomid: this.roomId,
-                    idx: this._seatIndex,
-                    score: daiRuScore
-                },
-                success(res) {
-                    this.dealSoketMessage('补充钵钵：', res);
-                }
-            })
-        }
+        this.onSend({
+            name: 'M.Room.C2R_AddDairu',
+            data: {
+                roomid: this.roomId,
+                idx: this._seatIndex,
+                score: daiRuScore
+            },
+            success(res) {
+                this.dealSoketMessage('补充钵钵：', res);
+            }
+        })
     }
 
     /**
      * 补充钵钵后处理
      */
     playerAddDairu(data) {
+        if (data.userId == this.userId)
+            this.owner.showTips('带入成功');
         this._playerArray.forEach(item_player => {
             if (data.userId == item_player.owner.userId) {
                 item_player.setAddDaiRuScore(data);
@@ -2088,39 +2026,6 @@ export default class GameControl extends Laya.Script {
     playerNews(data) {
         this._usableScore = data.score;//可用积分
     }
-
-    /**
-     * 设置钵钵带入中的滑动选择事件，已经值的初始化
-     */
-    setBOBO() {
-
-        this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu;
-        this.owner.bobo_ID.text = this.userId;
-        this.owner.bobo_fuwufei.text = this.owner.bobo_daiRuScore.text * (1 / 10);
-        this.owner.bobo_trueScore.text = this._usableScore;
-        let showObj = this.owner.makeUp_bobo;
-        let boboSliderView = showObj.getChildByName("sliderView");
-        let slider_btn = boboSliderView.getChildByName("slider_btn");
-        let SCALE = boboSliderView.width / 5;
-        Main.$slider(boboSliderView, slider_btn, this, (res) => {
-            if (res >= 0 && res < SCALE * 1) {
-                this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 1;
-            } else if (res >= SCALE * 1 && res < SCALE * 2) {
-                this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 2;
-            } else if (res >= SCALE * 2 && res < SCALE * 3) {
-                this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 3;
-            } else if (res >= SCALE * 3 && res < SCALE * 4) {
-                this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 4;
-            } else if (res >= SCALE * 4 && res < SCALE * 5) {
-                this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 5;
-            } else if (res == SCALE * 5) {
-                this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu * 6;
-            }
-            this.owner.bobo_fuwufei.text = this.owner.bobo_daiRuScore.text * (1 / 10);
-        });
-    }
-
-
 
     // 起立请求
     playerSeatUpSend() {
@@ -2176,8 +2081,6 @@ export default class GameControl extends Laya.Script {
      * 打开弹窗公用方法
      */
     openDiaLogCommon(show, showObj, maskAlpha, XORY, XORYVal) {
-        this._allowSeatUp = show ? false : true;
-        // Main.$LOG('打开弹窗公用方法_allowSeatUp:',this._allowSeatUp);
         if (showObj.visible) {
             setTimeout(() => {
                 showObj.visible = show;

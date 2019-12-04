@@ -15,6 +15,7 @@ export default class shopMall extends Laya.Scene{
         // Main.$LOG('商城界面所收到的值:',options);
         // this._RegisterJS.createNode();
         // this._RegisterJS.setPageData(options);
+        this.openedData=options;
     }
     /**
      * 返回登录界面
