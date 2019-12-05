@@ -122,7 +122,7 @@ export default class SuspensionTips extends Laya.Script {
      * 更新缓动对象
      */
     UpdateTargets()  {
-        console.log("UpdateTargets:start");
+        // console.log("UpdateTargets:start");
         let offsetY = 0;
         let lastItem = null;
         this.targets.forEach((item, index) => {
@@ -148,7 +148,7 @@ export default class SuspensionTips extends Laya.Script {
             lastItem = item;
         });
 
-        console.log("UpdateTargets:end");
+        // console.log("UpdateTargets:end");
     }
 
     /**

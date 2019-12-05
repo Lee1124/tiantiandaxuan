@@ -15,6 +15,7 @@ class Share {
     }
     bindEvent() {
         this.TABUI.tabPagesDialogBox.on(Laya.Event.CLICK, this, this.clickMask);
+        this.TABUI.s_close.on(Laya.Event.CLICK, this, this.clickMask);
     }
     clickMask() {
         this.close();

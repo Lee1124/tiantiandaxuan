@@ -755,7 +755,7 @@
          * 更新缓动对象
          */
         UpdateTargets()  {
-            console.log("UpdateTargets:start");
+            // console.log("UpdateTargets:start");
             let offsetY = 0;
             let lastItem = null;
             this.targets.forEach((item, index) => {
@@ -781,7 +781,7 @@
                 lastItem = item;
             });
 
-            console.log("UpdateTargets:end");
+            // console.log("UpdateTargets:end");
         }
 
         /**
@@ -903,8 +903,10 @@
             this.debug = true;
 
             this.errList = [];
-            this.tipArr1=[];
-            this.tipArr2=[];
+            this.tipArr1 = [];
+            this.tipArr2 = [];
+            this.diaLogArr1 = [];
+            this.diaLogArr2 = [];
         }
 
         $LOG(...data) {
@@ -922,7 +924,7 @@
          */
         createTipBox() {
             let tipBox = new Laya.Image();
-            tipBox.zOrder=40;
+            tipBox.zOrder = 40;
             tipBox.name = 'tipBox';
             tipBox.height = 300;
             tipBox.left = 0;
@@ -935,7 +937,7 @@
             this.tipArr2.forEach(item => {
                 let tipJS = tipBox.getComponent(SuspensionTips);
                 tipJS.add(item.msg);
-                this.tipArr2=[];
+                this.tipArr2 = [];
                 return;
             });
         }
@@ -951,9 +953,9 @@
                     let tipJS = tipBox.getComponent(SuspensionTips);
                     tipJS.add(msg);
                 }
-                return;
             });
-            this.tipArr2 = [{ msg: msg }];
+            if (this.tipArr1.length == 0)
+                this.tipArr2 = [{ msg: msg }];
         }
 
         /**
@@ -1010,106 +1012,155 @@
         }
 
         /**
-         * 弹框
-         * @param {string} text 提示内容
-         * @param {Number} type 类型(注意：1--一个确定按钮,2--确定按钮和取消按钮)
-         * @param {Array} node 需要显示或隐藏的节点
-         * @param {Function} comfirmFn 确认回调
-         * @param {Function} cancelFn 取消回调
-         * @param {String} textColor 文本颜色
-         * @param {bool} showNode 在弹框隐藏时，是否隐藏节点
+         * 预创建弹框
          */
-        showDialog(text = '内容为空', type = 1, node = [], comfirmFn = Function, cancelFn = Function, textColor = '#935F13', showNode = true) {
+        createDiaLog() {
+            //弹框遮罩
             let myMask = Laya.stage.getChildByName("dialogMask");
             if (myMask) {
                 myMask.removeSelf();
             }
             let Mask = new Laya.Sprite();
-            Mask.name = 'dialogMask';
+            this.diaLogMask = Mask;
+            Mask.visible = false;
             Mask.zOrder = 4;
             Mask.pos(0, 0);
             Mask.size(Laya.stage.width, Laya.stage.height);
-            let diaLog = new Laya.Dialog();
-            diaLog.zOrder = 5;
+            //弹框对象
+            this.diaLog = new Laya.Dialog();
+            this.diaLog.pos((Laya.stage.width - 1132) / 2, (Laya.stage.height - 764) / 2);
+            this.diaLog.size(1132, 764);
+            this.diaLog.zOrder = 5;
+            //弹框背景
             let dialogBg = new Laya.Image();
+            dialogBg.pos(0, 0);
+            dialogBg.loadImage('res/img/diglog/bg.png');
+            //弹框文字内容
             let dialogContent = new Laya.Text();
             dialogContent.fontSize = 60;
-            if (textColor) {
-                dialogContent.color = textColor;
-            } else {
-                dialogContent.color = '#935F13';
-            }
+            dialogContent.color = '#935F13';
             dialogContent.size(1132, 180);
             dialogContent.align = 'center';
             dialogContent.valign = 'middle';
             dialogContent.y = 250;
-            dialogContent.text = text;
-            if (type == 1) {
-                let btn_one = new Laya.Image();
-                btn_one.size(609, 163);
-                btn_one.loadImage('res/img/diglog/btn_one.png', Laya.Handler.create(this, () => {
-                    dialogBg.addChild(btn_one);
-                    btn_one.pos((1132 - btn_one.width) / 2, 764 - btn_one.height - 60);
-                    btn_one.on(Laya.Event.CLICK, this, () => {
+            dialogContent.text = '';
+            //创建一个确认按钮
+            let btn_one = new Laya.Image();
+            btn_one.size(609, 163);
+            btn_one.loadImage('res/img/diglog/btn_one.png', Laya.Handler.create(this, () => {
+                btn_one.pos((1132 - btn_one.width) / 2, 764 - btn_one.height - 60);
+            }));
+
+            //创建一个确认按钮和一个取消按钮
+            let btn_cancel = new Laya.Image();
+            let btn_comfirm = new Laya.Image();
+            btn_cancel.size(460, 163);
+            btn_comfirm.size(460, 163);
+            btn_cancel.loadImage('res/img/diglog/btn_cancel.png', Laya.Handler.create(this, () => {
+                btn_cancel.pos(72, 764 - btn_cancel.height - 60);
+            }));
+            btn_comfirm.loadImage('res/img/diglog/btn_comfirm.png', Laya.Handler.create(this, () => {
+                btn_comfirm.pos(600, 764 - btn_comfirm.height - 60);
+            }));
+            dialogBg.addChild(dialogContent);
+            dialogBg.addChild(btn_one);
+            dialogBg.addChild(btn_cancel);
+            dialogBg.addChild(btn_comfirm);
+            this.diaLog.addChild(dialogBg);
+            Mask.addChild(this.diaLog);
+            Laya.stage.addChild(Mask);
+            this.diaLogArr1 = [{ btn1: btn_one, btn2: btn_cancel, btn3: btn_comfirm, msg: dialogContent }];
+            this.diaLogCommon();
+        }
+
+        closeDiaLog() {
+            this.diaLog.close();
+            this.diaLogMask.visible = false;
+            let arr = this.diaLogArr1[0];
+            arr.btn1.off(Laya.Event.CLICK);
+            arr.btn2.off(Laya.Event.CLICK);
+            arr.btn3.off(Laya.Event.CLICK);
+        }
+
+        diaLogCommon() {
+            let arr1 = this.diaLogArr1[0];
+            this.diaLogArr2.forEach(item => {
+                arr1.btn1.visible = item.type == 1 ? true : false;
+                arr1.btn2.visible = item.type == 2 ? true : false;
+                arr1.btn3.visible = item.type == 2 ? true : false;
+                arr1.msg.text = item.msg;
+                arr1.msg.color = item.color;
+                this.diaLogMask.visible = true;
+                this.diaLog.show();
+                arr1.btn1.on(Laya.Event.CLICK, this, () => {
+                    if (item.comfirmFn)
+                        item.comfirmFn('点击了确定按钮');
+                    this.closeDiaLog();
+                });
+                arr1.btn2.on(Laya.Event.CLICK, this, () => {
+                    if (item.cancelFn)
+                        item.cancelFn('点击了取消按钮');
+                    this.closeDiaLog();
+                });
+                arr1.btn3.on(Laya.Event.CLICK, this, () => {
+                    if (item.comfirmFn)
+                        item.comfirmFn('点击了确定按钮');
+                    this.closeDiaLog();
+                });
+                this.diaLogMask.on(Laya.Event.CLICK, this, () => {
+                    if (item.cancelFn)
+                        item.cancelFn('点击了取消按钮');
+                    this.closeDiaLog();
+                });
+            });
+            this.diaLogArr2 = [];
+        }
+
+        /**
+         * 对话框
+         * @param {*} msg 提示内容
+         * @param {*} type 显示类型(注意：1--一个确定按钮,2--确定按钮和取消按钮)
+         * @param {*} comfirmFn 确认回调
+         * @param {*} cancelFn 取消回调
+         * @param {*} textColor 文字颜色
+         */
+        showDiaLog(msg = '', type, comfirmFn, cancelFn, textColor) {
+            let myMsg = msg ? msg : '';
+            let myType = type ? type : 1;
+            let myMsgColor = textColor ? textColor : '#935F13';
+            if (this.diaLogArr1.length > 0) {
+                this.diaLogArr1.forEach(item => {
+                    item.btn1.visible = myType == 1 ? true : false;
+                    item.btn2.visible = myType == 2 ? true : false;
+                    item.btn3.visible = myType == 2 ? true : false;
+                    item.msg.text = myMsg;
+                    item.msg.color = myMsgColor;
+                    this.diaLogMask.visible = true;
+                    this.diaLog.show();
+                    item.btn1.on(Laya.Event.CLICK, this, () => {
                         if (comfirmFn)
                             comfirmFn('点击了确定按钮');
-                        closeDiaLog();
-                        Mask.removeSelf();
+                        this.closeDiaLog();
                     });
-                }));
-            } else if (type == 2) {
-                let btn_cancel = new Laya.Image();
-                let btn_comfirm = new Laya.Image();
-                btn_cancel.size(460, 163);
-                btn_comfirm.size(460, 163);
-                btn_cancel.loadImage('res/img/diglog/btn_cancel.png', Laya.Handler.create(this, () => {
-                    dialogBg.addChild(btn_cancel);
-                    btn_cancel.pos(72, 764 - btn_cancel.height - 60);
-                    btn_cancel.on(Laya.Event.CLICK, this, () => {
+                    item.btn2.on(Laya.Event.CLICK, this, () => {
                         if (cancelFn)
                             cancelFn('点击了取消按钮');
-                        closeDiaLog();
-                        Mask.removeSelf();
+                        this.closeDiaLog();
                     });
-                }));
-                btn_comfirm.loadImage('res/img/diglog/btn_comfirm.png', Laya.Handler.create(this, () => {
-                    dialogBg.addChild(btn_comfirm);
-                    btn_comfirm.pos(600, 764 - btn_comfirm.height - 60);
-                    btn_comfirm.on(Laya.Event.CLICK, this, () => {
+                    item.btn3.on(Laya.Event.CLICK, this, () => {
                         if (comfirmFn)
                             comfirmFn('点击了确定按钮');
-                        closeDiaLog();
-                        Mask.removeSelf();
+                        this.closeDiaLog();
                     });
-                }));
-            }
-            dialogBg.loadImage('res/img/diglog/bg.png', Laya.Handler.create(this, () => {
-                dialogBg.addChild(dialogContent);
-            }));
-            dialogBg.pos(0, 0);
-            diaLog.size(1132, 764);
-            diaLog.addChild(dialogBg);
-            diaLog.show();
-            Laya.stage.addChild(Mask);
-            Mask.on(Laya.Event.CLICK, this, () => {
-                if (cancelFn)
-                    cancelFn('点击了取消按钮');
-                closeDiaLog();
-                Mask.removeSelf();
-            });
-            // if (node)
-            //     node.forEach(item => {
-            //         item.style.display = 'none';
-            //     })
-
-            function closeDiaLog() {
-                diaLog.close();
-                // if (node) {
-                //     if (showNode)
-                //         node.forEach(item => {
-                //             item.style.display = 'block';
-                //         })
-                // }
+                    this.diaLogMask.on(Laya.Event.CLICK, this, () => {
+                        if (cancelFn)
+                            cancelFn('点击了取消按钮');
+                        this.closeDiaLog();
+                    });
+                });
+                return;
+            } else {
+                this.diaLogArr2 = [{ msg: myMsg, type: myType, comfirmFn: comfirmFn, cancelFn: cancelFn, color: myMsgColor }];
             }
         }
 
@@ -1891,7 +1942,7 @@
                     if (res.code == 1003 || //参数错误
                         res.code == 1004) //签名验证失败
                     {
-                        Main$1.showDialog('登录失效，请重新登录', 1, null, () => {
+                        Main$1.showDiaLog('登录失效，请重新登录', 1, () => {
                             Main$1.hideAllLoading();
                             Laya.Scene.open('login.scene', true, Main$1.sign.signOut);
                         });
@@ -2565,7 +2616,7 @@
             this.isLiuZuo = false;
         }
 
-       
+
 
         $LOG(...data1) {
             if (Main$1.debug)
@@ -2704,7 +2755,7 @@
                                     }
                                 });
                             } else {
-                                Main$1.showDialog(resMsg.ret.msg, 1, null, () => {
+                                Main$1.showDiaLog(resMsg.ret.msg, 1, () => {
                                     that.onClose();
                                     Laya.Scene.open('login.scene', true, Main$1.sign.signOut);
                                 });
@@ -2725,7 +2776,7 @@
                     if (that.soketConnetNum >= 15) {
                         Main$1.showLoading(false, Main$1.loadingType.two);
                         that.soketConnetNum = 0;
-                        Main$1.showDialog('网络错误,请重新登录', 1, null, () => {
+                        Main$1.showDiaLog('网络错误,请重新登录', 1, () => {
                             that.onClose();
                             Laya.Scene.open('login.scene', true, Main$1.sign.signOut);
                         });
@@ -2972,7 +3023,7 @@
          * 未按流程登陆或重复登录就返回登录页面
          */
         errOpenLoginView(data) {
-            Main$1.showDialog('登录失效，请重新登录', 1, null, () => {
+            Main$1.showDiaLog('登录失效，请重新登录', 1, () => {
                 Laya.Scene.open('login.scene', true, Main$1.sign.signOut, Laya.Handler.create(this, () => {
                     this.destroy();
                 }));
@@ -3145,7 +3196,17 @@
             //          })
             //     })
             // }
-            console.log('测试进了');
+            // console.log('测试进了')
+            Main$1.DiaLog('啊哈哈哈哈', 2, (res) => {
+                console.log('确认回调');
+            }, (res2) => {
+                console.log('取消回调');
+            }, '#FF0000');
+            // Main.DiaLog(null,1,'啊哈哈哈哈',(res)=>{
+            //     console.log('确认回调')
+            // },(res2)=>{
+            //     console.log('取消回调')
+            // },'#FF0000');
             // Main.showTip('哈哈哈哈哈哈1122')
             // Main.showLoading(true, Main.loadingType.two);
             // // this.meAnimationZT(true, Main.animations.win)
@@ -5242,31 +5303,6 @@
             this.TOPHandleBtnBox.top = Main$1.phoneNews.statusHeight;
         }
 
-        /**
-         * 显示提示框
-         */
-        // showTips(msg = 'null') {
-        //     this.tipsBox._children = [];
-        //     let tip = new Laya.Sprite();
-        //     let text = new Laya.Text();
-        //     text.text = msg;
-        //     tip.addChild(text);
-        //     text.color = '#FFFFFF';
-        //     text.fontSize = 40;
-        //     text.width = 720;
-        //     text.height = 110;
-        //     text.align = 'center';
-        //     text.valign = 'middle';
-        //     tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
-        //     function loadImgEnd() {
-        //         this.tipsBox.addChild(tip);
-        //     }
-        //     tip.width = 720;
-        //     tip.height = 110;
-        //     setTimeout(() => {
-        //         Laya.Tween.to(tip, { y: -300 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]))
-        //     }, 100)
-        // }
         tipMoveEnd(tipObj) {
             Laya.Tween.to(tipObj, { alpha: 0 }, 300, null, Laya.Handler.create(this, this.tipAlphaEnd, [tipObj]));
         }
@@ -6589,12 +6625,12 @@
                 let pwd = this.pwd.text;
                 if (user == '') {
                     this.flag = true;
-                    Main$1.showDialog('账号不能为空!', 1);
+                    Main$1.showDiaLog('账号不能为空!');
                     Main$1.showLoading(false);
                     return false;
                 } else if (pwd == '') {
                     this.flag = true;
-                    Main$1.showDialog('密码不能为空!', 1);
+                    Main$1.showDiaLog('密码不能为空!');
                     Main$1.showLoading(false);
                     return false;
                 }
@@ -6629,13 +6665,12 @@
                         } else {
                             this.flag = true;
                             Main$1.showLoading(false);
-                            Main$1.showDialog(res.data.ret.msg, 1);
+                            Main$1.showDiaLog(res.data.ret.msg);
                         }
                     },
                     fail() {
                         this.flag = true;
                         Main$1.showLoading(false);
-                        Main$1.showDialog('网络异常!', 1);
                     }
                 });
             }
@@ -6715,17 +6750,21 @@
             this.login_btn.on(Laya.Event.CLICK, this, this.login);
             this.register_btn.on(Laya.Event.CLICK, this, this.register);
             this.change_btn.on(Laya.Event.CLICK, this, this.change);
-            Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
-            Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
-            Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
-            Main$1.createTipBox();
-            Main$1.getStatusHeight();
         }
         onOpened(options) {
             this.opendNumber = 0;
             this.loginState = options ? options : null;
             if (!this.loginState)
                 Main$1.beforeLoadScene();
+
+            if (!this.loginState) {
+                Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
+                Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
+                Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
+                Main$1.createTipBox();
+                Main$1.getStatusHeight();
+                Main$1.createDiaLog();
+            }
         }
         login() {
             this._LoginJS.login();
@@ -7173,13 +7212,13 @@
             let pwd = this.owner.pwd_value.text;
             let code = this.owner.code_value.text;
             if (user == "") {
-                Main$1.showDialog('手机号不能为空！!',1);
+                Main$1.showDiaLog('手机号不能为空！!');
                 return
             } else if (pwd == "") {
-                Main$1.showDialog('密码不能为空!',1);
+                Main$1.showDiaLog('密码不能为空!');
                 return
             } else if (code == "") {
-                Main$1.showDialog('验证码不能为空!',1);
+                Main$1.showDiaLog('验证码不能为空!');
                 return
             }
             let data = {
@@ -7208,18 +7247,17 @@
                         };
                         localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
                         if(this._pageType==2){
-                            Main$1.showDialog('注册成功,返回登录',1,null,()=>{
+                            Main$1.showDiaLog('注册成功,返回登录',1,()=>{
                                 that.back();
                             },null,null,false);
                         }else{
-                            Main$1.showDialog('修改成功',1);
+                            Main$1.showDiaLog('修改成功');
                         }
                     } else {
-                        Main$1.showDialog(res.data.ret.msg,1);
+                        Main$1.showDiaLog(res.data.ret.msg);
                     }
                 },
                 fail(){
-                    Main$1.showDialog('网络异常!',1);
                 }
             });
         }
@@ -7543,6 +7581,7 @@
         }
         bindEvent() {
             this.TABUI.tabPagesDialogBox.on(Laya.Event.CLICK, this, this.clickMask);
+            this.TABUI.s_close.on(Laya.Event.CLICK, this, this.clickMask);
         }
         clickMask() {
             this.close();
@@ -7587,11 +7626,10 @@
             this.UI.share_btn.on(Laya.Event.CLICK,this,this.openShareView);
         }
         openLoginView(){
-            Main$1.showDialog('是否退出重新登录?',2,null,comfirmEvent);
-            function comfirmEvent(res){
+            Main$1.showDiaLog('是否退出重新登录?',2,()=>{
                 Main$1.allowGameHallSetInterval=false;
                 Laya.Scene.open('login.scene',true,Main$1.sign.signOut);
-            }
+            });
         }
 
         /**
@@ -7628,12 +7666,10 @@
                     if (res.data.ret.type == 0) {
                         this.setPageData(res.data);
                     } else {
-                        Main$1.showDialog(res.data.ret.msg,1);
+                        Main$1.showDiaLog(res.data.ret.msg);
                     }
                 },
                 fail(){
-                    this.showHideNode(false);
-                    Main$1.showDialog('网络异常!',1);
                 }
             });
         }

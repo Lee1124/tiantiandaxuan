@@ -65,8 +65,10 @@ class Main {
         this.debug = true;
 
         this.errList = [];
-        this.tipArr1=[];
-        this.tipArr2=[];
+        this.tipArr1 = [];
+        this.tipArr2 = [];
+        this.diaLogArr1 = [];
+        this.diaLogArr2 = [];
     }
 
     $LOG(...data) {
@@ -84,7 +86,7 @@ class Main {
      */
     createTipBox() {
         let tipBox = new Laya.Image();
-        tipBox.zOrder=40;
+        tipBox.zOrder = 40;
         tipBox.name = 'tipBox';
         tipBox.height = 300;
         tipBox.left = 0;
@@ -97,7 +99,7 @@ class Main {
         this.tipArr2.forEach(item => {
             let tipJS = tipBox.getComponent(TIP);
             tipJS.add(item.msg);
-            this.tipArr2=[];
+            this.tipArr2 = [];
             return;
         })
     }
@@ -113,9 +115,9 @@ class Main {
                 let tipJS = tipBox.getComponent(TIP);
                 tipJS.add(msg);
             }
-            return;
         })
-        this.tipArr2 = [{ msg: msg }];
+        if (this.tipArr1.length == 0)
+            this.tipArr2 = [{ msg: msg }];
     }
 
     /**
@@ -172,106 +174,156 @@ class Main {
     }
 
     /**
-     * 弹框
-     * @param {string} text 提示内容
-     * @param {Number} type 类型(注意：1--一个确定按钮,2--确定按钮和取消按钮)
-     * @param {Array} node 需要显示或隐藏的节点
-     * @param {Function} comfirmFn 确认回调
-     * @param {Function} cancelFn 取消回调
-     * @param {String} textColor 文本颜色
-     * @param {bool} showNode 在弹框隐藏时，是否隐藏节点
+     * 预创建弹框
      */
-    showDialog(text = '内容为空', type = 1, node = [], comfirmFn = Function, cancelFn = Function, textColor = '#935F13', showNode = true) {
+    createDiaLog() {
+        let that = this;
+        //弹框遮罩
         let myMask = Laya.stage.getChildByName("dialogMask");
         if (myMask) {
             myMask.removeSelf();
         }
         let Mask = new Laya.Sprite();
-        Mask.name = 'dialogMask';
+        this.diaLogMask = Mask;
+        Mask.visible = false;
         Mask.zOrder = 4;
         Mask.pos(0, 0);
         Mask.size(Laya.stage.width, Laya.stage.height);
-        let diaLog = new Laya.Dialog();
-        diaLog.zOrder = 5;
+        //弹框对象
+        this.diaLog = new Laya.Dialog();
+        this.diaLog.pos((Laya.stage.width - 1132) / 2, (Laya.stage.height - 764) / 2);
+        this.diaLog.size(1132, 764);
+        this.diaLog.zOrder = 5;
+        //弹框背景
         let dialogBg = new Laya.Image();
+        dialogBg.pos(0, 0);
+        dialogBg.loadImage('res/img/diglog/bg.png');
+        //弹框文字内容
         let dialogContent = new Laya.Text();
         dialogContent.fontSize = 60;
-        if (textColor) {
-            dialogContent.color = textColor;
-        } else {
-            dialogContent.color = '#935F13';
-        }
+        dialogContent.color = '#935F13';
         dialogContent.size(1132, 180);
         dialogContent.align = 'center';
         dialogContent.valign = 'middle';
         dialogContent.y = 250;
-        dialogContent.text = text;
-        if (type == 1) {
-            let btn_one = new Laya.Image();
-            btn_one.size(609, 163);
-            btn_one.loadImage('res/img/diglog/btn_one.png', Laya.Handler.create(this, () => {
-                dialogBg.addChild(btn_one);
-                btn_one.pos((1132 - btn_one.width) / 2, 764 - btn_one.height - 60);
-                btn_one.on(Laya.Event.CLICK, this, () => {
+        dialogContent.text = '';
+        //创建一个确认按钮
+        let btn_one = new Laya.Image();
+        btn_one.size(609, 163);
+        btn_one.loadImage('res/img/diglog/btn_one.png', Laya.Handler.create(this, () => {
+            btn_one.pos((1132 - btn_one.width) / 2, 764 - btn_one.height - 60);
+        }));
+
+        //创建一个确认按钮和一个取消按钮
+        let btn_cancel = new Laya.Image();
+        let btn_comfirm = new Laya.Image();
+        btn_cancel.size(460, 163);
+        btn_comfirm.size(460, 163);
+        btn_cancel.loadImage('res/img/diglog/btn_cancel.png', Laya.Handler.create(this, () => {
+            btn_cancel.pos(72, 764 - btn_cancel.height - 60);
+        }))
+        btn_comfirm.loadImage('res/img/diglog/btn_comfirm.png', Laya.Handler.create(this, () => {
+            btn_comfirm.pos(600, 764 - btn_comfirm.height - 60);
+        }))
+        dialogBg.addChild(dialogContent);
+        dialogBg.addChild(btn_one);
+        dialogBg.addChild(btn_cancel);
+        dialogBg.addChild(btn_comfirm);
+        this.diaLog.addChild(dialogBg);
+        Mask.addChild(this.diaLog);
+        Laya.stage.addChild(Mask);
+        this.diaLogArr1 = [{ btn1: btn_one, btn2: btn_cancel, btn3: btn_comfirm, msg: dialogContent }];
+        this.diaLogCommon();
+    }
+
+    closeDiaLog() {
+        this.diaLog.close();
+        this.diaLogMask.visible = false;
+        let arr = this.diaLogArr1[0];
+        arr.btn1.off(Laya.Event.CLICK);
+        arr.btn2.off(Laya.Event.CLICK);
+        arr.btn3.off(Laya.Event.CLICK);
+    }
+
+    diaLogCommon() {
+        let arr1 = this.diaLogArr1[0];
+        this.diaLogArr2.forEach(item => {
+            arr1.btn1.visible = item.type == 1 ? true : false;
+            arr1.btn2.visible = item.type == 2 ? true : false;
+            arr1.btn3.visible = item.type == 2 ? true : false;
+            arr1.msg.text = item.msg;
+            arr1.msg.color = item.color;
+            this.diaLogMask.visible = true;
+            this.diaLog.show();
+            arr1.btn1.on(Laya.Event.CLICK, this, () => {
+                if (item.comfirmFn)
+                    item.comfirmFn('点击了确定按钮');
+                this.closeDiaLog();
+            })
+            arr1.btn2.on(Laya.Event.CLICK, this, () => {
+                if (item.cancelFn)
+                    item.cancelFn('点击了取消按钮');
+                this.closeDiaLog();
+            })
+            arr1.btn3.on(Laya.Event.CLICK, this, () => {
+                if (item.comfirmFn)
+                    item.comfirmFn('点击了确定按钮');
+                this.closeDiaLog();
+            })
+            this.diaLogMask.on(Laya.Event.CLICK, this, () => {
+                if (item.cancelFn)
+                    item.cancelFn('点击了取消按钮');
+                this.closeDiaLog();
+            })
+        })
+        this.diaLogArr2 = [];
+    }
+
+    /**
+     * 对话框
+     * @param {*} msg 提示内容
+     * @param {*} type 显示类型(注意：1--一个确定按钮,2--确定按钮和取消按钮)
+     * @param {*} comfirmFn 确认回调
+     * @param {*} cancelFn 取消回调
+     * @param {*} textColor 文字颜色
+     */
+    showDiaLog(msg = '', type, comfirmFn, cancelFn, textColor) {
+        let myMsg = msg ? msg : '';
+        let myType = type ? type : 1;
+        let myMsgColor = textColor ? textColor : '#935F13';
+        if (this.diaLogArr1.length > 0) {
+            this.diaLogArr1.forEach(item => {
+                item.btn1.visible = myType == 1 ? true : false;
+                item.btn2.visible = myType == 2 ? true : false;
+                item.btn3.visible = myType == 2 ? true : false;
+                item.msg.text = myMsg;
+                item.msg.color = myMsgColor;
+                this.diaLogMask.visible = true;
+                this.diaLog.show();
+                item.btn1.on(Laya.Event.CLICK, this, () => {
                     if (comfirmFn)
                         comfirmFn('点击了确定按钮');
-                    closeDiaLog();
-                    Mask.removeSelf();
+                    this.closeDiaLog();
                 })
-            }));
-        } else if (type == 2) {
-            let btn_cancel = new Laya.Image();
-            let btn_comfirm = new Laya.Image();
-            btn_cancel.size(460, 163);
-            btn_comfirm.size(460, 163);
-            btn_cancel.loadImage('res/img/diglog/btn_cancel.png', Laya.Handler.create(this, () => {
-                dialogBg.addChild(btn_cancel);
-                btn_cancel.pos(72, 764 - btn_cancel.height - 60);
-                btn_cancel.on(Laya.Event.CLICK, this, () => {
+                item.btn2.on(Laya.Event.CLICK, this, () => {
                     if (cancelFn)
                         cancelFn('点击了取消按钮');
-                    closeDiaLog();
-                    Mask.removeSelf();
+                    this.closeDiaLog();
                 })
-            }))
-            btn_comfirm.loadImage('res/img/diglog/btn_comfirm.png', Laya.Handler.create(this, () => {
-                dialogBg.addChild(btn_comfirm);
-                btn_comfirm.pos(600, 764 - btn_comfirm.height - 60);
-                btn_comfirm.on(Laya.Event.CLICK, this, () => {
+                item.btn3.on(Laya.Event.CLICK, this, () => {
                     if (comfirmFn)
                         comfirmFn('点击了确定按钮');
-                    closeDiaLog();
-                    Mask.removeSelf();
+                    this.closeDiaLog();
                 })
-            }))
-        }
-        dialogBg.loadImage('res/img/diglog/bg.png', Laya.Handler.create(this, () => {
-            dialogBg.addChild(dialogContent);
-        }));
-        dialogBg.pos(0, 0);
-        diaLog.size(1132, 764);
-        diaLog.addChild(dialogBg);
-        diaLog.show();
-        Laya.stage.addChild(Mask);
-        Mask.on(Laya.Event.CLICK, this, () => {
-            if (cancelFn)
-                cancelFn('点击了取消按钮');
-            closeDiaLog();
-            Mask.removeSelf();
-        })
-        // if (node)
-        //     node.forEach(item => {
-        //         item.style.display = 'none';
-        //     })
-
-        function closeDiaLog() {
-            diaLog.close();
-            // if (node) {
-            //     if (showNode)
-            //         node.forEach(item => {
-            //             item.style.display = 'block';
-            //         })
-            // }
+                this.diaLogMask.on(Laya.Event.CLICK, this, () => {
+                    if (cancelFn)
+                        cancelFn('点击了取消按钮');
+                    this.closeDiaLog();
+                })
+            })
+            return;
+        } else {
+            this.diaLogArr2 = [{ msg: myMsg, type: myType, comfirmFn: comfirmFn, cancelFn: cancelFn, color: myMsgColor }]
         }
     }
 

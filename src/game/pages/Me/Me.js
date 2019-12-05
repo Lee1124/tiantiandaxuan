@@ -40,11 +40,10 @@ export default class Me extends Laya.Script {
         this.UI.share_btn.on(Laya.Event.CLICK,this,this.openShareView);
     }
     openLoginView(){
-        Main.showDialog('是否退出重新登录?',2,null,comfirmEvent);
-        function comfirmEvent(res){
+        Main.showDiaLog('是否退出重新登录?',2,()=>{
             Main.allowGameHallSetInterval=false;
             Laya.Scene.open('login.scene',true,Main.sign.signOut);
-        }
+        });
     }
 
     /**
@@ -81,12 +80,10 @@ export default class Me extends Laya.Script {
                 if (res.data.ret.type == 0) {
                     this.setPageData(res.data);
                 } else {
-                    Main.showDialog(res.data.ret.msg,1);
+                    Main.showDiaLog(res.data.ret.msg);
                 }
             },
             fail(){
-                this.showHideNode(false);
-                Main.showDialog('网络异常!',1);
             }
         })
     }

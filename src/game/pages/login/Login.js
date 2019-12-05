@@ -45,12 +45,12 @@ export default class login extends Laya.Script {
             let pwd = this.pwd.text;
             if (user == '') {
                 this.flag = true;
-                Main.showDialog('账号不能为空!', 1);
+                Main.showDiaLog('账号不能为空!');
                 Main.showLoading(false);
                 return false;
             } else if (pwd == '') {
                 this.flag = true;
-                Main.showDialog('密码不能为空!', 1);
+                Main.showDiaLog('密码不能为空!');
                 Main.showLoading(false);
                 return false;
             }
@@ -85,13 +85,12 @@ export default class login extends Laya.Script {
                     } else {
                         this.flag = true;
                         Main.showLoading(false);
-                        Main.showDialog(res.data.ret.msg, 1);
+                        Main.showDiaLog(res.data.ret.msg);
                     }
                 },
                 fail() {
                     this.flag = true;
                     Main.showLoading(false);
-                    Main.showDialog('网络异常!', 1);
                 }
             })
         }

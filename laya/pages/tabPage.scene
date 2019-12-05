@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":336,
-    "selecteID":338,
+    "selectedBox":337,
+    "selecteID":340,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
@@ -2076,8 +2076,8 @@
                                 {
                                     "x":60,
                                     "type":"Image",
-                                    "searchKey":"Image,s_close",
-                                    "props":{"top":70,"skin":"images/Share/f_close.png","right":70,"name":"s_close"},
+                                    "searchKey":"Image,s_close,s_close",
+                                    "props":{"var":"s_close","top":70,"skin":"images/Share/f_close.png","right":70,"name":"s_close"},
                                     "nodeParent":337,
                                     "label":"s_close",
                                     "isDirectory":false,

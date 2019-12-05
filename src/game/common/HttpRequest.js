@@ -59,7 +59,7 @@ class HttpRequest {
                 if (res.code == 1003 || //参数错误
                     res.code == 1004) //签名验证失败
                 {
-                    Main.showDialog('登录失效，请重新登录', 1, null, () => {
+                    Main.showDiaLog('登录失效，请重新登录', 1, () => {
                         Main.hideAllLoading();
                         Laya.Scene.open('login.scene', true, Main.sign.signOut);
                     });

@@ -49,13 +49,13 @@ export default class register extends Laya.Script {
         let pwd = this.owner.pwd_value.text;
         let code = this.owner.code_value.text;
         if (user == "") {
-            Main.showDialog('手机号不能为空！!',1);
+            Main.showDiaLog('手机号不能为空！!');
             return
         } else if (pwd == "") {
-            Main.showDialog('密码不能为空!',1);
+            Main.showDiaLog('密码不能为空!');
             return
         } else if (code == "") {
-            Main.showDialog('验证码不能为空!',1);
+            Main.showDiaLog('验证码不能为空!');
             return
         }
         let data = {
@@ -84,18 +84,17 @@ export default class register extends Laya.Script {
                     }
                     localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
                     if(this._pageType==2){
-                        Main.showDialog('注册成功,返回登录',1,null,()=>{
+                        Main.showDiaLog('注册成功,返回登录',1,()=>{
                             that.back();
                         },null,null,false);
                     }else{
-                        Main.showDialog('修改成功',1);
+                        Main.showDiaLog('修改成功');
                     }
                 } else {
-                    Main.showDialog(res.data.ret.msg,1);
+                    Main.showDiaLog(res.data.ret.msg);
                 }
             },
             fail(){
-                Main.showDialog('网络异常!',1);
             }
         })
     }

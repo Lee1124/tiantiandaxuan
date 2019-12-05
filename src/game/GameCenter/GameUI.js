@@ -45,31 +45,6 @@ export default class GameUI extends Laya.Scene {
         this.TOPHandleBtnBox.top = Main.phoneNews.statusHeight;
     }
 
-    /**
-     * 显示提示框
-     */
-    // showTips(msg = 'null') {
-    //     this.tipsBox._children = [];
-    //     let tip = new Laya.Sprite();
-    //     let text = new Laya.Text();
-    //     text.text = msg;
-    //     tip.addChild(text);
-    //     text.color = '#FFFFFF';
-    //     text.fontSize = 40;
-    //     text.width = 720;
-    //     text.height = 110;
-    //     text.align = 'center';
-    //     text.valign = 'middle';
-    //     tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
-    //     function loadImgEnd() {
-    //         this.tipsBox.addChild(tip);
-    //     }
-    //     tip.width = 720;
-    //     tip.height = 110;
-    //     setTimeout(() => {
-    //         Laya.Tween.to(tip, { y: -300 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]))
-    //     }, 100)
-    // }
     tipMoveEnd(tipObj) {
         Laya.Tween.to(tipObj, { alpha: 0 }, 300, null, Laya.Handler.create(this, this.tipAlphaEnd, [tipObj]))
     }

@@ -109,7 +109,7 @@ export default class GameControl extends Laya.Script {
         this.isLiuZuo = false;
     }
 
-   
+
 
     $LOG(...data1) {
         if (Main.debug)
@@ -248,7 +248,7 @@ export default class GameControl extends Laya.Script {
                                 }
                             })
                         } else {
-                            Main.showDialog(resMsg.ret.msg, 1, null, () => {
+                            Main.showDiaLog(resMsg.ret.msg, 1, () => {
                                 that.onClose();
                                 Laya.Scene.open('login.scene', true, Main.sign.signOut);
                             })
@@ -269,7 +269,7 @@ export default class GameControl extends Laya.Script {
                 if (that.soketConnetNum >= 15) {
                     Main.showLoading(false, Main.loadingType.two);
                     that.soketConnetNum = 0;
-                    Main.showDialog('网络错误,请重新登录', 1, null, () => {
+                    Main.showDiaLog('网络错误,请重新登录', 1, () => {
                         that.onClose();
                         Laya.Scene.open('login.scene', true, Main.sign.signOut);
                     })
@@ -516,7 +516,7 @@ export default class GameControl extends Laya.Script {
      * 未按流程登陆或重复登录就返回登录页面
      */
     errOpenLoginView(data) {
-        Main.showDialog('登录失效，请重新登录', 1, null, () => {
+        Main.showDiaLog('登录失效，请重新登录', 1, () => {
             Laya.Scene.open('login.scene', true, Main.sign.signOut, Laya.Handler.create(this, () => {
                 this.destroy();
             }));
@@ -698,7 +698,17 @@ export default class GameControl extends Laya.Script {
         //          })
         //     })
         // }
-        console.log('测试进了')
+        // console.log('测试进了')
+        Main.DiaLog('啊哈哈哈哈', 2, (res) => {
+            console.log('确认回调')
+        }, (res2) => {
+            console.log('取消回调')
+        }, '#FF0000');
+        // Main.DiaLog(null,1,'啊哈哈哈哈',(res)=>{
+        //     console.log('确认回调')
+        // },(res2)=>{
+        //     console.log('取消回调')
+        // },'#FF0000');
         // Main.showTip('哈哈哈哈哈哈1122')
         // Main.showLoading(true, Main.loadingType.two);
         // // this.meAnimationZT(true, Main.animations.win)
