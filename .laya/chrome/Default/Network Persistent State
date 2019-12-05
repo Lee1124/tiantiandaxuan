@@ -1,0 +1,1 @@
+{"net":{"http_server_properties":{"broken_alternative_services":[{"broken_count":2,"host":"beacons.gcp.gvt2.com","port":443,"protocol_str":"quic"}],"servers":[],"supports_quic":{"address":"192.168.0.144","used_quic":true},"version":5},"network_qualities":{"CAASABiAgICA+P////8B":"4G"}}}
