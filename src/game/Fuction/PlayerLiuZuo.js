@@ -17,14 +17,14 @@ class PlayerLiuZuo {
         this.GameControl = GameControl.instance;
         this.MeSeatArr = this.GameControl._playerArray.filter(item => item.owner.isMe);
         if (this.MeSeatArr.length > 0) {
-            if(this.GameControl.isLiuZuo){
-                this.GameUI.showTips('您当前已留座，不能再留座了!');
-            }else{
+            if (this.GameControl.isLiuZuo) {
+                Main.showTip('您当前已留座，不能再留座了!');
+            } else {
                 this.init();
                 this.common(true);
             }
         } else {
-            this.GameUI.showTips('您当前为观战模式，无法留座!');
+            Main.showTip('您当前为观战模式，无法留座!');
         }
     }
     common(show) {

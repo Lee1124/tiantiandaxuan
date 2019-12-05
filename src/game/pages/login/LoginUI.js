@@ -17,10 +17,8 @@ export default class Login extends Laya.Scene {
         Main.createLoading(Main.loadingType.one);//预创建HTTP请求加载中的资源
         Main.createLoading(Main.loadingType.two);//预创建断线重连加载中的资源
         Main.createLoading(Main.loadingType.three);//预创建带文字加载中的资源
+        Main.createTipBox();
         Main.getStatusHeight();
-        // setTimeout(()=>{
-        //     this.ceshi.text=Main.phoneNews.statusHeight+';'+Main.phoneNews.deviceNews
-        // },500)
     }
     onOpened(options) {
         this.opendNumber = 0;

@@ -12,9 +12,11 @@ class PlayerDelayTime {
     init(type, that, data) {
         this.delayType = type;
         this.GameControl = that;
-        this.GameControl.owner.delayTimeBtn.visible = true;
-        this.GameControl.owner.delayTimeBtn.getChildByName("value").text = data.delayedScore;
-        this.GameControl.owner.delayTimeBtn.on(Laya.Event.CLICK, this, this.onClickDelayTime);
+        if(data){
+            this.GameControl.owner.delayTimeBtn.visible = true;
+            this.GameControl.owner.delayTimeBtn.getChildByName("value").text = data.delayedScore;
+            this.GameControl.owner.delayTimeBtn.on(Laya.Event.CLICK, this, this.onClickDelayTime);
+        }
     }
     offEvent(that) {
         Main.$LOG('玩家延时操作offEvent:',that)
@@ -38,7 +40,7 @@ class PlayerDelayTime {
     }
     dealWithRes(that, data) {
         if (data.ret.type == 0) {
-            that.owner.showTips(data.ret.msg);
+            Main.showTip(data.ret.msg);
             let delayLoseScore = that.owner.delayTimeBtn.getChildByName("value");
             delayLoseScore.text = data.delayedNum == data.delayedNumMax ? 'MAX' : data.delayedScore;
             if (this.delayType == that.delayType.action) {
@@ -51,7 +53,7 @@ class PlayerDelayTime {
                 that.assignPokerCountDown(true, data);
             }
         } else {
-            that.owner.showTips('你已达到延时最大次数!');
+            Main.showTip('您已达到延时最大次数!');
         }
     }
 }

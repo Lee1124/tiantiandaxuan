@@ -17,7 +17,7 @@ class GameSet {
     }
     setGameView() {
         let deskView = localStorage.getItem('deskView') ? localStorage.getItem('deskView') : 'desk_bg1';
-        Main.$LoadImage(this.GameUI.deskView,Main.gameView[deskView],Main.gameView.desk_bg1,'skin');
+        Main.$LoadImage(this.GameUI.deskBg,Main.gameView[deskView],Main.gameView.desk_bg1,'skin');
         this.GameUI.gameSet_deskViewBox._children.forEach(item => {
             item.getChildByName("desk").getChildByName("selectSign").visible = false;
             if (item.name == deskView) {
@@ -48,7 +48,6 @@ class GameSet {
         this.getGameSetVal();
         let game_music_switchBox = this.GameUI.game_music_switchBox;
         let game_chat_switchBox = this.GameUI.game_chat_switchBox;
-        // let game_pangguanChat_switchBox = this.GameUI.game_pangguanChat_switchBox;
         Main.$switch(game_music_switchBox, Main.gameSetVal.gameMusic, this, (res) => {
             let val = res ? 1 : 0;
             localStorage.setItem('gameMusic', val);
@@ -56,9 +55,6 @@ class GameSet {
         Main.$switch(game_chat_switchBox, Main.gameSetVal.chatVoice, this, (res) => {
             // console.log(res)
         })
-        // Main.$switch(game_pangguanChat_switchBox, Main.gameSetVal.pangGuanchat, this, (res) => {
-        //     // console.log(res)
-        // })
     }
     getGameSetVal() {
         Main.gameSetVal = {

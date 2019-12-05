@@ -1,7 +1,8 @@
 /**
  * 该脚本为表情聊天功能
  */
-import GameControl from '../GameCenter/GameControl'
+import GameControl from '../GameCenter/GameControl';
+import Main from '../common/Main'
 class ExpressionChat {
     /**
      * 打开发表情的弹框
@@ -15,7 +16,7 @@ class ExpressionChat {
             this.init();
             this.common(true);
         } else {
-            this.GameUI.showTips('旁观者不能发送表情!');
+            Main.showTip('旁观者不能发送表情!');
         }
     }
     common(show) {

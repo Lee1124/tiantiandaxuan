@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":80,
-    "selecteID":335,
+    "selectedBox":336,
+    "selecteID":338,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
-    "maxID":336,
+    "maxID":345,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -249,14 +249,13 @@
             "props":{"var":"pages","top":0,"right":0,"name":"pages","left":0,"bottom":0},
             "nodeParent":2,
             "label":"pages",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":67,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,CreateGamePage,CreateGamePage",
                     "props":{"y":0,"x":0,"visible":false,"var":"CreateGamePage","top":0,"right":0,"name":"CreateGamePage","left":0,"bottom":0},
@@ -350,7 +349,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,MePage,MePage",
                     "props":{"y":0,"x":0,"visible":false,"var":"MePage","top":0,"right":0,"name":"MePage","left":0,"bottom":0},
@@ -775,20 +773,18 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,NoticePage,NoticePage",
                     "props":{"visible":true,"var":"NoticePage","top":0,"right":0,"name":"NoticePage","left":0,"bottom":0},
                     "nodeParent":67,
                     "label":"NoticePage",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":80,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,hd",
                             "props":{"y":0,"x":0,"top":0,"skin":"images/Notice/hd.png","name":"hd","centerX":0},
@@ -803,7 +799,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,nav",
                             "props":{"top":280,"skin":"images/Notice/nav_bg.png","name":"nav","centerX":0},
@@ -884,7 +879,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,page_bg",
                             "props":{"top":470,"skin":"images/Notice/bg.png","name":"page_bg","centerX":0,"bottom":200},
@@ -965,7 +959,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/pages/Notice/Notice.js",
@@ -981,10 +974,9 @@
                             "child":[
                                 ]
                         }],
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,HallPage,HallPage",
                     "props":{"visible":false,"var":"HallPage","top":0,"right":0,"name":"HallPage","left":0,"bottom":0},
@@ -1436,7 +1428,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,DataPage,DataPage",
                     "props":{"visible":false,"var":"DataPage","top":0,"right":0,"name":"DataPage","left":0,"bottom":0},
@@ -2028,6 +2019,131 @@
                         }],
                     "$HIDDEN":true
                 }]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,tabPagesDialogBox,tabPagesDialogBox",
+            "props":{"zOrder":9,"visible":false,"var":"tabPagesDialogBox","top":0,"right":0,"name":"tabPagesDialogBox","left":0,"bottom":0},
+            "nodeParent":2,
+            "label":"tabPagesDialogBox",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":336,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Dialog",
+                    "searchKey":"Dialog,share_dialog,share_dialog",
+                    "props":{"x":51,"width":1140,"visible":true,"var":"share_dialog","name":"share_dialog","isShowEffect":false,"height":770,"centerY":-200},
+                    "nodeParent":336,
+                    "label":"share_dialog",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":338,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,s_bg",
+                            "props":{"top":0,"skin":"images/Share/f_bg.png","right":0,"name":"s_bg","left":0,"bottom":0},
+                            "nodeParent":338,
+                            "label":"s_bg",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":337,
+                            "child":[
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,s_title",
+                                    "props":{"x":467,"top":95,"skin":"images/Share/f_title.png","name":"s_title"},
+                                    "nodeParent":337,
+                                    "label":"s_title",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":339,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,s_close",
+                                    "props":{"top":70,"skin":"images/Share/f_close.png","right":70,"name":"s_close"},
+                                    "nodeParent":337,
+                                    "label":"s_close",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":340,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,s_friends",
+                                    "props":{"y":252,"skin":"images/Share/f_icon1.png","name":"s_friends","left":120},
+                                    "nodeParent":337,
+                                    "label":"s_friends",
+                                    "isOpen":false,
+                                    "isDirectory":true,
+                                    "isAniNode":true,
+                                    "hasChild":true,
+                                    "compId":341,
+                                    "child":[
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,tip",
+                                            "props":{"skin":"images/Share/f_title1.png","name":"tip","centerX":0,"bottom":-90},
+                                            "nodeParent":341,
+                                            "label":"tip",
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":342,
+                                            "child":[
+                                                ]
+                                        }]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,s_friends2",
+                                    "props":{"y":237,"skin":"images/Share/f_icon2.png","right":120,"name":"s_friends2"},
+                                    "nodeParent":337,
+                                    "label":"s_friends2",
+                                    "isOpen":false,
+                                    "isDirectory":true,
+                                    "isAniNode":true,
+                                    "hasChild":true,
+                                    "compId":343,
+                                    "child":[
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,tip",
+                                            "props":{"skin":"images/Share/f_title2.png","name":"tip","centerX":0,"bottom":-90},
+                                            "nodeParent":343,
+                                            "label":"tip",
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":344,
+                                            "child":[
+                                                ]
+                                        }]
+                                }]
+                        }]
+                }],
+            "$HIDDEN":false
         }],
     "animations":[
         {

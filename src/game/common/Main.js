@@ -1,3 +1,4 @@
+import TIP from '../common/SuspensionTips'
 class Main {
     constructor() {
         Main.instance = this;
@@ -64,6 +65,8 @@ class Main {
         this.debug = true;
 
         this.errList = [];
+        this.tipArr1=[];
+        this.tipArr2=[];
     }
 
     $LOG(...data) {
@@ -71,9 +74,48 @@ class Main {
             console.log(...data);
     }
 
-    $ERROR(...data){
+    $ERROR(...data) {
         if (this.debug)
-        console.error(...data);
+            console.error(...data);
+    }
+
+    /**
+     * 创建一个tip节点
+     */
+    createTipBox() {
+        let tipBox = new Laya.Image();
+        tipBox.zOrder=40;
+        tipBox.name = 'tipBox';
+        tipBox.height = 300;
+        tipBox.left = 0;
+        tipBox.right = 0;
+        tipBox.pivot(tipBox.width / 2, tipBox.height / 2);
+        tipBox.pos((Laya.stage.width - tipBox.width) / 2, (Laya.stage.height - tipBox.height) / 2)
+        Laya.stage.addChild(tipBox);
+        tipBox.addComponent(TIP);
+        this.tipArr1 = ['tipBox'];
+        this.tipArr2.forEach(item => {
+            let tipJS = tipBox.getComponent(TIP);
+            tipJS.add(item.msg);
+            this.tipArr2=[];
+            return;
+        })
+    }
+
+    /**
+     * 显示提示
+     * @param {*} msg 提示文字
+     */
+    showTip(msg) {
+        this.tipArr1.forEach(item => {
+            let tipBox = Laya.stage.getChildByName(item);
+            if (tipBox) {
+                let tipJS = tipBox.getComponent(TIP);
+                tipJS.add(msg);
+            }
+            return;
+        })
+        this.tipArr2 = [{ msg: msg }];
     }
 
     /**
@@ -274,7 +316,7 @@ class Main {
             ani.loadAnimation("animation/loading/" + type + ".ani");
             animationBox.addChild(ani);
             loadingMask.addChild(animationBox);
-            Laya.stage.addChild(loadingMask)
+            Laya.stage.addChild(loadingMask);
             this.loadAniArr1.push(type);
             this.loadAniArr2.forEach(item => {
                 if (item.key == type) {
@@ -326,10 +368,10 @@ class Main {
     /**
      * 隐藏所有的加载
      */
-    hideAllLoading(){
-        this.showLoading(false,this.loadingType.one);
-        this.showLoading(false,this.loadingType.two);
-        this.showLoading(false,this.loadingType.three);
+    hideAllLoading() {
+        this.showLoading(false, this.loadingType.one);
+        this.showLoading(false, this.loadingType.two);
+        this.showLoading(false, this.loadingType.three);
     }
 
 

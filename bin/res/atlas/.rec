@@ -343,6 +343,14 @@ P B2D367D3 changePwd.png
 R 24EAB6EE confrim_btn.png
 R D6987DDF listBg.png
 R 94449F4C old_1.png
+D images/Share
+P 35CFFA94 f_bg.png
+P 363782E4 f_close.png
+P 48DEADC1 f_icon1.png
+P 9C72680E f_icon2.png
+P FFDF05CA f_title.png
+P 807378CC f_title1.png
+P EA00F7D9 f_title2.png
 D images/shishizhanji
 P 523B9A25 2_03.png
 P 1495F555 s_alldairu.png

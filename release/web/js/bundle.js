@@ -633,13 +633,217 @@
     	}
     }
 
+    /**
+     * 悬浮提示
+     */
+    class SuspensionTips extends Laya.Script {
+        constructor() {
+            super();
+            //  /** @prop {name:tip,tips:"预制体TIP",type:Prefab}*/
+        }
+
+        onEnable()  {
+            //初始化数组删除方式
+            this.InitArr();
+
+            //提示内容
+            this.tipsContent = [];
+            this.targets = [];
+            this.targetY = 300;
+        }
+
+        /**
+         * 自定义数组删除方法
+         * @param {*} val 
+         */
+        InitArr(val)  {
+            Array.prototype.indexOf = function (val) {
+                for (var i = 0; i < this.length; i++) {
+                    if (this[i] == val) return i;
+                }
+                return -1;
+            };
+            Array.prototype.remove = function (val) {
+                var index = this.indexOf(val);
+                if (index > -1) {
+                    this.splice(index, 1);
+                }
+            };
+        };
+
+
+        // onClick()  {
+        //     this.add(Math.random() * 1000);
+        // }
+
+        /**
+         * 添加提示信息
+         */
+        add(content)  {
+            //添加信息
+            this.tipsContent.push(content);
+            //播放
+            this.play();
+        }
+
+        /**
+         * 创建对象
+         * @param {} char 
+         */
+        createTarget(parent, char)  {
+
+
+            //测试先创建简单的字体
+            let targetParent = new Laya.Image;
+
+            targetParent.name = "parent";
+            targetParent.anchorX = 0.5;
+            targetParent.anchorY = 0.5;
+            // Laya.loader.create('prefab/tip.json',Laya.Handler.create(this,(e)=>{
+            //     let pre=e.create();
+            //     console.log(pre)
+            // }))
+            // let tip = Laya.Pool.getItemByCreateFun("tip", this.tip.create, this.tip);
+            // console.log(tip)
+            let tipBg = new Laya.Sprite();
+            tipBg.name = "child";
+            tipBg.size(770, 110);
+            tipBg.scale(0, 0);
+            tipBg.y = this.targetY;
+            tipBg.loadImage('res/img/common/tip.png', Laya.Handler.create(this, () => {
+                tipBg.pivot(tipBg.width / 2, tipBg.height / 2);
+                tipBg.x = parent.width / 2;
+            }));
+            let msg = new Laya.Label;
+            msg.size(770, 110);
+            msg.align='center';
+            msg.valign='middle';
+            msg.text = char;
+            msg.color = "#FFFFFF";
+            msg.font = "Impact";
+            msg.fontSize = 40;
+            tipBg.addChild(msg);
+            targetParent.addChild(tipBg);
+            parent.addChild(targetParent);
+            return targetParent;
+        }
+
+        /**
+         * 播放
+         */
+        play()  {
+            if (this.tipsContent.length > 0)
+                this.setTween();
+        }
+
+        /**
+         * 设置缓动信息
+         */
+        setTween()  {
+            let content = this.tipsContent.shift();
+            //创建目标对象
+            let target = this.createTarget(this.owner, content);
+            //开始执行缓动
+            this.setScale(target.getChildByName("child"), 1, 1, 300);
+            //更新对象坐标
+            this.UpdateTargets();
+            //插入数据
+            this.targets.unshift(target);
+        }
+
+        /**
+         * 更新缓动对象
+         */
+        UpdateTargets()  {
+            console.log("UpdateTargets:start");
+            let offsetY = 0;
+            let lastItem = null;
+            this.targets.forEach((item, index) => {
+                let tar = item.getChildByName("child");
+                let lastTar = lastItem != null ? lastItem.getChildByName("child") : null;
+
+                //首个对象不会重叠的位置
+                // let curY = this.targetY - tar.height;
+
+                //当前item坐标转换
+                let point = new Laya.Point(tar.x, tar.y);
+                let localPoint = item.localToGlobal(point);
+                //上一个item或者初始坐标位置 - 坐标转换
+                let point2 = lastTar != null ? new Laya.Point(lastTar.x, lastTar.y - tar.height) : new Laya.Point(0, this.targetY - tar.height);
+                let localPoint2 = lastTar == null ? item.localToGlobal(point2) : lastItem.localToGlobal(point2);
+
+                //与生成对象重叠
+                if (localPoint.y > localPoint2.y)  {
+                    offsetY = localPoint.y - localPoint2.y;
+                    item.y -= offsetY;
+                }
+
+                lastItem = item;
+            });
+
+            console.log("UpdateTargets:end");
+        }
+
+        /**
+         * 设置缩放
+         * @param {*} target 
+         */
+        setScale(target, sX, sY, time)  {
+            Laya.Tween.to(target,
+                { scaleX: sX, scaleY: sX },
+                time, null, Laya.Handler.create(this, this.setMove, [target, 0, 1000]));
+        }
+
+        /**
+         * 设置移动
+         * @param {*} target 
+         */
+        setMove(target, endY, time)  {
+            this.play();
+            Laya.Tween.to(target,
+                { y: endY },
+                time, null, Laya.Handler.create(this, this.tweenEnd, [target]));
+        }
+
+        /**
+         * 更新对象移动
+         */
+        UpdateMove(target, endY, time)  {
+            Laya.Tween.to(target,
+                { y: endY },
+                time);
+        }
+
+        /**
+         * 缓动结束
+         */
+        tweenEnd(target)  {
+            this.owner.removeChild(target.parent);
+            this.targets.remove(target.parent);
+        }
+
+        /**
+         * 删除目标对象
+         */
+        removeTarget()  {
+
+        }
+
+        /**
+         * update
+         */
+        onUpdate()  {
+
+        }
+    }
+
     class Main {
         constructor() {
             Main.instance = this;
-            // this.websoketApi = '192.168.0.125:8082';
-            // this.requestApi = 'http://192.168.0.125:8081';
-            this.websoketApi = '132.232.34.32:8082';
-            this.requestApi = 'http://132.232.34.32:8081';
+            this.websoketApi = '192.168.0.125:8092';
+            this.requestApi = 'http://192.168.0.125:8091';
+            // this.websoketApi = '132.232.34.32:8082';
+            // this.requestApi = 'http://132.232.34.32:8081';
             //手机信息
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
@@ -699,6 +903,8 @@
             this.debug = true;
 
             this.errList = [];
+            this.tipArr1=[];
+            this.tipArr2=[];
         }
 
         $LOG(...data) {
@@ -706,7 +912,49 @@
                 console.log(...data);
         }
 
+        $ERROR(...data) {
+            if (this.debug)
+                console.error(...data);
+        }
 
+        /**
+         * 创建一个tip节点
+         */
+        createTipBox() {
+            let tipBox = new Laya.Image();
+            tipBox.zOrder=40;
+            tipBox.name = 'tipBox';
+            tipBox.height = 300;
+            tipBox.left = 0;
+            tipBox.right = 0;
+            tipBox.pivot(tipBox.width / 2, tipBox.height / 2);
+            tipBox.pos((Laya.stage.width - tipBox.width) / 2, (Laya.stage.height - tipBox.height) / 2);
+            Laya.stage.addChild(tipBox);
+            tipBox.addComponent(SuspensionTips);
+            this.tipArr1 = ['tipBox'];
+            this.tipArr2.forEach(item => {
+                let tipJS = tipBox.getComponent(SuspensionTips);
+                tipJS.add(item.msg);
+                this.tipArr2=[];
+                return;
+            });
+        }
+
+        /**
+         * 显示提示
+         * @param {*} msg 提示文字
+         */
+        showTip(msg) {
+            this.tipArr1.forEach(item => {
+                let tipBox = Laya.stage.getChildByName(item);
+                if (tipBox) {
+                    let tipJS = tipBox.getComponent(SuspensionTips);
+                    tipJS.add(msg);
+                }
+                return;
+            });
+            this.tipArr2 = [{ msg: msg }];
+        }
 
         /**
         * 获取状态栏高度入口
@@ -953,6 +1201,15 @@
                 }
             });
             this.loadAniArr2 = [{ key: type, show: isShow, type: type, text: msg }];
+        }
+
+        /**
+         * 隐藏所有的加载
+         */
+        hideAllLoading() {
+            this.showLoading(false, this.loadingType.one);
+            this.showLoading(false, this.loadingType.two);
+            this.showLoading(false, this.loadingType.three);
         }
 
 
@@ -1575,25 +1832,27 @@
         md5
     };
 
-    class HttpRequest{
+    class HttpRequest {
         /**
          * @param {*} obj.that 执行域
          * @param {*} obj.url 请求地址
          * @param {*} obj.data 请求数据
          * @param {*} obj.method 请求方式(暂时支持get和post)
          */
-        $request(obj){
-            let that=obj.that;
+        $request(obj) {
+            let that = obj.that;
             let xhr = new Laya.HttpRequest();
-            let url=Main$1.requestApi+obj.url;
-            let dataObj=obj.data;
-            let postData='';
-            let method=obj.method?obj.method:'get';
+            let url = Main$1.requestApi + obj.url;
+            let dataObj = obj.data;
+            let postData = '';
+            let method = obj.method ? obj.method : 'get';
             let dataObjArr = [];
-            if(method=='get'){
-                var timestamp=new Date().getTime();
-                let sstr=Main$1.userInfo.key+'&'+timestamp;
-                
+            if (method == 'get') {
+                var timestamp = new Date().getTime();
+                let sstr = "";
+                if(Main$1.userInfo)
+                    sstr = Main$1.userInfo.key + '&' + timestamp;
+
                 for (var key in dataObj) {
                     if (dataObj.hasOwnProperty(key)) {
                         dataObjArr.push(key);
@@ -1603,18 +1862,17 @@
                             url = url + '&' + key + '=' + dataObj[key];
                         }
 
-                        sstr +="&"+dataObj[key];
+                        sstr += "&" + dataObj[key];
                     }
                 }
 
                 //{"user":"1236555","pwd":"1","userId":5986855,"key":3009340712064337000,"inRoomPws":101823}
-                if(Main$1.userInfo)
-                {
-                    url +='&t=' + timestamp;
-                    url +='&sign='+md5$1.md5(sstr);
+                if (Main$1.userInfo) {
+                    url += '&t=' + timestamp;
+                    url += '&sign=' + md5$1.md5(sstr);
                 }
 
-            }else if(method=='post'){
+            } else if (method == 'post') {
                 for (var key in dataObj) {
                     if (dataObj.hasOwnProperty(key)) {
                         dataObjArr.push(key);
@@ -1627,35 +1885,33 @@
                 }
             }
             xhr.http.timeout = 20000;//设置超时时间；
-            xhr.once(Laya.Event.COMPLETE, this, (res)=>{
-                if(!res.status) 
-                {
-                    console.error(res);
-                    if(res.code==1003 || //参数错误
-                        res.code==1004) //签名验证失败
+            xhr.once(Laya.Event.COMPLETE, this, (res) => {
+                if (!res.status) {
+                    Main$1.$ERROR('冲突登录:', res);
+                    if (res.code == 1003 || //参数错误
+                        res.code == 1004) //签名验证失败
                     {
                         Main$1.showDialog('登录失效，请重新登录', 1, null, () => {
-                            Laya.Scene.open('login.scene', true, Main$1.sign.signOut, Laya.Handler.create(this, () => {
-                                //this.destroy();
-                            }));
+                            Main$1.hideAllLoading();
+                            Laya.Scene.open('login.scene', true, Main$1.sign.signOut);
                         });
                     }
                     return;
                 }
-
-                obj.success.call(that,res);
+                obj.success.call(that, res);
             });
-            xhr.once(Laya.Event.ERROR, this, (err)=>{
-                console.log('请求异常:',err);
-                if(obj.fail)
-                obj.fail.call(that,err);
+            xhr.once(Laya.Event.ERROR, this, (err) => {
+                console.log('请求异常:', err);
+                Main$1.showTip('网络异常');
+                if (obj.fail)
+                    obj.fail.call(that, err);
             });
-            xhr.on(Laya.Event.PROGRESS, this, (ess)=>{
+            xhr.on(Laya.Event.PROGRESS, this, (ess) => {
                 console.log(ess);
-                if(obj.ess)
-                obj.ess(ess);
+                if (obj.ess)
+                    obj.ess(ess);
             });
-            xhr.send(url,postData, method, 'json');
+            xhr.send(url, postData, method, 'json');
         }
     }
     var HTTP = new HttpRequest();
@@ -1770,9 +2026,11 @@
         init(type, that, data) {
             this.delayType = type;
             this.GameControl = that;
-            this.GameControl.owner.delayTimeBtn.visible = true;
-            this.GameControl.owner.delayTimeBtn.getChildByName("value").text = data.delayedScore;
-            this.GameControl.owner.delayTimeBtn.on(Laya.Event.CLICK, this, this.onClickDelayTime);
+            if(data){
+                this.GameControl.owner.delayTimeBtn.visible = true;
+                this.GameControl.owner.delayTimeBtn.getChildByName("value").text = data.delayedScore;
+                this.GameControl.owner.delayTimeBtn.on(Laya.Event.CLICK, this, this.onClickDelayTime);
+            }
         }
         offEvent(that) {
             Main$1.$LOG('玩家延时操作offEvent:',that);
@@ -1796,7 +2054,7 @@
         }
         dealWithRes(that, data) {
             if (data.ret.type == 0) {
-                that.owner.showTips(data.ret.msg);
+                Main$1.showTip(data.ret.msg);
                 let delayLoseScore = that.owner.delayTimeBtn.getChildByName("value");
                 delayLoseScore.text = data.delayedNum == data.delayedNumMax ? 'MAX' : data.delayedScore;
                 if (this.delayType == that.delayType.action) {
@@ -1809,7 +2067,7 @@
                     that.assignPokerCountDown(true, data);
                 }
             } else {
-                that.owner.showTips('你已达到延时最大次数!');
+                Main$1.showTip('您已达到延时最大次数!');
             }
         }
     }
@@ -1992,7 +2250,7 @@
             calibrationVal.push(curVal);
 
             let remainder = curVal % scopeVal;
-            if (remainder > 0)  {
+            if (remainder > 0 && scopeVal - remainder + curVal < endVal)  {
                 curVal = scopeVal - remainder + curVal;
                 calibrationVal.push(curVal);
                 ++calibrationNum;
@@ -2007,6 +2265,7 @@
                 let curNum = parseInt((unitVal - LastUnitVal) / scopeVal);
                 let nIndex = 0;
                 while (nIndex < curNum)  {
+                    // console.log("nIndex::" + curVal);
                     curVal += scopeVal;
                     calibrationVal.push(curVal);
                     ++nIndex;
@@ -2035,6 +2294,7 @@
             //TODO:添加刻度值-将每个刻度的值添加到表中
             let lIndex = 0;
             while (lIndex < lCurNum && curVal < endVal) {
+                // console.log("curVal::" + curVal);
                 curVal += scopeVal;
                 calibrationVal.push(curVal);
                 ++lIndex;
@@ -2172,7 +2432,7 @@
                 let name = playerSeat.getChildByName("name");
                 let countDownBox = playerSeat.getChildByName("countDownBox");
                 let show_me_poker_box = playerSeat.getChildByName("show_me_poker_box");
-                let show_me_sub_poker = playerSeat.getChildByName("show_me_poker_box");
+                let show_me_sub_poker = playerSeat.getChildByName("show_me_sub_poker");
                 let xiuPokerBox = playerSeat.getChildByName("xiuPokerBox");
                 let gifBox = playerSeat.getChildByName("gifBox");
                 let winScore = playerSeat.getChildByName("winScore");
@@ -2182,6 +2442,7 @@
                 headBox.visible = false;
                 xiaZhuScore.visible = false;
                 move_cm.visible = false;
+                show_me_sub_poker.visible = false;
                 deal_cards_seat._children.forEach(item => {
                     item.visible = false;
                 });
@@ -2434,7 +2695,7 @@
                     data: {
                         uid: that.userId,
                         key: that.key,
-                        devid: "ime231231231234",
+                        devid: Laya.Browser.onAndroid ? "Android" : "PC",
                         ip: "60.255.161.15"
                     },
                     success(resMsg) {
@@ -2452,6 +2713,11 @@
                                     success(res) {
                                         that.dealSoketMessage('初始化---C2R_IntoRoom进入房间', res);
                                     }
+                                });
+                            } else {
+                                Main$1.showDialog(resMsg.ret.msg, 1, null, () => {
+                                    that.onClose();
+                                    Laya.Scene.open('login.scene', true, Main$1.sign.signOut);
                                 });
                             }
                         }
@@ -2475,7 +2741,7 @@
                             Laya.Scene.open('login.scene', true, Main$1.sign.signOut);
                         });
                     } else if (that.soketConnetNum == 1) {
-                        that.owner.showTips('检测到网络丢失!');
+                        Main$1.showTip('检测到网络丢失!');
                     }
                 };
             };
@@ -2501,6 +2767,7 @@
         * soket关闭
         */
         onClose() {
+            Main$1.showLoading(false, Main$1.loadingType.two);
             this.netClient.close();
         }
 
@@ -2546,7 +2813,7 @@
                     if (resData.ret.type == 0) {
                         this.requestRoomUpdateData(resData);
                     } else {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                         this.leaveRoomOpenView();
                     }
                 }
@@ -2562,21 +2829,21 @@
                             }
                         });
                     } else {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                     }
                 }
 
                 if (resData._t == "R2C_AddDairu") {
                     if (resData.ret.type == 0 || resData.ret.type == 4) {
-                        this.setMeMakeBOBO();
+                        this.setMeMakeBOBO(resData);
                         resData.param.json.forEach(item => {
                             if (item._t == "CXAddBobo") {
                                 this.playerAddDairu(item);
                             }
                         });
                     }
-                    if (resData.ret.type == 4) {
-                        this.owner.showTips(resData.ret.msg);
+                    if (resData.ret.type != 0) {
+                        Main$1.showTip(resData.ret.msg);
                     }
                 }
 
@@ -2590,13 +2857,13 @@
                             }
                         });
                     } else {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                     }
                 } else if (resData._t == 'R2C_SeatUp') {
                     if (resData.ret.type == 0) {
                         this.playerSeatUp(resData);
                     } else {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                     }
                 } else if (resData._t == 'R2C_SitDown') {
                     if (resData.ret.type == 0) {
@@ -2604,11 +2871,11 @@
                             this.playerSeatDown(item);
                         });
                     } else {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                     }
                 } else if (resData._t == "R2C_LeaveRoom") {
                     if (resData.ret.type == 4) {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                     } else {
                         this.leaveRoomDeal(resData);
                     }
@@ -2632,9 +2899,12 @@
                     } else if (resData.type == 1) {//第3张
                         this.playerBindPoker3Or4Val(resData, 3);
                     } else if (resData.type == 2) {//第4张
+                        this.qiaoDealPokerEnd = false;
+                        this.StartAssignPokerArr = [];
                         this.playerBindPoker3Or4Val(resData, 4);
-                    } else if (resData.type == 3) {//第4张
+                    } else if (resData.type == 3) {//第3,4张
                         this._allowStartAction = true;
+                        this.qiaoDealPokerEnd = false;
                         this.playerBindPoker34Val(resData);
                     }
                 } else if (resData._t == "G2C_StartAction") {
@@ -2642,6 +2912,7 @@
                     if (resData.ret.type == 0) {
                         this.startAction();
                     } else if (resData.ret.type == 6) {
+                        Main$1.showTip(resData.ret.msg);
                         this.sanhuaAction(resData);
                     }
                 } else if (resData._t == "G2C_PlayerAction") {
@@ -2661,7 +2932,7 @@
                     if (resData.ret.type == 0) {
                         this.assignPokerReturn(resData);
                     } else {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                     }
                 } else if (resData._t == "G2C_WinUp") {
                     this.playerWinUp(resData);
@@ -2688,7 +2959,7 @@
                             }
                         });
                     } else {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                     }
                 }
             } catch (error) {
@@ -2785,7 +3056,9 @@
                 // ====更新牌数据
                 this._playerArray.forEach((item_player, item_index) => {
                     if (item_seatData.userId == item_player.owner.userId) {
-
+                        if (item_player.owner.isMe) {
+                            item_player.owner.actionType = -1;
+                        }
                         if (item_seatData.xiazhu > 0) {
                             item_player.showOrHidePlayerXiaZhuView(true);
                             item_player.changePlayerScore(item_seatData.score, this._changeScoreType.seat);
@@ -2814,8 +3087,12 @@
                             if (cur.length != 0)
                                 curIsSubPoker = cur[0].curData.filter(item => item._t == "G2C_StartAssignPoker");
                             if (curIsSubPoker.length == 0) {
-                                if (item_seatData.action > 0)
+                                if (item_seatData.action > 0) {
                                     item_player.showActionTip(true, item_seatData.action);
+                                    if (item_seatData.action == 5) {
+                                        item_player.playerSeatAddGif(true, Main$1.animations.qiao);
+                                    }
+                                }
                                 this._allowXiuPoker = true;
                             } else {
                                 this._allowXiuPoker = false;
@@ -2880,6 +3157,7 @@
             //     })
             // }
             console.log('测试进了');
+            // Main.showTip('哈哈哈哈哈哈1122')
             // Main.showLoading(true, Main.loadingType.two);
             // // this.meAnimationZT(true, Main.animations.win)
             // // if (clickIndex == 1) {
@@ -2893,7 +3171,7 @@
 
             // this._playerArray.forEach((item, index) => {
             //     if (index == 0)
-            //         item.showActionTip(true, 1)
+            //         this.assignPokerCountDown(true);
             // })
             // if (clickIndex == 1) {
             //     let data = {
@@ -2946,24 +3224,6 @@
             // }
         }
 
-        /**
-         * 开始游戏
-         */
-        // clickStartGame() {
-        //     this.onSend({
-        //         name: 'M.Room.C2R_StartGame',
-        //         data: {
-        //             roomid: this.roomId
-        //         },
-        //         success(res) {
-        //             if (res.ret.type == 0) {
-        //                 this.owner.start_game_btn.visible = false;
-        //             } else {
-        //                 this.owner.showTips(res.ret.msg);
-        //             }
-        //         }
-        //     })
-        // }
 
         /**
          * 去除敲动画
@@ -2995,6 +3255,7 @@
             this.roundEnd();
             this.setMoreStartVal();
             this.clearQiaoAni();
+            this.setPlayerActionZT(data.seats);
             let showBankerUser = data.seats.filter(item => item.seat_idx == data.zidx);
             this._playerArray.forEach(item_player => {
                 if (item_player.owner.userId == showBankerUser[0]._id) {
@@ -3002,6 +3263,16 @@
                 } else {
                     item_player.showBanker(false);
                 }
+            });
+        }
+
+        /**
+         * 设置参与游戏人员的操作状态(不能为null)
+         */
+        setPlayerActionZT(data) {
+            let jionPlayerArr = this._playerArray.filter(item1 => data.find(item2 => item2._id == item1.owner.userId));
+            jionPlayerArr.forEach(item_player => {
+                item_player.owner.actionType = -1;
             });
         }
 
@@ -3143,6 +3414,7 @@
 
         qiaoDeal34PokerEnd() {
             this.qiaoDealPokerEnd = true;
+            Main$1.$LOG('进来分牌数据=====================：', this.StartAssignPokerArr);
             this.StartAssignPokerArr.forEach(item => {
                 this.assignPokerCountDown(true, item.data);
                 this.startAssignPoker(true, false, item.data);
@@ -3253,7 +3525,7 @@
                 let $actionType = item_player.owner.actionType;
                 let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
                 let $isMe = item_player.owner.isMe;
-                // Main.$LOG('设置玩家自动操作状态:',item_player.owner.userId, item_player.owner.isMe,isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
+                Main$1.$LOG('设置玩家自动操作状态:', item_player.owner.userId, item_player.owner.isMe, isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore);
                 if ($isMe && !$visible && isShow && $actionType && $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
                     this._autoBtnArr = [];
                     this.owner.autoHandleBtnBox.visible = isShow;
@@ -3327,8 +3599,8 @@
         setMeHandleBtnZT(isShow = true, data) {
             Main$1.$LOG('进来操作状态======:', isShow, data);
             this.owner.handleBtnBox.visible = isShow;
+            PlayerDelayTime$1.init(this.delayType.action, this, data);
             if (isShow) {
-                PlayerDelayTime$1.init(this.delayType.action, this, data);
                 // this.playerSeatFn('playerDelayHandle', data);
                 this._btnArr = [];
                 this._btnMoveNum = 0;
@@ -3478,7 +3750,7 @@
                 this.setMeHandleBtnZT(false, null);//改变操作状态
                 this._playerArray.forEach(item_player => {
                     if (item_player.owner.isMe)
-                        item_player.playerSeatAddGif(true, Main$1.animations.qiao, false);
+                        item_player.playerSeatAddGif(true, Main$1.animations.qiao);
                 });
                 this.daSendSoket(data, type);
             } else if (type == 1) {
@@ -3675,7 +3947,7 @@
                     }
                 });
             } else {
-                this.owner.showTips(data.ret.msg);
+                Main$1.showTip(data.ret.msg);
             }
         }
 
@@ -3684,7 +3956,7 @@
          */
         playerActionEnd(data) {
             this._winUpINDEX = 0;
-            this.reloadPlayerMoreZT();
+            this.reloadPlayerMoreZT(true);
             data.endActionInfo.forEach((item_data, item_index) => {
                 this._playerArray.forEach(item_player => {
                     if (item_data.userId == item_player.owner.userId) {
@@ -3692,6 +3964,10 @@
                             item_player.changeShowCM(this, 2, true, data.endActionInfo.length, item_index);
                             let cmTyppe = item_data.curXiazhu > 0 ? 3 : 2;
                             item_player.showMoveCM(this, cmTyppe, true, this._moveCMSeat.show, this._moveCMSeat.pi, this._music.moveMangOrPi, data.endActionInfo.length);
+                        }
+                        console.log('玩家id:', item_player.owner.userId, );
+                        if (item_player.owner.actionType != 3 && item_player.owner.actionType != 5) {
+                            item_player.owner.actionType = -1;
                         }
                     }
                 });
@@ -3702,13 +3978,18 @@
         /**
          * 恢复玩家部分状态
          */
-        reloadPlayerMoreZT() {
+        reloadPlayerMoreZT(isShowQiao = false) {
             this.setPlayerAutoHandleZT(false, null);
             this.setMeHandleBtnZT(false, null);//改变操作状态
             this._playerArray.forEach(item_player => {
                 item_player.showPlayerCountDown(null, false);//去除倒计时
-                if (item_player.owner.actionType != 3) {//不是丢
+                if (item_player.owner.actionType != 3 && item_player.owner.actionType != 5) {//不是丢
                     item_player.showActionTip(false);//隐藏提示
+                }
+                if (item_player.owner.actionType == 5) {//是敲
+                    if (!isShowQiao) {
+                        item_player.showActionTip(false);//隐藏提示
+                    }
                 }
             });
             this.autoHandleType = null;
@@ -4072,6 +4353,7 @@
             });
             this.meAnimationZT(false, Main$1.animations.win);
             this.playerSeatFn('assignPokerCountDown', false);
+            this.StartAssignPokerArr = [];
         }
 
         /**
@@ -4170,9 +4452,11 @@
             this.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
         }
 
-        setMeMakeBOBO() {
+        setMeMakeBOBO(data) {
+            let addBoBoPlayer = data.param.json[0];
             this._playerArray.forEach(item_player => {
-                item_player.setMeMakeBOBO();
+                if (addBoBoPlayer.userId == item_player.owner.userId && addBoBoPlayer.userId == this.userId)
+                    item_player.setMeMakeBOBO();
             });
         }
 
@@ -4198,7 +4482,7 @@
          */
         playerAddDairu(data) {
             if (data.userId == this.userId)
-                this.owner.showTips('带入成功');
+                Main$1.showTip('带入成功');
             this._playerArray.forEach(item_player => {
                 if (data.userId == item_player.owner.userId) {
                     item_player.setAddDaiRuScore(data);
@@ -4225,7 +4509,7 @@
                     if (resData.ret.type == 0) {
                         this.playerSeatUp(resData);
                     } else {
-                        this.owner.showTips(resData.ret.msg);
+                        Main$1.showTip(resData.ret.msg);
                     }
                 }
             });
@@ -4314,6 +4598,7 @@
 
         // 发牌结束(接下来开始显示操作了)
         dealPokerEnd() {
+            this.qiaoDeal34PokerEnd();
             this._allowStartAction = true;
             // console.log('发牌结束(接下来开始显示操作了)',this._allowStartAction)
             if (this._allowStartAction) {
@@ -4340,7 +4625,7 @@
                         let showSign = pokerObj.getChildByName("xiuSign");
                         showSign.visible = res.show;
                     } else {
-                        this.owner.showTips(res.ret.msg);
+                        Main$1.showTip(res.ret.msg);
                     }
                 }
             });
@@ -4406,12 +4691,10 @@
                     if (res.data.ret.type == 0) {
                         this.setPage(that, res.data);
                     } else {
-                        that.owner.showTips(res.data.ret.msg);
+                        Main$1.showTip(res.data.ret.msg);
                     }
                 },
                 fail() {
-                    // that._allowSeatUp = true;
-                    that.owner.showTips('网络异常');
                 }
             });
         }
@@ -4462,7 +4745,7 @@
         }
         setGameView() {
             let deskView = localStorage.getItem('deskView') ? localStorage.getItem('deskView') : 'desk_bg1';
-            Main$1.$LoadImage(this.GameUI.deskView,Main$1.gameView[deskView],Main$1.gameView.desk_bg1,'skin');
+            Main$1.$LoadImage(this.GameUI.deskBg,Main$1.gameView[deskView],Main$1.gameView.desk_bg1,'skin');
             this.GameUI.gameSet_deskViewBox._children.forEach(item => {
                 item.getChildByName("desk").getChildByName("selectSign").visible = false;
                 if (item.name == deskView) {
@@ -4493,7 +4776,6 @@
             this.getGameSetVal();
             let game_music_switchBox = this.GameUI.game_music_switchBox;
             let game_chat_switchBox = this.GameUI.game_chat_switchBox;
-            // let game_pangguanChat_switchBox = this.GameUI.game_pangguanChat_switchBox;
             Main$1.$switch(game_music_switchBox, Main$1.gameSetVal.gameMusic, this, (res) => {
                 let val = res ? 1 : 0;
                 localStorage.setItem('gameMusic', val);
@@ -4501,9 +4783,6 @@
             Main$1.$switch(game_chat_switchBox, Main$1.gameSetVal.chatVoice, this, (res) => {
                 // console.log(res)
             });
-            // Main.$switch(game_pangguanChat_switchBox, Main.gameSetVal.pangGuanchat, this, (res) => {
-            //     // console.log(res)
-            // })
         }
         getGameSetVal() {
             Main$1.gameSetVal = {
@@ -4531,7 +4810,7 @@
                 this.init();
                 this.common(true);
             } else {
-                this.GameUI.showTips('旁观者不能发送表情!');
+                Main$1.showTip('旁观者不能发送表情!');
             }
         }
         common(show) {
@@ -4680,14 +4959,14 @@
             this.GameControl = GameControl.instance;
             this.MeSeatArr = this.GameControl._playerArray.filter(item => item.owner.isMe);
             if (this.MeSeatArr.length > 0) {
-                if(this.GameControl.isLiuZuo){
-                    this.GameUI.showTips('您当前已留座，不能再留座了!');
-                }else{
+                if (this.GameControl.isLiuZuo) {
+                    Main$1.showTip('您当前已留座，不能再留座了!');
+                } else {
                     this.init();
                     this.common(true);
                 }
             } else {
-                this.GameUI.showTips('您当前为观战模式，无法留座!');
+                Main$1.showTip('您当前为观战模式，无法留座!');
             }
         }
         common(show) {
@@ -4836,22 +5115,25 @@
      * 该脚本为站位带入积分或补充钵钵功能
      */
     class MakeBOBO {
-        init() {
-
+        open(isSeatAt=true) {
+            this.MeSeatArr = GameControl.instance._playerArray.filter(item => item.owner.isMe);
+            if(this.MeSeatArr.length>0){
+                this.getPlayerUsableScore((res) => {
+                    this.setBOBO();
+                });
+                this.common(true);
+            }else{
+                Main$1.showTip('您当前为观战模式,无法添加钵钵!');
+            }
+            if(isSeatAt){
+                this.bindEvent(true);
+            }else{
+                this.bindEvent(false);
+            }
         }
-        open() {
-            // if (showObj.visible && type == 'hand') {//手动关闭
-            //     if (this._allowSeatUp)
-            //         this.playerSeatUpSend();
-            // }
-            // if (show)
-            //     this.getPlayerUsableScore((res) => {
-            //         this.setBOBO();
-            //     })
-            this.getPlayerUsableScore((res) => {
-                this.setBOBO();
-            });
-            this.common(true);
+        bindEvent(isQuest){
+            GameControl.instance.owner.bobo_close.on(Laya.Event.CLICK, this, this.close,[isQuest]);//蒙板
+            GameControl.instance.owner._mask.on(Laya.Event.CLICK, this, this.close,[isQuest]);//蒙板
         }
         common(show) {
             let showObj = GameControl.instance.owner.makeUp_bobo;
@@ -4859,6 +5141,7 @@
             let y = show ? Laya.stage.height / 2 : -showObj.height;
             GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
         }
+        
         /**
          * 关闭带入弹框
          * @param {*} isRequest 是否请求
@@ -4890,11 +5173,10 @@
                         let data = { score: res.data.score };
                         fn.call(that, data);
                     } else {
-                        GameControl.instance.owner.showTips(res.data.ret.msg);
+                        Main$1.showTip(res.data.ret.msg);
                     }
                 },
                 fail() {
-                    GameControl.instance.owner.showTips('网络异常');
                 }
             });
         }
@@ -4949,7 +5231,6 @@
             // this.loadScene("cheXuanGame_8.scene");
             this.ceshiNum = 0;
             this.ceshiNum2 = 0;
-            this.isADDBOBO = false;
         }
 
         onAwake() {
@@ -4975,28 +5256,28 @@
         /**
          * 显示提示框
          */
-        showTips(msg = 'null') {
-            this.tipsBox._children = [];
-            let tip = new Laya.Sprite();
-            let text = new Laya.Text();
-            text.text = msg;
-            tip.addChild(text);
-            text.color = '#FFFFFF';
-            text.fontSize = 40;
-            text.width = 720;
-            text.height = 110;
-            text.align = 'center';
-            text.valign = 'middle';
-            tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
-            function loadImgEnd() {
-                this.tipsBox.addChild(tip);
-            }
-            tip.width = 720;
-            tip.height = 110;
-            setTimeout(() => {
-                Laya.Tween.to(tip, { y: -300 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]));
-            }, 100);
-        }
+        // showTips(msg = 'null') {
+        //     this.tipsBox._children = [];
+        //     let tip = new Laya.Sprite();
+        //     let text = new Laya.Text();
+        //     text.text = msg;
+        //     tip.addChild(text);
+        //     text.color = '#FFFFFF';
+        //     text.fontSize = 40;
+        //     text.width = 720;
+        //     text.height = 110;
+        //     text.align = 'center';
+        //     text.valign = 'middle';
+        //     tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
+        //     function loadImgEnd() {
+        //         this.tipsBox.addChild(tip);
+        //     }
+        //     tip.width = 720;
+        //     tip.height = 110;
+        //     setTimeout(() => {
+        //         Laya.Tween.to(tip, { y: -300 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]))
+        //     }, 100)
+        // }
         tipMoveEnd(tipObj) {
             Laya.Tween.to(tipObj, { alpha: 0 }, 300, null, Laya.Handler.create(this, this.tipAlphaEnd, [tipObj]));
         }
@@ -5018,7 +5299,6 @@
             this.paiJuHuiGuBtnUI.on(Laya.Event.CLICK, this, this.onClickPaijuhuiguBtn);//牌局回顾
             this.errReloadBtnUI.on(Laya.Event.CLICK, this, this.onClickErrReloadBtn);//异常刷新
             this._confirmDaiRuBtn.on(Laya.Event.CLICK, this, this.onClickConfirmDaiRuBtn);//补充钵钵确认带入
-            this.bobo_close.on(Laya.Event.CLICK, this, this.onClickMask);//补充钵钵关闭按钮关闭
             this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
             this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
             this.ceshiEvent();//有关于测试事件
@@ -5030,7 +5310,7 @@
         onClickErrReloadBtn() {
             GameControl.instance.onClose();
             GameControl.instance.onConnect();
-            this.showTips('正在刷新数据，请稍后...');
+            Main$1.showTip('正在刷新数据，请稍后...');
         }
 
         ceshiEvent() {
@@ -5063,7 +5343,7 @@
             } else if (type == 2) {
                 GameControl.instance.onClose();
                 GameControl.instance.onConnect();
-                this.showTips('正在刷新数据，请稍后...');
+                Main$1.showTip('正在刷新数据，请稍后...');
             }
         }
 
@@ -5083,7 +5363,6 @@
          * 表情
          */
         onClickExpression(msg) {
-            // this.showTips('旁观者不能发表情!');
             ExpressionChat$1.open(this);
         }
 
@@ -5097,13 +5376,13 @@
          * 所有弹框的蒙板事件
          */
         onClickMask() {
-            MakeBOBO$1.close(!this.isADDBOBO);
+            // console.log(this.isADDBOBO)
+            // MakeBOBO.close(!this.isADDBOBO);
             this._control.openMenuList(false);
             GameSet$1.gameSet(false);
             PlyerNews.GetNews(false);
             ExpressionChat$1.close();
             PlayerLiuZuo$1.close();
-            this.isADDBOBO = false;
         }
 
         onClickMenuBtn() {
@@ -5162,22 +5441,26 @@
                 // console.log(Event.target)
                 let ID = Event.target.dataSource.id;
                 this._control.openMenuList(false);
-                if (ID == 2) {
+                if (ID == 2) {//牌局提示界面
                     Laya.Scene.open('paijutishi.scene', false, { show: true });
-                } else if (ID == 1) {
+                } else if (ID == 1) {//起立
                     this._control.playerSeatUpSend();
-                } else if (ID == 7) {
+                } else if (ID == 7) {//离开房间
                     this._control.playerLeaveRoomSend();
-                } else if (ID == 4) {
-                    this.isADDBOBO = true;
-                    MakeBOBO$1.open();
+                } else if (ID == 4) {//补充钵钵
+                    // this.isADDBOBO = true;
+                    MakeBOBO$1.open(false);
                 } else if (ID == 3) {//游戏设置
                     GameSet$1.gameSet(true);
                 } else if (ID == 5) {//留座离桌
                     PlayerLiuZuo$1.open(this);
                 } else if (ID == 6) {//充值商城
-                    this._control.beackRoom();
-                    Main$1.$openScene('shoppingMall.scene',false,{});
+                    // this._control.beackRoom();
+                    Main$1.$openScene('shoppingMall.scene', false, { isTabPage: false }, (res) => {
+                        res.zOrder = 30;
+                        res.x = Laya.stage.width;
+                        Laya.Tween.to(res, { x: 0 }, Main$1._speed.page);
+                    });
                 }
             }
         }
@@ -5331,7 +5614,7 @@
                 name.text = '';
                 this.owner.isMe = true;
                 if (isShow)
-                    MakeBOBO$1.open();
+                    MakeBOBO$1.open(true);
                 else
                     MakeBOBO$1.close();
             } else {
@@ -6161,6 +6444,7 @@
         }
     }
 
+    // import Main from './Main';
     /**
     * 该脚本为滑动选择
     */
@@ -6172,7 +6456,7 @@
 
         onEnable() {
             console.log('demo：', this);
-            this.i = 0;
+            // this.i = 0;
             // let game_music=this.owner.game_music;
             // let switchBox=game_music.getChildByName("switchBox");
             // Main.$switch(switchBox,true,this,(res)=>{
@@ -6190,7 +6474,7 @@
             //     this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
             // },2000)
             // this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
-            this.owner.createBtn.on(Laya.Event.CLICK, this, this.demo);
+            // this.owner.createBtn.on(Laya.Event.CLICK, this, this.demo)
 
         }
 
@@ -6326,7 +6610,7 @@
                     ip: '192.168.0.112',
                     type: 'accpws',//accpws账号密码  phone手机 wechat微信 weibo微博
                     json: jsonObj,
-                    devid: 1234
+                    devid: Laya.Browser.onAndroid ? "Android" : "PC",
                 };
                 HTTP.$request({
                     that: this,
@@ -6437,10 +6721,8 @@
             Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
             Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
             Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
+            Main$1.createTipBox();
             Main$1.getStatusHeight();
-            // setTimeout(()=>{
-            //     this.ceshi.text=Main.phoneNews.statusHeight+';'+Main.phoneNews.deviceNews
-            // },500)
         }
         onOpened(options) {
             this.opendNumber = 0;
@@ -7113,7 +7395,7 @@
                     if (res.data.ret.type == 0) {
                         this.setPageData1(res.data.data);
                     } else {
-                        console.log(res.data.ret.msg);//=========================后加弹框=======================
+                        Main$1.showTip(res.data.ret.msg);
                     }
                 }
             });
@@ -7183,18 +7465,32 @@
 
     class shopMall extends Laya.Script {
 
-        constructor() { 
-            super(); 
+        constructor() {
+            super();
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
-        
+
         onEnable() {
         }
 
         onDisable() {
         }
         back() {
-            Laya.Scene.open('tabPage.scene', false, {page:Main$1.pages.page5}, Laya.Handler.create(this, (res) => {
+            if (this.owner.openedData.isTabPage) {
+                this.signoutthisPage('tabPage.scene', Main$1.pages.page5);
+            } else {
+                Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                    this.owner.removeSelf();
+                }));
+            }
+        }
+        /**
+         * 打开界面
+         * @param {*} openSceneUrl 打开场景
+         * @param {*} openView 打开界面
+         */
+        signoutthisPage(openSceneUrl, openView) {
+            Laya.Scene.open(openSceneUrl, false, { page: openView }, Laya.Handler.create(this, (res) => {
                 Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
                     this.owner.removeSelf();
                 }));
@@ -7234,6 +7530,35 @@
         }
     }
 
+    /**
+     * 该脚本为分享到微信好友或朋友圈的功能
+     */
+    class Share {
+        /**
+         * me
+         * @param {*} that 执行域(Me.js)
+         */
+        open(that) {
+            this.TABUI = that.UI;
+            this.TABUI.tabPagesDialogBox.visible = true;
+            this.TABUI.share_dialog.show();
+            this.bindEvent();
+        }
+        bindEvent() {
+            this.TABUI.tabPagesDialogBox.on(Laya.Event.CLICK, this, this.clickMask);
+        }
+        clickMask() {
+            this.close();
+        }
+        close() {
+            if (this.TABUI) {
+                this.TABUI.share_dialog.close();
+                this.TABUI.tabPagesDialogBox.visible = false;
+            }
+        }
+    }
+    var Share$1 = new Share();
+
     class Me extends Laya.Script {
 
         constructor() { 
@@ -7262,6 +7587,7 @@
         registerEvent(){
             this.UI.signOut_btn.on(Laya.Event.CLICK,this,this.openLoginView);
             this.UI.recharge_btn.on(Laya.Event.CLICK,this,this.openShopView);
+            this.UI.share_btn.on(Laya.Event.CLICK,this,this.openShareView);
         }
         openLoginView(){
             Main$1.showDialog('是否退出重新登录?',2,null,comfirmEvent);
@@ -7275,18 +7601,19 @@
          * 打开商城界面
          */
         openShopView(){
-            // Laya.Scene.open('shoppingMall.scene', false, Main.sign.shop, Laya.Handler.create(this, (res) => {
-            //     res.x = Laya.stage.width;
-            //     Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
-            //         this.owner.removeSelf();
-            //     }));
-            // }))
             Main$1.$openScene('shoppingMall.scene',false,{isTabPage:true,page:Main$1.pages.page5},(res)=>{
                 res.x = Laya.stage.width;
                 Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
                     this.owner.removeSelf();
                 }));
             });
+        }
+
+        /**
+         * 打开分享界面
+         */
+        openShareView(){
+            Share$1.open(this);
         }
 
         /**
@@ -7872,38 +8199,6 @@
         }
     }
 
-    class tip extends Laya.Script {
-
-        constructor() {
-            super();
-            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
-        }
-
-        onEnable() {
-            this.flag = true;
-            console.log('进来了');
-        }
-
-        onDisable() {
-        }
-
-        onTriggerEnter(other, self, contact) {
-            // other.owner._components[0]._isSensor=true;
-            // Laya.Tween.to(other.owner, { y: other.owner.y-200 }, 600)
-            // if (this.flag) {
-            //     this.flag = false;
-            //     console.log('被碰撞了', other)
-            //     let length = other.owner.parent._children.length;
-            //     other.owner.parent._children.forEach((item, index) => {
-            //         if (index < length - 1) {
-            //             item.y = -300-(120*(length-index-1));
-            //             console.log(item.y)
-            //         }
-            //     });
-            // }
-        }
-    }
-
     /**This class is automatically generated by LayaAirIDE, please do not make any modifications. */
 
     class GameConfig {
@@ -7938,7 +8233,6 @@
     		reg("game/pages/Notice/Notice.js",Notice);
     		reg("game/pages/GameHall/GameHall.js",GameHall);
     		reg("game/pages/Data/Data.js",Data);
-    		reg("game/common/tip.js",tip);
         }
     }
     GameConfig.width = 1242;

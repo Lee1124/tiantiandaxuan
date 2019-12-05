@@ -182,7 +182,7 @@ export default class MySlider extends Laya.Script {
         calibrationVal.push(curVal);
 
         let remainder = curVal % scopeVal;
-        if (remainder > 0)  {
+        if (remainder > 0 && scopeVal - remainder + curVal < endVal)  {
             curVal = scopeVal - remainder + curVal;
             calibrationVal.push(curVal);
             ++calibrationNum;
@@ -197,6 +197,7 @@ export default class MySlider extends Laya.Script {
             let curNum = parseInt((unitVal - LastUnitVal) / scopeVal);
             let nIndex = 0;
             while (nIndex < curNum)  {
+                // console.log("nIndex::" + curVal);
                 curVal += scopeVal;
                 calibrationVal.push(curVal);
                 ++nIndex;
@@ -225,6 +226,7 @@ export default class MySlider extends Laya.Script {
         //TODO:添加刻度值-将每个刻度的值添加到表中
         let lIndex = 0;
         while (lIndex < lCurNum && curVal < endVal) {
+            // console.log("curVal::" + curVal);
             curVal += scopeVal;
             calibrationVal.push(curVal);
             ++lIndex;

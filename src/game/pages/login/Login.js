@@ -63,7 +63,7 @@ export default class login extends Laya.Script {
                 ip: '192.168.0.112',
                 type: 'accpws',//accpws账号密码  phone手机 wechat微信 weibo微博
                 json: jsonObj,
-                devid: 1234
+                devid: Laya.Browser.onAndroid ? "Android" : "PC",
             }
             HTTP.$request({
                 that: this,

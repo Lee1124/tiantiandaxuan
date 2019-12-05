@@ -23,7 +23,6 @@ export default class GameUI extends Laya.Scene {
         // this.loadScene("cheXuanGame_8.scene");
         this.ceshiNum = 0;
         this.ceshiNum2 = 0;
-        this.isADDBOBO = false;
     }
 
     onAwake() {
@@ -49,28 +48,28 @@ export default class GameUI extends Laya.Scene {
     /**
      * 显示提示框
      */
-    showTips(msg = 'null') {
-        this.tipsBox._children = [];
-        let tip = new Laya.Sprite();
-        let text = new Laya.Text();
-        text.text = msg;
-        tip.addChild(text);
-        text.color = '#FFFFFF';
-        text.fontSize = 40;
-        text.width = 720;
-        text.height = 110;
-        text.align = 'center';
-        text.valign = 'middle';
-        tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
-        function loadImgEnd() {
-            this.tipsBox.addChild(tip);
-        }
-        tip.width = 720;
-        tip.height = 110;
-        setTimeout(() => {
-            Laya.Tween.to(tip, { y: -300 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]))
-        }, 100)
-    }
+    // showTips(msg = 'null') {
+    //     this.tipsBox._children = [];
+    //     let tip = new Laya.Sprite();
+    //     let text = new Laya.Text();
+    //     text.text = msg;
+    //     tip.addChild(text);
+    //     text.color = '#FFFFFF';
+    //     text.fontSize = 40;
+    //     text.width = 720;
+    //     text.height = 110;
+    //     text.align = 'center';
+    //     text.valign = 'middle';
+    //     tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
+    //     function loadImgEnd() {
+    //         this.tipsBox.addChild(tip);
+    //     }
+    //     tip.width = 720;
+    //     tip.height = 110;
+    //     setTimeout(() => {
+    //         Laya.Tween.to(tip, { y: -300 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]))
+    //     }, 100)
+    // }
     tipMoveEnd(tipObj) {
         Laya.Tween.to(tipObj, { alpha: 0 }, 300, null, Laya.Handler.create(this, this.tipAlphaEnd, [tipObj]))
     }
@@ -92,7 +91,6 @@ export default class GameUI extends Laya.Scene {
         this.paiJuHuiGuBtnUI.on(Laya.Event.CLICK, this, this.onClickPaijuhuiguBtn);//牌局回顾
         this.errReloadBtnUI.on(Laya.Event.CLICK, this, this.onClickErrReloadBtn);//异常刷新
         this._confirmDaiRuBtn.on(Laya.Event.CLICK, this, this.onClickConfirmDaiRuBtn);//补充钵钵确认带入
-        this.bobo_close.on(Laya.Event.CLICK, this, this.onClickMask);//补充钵钵关闭按钮关闭
         this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
         this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
         this.ceshiEvent();//有关于测试事件
@@ -104,7 +102,7 @@ export default class GameUI extends Laya.Scene {
     onClickErrReloadBtn() {
         GameControl.instance.onClose();
         GameControl.instance.onConnect();
-        this.showTips('正在刷新数据，请稍后...');
+        Main.showTip('正在刷新数据，请稍后...');
     }
 
     ceshiEvent() {
@@ -137,7 +135,7 @@ export default class GameUI extends Laya.Scene {
         } else if (type == 2) {
             GameControl.instance.onClose();
             GameControl.instance.onConnect();
-            this.showTips('正在刷新数据，请稍后...');
+            Main.showTip('正在刷新数据，请稍后...');
         }
     }
 
@@ -157,7 +155,6 @@ export default class GameUI extends Laya.Scene {
      * 表情
      */
     onClickExpression(msg) {
-        // this.showTips('旁观者不能发表情!');
         ExpressionChat.open(this);
     }
 
@@ -171,13 +168,13 @@ export default class GameUI extends Laya.Scene {
      * 所有弹框的蒙板事件
      */
     onClickMask() {
-        MakeBOBO.close(!this.isADDBOBO);
+        // console.log(this.isADDBOBO)
+        // MakeBOBO.close(!this.isADDBOBO);
         this._control.openMenuList(false);
         GameSet.gameSet(false);
         PlyerNews.GetNews(false);
         ExpressionChat.close();
         PlayerLiuZuo.close();
-        this.isADDBOBO = false;
     }
 
     onClickMenuBtn() {
@@ -243,8 +240,8 @@ export default class GameUI extends Laya.Scene {
             } else if (ID == 7) {//离开房间
                 this._control.playerLeaveRoomSend();
             } else if (ID == 4) {//补充钵钵
-                this.isADDBOBO = true;
-                MakeBOBO.open();
+                // this.isADDBOBO = true;
+                MakeBOBO.open(false);
             } else if (ID == 3) {//游戏设置
                 GameSet.gameSet(true);
             } else if (ID == 5) {//留座离桌

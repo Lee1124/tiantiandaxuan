@@ -74,7 +74,7 @@ class RecSoketReloadData {
             let name = playerSeat.getChildByName("name");
             let countDownBox = playerSeat.getChildByName("countDownBox");
             let show_me_poker_box = playerSeat.getChildByName("show_me_poker_box");
-            let show_me_sub_poker = playerSeat.getChildByName("show_me_poker_box");
+            let show_me_sub_poker = playerSeat.getChildByName("show_me_sub_poker");
             let xiuPokerBox = playerSeat.getChildByName("xiuPokerBox");
             let gifBox = playerSeat.getChildByName("gifBox");
             let winScore = playerSeat.getChildByName("winScore");
@@ -84,6 +84,7 @@ class RecSoketReloadData {
             headBox.visible = false;
             xiaZhuScore.visible = false;
             move_cm.visible = false;
+            show_me_sub_poker.visible = false;
             deal_cards_seat._children.forEach(item => {
                 item.visible = false;
             })

@@ -1,5 +1,6 @@
 import Main from '../../common/Main';
 import HTTP from '../../common/HttpRequest';
+import Share from '../../Fuction/Share';
 export default class Me extends Laya.Script {
 
     constructor() { 
@@ -36,6 +37,7 @@ export default class Me extends Laya.Script {
     registerEvent(){
         this.UI.signOut_btn.on(Laya.Event.CLICK,this,this.openLoginView);
         this.UI.recharge_btn.on(Laya.Event.CLICK,this,this.openShopView);
+        this.UI.share_btn.on(Laya.Event.CLICK,this,this.openShareView);
     }
     openLoginView(){
         Main.showDialog('是否退出重新登录?',2,null,comfirmEvent);
@@ -49,18 +51,19 @@ export default class Me extends Laya.Script {
      * 打开商城界面
      */
     openShopView(){
-        // Laya.Scene.open('shoppingMall.scene', false, Main.sign.shop, Laya.Handler.create(this, (res) => {
-        //     res.x = Laya.stage.width;
-        //     Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
-        //         this.owner.removeSelf();
-        //     }));
-        // }))
         Main.$openScene('shoppingMall.scene',false,{isTabPage:true,page:Main.pages.page5},(res)=>{
             res.x = Laya.stage.width;
             Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
                 this.owner.removeSelf();
             }));
         })
+    }
+
+    /**
+     * 打开分享界面
+     */
+    openShareView(){
+        Share.open(this);
     }
 
     /**

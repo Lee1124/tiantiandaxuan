@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":913,
-    "selecteID":1966,
+    "selectedBox":5,
+    "selecteID":1297,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":2017,
+    "maxID":2018,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -72,28 +72,30 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,deskView,deskView",
-            "props":{"var":"deskView","top":0,"skin":"images/gameView/newDesk.png","right":0,"name":"deskView","left":0,"bottom":0},
+            "props":{"var":"deskView","top":0,"right":0,"name":"deskView","left":0,"bottom":0},
             "nodeParent":2,
             "label":"deskView",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":3,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-1",
                     "props":{"zOrder":1,"x":621,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-1","height":167,"bottom":342},
                     "nodeParent":3,
                     "label":"empty-seat-1",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":5,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,head-box",
                             "props":{"y":0,"x":-5,"width":176,"visible":false,"name":"head-box","height":164},
@@ -138,6 +140,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,xiaZhuScore",
                             "props":{"width":90,"visible":false,"skin":"images/gameView/choumaKuangBg.png","right":-120,"pivotY":21,"pivotX":45,"name":"xiaZhuScore","height":41,"bottom":230},
@@ -178,6 +181,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,deal_cards_seat",
                             "props":{"y":135,"x":110,"width":0,"name":"deal_cards_seat","height":0},
@@ -217,6 +221,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,deal_cards_seat34",
                             "props":{"y":135,"x":110,"width":0,"name":"deal_cards_seat34","height":0},
@@ -257,6 +262,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,create_cm_seat",
                             "props":{"y":83,"x":83,"width":0,"name":"create_cm_seat","height":0},
@@ -286,6 +292,7 @@
                             "$HIDDEN":true
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,show_poker_box",
                             "props":{"y":220,"x":-1,"width":168,"name":"show_poker_box","height":156},
@@ -313,6 +320,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,sub_poker_box",
                             "props":{"y":220,"x":-102,"width":370,"visible":false,"name":"sub_poker_box","height":156},
@@ -460,6 +468,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,count_down_box",
                             "props":{"y":84,"x":84,"width":167,"pivotY":84,"pivotX":84,"name":"count_down_box","height":167},
@@ -474,6 +483,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Panel",
                             "searchKey":"Panel,score",
                             "props":{"y":170,"x":-5,"width":176,"visible":false,"sceneColor":"#c6100d","name":"score","height":46,"bgColor":"#000","alpha":0.5},
@@ -500,6 +510,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,banker",
                             "props":{"y":127,"x":-23,"visible":false,"texture":"images/gameView/banker.png","name":"banker"},
@@ -513,6 +524,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,name",
                             "props":{"y":-36,"x":-42,"width":250,"valign":"middle","name":"name","fontSize":34,"color":"#FFFFFF","align":"center"},
@@ -526,6 +538,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,countDownBox",
                             "props":{"y":0,"x":0,"width":166,"visible":false,"name":"countDownBox","height":166},
@@ -566,6 +579,7 @@
                             "$HIDDEN":true
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,show_me_poker_box",
                             "props":{"y":224,"x":-228,"width":624,"name":"show_me_poker_box","height":210},
@@ -688,18 +702,20 @@
                             "$HIDDEN":true
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,show_me_sub_poker",
                             "props":{"y":224,"x":-166,"width":500,"visible":false,"name":"show_me_sub_poker","height":210},
                             "nodeParent":5,
                             "label":"show_me_sub_poker",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
                             "compId":1297,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,sub1",
                                     "props":{"y":0,"x":0,"width":240,"name":"sub1","height":210},
@@ -712,6 +728,7 @@
                                     "compId":1298,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,pokerBox",
                                             "props":{"y":0,"x":0,"width":156,"name":"pokerBox","height":210},
@@ -726,6 +743,7 @@
                                                 ]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,pokerBox",
                                             "props":{"y":0,"x":84,"width":156,"name":"pokerBox","height":210},
@@ -740,6 +758,7 @@
                                                 ]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Sprite",
                                             "searchKey":"Sprite,pointBox",
                                             "props":{"y":157,"x":63,"texture":"images/gameView/CardPrompt.png","name":"pointBox"},
@@ -767,12 +786,13 @@
                                         }]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,sub2",
                                     "props":{"y":0,"x":260,"width":240,"name":"sub2","height":210},
                                     "nodeParent":1297,
                                     "label":"sub2",
-                                    "isOpen":true,
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
@@ -836,6 +856,7 @@
                             "$HIDDEN":true
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
                             "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
@@ -902,6 +923,7 @@
                             "$HIDDEN":true
                         },
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/GameCenter/seat.js",
@@ -918,6 +940,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,gifBox",
                             "props":{"zOrder":2,"visible":false,"top":0,"right":0,"name":"gifBox","left":0,"bottom":0},
@@ -957,6 +980,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,winScore",
                             "props":{"visible":false,"top":-50,"skin":"images/common/scoreBg.png","name":"winScore","centerX":0},
@@ -983,6 +1007,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,tipsBox",
                             "props":{"zOrder":3,"y":28,"x":150,"width":160,"pivotY":52,"pivotX":80,"name":"tipsBox","height":104},
@@ -997,6 +1022,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,liuzuoSign",
                             "props":{"zOrder":20,"width":147,"visible":false,"skin":"images/LiuZuo/l_sign.png","name":"liuzuoSign","height":88,"centerY":0,"centerX":0},
@@ -1011,6 +1037,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"centerY":360},
@@ -1923,6 +1950,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-3",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-3","left":45,"height":167,"centerY":-95},
@@ -2830,6 +2858,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167,"centerY":-552},
@@ -3737,6 +3766,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-5",
                     "props":{"zOrder":1,"x":621,"width":167,"top":130,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-5","height":167},
@@ -4644,6 +4674,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167,"centerY":-552},
@@ -5551,6 +5582,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-7",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-7","height":167,"centerY":-95},
@@ -6458,6 +6490,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"centerY":360},
@@ -7365,82 +7398,96 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
-                    "searchKey":"Image,paijurule",
-                    "props":{"x":421,"width":400,"name":"paijurule","height":180,"centerY":10,"centerX":0,"alpha":0.6},
+                    "searchKey":"Image,deskBg,deskBg",
+                    "props":{"var":"deskBg","top":0,"skin":"images/gameView/newDesk.png","right":0,"name":"deskBg","left":0,"bottom":0},
                     "nodeParent":3,
-                    "label":"paijurule",
+                    "label":"deskBg",
                     "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
-                    "compId":1736,
+                    "compId":2017,
                     "child":[
                         {
-                            "type":"Text",
-                            "searchKey":"Text,roomPws,rule_roomPws",
-                            "props":{"y":0,"x":133,"var":"rule_roomPws","name":"roomPws","fontSize":40,"color":"#042D22"},
-                            "nodeParent":1736,
-                            "label":"roomPws",
-                            "isDirectory":false,
+                            "type":"Image",
+                            "searchKey":"Image,paijurule",
+                            "props":{"y":1024,"x":421,"width":400,"name":"paijurule","height":180,"centerY":10,"centerX":0,"alpha":0.6},
+                            "nodeParent":2017,
+                            "label":"paijurule",
+                            "isOpen":false,
+                            "isDirectory":true,
                             "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1737,
+                            "hasChild":true,
+                            "compId":1736,
                             "child":[
-                                ]
-                        },
-                        {
-                            "type":"Text",
-                            "searchKey":"Text,roomName,rule_roomName",
-                            "props":{"y":60,"x":0,"width":400,"var":"rule_roomName","name":"roomName","fontSize":40,"color":"#042D22","align":"center"},
-                            "nodeParent":1736,
-                            "label":"roomName",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1738,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Text",
-                            "searchKey":"Text,rule2_9,rule_ruleText2_9",
-                            "props":{"y":120,"x":0,"width":400,"var":"rule_ruleText2_9","name":"rule2_9","fontSize":40,"color":"#042D22","align":"center"},
-                            "nodeParent":1736,
-                            "label":"rule2_9",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1739,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Text",
-                            "searchKey":"Text,rule,rule_ruleText",
-                            "props":{"y":180,"x":0,"width":400,"var":"rule_ruleText","name":"rule","fontSize":40,"color":"#042D22","align":"center"},
-                            "nodeParent":1736,
-                            "label":"rule",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1740,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Text",
-                            "searchKey":"Text,pi,rule_pi",
-                            "props":{"y":240,"x":-0.26171875,"width":400,"var":"rule_pi","name":"pi","fontSize":40,"color":"#042D22","align":"center"},
-                            "nodeParent":1736,
-                            "label":"pi",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1741,
-                            "child":[
-                                ]
+                                {
+                                    "type":"Text",
+                                    "searchKey":"Text,roomPws,rule_roomPws",
+                                    "props":{"y":0,"x":133,"var":"rule_roomPws","name":"roomPws","fontSize":40,"color":"#042D22"},
+                                    "nodeParent":1736,
+                                    "label":"roomPws",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1737,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Text",
+                                    "searchKey":"Text,roomName,rule_roomName",
+                                    "props":{"y":60,"x":0,"width":400,"var":"rule_roomName","name":"roomName","fontSize":40,"color":"#042D22","align":"center"},
+                                    "nodeParent":1736,
+                                    "label":"roomName",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1738,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Text",
+                                    "searchKey":"Text,rule2_9,rule_ruleText2_9",
+                                    "props":{"y":120,"x":0,"width":400,"var":"rule_ruleText2_9","name":"rule2_9","fontSize":40,"color":"#042D22","align":"center"},
+                                    "nodeParent":1736,
+                                    "label":"rule2_9",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1739,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Text",
+                                    "searchKey":"Text,rule,rule_ruleText",
+                                    "props":{"y":180,"x":0,"width":400,"var":"rule_ruleText","name":"rule","fontSize":40,"color":"#042D22","align":"center"},
+                                    "nodeParent":1736,
+                                    "label":"rule",
+                                    "isOpen":true,
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1740,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Text",
+                                    "searchKey":"Text,pi,rule_pi",
+                                    "props":{"y":240,"x":-0.26171875,"width":400,"var":"rule_pi","name":"pi","fontSize":40,"color":"#042D22","align":"center"},
+                                    "nodeParent":1736,
+                                    "label":"pi",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1741,
+                                    "child":[
+                                        ]
+                                }]
                         }]
                 }],
             "$HIDDEN":false

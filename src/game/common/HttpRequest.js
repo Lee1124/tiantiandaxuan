@@ -17,7 +17,9 @@ class HttpRequest {
         let dataObjArr = [];
         if (method == 'get') {
             var timestamp = new Date().getTime();
-            let sstr = Main.userInfo.key + '&' + timestamp;
+            let sstr = "";
+            if(Main.userInfo)
+                sstr = Main.userInfo.key + '&' + timestamp;
 
             for (var key in dataObj) {
                 if (dataObj.hasOwnProperty(key)) {
@@ -68,6 +70,7 @@ class HttpRequest {
         });
         xhr.once(Laya.Event.ERROR, this, (err) => {
             console.log('请求异常:', err)
+            Main.showTip('网络异常');
             if (obj.fail)
                 obj.fail.call(that, err)
         });

@@ -5,22 +5,25 @@ import GameControl from '../GameCenter/GameControl'
 import Main from '../common/Main';
 import HTTP from '../common/HttpRequest'
 class MakeBOBO {
-    init() {
-
+    open(isSeatAt=true) {
+        this.MeSeatArr = GameControl.instance._playerArray.filter(item => item.owner.isMe);
+        if(this.MeSeatArr.length>0){
+            this.getPlayerUsableScore((res) => {
+                this.setBOBO();
+            });
+            this.common(true);
+        }else{
+            Main.showTip('您当前为观战模式,无法添加钵钵!');
+        }
+        if(isSeatAt){
+            this.bindEvent(true);
+        }else{
+            this.bindEvent(false);
+        }
     }
-    open() {
-        // if (showObj.visible && type == 'hand') {//手动关闭
-        //     if (this._allowSeatUp)
-        //         this.playerSeatUpSend();
-        // }
-        // if (show)
-        //     this.getPlayerUsableScore((res) => {
-        //         this.setBOBO();
-        //     })
-        this.getPlayerUsableScore((res) => {
-            this.setBOBO();
-        });
-        this.common(true);
+    bindEvent(isQuest){
+        GameControl.instance.owner.bobo_close.on(Laya.Event.CLICK, this, this.close,[isQuest]);//蒙板
+        GameControl.instance.owner._mask.on(Laya.Event.CLICK, this, this.close,[isQuest]);//蒙板
     }
     common(show) {
         let showObj = GameControl.instance.owner.makeUp_bobo;
@@ -28,6 +31,7 @@ class MakeBOBO {
         let y = show ? Laya.stage.height / 2 : -showObj.height;
         GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
     }
+    
     /**
      * 关闭带入弹框
      * @param {*} isRequest 是否请求
@@ -59,11 +63,10 @@ class MakeBOBO {
                     let data = { score: res.data.score };
                     fn.call(that, data);
                 } else {
-                    GameControl.instance.owner.showTips(res.data.ret.msg);
+                    Main.showTip(res.data.ret.msg);
                 }
             },
             fail() {
-                GameControl.instance.owner.showTips('网络异常');
             }
         })
     }

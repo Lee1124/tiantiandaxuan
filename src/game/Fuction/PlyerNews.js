@@ -33,12 +33,10 @@ class PlayerNews {
                 if (res.data.ret.type == 0) {
                     this.setPage(that, res.data);
                 } else {
-                    that.owner.showTips(res.data.ret.msg);
+                    Main.showTip(res.data.ret.msg);
                 }
             },
             fail() {
-                // that._allowSeatUp = true;
-                that.owner.showTips('网络异常');
             }
         })
     }

@@ -163,7 +163,7 @@ export default class seat extends Laya.Script {
             name.text = '';
             this.owner.isMe = true;
             if (isShow)
-                MakeBOBO.open();
+                MakeBOBO.open(true);
             else
                 MakeBOBO.close();
         } else {

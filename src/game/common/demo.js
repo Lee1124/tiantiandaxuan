@@ -1,4 +1,4 @@
-import Main from './Main';
+// import Main from './Main';
 /**
 * 该脚本为滑动选择
 */
@@ -19,7 +19,7 @@ export default class sliderSelect extends Laya.Script {
 
     onEnable() {
         console.log('demo：', this)
-        this.i = 0;
+        // this.i = 0;
         // let game_music=this.owner.game_music;
         // let switchBox=game_music.getChildByName("switchBox");
         // Main.$switch(switchBox,true,this,(res)=>{
@@ -37,7 +37,7 @@ export default class sliderSelect extends Laya.Script {
         //     this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
         // },2000)
         // this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
-        this.owner.createBtn.on(Laya.Event.CLICK, this, this.demo)
+        // this.owner.createBtn.on(Laya.Event.CLICK, this, this.demo)
 
     }
 

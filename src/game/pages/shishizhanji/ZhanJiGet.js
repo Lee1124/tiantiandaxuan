@@ -47,7 +47,7 @@ export default class zhanji extends Laya.Script {
                 if (res.data.ret.type == 0) {
                     this.setPageData1(res.data.data);
                 } else {
-                    console.log(res.data.ret.msg);//=========================后加弹框=======================
+                    Main.showTip(res.data.ret.msg);
                 }
             }
         })

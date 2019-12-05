@@ -27,7 +27,6 @@ import Me from "./game/pages/Me/Me"
 import Notice from "./game/pages/Notice/Notice"
 import GameHall from "./game/pages/GameHall/GameHall"
 import Data from "./game/pages/Data/Data"
-import tip from "./game/common/tip"
 
 export default class GameConfig {
     static init() {
@@ -61,7 +60,6 @@ export default class GameConfig {
 		reg("game/pages/Notice/Notice.js",Notice);
 		reg("game/pages/GameHall/GameHall.js",GameHall);
 		reg("game/pages/Data/Data.js",Data);
-		reg("game/common/tip.js",tip);
     }
 }
 GameConfig.width = 1242;
