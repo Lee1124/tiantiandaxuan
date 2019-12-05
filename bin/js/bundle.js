@@ -2565,18 +2565,7 @@
             this.isLiuZuo = false;
         }
 
-        beackRoom(roomId) {
-            let roomid = roomId ? roomId : this.roomId;
-            this.onSend({
-                name: 'M.Room.C2R_DissolveRoom',
-                data: {
-                    roomid: roomid,
-                },
-                success(res) {
-                    console.log('解散房间：', res);
-                }
-            });
-        }
+       
 
         $LOG(...data1) {
             if (Main$1.debug)
@@ -5349,6 +5338,16 @@
 
 
         onClickVoiceBtn() {
+            // let roomid = 6749
+            // GameControl.instance.onSend({
+            //     name: 'M.Room.C2R_DissolveRoom',
+            //     data: {
+            //         roomid: roomid,
+            //     },
+            //     success(res) {
+            //         console.log('解散房间：', res)
+            //     }
+            // })
             this._control.ceShi();
         }
 
@@ -5376,8 +5375,6 @@
          * 所有弹框的蒙板事件
          */
         onClickMask() {
-            // console.log(this.isADDBOBO)
-            // MakeBOBO.close(!this.isADDBOBO);
             this._control.openMenuList(false);
             GameSet$1.gameSet(false);
             PlyerNews.GetNews(false);
@@ -7941,13 +7938,13 @@
                 listData = listData;
                 this.setPage1Data(listData);
             } else if (this._selectNavType == this._navType.small) {//小
-                listData = listData.filter(item => item.dizhu == 1 || item.dizhu == 5);
+                listData = listData.filter(item => item.dizhu >= 1 && item.dizhu <= 5);
                 this.setPage1Data(listData);
             } else if (this._selectNavType == this._navType.center) {//中
-                listData = listData.filter(item => item.dizhu == 10 || item.dizhu == 20);
+                listData = listData.filter(item => item.dizhu >= 10 && item.dizhu <= 20);
                 this.setPage1Data(listData);
             } else if (this._selectNavType == this._navType.big) {//大s
-                listData = listData.filter(item => item.dizhu == 50 || item.dizhu == 100);
+                listData = listData.filter(item => item.dizhu >= 50 && item.dizhu <= 100);
                 this.setPage1Data(listData);
             }
         }

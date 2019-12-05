@@ -210,13 +210,13 @@ export default class GameHall extends Laya.Script {
             listData = listData;
             this.setPage1Data(listData);
         } else if (this._selectNavType == this._navType.small) {//小
-            listData = listData.filter(item => item.dizhu == 1 || item.dizhu == 5);
+            listData = listData.filter(item => item.dizhu >= 1 && item.dizhu <= 5);
             this.setPage1Data(listData);
         } else if (this._selectNavType == this._navType.center) {//中
-            listData = listData.filter(item => item.dizhu == 10 || item.dizhu == 20);
+            listData = listData.filter(item => item.dizhu >= 10 && item.dizhu <= 20);
             this.setPage1Data(listData);
         } else if (this._selectNavType == this._navType.big) {//大s
-            listData = listData.filter(item => item.dizhu == 50 || item.dizhu == 100);
+            listData = listData.filter(item => item.dizhu >= 50 && item.dizhu <= 100);
             this.setPage1Data(listData);
         }
     }

@@ -141,6 +141,16 @@ export default class GameUI extends Laya.Scene {
 
 
     onClickVoiceBtn() {
+        // let roomid = 6749
+        // GameControl.instance.onSend({
+        //     name: 'M.Room.C2R_DissolveRoom',
+        //     data: {
+        //         roomid: roomid,
+        //     },
+        //     success(res) {
+        //         console.log('解散房间：', res)
+        //     }
+        // })
         this._control.ceShi();
     }
 
@@ -168,8 +178,6 @@ export default class GameUI extends Laya.Scene {
      * 所有弹框的蒙板事件
      */
     onClickMask() {
-        // console.log(this.isADDBOBO)
-        // MakeBOBO.close(!this.isADDBOBO);
         this._control.openMenuList(false);
         GameSet.gameSet(false);
         PlyerNews.GetNews(false);

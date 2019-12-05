@@ -109,18 +109,7 @@ export default class GameControl extends Laya.Script {
         this.isLiuZuo = false;
     }
 
-    beackRoom(roomId) {
-        let roomid = roomId ? roomId : this.roomId
-        this.onSend({
-            name: 'M.Room.C2R_DissolveRoom',
-            data: {
-                roomid: roomid,
-            },
-            success(res) {
-                console.log('解散房间：', res)
-            }
-        })
-    }
+   
 
     $LOG(...data1) {
         if (Main.debug)
