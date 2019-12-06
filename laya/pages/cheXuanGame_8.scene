@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":5,
-    "selecteID":1297,
+    "selectedBox":1860,
+    "selecteID":2033,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":2018,
+    "maxID":2034,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -75,33 +75,31 @@
             "props":{"var":"deskView","top":0,"right":0,"name":"deskView","left":0,"bottom":0},
             "nodeParent":2,
             "label":"deskView",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":3,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-1",
                     "props":{"zOrder":1,"x":621,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-1","height":167,"bottom":342},
                     "nodeParent":3,
                     "label":"empty-seat-1",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":5,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,head-box",
                             "props":{"y":0,"x":-5,"width":176,"visible":false,"name":"head-box","height":164},
                             "nodeParent":5,
                             "label":"head-box",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -109,38 +107,36 @@
                             "child":[
                                 {
                                     "type":"Image",
-                                    "searchKey":"Image,headBorder",
-                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBg"},
                                     "nodeParent":158,
-                                    "label":"headBorder",
+                                    "label":"headBg",
                                     "isOpen":true,
-                                    "isDirectory":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
+                                    "hasChild":true,
                                     "compId":1090,
                                     "child":[
-                                        ],
-                                    "$HIDDEN":false
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,headImgBox",
-                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
-                                    "nodeParent":158,
-                                    "label":"headImgBox",
-                                    "isOpen":true,
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1100,
-                                    "child":[
-                                        ],
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":148,"visible":true,"name":"head","height":148,"centerY":0,"centerX":0},
+                                            "nodeParent":1090,
+                                            "label":"head",
+                                            "isOpen":true,
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":2018,
+                                            "child":[
+                                                ],
+                                            "$HIDDEN":false
+                                        }],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,xiaZhuScore",
                             "props":{"width":90,"visible":false,"skin":"images/gameView/choumaKuangBg.png","right":-120,"pivotY":21,"pivotX":45,"name":"xiaZhuScore","height":41,"bottom":230},
@@ -181,7 +177,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,deal_cards_seat",
                             "props":{"y":135,"x":110,"width":0,"name":"deal_cards_seat","height":0},
@@ -221,7 +216,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,deal_cards_seat34",
                             "props":{"y":135,"x":110,"width":0,"name":"deal_cards_seat34","height":0},
@@ -262,7 +256,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,create_cm_seat",
                             "props":{"y":83,"x":83,"width":0,"name":"create_cm_seat","height":0},
@@ -292,7 +285,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,show_poker_box",
                             "props":{"y":220,"x":-1,"width":168,"name":"show_poker_box","height":156},
@@ -320,7 +312,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,sub_poker_box",
                             "props":{"y":220,"x":-102,"width":370,"visible":false,"name":"sub_poker_box","height":156},
@@ -468,7 +459,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,count_down_box",
                             "props":{"y":84,"x":84,"width":167,"pivotY":84,"pivotX":84,"name":"count_down_box","height":167},
@@ -483,7 +473,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Panel",
                             "searchKey":"Panel,score",
                             "props":{"y":170,"x":-5,"width":176,"visible":false,"sceneColor":"#c6100d","name":"score","height":46,"bgColor":"#000","alpha":0.5},
@@ -510,7 +499,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,banker",
                             "props":{"y":127,"x":-23,"visible":false,"texture":"images/gameView/banker.png","name":"banker"},
@@ -524,7 +512,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,name",
                             "props":{"y":-36,"x":-42,"width":250,"valign":"middle","name":"name","fontSize":34,"color":"#FFFFFF","align":"center"},
@@ -538,7 +525,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,countDownBox",
                             "props":{"y":0,"x":0,"width":166,"visible":false,"name":"countDownBox","height":166},
@@ -579,7 +565,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,show_me_poker_box",
                             "props":{"y":224,"x":-228,"width":624,"name":"show_me_poker_box","height":210},
@@ -702,20 +687,18 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,show_me_sub_poker",
                             "props":{"y":224,"x":-166,"width":500,"visible":false,"name":"show_me_sub_poker","height":210},
                             "nodeParent":5,
                             "label":"show_me_sub_poker",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
                             "compId":1297,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,sub1",
                                     "props":{"y":0,"x":0,"width":240,"name":"sub1","height":210},
@@ -728,7 +711,6 @@
                                     "compId":1298,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,pokerBox",
                                             "props":{"y":0,"x":0,"width":156,"name":"pokerBox","height":210},
@@ -743,7 +725,6 @@
                                                 ]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,pokerBox",
                                             "props":{"y":0,"x":84,"width":156,"name":"pokerBox","height":210},
@@ -758,7 +739,6 @@
                                                 ]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Sprite",
                                             "searchKey":"Sprite,pointBox",
                                             "props":{"y":157,"x":63,"texture":"images/gameView/CardPrompt.png","name":"pointBox"},
@@ -786,7 +766,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,sub2",
                                     "props":{"y":0,"x":260,"width":240,"name":"sub2","height":210},
@@ -856,10 +835,48 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,gifBox",
+                            "props":{"zOrder":2,"y":0,"x":0,"visible":false,"top":0,"right":0,"name":"gifBox","left":0,"bottom":0},
+                            "nodeParent":5,
+                            "label":"gifBox",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":1799,
+                            "child":[
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,WIN",
+                                    "props":{"width":167,"visible":false,"top":0,"skin":"images/GIF/win/anim_youwin_bg.png","right":0,"pivotY":84,"pivotX":84,"name":"WIN","left":0,"height":167,"bottom":0},
+                                    "nodeParent":1799,
+                                    "label":"WIN",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1810,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,WIN_IMG",
+                                    "props":{"y":55,"x":36,"visible":false,"skin":"images/common/anim_youwinSeat.png","name":"WIN_IMG"},
+                                    "nodeParent":1799,
+                                    "label":"WIN_IMG",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1884,
+                                    "child":[
+                                        ]
+                                }]
+                        },
+                        {
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
-                            "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
+                            "props":{"zOrder":3,"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
                             "nodeParent":5,
                             "label":"xiuPokerBox",
                             "isOpen":false,
@@ -923,7 +940,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/GameCenter/seat.js",
@@ -940,47 +956,6 @@
                                 ]
                         },
                         {
-                            "x":45,
-                            "type":"Image",
-                            "searchKey":"Image,gifBox",
-                            "props":{"zOrder":2,"visible":false,"top":0,"right":0,"name":"gifBox","left":0,"bottom":0},
-                            "nodeParent":5,
-                            "label":"gifBox",
-                            "isOpen":false,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1799,
-                            "child":[
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,WIN",
-                                    "props":{"width":167,"visible":false,"top":0,"skin":"images/GIF/win/anim_youwin_bg.png","right":0,"pivotY":84,"pivotX":84,"name":"WIN","left":0,"height":167,"bottom":0},
-                                    "nodeParent":1799,
-                                    "label":"WIN",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1810,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,WIN_IMG",
-                                    "props":{"y":55,"x":36,"visible":false,"skin":"images/common/anim_youwinSeat.png","name":"WIN_IMG"},
-                                    "nodeParent":1799,
-                                    "label":"WIN_IMG",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1884,
-                                    "child":[
-                                        ]
-                                }]
-                        },
-                        {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,winScore",
                             "props":{"visible":false,"top":-50,"skin":"images/common/scoreBg.png","name":"winScore","centerX":0},
@@ -1007,7 +982,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,tipsBox",
                             "props":{"zOrder":3,"y":28,"x":150,"width":160,"pivotY":52,"pivotX":80,"name":"tipsBox","height":104},
@@ -1022,7 +996,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,liuzuoSign",
                             "props":{"zOrder":20,"width":147,"visible":false,"skin":"images/LiuZuo/l_sign.png","name":"liuzuoSign","height":88,"centerY":0,"centerX":0},
@@ -1037,7 +1010,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"centerY":360},
@@ -1063,32 +1035,31 @@
                             "child":[
                                 {
                                     "type":"Image",
-                                    "searchKey":"Image,headBorder",
-                                    "props":{"zOrder":2,"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBg"},
                                     "nodeParent":1109,
-                                    "label":"headBorder",
+                                    "label":"headBg",
                                     "isOpen":true,
-                                    "isDirectory":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1112,
+                                    "hasChild":true,
+                                    "compId":2019,
                                     "child":[
-                                        ],
-                                    "$HIDDEN":false
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,headImgBox",
-                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
-                                    "nodeParent":1109,
-                                    "label":"headImgBox",
-                                    "isOpen":true,
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1934,
-                                    "child":[
-                                        ],
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":148,"visible":true,"name":"head","height":148,"centerY":0,"centerX":0},
+                                            "nodeParent":2019,
+                                            "label":"head",
+                                            "isOpen":true,
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":2020,
+                                            "child":[
+                                                ],
+                                            "$HIDDEN":false
+                                        }],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
@@ -1474,7 +1445,7 @@
                             "props":{"y":224,"x":-228,"width":624,"name":"show_me_poker_box","height":210},
                             "nodeParent":25,
                             "label":"show_me_poker_box",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -1593,7 +1564,7 @@
                             "props":{"y":135,"x":110,"width":0,"name":"deal_cards_seat34","height":0},
                             "nodeParent":25,
                             "label":"deal_cards_seat34",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -1777,9 +1748,48 @@
                             "$HIDDEN":true
                         },
                         {
+                            "type":"Image",
+                            "searchKey":"Image,gifBox",
+                            "props":{"zOrder":2,"y":0,"x":0,"visible":false,"top":0,"right":0,"name":"gifBox","left":0,"bottom":0},
+                            "nodeParent":25,
+                            "label":"gifBox",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":1800,
+                            "child":[
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,WIN",
+                                    "props":{"y":0,"x":0,"width":167,"visible":false,"top":0,"skin":"images/GIF/win/anim_youwin_bg.png","right":0,"pivotY":84,"pivotX":84,"name":"WIN","left":0,"height":167,"bottom":0},
+                                    "nodeParent":1800,
+                                    "label":"WIN",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1811,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,WIN_IMG",
+                                    "props":{"y":55,"x":36,"visible":false,"skin":"images/common/anim_youwinSeat.png","name":"WIN_IMG"},
+                                    "nodeParent":1800,
+                                    "label":"WIN_IMG",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":1885,
+                                    "child":[
+                                        ]
+                                }]
+                        },
+                        {
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
-                            "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
+                            "props":{"zOrder":3,"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
                             "nodeParent":25,
                             "label":"xiuPokerBox",
                             "isOpen":false,
@@ -1859,45 +1869,6 @@
                         },
                         {
                             "type":"Image",
-                            "searchKey":"Image,gifBox",
-                            "props":{"zOrder":2,"y":0,"x":0,"visible":false,"top":0,"right":0,"name":"gifBox","left":0,"bottom":0},
-                            "nodeParent":25,
-                            "label":"gifBox",
-                            "isOpen":true,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1800,
-                            "child":[
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,WIN",
-                                    "props":{"y":0,"x":0,"width":167,"visible":false,"top":0,"skin":"images/GIF/win/anim_youwin_bg.png","right":0,"pivotY":84,"pivotX":84,"name":"WIN","left":0,"height":167,"bottom":0},
-                                    "nodeParent":1800,
-                                    "label":"WIN",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1811,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,WIN_IMG",
-                                    "props":{"y":55,"x":36,"visible":false,"skin":"images/common/anim_youwinSeat.png","name":"WIN_IMG"},
-                                    "nodeParent":1800,
-                                    "label":"WIN_IMG",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1885,
-                                    "child":[
-                                        ]
-                                }]
-                        },
-                        {
-                            "type":"Image",
                             "searchKey":"Image,winScore",
                             "props":{"y":0,"x":0,"visible":false,"top":-50,"skin":"images/common/scoreBg.png","name":"winScore","centerX":0},
                             "nodeParent":25,
@@ -1950,7 +1921,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-3",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-3","left":45,"height":167,"centerY":-95},
@@ -1976,32 +1946,31 @@
                             "child":[
                                 {
                                     "type":"Image",
-                                    "searchKey":"Image,headBorder",
-                                    "props":{"zOrder":2,"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBg"},
                                     "nodeParent":1121,
-                                    "label":"headBorder",
+                                    "label":"headBg",
                                     "isOpen":true,
-                                    "isDirectory":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1125,
+                                    "hasChild":true,
+                                    "compId":2021,
                                     "child":[
-                                        ],
-                                    "$HIDDEN":false
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,headImgBox",
-                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
-                                    "nodeParent":1121,
-                                    "label":"headImgBox",
-                                    "isOpen":true,
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1935,
-                                    "child":[
-                                        ],
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":148,"visible":true,"name":"head","height":148,"centerY":0,"centerX":0},
+                                            "nodeParent":2021,
+                                            "label":"head",
+                                            "isOpen":true,
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":2022,
+                                            "child":[
+                                                ],
+                                            "$HIDDEN":false
+                                        }],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
@@ -2687,7 +2656,7 @@
                         {
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
-                            "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
+                            "props":{"zOrder":3,"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
                             "nodeParent":26,
                             "label":"xiuPokerBox",
                             "isOpen":false,
@@ -2858,7 +2827,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167,"centerY":-552},
@@ -2876,7 +2844,7 @@
                             "props":{"y":0,"x":-5,"width":176,"visible":false,"name":"head-box","height":164},
                             "nodeParent":27,
                             "label":"head-box",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -2884,32 +2852,31 @@
                             "child":[
                                 {
                                     "type":"Image",
-                                    "searchKey":"Image,headBorder",
-                                    "props":{"zOrder":2,"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBg"},
                                     "nodeParent":1133,
-                                    "label":"headBorder",
+                                    "label":"headBg",
                                     "isOpen":true,
-                                    "isDirectory":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1137,
+                                    "hasChild":true,
+                                    "compId":2023,
                                     "child":[
-                                        ],
-                                    "$HIDDEN":false
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,headImgBox",
-                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
-                                    "nodeParent":1133,
-                                    "label":"headImgBox",
-                                    "isOpen":true,
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1936,
-                                    "child":[
-                                        ],
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":148,"visible":true,"name":"head","height":148,"centerY":0,"centerX":0},
+                                            "nodeParent":2023,
+                                            "label":"head",
+                                            "isOpen":true,
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":2024,
+                                            "child":[
+                                                ],
+                                            "$HIDDEN":false
+                                        }],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
@@ -3595,7 +3562,7 @@
                         {
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
-                            "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
+                            "props":{"zOrder":3,"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
                             "nodeParent":27,
                             "label":"xiuPokerBox",
                             "isOpen":false,
@@ -3766,7 +3733,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-5",
                     "props":{"zOrder":1,"x":621,"width":167,"top":130,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-5","height":167},
@@ -3792,32 +3758,31 @@
                             "child":[
                                 {
                                     "type":"Image",
-                                    "searchKey":"Image,headBorder",
-                                    "props":{"zOrder":2,"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBg"},
                                     "nodeParent":1145,
-                                    "label":"headBorder",
+                                    "label":"headBg",
                                     "isOpen":true,
-                                    "isDirectory":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1149,
+                                    "hasChild":true,
+                                    "compId":2025,
                                     "child":[
-                                        ],
-                                    "$HIDDEN":false
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,headImgBox",
-                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
-                                    "nodeParent":1145,
-                                    "label":"headImgBox",
-                                    "isOpen":true,
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1937,
-                                    "child":[
-                                        ],
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":148,"visible":true,"name":"head","height":148,"centerY":0,"centerX":0},
+                                            "nodeParent":2025,
+                                            "label":"head",
+                                            "isOpen":true,
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":2026,
+                                            "child":[
+                                                ],
+                                            "$HIDDEN":false
+                                        }],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
@@ -4503,7 +4468,7 @@
                         {
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
-                            "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
+                            "props":{"zOrder":3,"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
                             "nodeParent":28,
                             "label":"xiuPokerBox",
                             "isOpen":false,
@@ -4674,7 +4639,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167,"centerY":-552},
@@ -4700,32 +4664,31 @@
                             "child":[
                                 {
                                     "type":"Image",
-                                    "searchKey":"Image,headBorder",
-                                    "props":{"zOrder":2,"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBg"},
                                     "nodeParent":1157,
-                                    "label":"headBorder",
+                                    "label":"headBg",
                                     "isOpen":true,
-                                    "isDirectory":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1161,
+                                    "hasChild":true,
+                                    "compId":2027,
                                     "child":[
-                                        ],
-                                    "$HIDDEN":false
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,headImgBox",
-                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
-                                    "nodeParent":1157,
-                                    "label":"headImgBox",
-                                    "isOpen":true,
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1938,
-                                    "child":[
-                                        ],
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":148,"visible":true,"name":"head","height":148,"centerY":0,"centerX":0},
+                                            "nodeParent":2027,
+                                            "label":"head",
+                                            "isOpen":true,
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":2028,
+                                            "child":[
+                                                ],
+                                            "$HIDDEN":false
+                                        }],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
@@ -5411,7 +5374,7 @@
                         {
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
-                            "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
+                            "props":{"zOrder":3,"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
                             "nodeParent":29,
                             "label":"xiuPokerBox",
                             "isOpen":false,
@@ -5582,7 +5545,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-7",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-7","height":167,"centerY":-95},
@@ -5608,32 +5570,31 @@
                             "child":[
                                 {
                                     "type":"Image",
-                                    "searchKey":"Image,headBorder",
-                                    "props":{"zOrder":2,"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBg"},
                                     "nodeParent":1169,
-                                    "label":"headBorder",
+                                    "label":"headBg",
                                     "isOpen":true,
-                                    "isDirectory":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1173,
+                                    "hasChild":true,
+                                    "compId":2029,
                                     "child":[
-                                        ],
-                                    "$HIDDEN":false
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,headImgBox",
-                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
-                                    "nodeParent":1169,
-                                    "label":"headImgBox",
-                                    "isOpen":true,
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1939,
-                                    "child":[
-                                        ],
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":148,"visible":true,"name":"head","height":148,"centerY":0,"centerX":0},
+                                            "nodeParent":2029,
+                                            "label":"head",
+                                            "isOpen":true,
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":2030,
+                                            "child":[
+                                                ],
+                                            "$HIDDEN":false
+                                        }],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
@@ -6319,7 +6280,7 @@
                         {
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
-                            "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
+                            "props":{"zOrder":3,"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
                             "nodeParent":30,
                             "label":"xiuPokerBox",
                             "isOpen":false,
@@ -6490,13 +6451,12 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"centerY":360},
                     "nodeParent":3,
                     "label":"empty-seat-8",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -6516,32 +6476,31 @@
                             "child":[
                                 {
                                     "type":"Image",
-                                    "searchKey":"Image,headBorder",
-                                    "props":{"zOrder":2,"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBorder"},
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":-2,"x":4,"skin":"images/common/iconKuang1.png","name":"headBg"},
                                     "nodeParent":1181,
-                                    "label":"headBorder",
+                                    "label":"headBg",
                                     "isOpen":true,
-                                    "isDirectory":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1185,
+                                    "hasChild":true,
+                                    "compId":2031,
                                     "child":[
-                                        ],
-                                    "$HIDDEN":false
-                                },
-                                {
-                                    "type":"Image",
-                                    "searchKey":"Image,headImgBox",
-                                    "props":{"y":9,"x":15,"width":145,"visible":true,"name":"headImgBox","height":145},
-                                    "nodeParent":1181,
-                                    "label":"headImgBox",
-                                    "isOpen":true,
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1940,
-                                    "child":[
-                                        ],
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":148,"visible":true,"name":"head","height":148,"centerY":0,"centerX":0},
+                                            "nodeParent":2031,
+                                            "label":"head",
+                                            "isOpen":true,
+                                            "isDirectory":false,
+                                            "isAniNode":true,
+                                            "hasChild":false,
+                                            "compId":2032,
+                                            "child":[
+                                                ],
+                                            "$HIDDEN":false
+                                        }],
                                     "$HIDDEN":false
                                 }],
                             "$HIDDEN":false
@@ -7227,7 +7186,7 @@
                         {
                             "type":"Sprite",
                             "searchKey":"Sprite,xiuPokerBox",
-                            "props":{"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
+                            "props":{"zOrder":3,"y":28,"x":-3,"width":173,"visible":false,"name":"xiuPokerBox","height":111},
                             "nodeParent":31,
                             "label":"xiuPokerBox",
                             "isOpen":false,
@@ -7398,7 +7357,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,deskBg,deskBg",
                     "props":{"var":"deskBg","top":0,"skin":"images/gameView/newDesk.png","right":0,"name":"deskBg","left":0,"bottom":0},
@@ -9198,13 +9156,14 @@
                     "props":{"y":-920,"x":72,"var":"PlayerNews_dialog","skin":"images/PersonNews2/news_bg.png","name":"PlayerNews"},
                     "nodeParent":913,
                     "label":"PlayerNews",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":1855,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_title",
                             "props":{"y":80,"x":422,"skin":"images/PersonNews2/news_title.png","name":"news_title"},
@@ -9219,6 +9178,7 @@
                             "$LOCKED":true
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_close",
                             "props":{"y":70,"x":969,"skin":"images/PersonNews2/news_close.png","name":"news_close"},
@@ -9233,6 +9193,7 @@
                             "$LOCKED":true
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_head_box",
                             "props":{"y":190,"x":119,"width":275,"skin":"images/PersonNews2/news_head.png","name":"news_head_box","height":275},
@@ -9245,11 +9206,12 @@
                             "compId":1858,
                             "child":[
                                 {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,news_head",
-                                    "props":{"y":0,"x":0,"width":275,"texture":"images/gameData/defaultIcon.png","name":"news_head","height":275},
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,headBg",
+                                    "props":{"y":0,"x":0,"width":275,"name":"headBg","height":275},
                                     "nodeParent":1858,
-                                    "label":"news_head",
+                                    "label":"headBg",
                                     "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
@@ -9257,22 +9219,23 @@
                                     "compId":1860,
                                     "child":[
                                         {
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite",
-                                            "props":{"width":275,"renderType":"mask","height":275},
+                                            "x":75,
+                                            "type":"Image",
+                                            "searchKey":"Image,head",
+                                            "props":{"width":260,"name":"head","height":260,"centerY":0,"centerX":0},
                                             "nodeParent":1860,
-                                            "label":"Sprite",
-                                            "isOpen":true,
+                                            "label":"head",
                                             "isDirectory":false,
                                             "isAniNode":true,
                                             "hasChild":false,
-                                            "compId":1861,
+                                            "compId":2033,
                                             "child":[
                                                 ]
                                         }]
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_box",
                             "props":{"y":258,"x":463,"width":556,"name":"news_box","height":177},
@@ -9365,6 +9328,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_alljs",
                             "props":{"y":538,"x":152,"skin":"images/PersonNews2/news_totaljs.png","name":"news_alljs"},
@@ -9392,6 +9356,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_fanpairate",
                             "props":{"y":538,"x":610,"skin":"images/PersonNews2/news_fanpairate.png","name":"news_fanpairate"},
@@ -9419,6 +9384,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_allss",
                             "props":{"y":633,"x":152,"skin":"images/PersonNews2/news_totalss.png","name":"news_allss"},
@@ -9446,6 +9412,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_fanpaiwinrate",
                             "props":{"y":633,"x":610,"skin":"images/PersonNews2/news_fanpaiwinrate.png","name":"news_fanpaiwinrate"},
@@ -9473,6 +9440,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_winss",
                             "props":{"y":723,"x":152,"skin":"images/PersonNews2/news_winss.png","name":"news_winss"},
@@ -9500,6 +9468,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_allwinrate",
                             "props":{"y":724,"x":610,"skin":"images/PersonNews2/news_allwinrate.png","name":"news_allwinrate"},
@@ -9512,6 +9481,7 @@
                             "compId":1880,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Text",
                                     "searchKey":"Text,news_allwinrate_value",
                                     "props":{"y":4,"x":195,"name":"news_allwinrate_value","fontSize":48,"color":"#FCE08D","bold":false},
@@ -9527,7 +9497,7 @@
                                 }]
                         }],
                     "$LOCKED":true,
-                    "$HIDDEN":true
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,

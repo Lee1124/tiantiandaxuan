@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":98,
+    "selectedBox":95,
+    "selecteID":133,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/roomEnd/roomEndUI.js","height":2208},
     "nodeParent":-1,
-    "maxID":133,
+    "maxID":134,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -239,33 +239,18 @@
                                     "child":[
                                         {
                                             "x":75,
-                                            "type":"Sprite",
-                                            "searchKey":"Sprite,e_head,e_head",
-                                            "props":{"y":0,"x":0,"width":154,"var":"e_head","name":"e_head","height":154},
+                                            "type":"Image",
+                                            "searchKey":"Image,head,e_head",
+                                            "props":{"width":148,"var":"e_head","name":"head","height":148,"centerY":0,"centerX":0},
                                             "nodeParent":95,
-                                            "label":"e_head",
+                                            "label":"head",
                                             "isOpen":true,
-                                            "isDirectory":true,
+                                            "isDirectory":false,
                                             "isAniNode":true,
-                                            "hasChild":true,
-                                            "compId":96,
+                                            "hasChild":false,
+                                            "compId":133,
                                             "child":[
-                                                {
-                                                    "x":90,
-                                                    "type":"Sprite",
-                                                    "searchKey":"Sprite",
-                                                    "props":{"y":0,"x":1,"width":154,"renderType":"mask","height":154},
-                                                    "nodeParent":96,
-                                                    "label":"Sprite",
-                                                    "isOpen":true,
-                                                    "isDirectory":false,
-                                                    "isAniNode":true,
-                                                    "hasChild":false,
-                                                    "compId":97,
-                                                    "child":[
-                                                        ],
-                                                    "$HIDDEN":true
-                                                }]
+                                                ]
                                         }]
                                 },
                                 {

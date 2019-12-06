@@ -1,5 +1,6 @@
 import Main from '../../common/Main';
 import HTTP from '../../common/HttpRequest';
+import dropDownReload from '../../common/dropDownReload'
 // import TabPagesUI from '../TabPages/TabPagesUI'
 export default class GameHall extends Laya.Script {
     constructor() {
@@ -28,7 +29,6 @@ export default class GameHall extends Laya.Script {
     }
     onStart() {
         // Main.$LOG('onStart', this.UI.pageData)
-
         // this.openGameView();
     }
 
@@ -80,12 +80,57 @@ export default class GameHall extends Laya.Script {
      */
     setPage1Data(data) {
         let page1List = this.UI.gameHall_page1_list;
+        // page1List.top=100;
+        // let hallListHeight=page1List.height;
         page1List.vScrollBarSkin = "";
         page1List.array = data;
         page1List.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
         page1List.mouseHandler = new Laya.Handler(this, this.rowOnClick);
+        // page1List.on(Laya.Event.MOUSE_DOWN,this,()=>{
+        //     console.log('鼠标按下---事件')
+        // })
+        // page1List.on(Laya.Event.MOUSE_MOVE,this,(e)=>{
+        //     console.log('鼠标移动===事件',e.target.scrollBar.value)
+        // })
+        this.watchListMove(page1List);
+        // page1List.on(Laya.Event.MOUSE_UP, this, (e) => {
+        //     // console.log('鼠标抬起===事件',e.target.top)
+        //     // e.target.top=100;
+        //     // page1List.off(Laya.Event.MOUSE_MOVE);
+        // })
         page1List.visible = true;
+        // setTimeout(() => {
+        //     page1List.scrollBar.changeHandler = new Laya.Handler(this, (val) => {
+        //         console.log('进来啦', val)
+        //         // page1List.scrollBar.y = -100;
+        //         // if (val <= -100) {
+                    
+        //         //     page1List.scrollBar.value = -100;
+        //         // }
+        //     })
+        // })
     }
+
+    /**
+     * 监听列表下拉事件
+     * @param {*} list 列表
+     */
+    watchListMove(list) {
+        let listJS = list.getComponent(dropDownReload);
+        listJS.initCall(this, (val, fn) => {
+            // console.log(val)
+            // this.callFn = fn;
+            setTimeout(() => {
+                this.selectThisTab(this.UI.hall_nav_bg._children[this._selectNavType], this._selectNavType);//默认选择第一项
+            }, 500);
+        });
+    }
+
+    // reloadEndFn() {
+    //     if (this.callFn)
+    //         this.callFn();
+    // }
+
     page1ListOnRender(cell, index) {
         let contentBg = cell.getChildByName("content_bg");
         let roomId = contentBg.getChildByName("roomID").getChildByName("value");
@@ -124,10 +169,13 @@ export default class GameHall extends Laya.Script {
                 roomPws: Event.target.dataSource.roomPws,
                 page: Main.pages.page3
             }
-            Main.showLoading(true,Main.loadingType.three,'正在进入房间...');
+            Main.showLoading(true, Main.loadingType.three, '正在进入房间...');
             Main.$openScene('cheXuanGame_8.scene', true, data, () => {
-                Main.showLoading(false,Main.loadingType.three,'');
+                Main.showLoading(false, Main.loadingType.three, '');
             });
+        } else if (Event.type == 'mouseout') {
+            // let list=Event.target;
+            // list.top=100;
         }
     }
 
@@ -174,13 +222,13 @@ export default class GameHall extends Laya.Script {
     openGameView() {
         let data = this.UI.pageData;
         if (data.roomPws && data.roomPws > 0) {
-            Main.showLoading(true,Main.loadingType.three,'正在进入房间...');
+            Main.showLoading(true, Main.loadingType.three, '正在进入房间...');
             let pageData = {
                 roomPws: data.roomPws,
                 page: Main.pages.page3
             }
             Main.$openScene('cheXuanGame_8.scene', true, pageData, () => {
-                Main.showLoading(false,Main.loadingType.three,'');
+                Main.showLoading(false, Main.loadingType.three, '');
             })
         }
     }

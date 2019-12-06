@@ -63,6 +63,8 @@ P 5B2453D3 handle_4_2_0.png
 P BE2B5568 handle_4_2_1.png
 D images/common
 P D0B25224 anim_youwinSeat.png
+P A8728439 back.png
+P 55429C6B defaultHead.png
 P 64EDC66C delayTime.png
 P A1B31BBE HeadIcon.png
 P EE4E134A iconKuang1.png
@@ -129,6 +131,7 @@ R 6EAF53FF e_title.png
 R 030E58B6 e_title1.png
 R A1C3672B e_title2.png
 D images/GameSet
+P 5D48D97D 4.png
 P 407752AB desk1.png
 P A96DDDEA desk2.png
 P 02862EA3 desk_bg.png
@@ -139,7 +142,14 @@ P 73AAE269 gameSet_label2.png
 P 306F9DD8 gameSet_label3.png
 P E36B780E gameSet_selectedBox.png
 P 6338F587 gameSet_title.png
+P 2E7E268D head_selected.png
 R B67A7703 logo.png
+P A19B07C4 set_bg.png
+R F882FD69 set_confrim.png
+P 8D2C5B36 set_head_big.png
+P A71DFB3A set_head_small.png
+P 712EEFCE set_nameInput.png
+P CD221A08 set_sexView.png
 P D22D26FB switch0.png
 P 56BFF689 switch1.png
 P FC60CAC4 switch_bg.png
@@ -221,13 +231,12 @@ P E3C95F64 l_title.png
 P 1CDAB09D l_yes.png
 D images/login
 P 7589B868 changePwd.png
-S C939FEB3 login_bg.png
+S 9254AFB9 login_bg.png
 R DF67562C login_btn.png
 R 90A66BE9 login_line.png
 R 4E41E3F1 logo.png
 R B87D2B03 register_btn.png
 R 18AF3A51 tip_text.png
-S 70B8409A 效果图.jpg
 D images/myPaiJu
 R 16DE2E34 1.png
 R 1F997296 3.png

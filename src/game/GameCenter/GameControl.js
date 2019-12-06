@@ -699,11 +699,16 @@ export default class GameControl extends Laya.Script {
         //     })
         // }
         // console.log('测试进了')
-        Main.DiaLog('啊哈哈哈哈', 2, (res) => {
-            console.log('确认回调')
-        }, (res2) => {
-            console.log('取消回调')
-        }, '#FF0000');
+        // Main.showDiaLog('啊哈哈哈哈1', 1, (res) => {
+        //     console.log('确认回调')
+        // }, (res2) => {
+        //     console.log('取消回调')
+        // }, '#FF0000');
+        // Main.showDiaLog('啊哈哈哈哈2', 2, (res) => {
+        //     console.log('确认回调')
+        // }, (res2) => {
+        //     console.log('取消回调')
+        // }, '#FF0000');
         // Main.DiaLog(null,1,'啊哈哈哈哈',(res)=>{
         //     console.log('确认回调')
         // },(res2)=>{

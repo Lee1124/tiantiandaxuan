@@ -78,7 +78,8 @@ export default class login extends Laya.Script {
                             pwd: pwd,
                             userId: res.data.userId,
                             key: res.data.key,
-                            inRoomPws: res.data.inRoomPws
+                            inRoomPws: res.data.inRoomPws,
+                            init:res.data.init
                         }
                         this.changeMainUserInfo(data);
                         this.dealWithLoginedView(data);
@@ -111,17 +112,34 @@ export default class login extends Laya.Script {
             roomPws: data.inRoomPws,
             page: Main.pages.page3
         }
-        Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
-            Main.showLoading(false);
-            clearTimeout(this.loadTimeID);
-            this.flag = true;
-        }), Laya.Handler.create(this, () => {
-            this.loadTimeID = setTimeout(() => {
+        if(data.init){
+            Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
                 Main.showLoading(false);
-                Main.$LOG('加载超时！');
                 clearTimeout(this.loadTimeID);
-            }, 10000)
-        }))
+                this.flag = true;
+            }), Laya.Handler.create(this, () => {
+                this.loadTimeID = setTimeout(() => {
+                    Main.showLoading(false);
+                    Main.$LOG('加载超时！');
+                    clearTimeout(this.loadTimeID);
+                }, 10000)
+            }))
+        }else{
+            let openData={
+                page:'login.scene',
+                userId:data.userId
+            }
+            Main.$openScene('playerNewsSet.scene',false,openData,(res)=>{
+                res.x = Laya.stage.width;
+                res.zOrder=10;
+                Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
+                    Main.showLoading(false);
+                    clearTimeout(this.loadTimeID);
+                    this.flag = true;
+                    // this.owner.removeSelf();
+                }));
+            })
+        }
     }
 
     /**

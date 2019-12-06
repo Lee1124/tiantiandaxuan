@@ -62,7 +62,7 @@ export default class Notice extends Laya.Script {
             that:this,
             url:'/M.Lobby/Popularize/GetNoticeData',
             data:{
-                userId:Main.userInfo.userId
+                uid:Main.userInfo.userId
             },
             success(res){
                 Main.$LOG('获取公告数据:',res);

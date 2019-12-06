@@ -89,7 +89,8 @@ export default class Me extends Laya.Script {
     }
 
     setPageData(data){
-        Main.$LoadImage(this.UI.userHeadImg,data.head,Main.defaultImg.one);
+        let headUrl='res/img/head/'+data.head+'.png';
+        Main.$LoadImage(this.UI.headUrl,headUrl,Main.defaultImg.one);
         this.UI.userNameValue.text=data.nick;
         this.UI.userIDValue.text=data.userId;
         this.UI.userScoreValue.text=data.score;

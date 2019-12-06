@@ -41,7 +41,7 @@ class PlayerNews {
         })
     }
     setPage(that, data) {
-        let head = this.showObj.getChildByName("news_head_box").getChildByName("news_head");
+        let head = this.showObj.getChildByName("news_head_box").getChildByName("headBg").getChildByName("head");
         let name = this.showObj.getChildByName("news_box").getChildByName("news_name");
         let sex_0 = name.getChildByName("news_sex").getChildByName("sex0");
         let sex_1 = name.getChildByName("news_sex").getChildByName("sex1");
@@ -52,7 +52,8 @@ class PlayerNews {
         let fanpaiwinrate = this.showObj.getChildByName("news_fanpaiwinrate").getChildByName("news_fanpaiwinrate_value");
         let winss = this.showObj.getChildByName("news_winss").getChildByName("news_winss_value");
         let allwinrate = this.showObj.getChildByName("news_allwinrate").getChildByName("news_allwinrate_value");
-        Main.$LoadImage(head, data.head);
+        let headUrl='res/img/head/'+data.head+'.png';
+        Main.$LoadImage(head, headUrl,Main.defaultImg.one,'skin');
         name.text = data.name;
         name.getChildByName("news_sex").left = name.textWidth;
         sex_0.visible = data.sex == 0 ? true : false;

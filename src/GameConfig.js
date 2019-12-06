@@ -16,6 +16,8 @@ import paijuhuiguUI from "./game/pages/paijuhuigu/paijuhuiguUI"
 import paiJuGet from "./game/pages/paijuhuigu/paiJuGet"
 import paijutishiUI from "./game/pages/paijutishi/paijutishiUI"
 import tishi from "./game/pages/paijutishi/tishi"
+import playerNewsSetUI from "./game/pages/playerNewsSet/playerNewsSetUI"
+import playerNewsSet from "./game/pages/playerNewsSet/playerNewsSet"
 import registerUI from "./game/pages/register/registerUI"
 import register from "./game/pages/register/register"
 import shishizhanjiUI from "./game/pages/shishizhanji/shishizhanjiUI"
@@ -25,6 +27,7 @@ import shopMall from "./game/pages/shopMall/shopMall"
 import TabPagesUI from "./game/pages/TabPages/TabPagesUI"
 import Me from "./game/pages/Me/Me"
 import Notice from "./game/pages/Notice/Notice"
+import dropDownReload from "./game/common/dropDownReload"
 import GameHall from "./game/pages/GameHall/GameHall"
 import Data from "./game/pages/Data/Data"
 
@@ -49,6 +52,8 @@ export default class GameConfig {
 		reg("game/pages/paijuhuigu/paiJuGet.js",paiJuGet);
 		reg("game/pages/paijutishi/paijutishiUI.js",paijutishiUI);
 		reg("game/pages/paijutishi/tishi.js",tishi);
+		reg("game/pages/playerNewsSet/playerNewsSetUI.js",playerNewsSetUI);
+		reg("game/pages/playerNewsSet/playerNewsSet.js",playerNewsSet);
 		reg("game/pages/register/registerUI.js",registerUI);
 		reg("game/pages/register/register.js",register);
 		reg("game/pages/shishizhanji/shishizhanjiUI.js",shishizhanjiUI);
@@ -58,6 +63,7 @@ export default class GameConfig {
 		reg("game/pages/TabPages/TabPagesUI.js",TabPagesUI);
 		reg("game/pages/Me/Me.js",Me);
 		reg("game/pages/Notice/Notice.js",Notice);
+		reg("game/common/dropDownReload.js",dropDownReload);
 		reg("game/pages/GameHall/GameHall.js",GameHall);
 		reg("game/pages/Data/Data.js",Data);
     }

@@ -143,7 +143,7 @@ export default class seat extends Laya.Script {
         PlyerNews.GetNews(true, data);
     }
 
-    setMeMakeBOBO(){
+    setMeMakeBOBO() {
         MakeBOBO.close();
     }
     /**
@@ -154,10 +154,11 @@ export default class seat extends Laya.Script {
     playerSeatDownOrSeatAtCommon(isShow, data, isUpdate) {
         Laya.timer.clear(this, this.palyerSeatAtTime);
         let headBox = this.owner.getChildByName("head-box");
-        let headImg = headBox.getChildByName("headImgBox");
+        let headUrl = headBox.getChildByName("headBg").getChildByName("head");
         let name = this.owner.getChildByName("name");
         headBox.visible = true;
-        Main.$LoadImage(headImg, Main.defaultImg.one, Main.defaultImg.one, 'skin');
+        let head = 'res/img/head/' + data.head + '.png';
+        Main.$LoadImage(headUrl, head, Main.defaultImg.one, 'skin');
         this.owner.userId = data.userId;
         if (data.userId == GameControl.instance.userId) {
             name.text = '';
@@ -179,13 +180,13 @@ export default class seat extends Laya.Script {
     playerSeatUpSetContent(data) {
         this.playerSeatUpOffEvent();
         let headBox = this.owner.getChildByName("head-box");
-        let headImg = headBox.getChildByName("headImgBox");
+        let headUrl = headBox.getChildByName("headBg").getChildByName("head");
         let scoreBox = this.owner.getChildByName("score");
         let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
         let name = this.owner.getChildByName("name");
         headBox.visible = false;
         scoreBox.visible = false;
-        headImg.skin = '';
+        headUrl.skin = '';
         scoreVal.text = '';
         this.owner.userId = '';
         if (data.userid == GameControl.instance.userId) {

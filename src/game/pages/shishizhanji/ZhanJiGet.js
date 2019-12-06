@@ -109,8 +109,9 @@ export default class zhanji extends Laya.Script {
 
     list2OnRender(cell, index) {
         let name = cell.getChildByName("name");
-        let head = cell.getChildByName("headImg");
-        Main.$LoadImage(head, cell.dataSource.head, Main.defaultImg.one, 'skin');
+        let head = cell.getChildByName("headBg").getChildByName("head");
+        let headUrl = 'res/img/head/' + cell.dataSource.head + '.png';
+        Main.$LoadImage(head, headUrl, Main.defaultImg.one, 'skin');
         name.text = cell.dataSource.nick;
     }
 }

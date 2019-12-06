@@ -139,7 +139,6 @@ export default class register extends Laya.Script {
 
     back() {
         Laya.Scene.open('login.scene', false, Main.sign.signOut, Laya.Handler.create(this, (res) => {
-            this.showHideNode(false);
             Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
                 this.owner.removeSelf();
             }))

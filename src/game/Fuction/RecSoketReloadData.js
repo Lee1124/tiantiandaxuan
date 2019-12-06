@@ -62,7 +62,7 @@ class RecSoketReloadData {
            playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
 
             let headBox = playerSeat.getChildByName("head-box");
-            let headImg = headBox.getChildByName("headImgBox");
+            let headImg = headBox.getChildByName("headBg").getChildByName("head");
             let xiaZhuScore = playerSeat.getChildByName("xiaZhuScore");
             let deal_cards_seat = playerSeat.getChildByName("deal_cards_seat");
             let deal_cards_seat34 = playerSeat.getChildByName("deal_cards_seat34");

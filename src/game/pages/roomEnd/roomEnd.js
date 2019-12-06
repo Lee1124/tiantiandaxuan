@@ -39,7 +39,7 @@ export default class roomEnd extends Laya.Script {
         this.owner.e_name.text=data.nick;
         this.owner.e_userId.text='['+data.userId+']';
         this.owner.e_timeLong.text = Main.secondToDate(data.roomTime);
-        Main.$LoadImage(this.owner.e_head,data.head);
+        Main.$LoadImage(this.owner.e_head,'res/img/head/'+data.head+'.png',Main.defaultImg.one,'skin');
         this.owner.e_ct2_name.text=data.nick;
         this.owner.e_ct2_ID.text=data.userId;
         this.owner.e_score.text=data.self_sf;

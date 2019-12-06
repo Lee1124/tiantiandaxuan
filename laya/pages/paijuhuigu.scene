@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":173,
-    "selecteID":230,
+    "selectedBox":181,
+    "selecteID":231,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/paijuhuigu/paijuhuiguUI.js","height":2208},
     "nodeParent":-1,
-    "maxID":231,
+    "maxID":232,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -101,77 +101,68 @@
                                     "props":{"y":0,"x":0,"visible":false,"var":"paiJuList","top":0,"right":0,"repeatX":1,"name":"paiJuList","left":0,"bottom":0},
                                     "nodeParent":177,
                                     "label":"paiJuList",
-                                    "isOpen":false,
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
                                     "compId":178,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,ListBox",
                                             "props":{"visible":false,"right":0,"renderType":"render","name":"ListBox","left":0,"height":238},
                                             "nodeParent":178,
                                             "label":"ListBox",
-                                            "isOpen":false,
+                                            "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":false,
                                             "hasChild":true,
                                             "compId":179,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,personNews",
                                                     "props":{"x":20,"width":180,"top":0,"name":"personNews","height":195,"bottom":0},
                                                     "nodeParent":179,
                                                     "label":"personNews",
-                                                    "isOpen":false,
+                                                    "isOpen":true,
                                                     "isDirectory":true,
                                                     "isAniNode":false,
                                                     "hasChild":true,
                                                     "compId":180,
                                                     "child":[
                                                         {
+                                                            "x":105,
                                                             "type":"Image",
-                                                            "searchKey":"Image,headBorder",
-                                                            "props":{"y":45,"x":8,"top":45,"skin":"images/paijuhuigu/p_head.png","name":"headBorder","centerX":0},
+                                                            "searchKey":"Image,headBg",
+                                                            "props":{"y":45,"x":8,"top":45,"skin":"images/paijuhuigu/p_head.png","name":"headBg","centerX":0},
                                                             "nodeParent":180,
-                                                            "label":"headBorder",
-                                                            "isDirectory":false,
-                                                            "isAniNode":false,
-                                                            "hasChild":false,
-                                                            "compId":181,
-                                                            "child":[
-                                                                ]
-                                                        },
-                                                        {
-                                                            "type":"Sprite",
-                                                            "searchKey":"Sprite,head",
-                                                            "props":{"y":45,"x":8,"width":164,"name":"head","height":164},
-                                                            "nodeParent":180,
-                                                            "label":"head",
+                                                            "label":"headBg",
                                                             "isOpen":true,
                                                             "isDirectory":true,
                                                             "isAniNode":false,
                                                             "hasChild":true,
-                                                            "compId":182,
+                                                            "compId":181,
                                                             "child":[
                                                                 {
-                                                                    "type":"Sprite",
-                                                                    "searchKey":"Sprite",
-                                                                    "props":{"y":0,"x":0,"width":164,"renderType":"mask","height":164},
-                                                                    "nodeParent":182,
-                                                                    "label":"Sprite",
-                                                                    "isOpen":true,
+                                                                    "x":120,
+                                                                    "type":"Image",
+                                                                    "searchKey":"Image,head",
+                                                                    "props":{"x":8,"width":154,"name":"head","height":154,"centerY":0,"centerX":0},
+                                                                    "nodeParent":181,
+                                                                    "label":"head",
                                                                     "isDirectory":false,
                                                                     "isAniNode":false,
                                                                     "hasChild":false,
-                                                                    "compId":183,
+                                                                    "compId":231,
                                                                     "child":[
                                                                         ]
                                                                 }]
                                                         },
                                                         {
+                                                            "x":105,
                                                             "type":"Sprite",
                                                             "searchKey":"Sprite,zt",
                                                             "props":{"y":167,"x":112.5,"width":85,"name":"zt","height":40},
@@ -186,6 +177,7 @@
                                                                 ]
                                                         },
                                                         {
+                                                            "x":105,
                                                             "type":"Sprite",
                                                             "searchKey":"Sprite,zhuang",
                                                             "props":{"y":162,"x":5,"visible":false,"texture":"images/paijuhuigu/p_zhuang.png","name":"zhuang"},
@@ -200,6 +192,7 @@
                                                                 ]
                                                         },
                                                         {
+                                                            "x":105,
                                                             "type":"Label",
                                                             "searchKey":"Label,name",
                                                             "props":{"y":10,"valign":"middle","text":"年后","right":0,"overflow":"hidden","name":"name","left":0,"height":30,"fontSize":30,"color":"#916014","bold":true,"align":"center"},
@@ -214,6 +207,7 @@
                                                         }]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,noSHPokerBox",
                                                     "props":{"visible":true,"top":0,"right":200,"name":"noSHPokerBox","left":220,"bottom":0},
@@ -226,6 +220,7 @@
                                                     "compId":188,
                                                     "child":[
                                                         {
+                                                            "x":105,
                                                             "type":"Image",
                                                             "searchKey":"Image,leftPoker",
                                                             "props":{"width":195,"top":0,"name":"leftPoker","height":195,"centerX":-120,"bottom":0},
@@ -238,6 +233,7 @@
                                                             "compId":189,
                                                             "child":[
                                                                 {
+                                                                    "x":120,
                                                                     "type":"Sprite",
                                                                     "searchKey":"Sprite,poker1",
                                                                     "props":{"y":40,"x":0,"width":123,"scaleY":0.8,"scaleX":0.8,"name":"poker1","height":163},
@@ -250,6 +246,7 @@
                                                                     "compId":190,
                                                                     "child":[
                                                                         {
+                                                                            "x":135,
                                                                             "type":"Image",
                                                                             "searchKey":"Image,showPokerSign",
                                                                             "props":{"y":0,"width":121,"visible":false,"skin":"images/effect/Card_Selected.png","name":"showPokerSign","left":0,"height":170},
@@ -264,6 +261,7 @@
                                                                             "$HIDDEN":false
                                                                         },
                                                                         {
+                                                                            "x":135,
                                                                             "type":"Image",
                                                                             "searchKey":"Image,sign",
                                                                             "props":{"visible":false,"skin":"images/paijuhuigu/p_heng.png","name":"sign","centerX":-1,"bottom":-20},
@@ -278,6 +276,7 @@
                                                                         }]
                                                                 },
                                                                 {
+                                                                    "x":120,
                                                                     "type":"Sprite",
                                                                     "searchKey":"Sprite,poker2",
                                                                     "props":{"y":40,"x":99,"width":123,"scaleY":0.8,"scaleX":0.8,"name":"poker2","height":163},
@@ -290,6 +289,7 @@
                                                                     "compId":193,
                                                                     "child":[
                                                                         {
+                                                                            "x":135,
                                                                             "type":"Image",
                                                                             "searchKey":"Image,showPokerSign",
                                                                             "props":{"y":0,"x":0,"width":121,"visible":false,"skin":"images/effect/Card_Selected.png","name":"showPokerSign","left":0,"height":170},
@@ -304,6 +304,7 @@
                                                                             "$HIDDEN":false
                                                                         },
                                                                         {
+                                                                            "x":135,
                                                                             "type":"Image",
                                                                             "searchKey":"Image,sign",
                                                                             "props":{"x":0,"visible":false,"skin":"images/paijuhuigu/p_heng.png","name":"sign","centerX":-1,"bottom":-20},
@@ -318,6 +319,7 @@
                                                                         }]
                                                                 },
                                                                 {
+                                                                    "x":120,
                                                                     "type":"Label",
                                                                     "searchKey":"Label,pointText",
                                                                     "props":{"visible":true,"valign":"middle","name":"pointText","height":38,"fontSize":38,"color":"#916014","centerX":0,"bottom":5,"align":"left"},
@@ -333,6 +335,7 @@
                                                                 }]
                                                         },
                                                         {
+                                                            "x":105,
                                                             "type":"Image",
                                                             "searchKey":"Image,rightPoker",
                                                             "props":{"y":0,"width":195,"top":0,"name":"rightPoker","centerX":120,"bottom":0},
@@ -414,6 +417,7 @@
                                                     "$HIDDEN":false
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,dataView",
                                                     "props":{"width":200,"top":0,"right":30,"name":"dataView","height":195,"bottom":0},
@@ -426,6 +430,7 @@
                                                     "compId":203,
                                                     "child":[
                                                         {
+                                                            "x":105,
                                                             "type":"Text",
                                                             "searchKey":"Text,getScore",
                                                             "props":{"y":130,"x":6,"width":194,"text":"0","name":"getScore","height":34,"fontSize":40,"color":"#51A97A","align":"right"},
@@ -439,6 +444,7 @@
                                                                 ]
                                                         },
                                                         {
+                                                            "x":105,
                                                             "type":"Label",
                                                             "searchKey":"Label,mangScore",
                                                             "props":{"top":80,"text":"0","right":0,"name":"mangScore","height":40,"fontSize":40,"color":"#935F13","align":"center"},
@@ -451,6 +457,7 @@
                                                             "compId":205,
                                                             "child":[
                                                                 {
+                                                                    "x":120,
                                                                     "type":"Image",
                                                                     "searchKey":"Image,label",
                                                                     "props":{"skin":"images/paijuhuigu/p_mang.png","name":"label","left":-84,"centerY":0},
@@ -466,6 +473,7 @@
                                                                 }]
                                                         },
                                                         {
+                                                            "x":105,
                                                             "type":"Label",
                                                             "searchKey":"Label,xiaZhu",
                                                             "props":{"text":"0","right":0,"name":"xiaZhu","height":40,"fontSize":40,"color":"#935F13","bottom":22,"align":"center"},
@@ -478,6 +486,7 @@
                                                             "compId":207,
                                                             "child":[
                                                                 {
+                                                                    "x":120,
                                                                     "type":"Image",
                                                                     "searchKey":"Image,label",
                                                                     "props":{"skin":"images/paijuhuigu/p_xiazhu.png","name":"label","left":-84,"centerY":0},
@@ -494,6 +503,7 @@
                                                         }]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,SHPokerBox",
                                                     "props":{"y":0,"x":0,"visible":false,"top":0,"right":200,"name":"SHPokerBox","left":220,"bottom":0},
@@ -604,6 +614,7 @@
                                                     "$HIDDEN":true
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,bottom_line",
                                                     "props":{"skin":"images/paijuhuigu/p_line.png","right":0,"name":"bottom_line","left":0,"bottom":0},

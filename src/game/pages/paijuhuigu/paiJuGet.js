@@ -72,8 +72,8 @@ export default class zhanji extends Laya.Script {
         } else {
             this.owner.preText.text -= 1;
             this.owner.preText.text = this.owner.preText.text < 1 ? 1 : this.owner.preText.text;
-            if(this._LIST.length==0){
-                this.owner.preText.text=0;
+            if (this._LIST.length == 0) {
+                this.owner.preText.text = 0;
             }
         }
         this.setList(this.owner.preText.text - 1);
@@ -89,7 +89,7 @@ export default class zhanji extends Laya.Script {
     }
 
     setList(index) {
-        let list=this.owner.paiJuList;
+        let list = this.owner.paiJuList;
         list.visible = true;
         list.vScrollBarSkin = "";//运用滚动
         list.array = this._LIST[index];
@@ -100,17 +100,18 @@ export default class zhanji extends Laya.Script {
         // console.log(cell)
         let personNews = cell.getChildByName("personNews");
         let name = personNews.getChildByName("name");
-        let head = personNews.getChildByName("head");
+        let head = personNews.getChildByName("headBg").getChildByName('head');
         let zt = personNews.getChildByName("zt");
         let zhuang = personNews.getChildByName("zhuang");
         name.text = cell.dataSource.name;
-        Main.$LoadImage(head, cell.dataSource.head, Main.defaultImg.one);
+        let headUrl = 'res/img/head/' + cell.dataSource.head + '.png';
+        Main.$LoadImage(head, headUrl, Main.defaultImg.one);
         zhuang.visible = cell.dataSource.zhuang;
-        if (cell.dataSource.opt==2) {
+        if (cell.dataSource.opt == 2) {
             zt.loadImage('res/img/common/status_1.png');
-        } else if(cell.dataSource.opt==1){
+        } else if (cell.dataSource.opt == 1) {
             zt.loadImage('res/img/common/status_0.png');
-        }else if(cell.dataSource.opt==0){
+        } else if (cell.dataSource.opt == 0) {
             zt.loadImage('');
         }
         let dataView = cell.getChildByName("dataView");
@@ -149,12 +150,12 @@ export default class zhanji extends Laya.Script {
         let right_pointText = rightPoker.getChildByName('pointText');
         if (cell.dataSource.pokers.length >= 3) {
             isSanHua = CountPoint.sanHuaPoker(cell.dataSource.pokers[0].poker, cell.dataSource.pokers[1].poker, cell.dataSource.pokers[2].poker);
-            if (cell.dataSource.opt==2 && !isSanHua) {
+            if (cell.dataSource.opt == 2 && !isSanHua) {
                 point1Text = CountPoint.countPoint(cell.dataSource.pokers[0].poker, cell.dataSource.pokers[1].poker);
                 point2Text = CountPoint.countPoint(cell.dataSource.pokers[2].poker, cell.dataSource.pokers[3].poker);
                 left_pointText.text = point1Text;
                 right_pointText.text = point2Text;
-            } else if (cell.dataSource.opt!=2) {
+            } else if (cell.dataSource.opt != 2) {
                 left_pointText.text = '';
                 right_pointText.text = '';
             }
@@ -188,8 +189,8 @@ export default class zhanji extends Laya.Script {
                     let diPaiSign = poker.getChildByName("sign");
                     poker.loadImage('res/img/poker/' + item.poker + '.png');
                     if (showPokerSign)
-                        showPokerSign.visible = cell.dataSource.opt==2 ? false : item.isShow;
-                    diPaiSign.visible = cell.dataSource.opt==2 ? item.isdipoker : false;
+                        showPokerSign.visible = cell.dataSource.opt == 2 ? false : item.isShow;
+                    diPaiSign.visible = cell.dataSource.opt == 2 ? item.isdipoker : false;
                     let poker4 = rightPoker.getChildByName('poker4');
                     if (cell.dataSource.pokers.length == 3)
                         poker4.loadImage('');

@@ -840,10 +840,10 @@
     class Main {
         constructor() {
             Main.instance = this;
-            // this.websoketApi = '192.168.0.125:8082';
-            // this.requestApi = 'http://192.168.0.125:8081';
-            this.websoketApi = '132.232.34.32:8082';
-            this.requestApi = 'http://132.232.34.32:8081';
+            this.websoketApi = '192.168.0.125:8082';
+            this.requestApi = 'http://192.168.0.125:8081';
+            // this.websoketApi = '132.232.34.32:8082';
+            // this.requestApi = 'http://132.232.34.32:8081';
             //手机信息
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
@@ -871,7 +871,8 @@
                 desk_bg1: 'res/img/gameView/desk_bg1.png',
                 desk_bg2: 'res/img/gameView/desk_bg2.png'
             };
-            this.loadScene = ['cheXuanGame_8.scene', 'register.scene', 'shishizhanji.scene', 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
+            this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene', 
+            'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
             this.allowGameHallSetInterval = false;
             this.allowRequesList = true;
             this.allowHideLoad = false;
@@ -2471,7 +2472,7 @@
                playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
 
                 let headBox = playerSeat.getChildByName("head-box");
-                let headImg = headBox.getChildByName("headImgBox");
+                let headImg = headBox.getChildByName("headBg").getChildByName("head");
                 let xiaZhuScore = playerSeat.getChildByName("xiaZhuScore");
                 let deal_cards_seat = playerSeat.getChildByName("deal_cards_seat");
                 let deal_cards_seat34 = playerSeat.getChildByName("deal_cards_seat34");
@@ -3197,11 +3198,16 @@
             //     })
             // }
             // console.log('测试进了')
-            Main$1.DiaLog('啊哈哈哈哈', 2, (res) => {
-                console.log('确认回调');
-            }, (res2) => {
-                console.log('取消回调');
-            }, '#FF0000');
+            // Main.showDiaLog('啊哈哈哈哈1', 1, (res) => {
+            //     console.log('确认回调')
+            // }, (res2) => {
+            //     console.log('取消回调')
+            // }, '#FF0000');
+            // Main.showDiaLog('啊哈哈哈哈2', 2, (res) => {
+            //     console.log('确认回调')
+            // }, (res2) => {
+            //     console.log('取消回调')
+            // }, '#FF0000');
             // Main.DiaLog(null,1,'啊哈哈哈哈',(res)=>{
             //     console.log('确认回调')
             // },(res2)=>{
@@ -4749,7 +4755,7 @@
             });
         }
         setPage(that, data) {
-            let head = this.showObj.getChildByName("news_head_box").getChildByName("news_head");
+            let head = this.showObj.getChildByName("news_head_box").getChildByName("headBg").getChildByName("head");
             let name = this.showObj.getChildByName("news_box").getChildByName("news_name");
             let sex_0 = name.getChildByName("news_sex").getChildByName("sex0");
             let sex_1 = name.getChildByName("news_sex").getChildByName("sex1");
@@ -4760,7 +4766,8 @@
             let fanpaiwinrate = this.showObj.getChildByName("news_fanpaiwinrate").getChildByName("news_fanpaiwinrate_value");
             let winss = this.showObj.getChildByName("news_winss").getChildByName("news_winss_value");
             let allwinrate = this.showObj.getChildByName("news_allwinrate").getChildByName("news_allwinrate_value");
-            Main$1.$LoadImage(head, data.head);
+            let headUrl='res/img/head/'+data.head+'.png';
+            Main$1.$LoadImage(head, headUrl,Main$1.defaultImg.one,'skin');
             name.text = data.name;
             name.getChildByName("news_sex").left = name.textWidth;
             sex_0.visible = data.sex == 0 ? true : false;
@@ -5374,7 +5381,7 @@
 
 
         onClickVoiceBtn() {
-            // let roomid = 6749
+            // let roomid = 2557
             // GameControl.instance.onSend({
             //     name: 'M.Room.C2R_DissolveRoom',
             //     data: {
@@ -5627,7 +5634,7 @@
             PlyerNews.GetNews(true, data);
         }
 
-        setMeMakeBOBO(){
+        setMeMakeBOBO() {
             MakeBOBO$1.close();
         }
         /**
@@ -5638,10 +5645,11 @@
         playerSeatDownOrSeatAtCommon(isShow, data, isUpdate) {
             Laya.timer.clear(this, this.palyerSeatAtTime);
             let headBox = this.owner.getChildByName("head-box");
-            let headImg = headBox.getChildByName("headImgBox");
+            let headUrl = headBox.getChildByName("headBg").getChildByName("head");
             let name = this.owner.getChildByName("name");
             headBox.visible = true;
-            Main$1.$LoadImage(headImg, Main$1.defaultImg.one, Main$1.defaultImg.one, 'skin');
+            let head = 'res/img/head/' + data.head + '.png';
+            Main$1.$LoadImage(headUrl, head, Main$1.defaultImg.one, 'skin');
             this.owner.userId = data.userId;
             if (data.userId == GameControl.instance.userId) {
                 name.text = '';
@@ -5663,13 +5671,13 @@
         playerSeatUpSetContent(data) {
             this.playerSeatUpOffEvent();
             let headBox = this.owner.getChildByName("head-box");
-            let headImg = headBox.getChildByName("headImgBox");
+            let headUrl = headBox.getChildByName("headBg").getChildByName("head");
             let scoreBox = this.owner.getChildByName("score");
             let scoreVal = scoreBox._children[0].getChildByName("scoreVal");
             let name = this.owner.getChildByName("name");
             headBox.visible = false;
             scoreBox.visible = false;
-            headImg.skin = '';
+            headUrl.skin = '';
             scoreVal.text = '';
             this.owner.userId = '';
             if (data.userid == GameControl.instance.userId) {
@@ -6658,7 +6666,8 @@
                                 pwd: pwd,
                                 userId: res.data.userId,
                                 key: res.data.key,
-                                inRoomPws: res.data.inRoomPws
+                                inRoomPws: res.data.inRoomPws,
+                                init:res.data.init
                             };
                             this.changeMainUserInfo(data);
                             this.dealWithLoginedView(data);
@@ -6691,17 +6700,34 @@
                 roomPws: data.inRoomPws,
                 page: Main$1.pages.page3
             };
-            Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
-                Main$1.showLoading(false);
-                clearTimeout(this.loadTimeID);
-                this.flag = true;
-            }), Laya.Handler.create(this, () => {
-                this.loadTimeID = setTimeout(() => {
+            if(data.init){
+                Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
                     Main$1.showLoading(false);
-                    Main$1.$LOG('加载超时！');
                     clearTimeout(this.loadTimeID);
-                }, 10000);
-            }));
+                    this.flag = true;
+                }), Laya.Handler.create(this, () => {
+                    this.loadTimeID = setTimeout(() => {
+                        Main$1.showLoading(false);
+                        Main$1.$LOG('加载超时！');
+                        clearTimeout(this.loadTimeID);
+                    }, 10000);
+                }));
+            }else{
+                let openData={
+                    page:'login.scene',
+                    userId:data.userId
+                };
+                Main$1.$openScene('playerNewsSet.scene',false,openData,(res)=>{
+                    res.x = Laya.stage.width;
+                    res.zOrder=10;
+                    Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                        Main$1.showLoading(false);
+                        clearTimeout(this.loadTimeID);
+                        this.flag = true;
+                        // this.owner.removeSelf();
+                    }));
+                });
+            }
         }
 
         /**
@@ -6843,7 +6869,7 @@
             this.owner.e_name.text=data.nick;
             this.owner.e_userId.text='['+data.userId+']';
             this.owner.e_timeLong.text = Main$1.secondToDate(data.roomTime);
-            Main$1.$LoadImage(this.owner.e_head,data.head);
+            Main$1.$LoadImage(this.owner.e_head,'res/img/head/'+data.head+'.png',Main$1.defaultImg.one,'skin');
             this.owner.e_ct2_name.text=data.nick;
             this.owner.e_ct2_ID.text=data.userId;
             this.owner.e_score.text=data.self_sf;
@@ -6979,8 +7005,8 @@
             } else {
                 this.owner.preText.text -= 1;
                 this.owner.preText.text = this.owner.preText.text < 1 ? 1 : this.owner.preText.text;
-                if(this._LIST.length==0){
-                    this.owner.preText.text=0;
+                if (this._LIST.length == 0) {
+                    this.owner.preText.text = 0;
                 }
             }
             this.setList(this.owner.preText.text - 1);
@@ -6996,7 +7022,7 @@
         }
 
         setList(index) {
-            let list=this.owner.paiJuList;
+            let list = this.owner.paiJuList;
             list.visible = true;
             list.vScrollBarSkin = "";//运用滚动
             list.array = this._LIST[index];
@@ -7007,17 +7033,18 @@
             // console.log(cell)
             let personNews = cell.getChildByName("personNews");
             let name = personNews.getChildByName("name");
-            let head = personNews.getChildByName("head");
+            let head = personNews.getChildByName("headBg").getChildByName('head');
             let zt = personNews.getChildByName("zt");
             let zhuang = personNews.getChildByName("zhuang");
             name.text = cell.dataSource.name;
-            Main$1.$LoadImage(head, cell.dataSource.head, Main$1.defaultImg.one);
+            let headUrl = 'res/img/head/' + cell.dataSource.head + '.png';
+            Main$1.$LoadImage(head, headUrl, Main$1.defaultImg.one);
             zhuang.visible = cell.dataSource.zhuang;
-            if (cell.dataSource.opt==2) {
+            if (cell.dataSource.opt == 2) {
                 zt.loadImage('res/img/common/status_1.png');
-            } else if(cell.dataSource.opt==1){
+            } else if (cell.dataSource.opt == 1) {
                 zt.loadImage('res/img/common/status_0.png');
-            }else if(cell.dataSource.opt==0){
+            } else if (cell.dataSource.opt == 0) {
                 zt.loadImage('');
             }
             let dataView = cell.getChildByName("dataView");
@@ -7056,12 +7083,12 @@
             let right_pointText = rightPoker.getChildByName('pointText');
             if (cell.dataSource.pokers.length >= 3) {
                 isSanHua = CountPoint$1.sanHuaPoker(cell.dataSource.pokers[0].poker, cell.dataSource.pokers[1].poker, cell.dataSource.pokers[2].poker);
-                if (cell.dataSource.opt==2 && !isSanHua) {
+                if (cell.dataSource.opt == 2 && !isSanHua) {
                     point1Text = CountPoint$1.countPoint(cell.dataSource.pokers[0].poker, cell.dataSource.pokers[1].poker);
                     point2Text = CountPoint$1.countPoint(cell.dataSource.pokers[2].poker, cell.dataSource.pokers[3].poker);
                     left_pointText.text = point1Text;
                     right_pointText.text = point2Text;
-                } else if (cell.dataSource.opt!=2) {
+                } else if (cell.dataSource.opt != 2) {
                     left_pointText.text = '';
                     right_pointText.text = '';
                 }
@@ -7095,8 +7122,8 @@
                         let diPaiSign = poker.getChildByName("sign");
                         poker.loadImage('res/img/poker/' + item.poker + '.png');
                         if (showPokerSign)
-                            showPokerSign.visible = cell.dataSource.opt==2 ? false : item.isShow;
-                        diPaiSign.visible = cell.dataSource.opt==2 ? item.isdipoker : false;
+                            showPokerSign.visible = cell.dataSource.opt == 2 ? false : item.isShow;
+                        diPaiSign.visible = cell.dataSource.opt == 2 ? item.isdipoker : false;
                         let poker4 = rightPoker.getChildByName('poker4');
                         if (cell.dataSource.pokers.length == 3)
                             poker4.loadImage('');
@@ -7168,6 +7195,184 @@
             paijutishiBg.x = -Laya.stage.width;
             this.owner.diaLogMask.visible=true;
             Laya.Tween.to(paijutishiBg, { x: 0 }, 150);
+        }
+    }
+
+    /**
+     * 该脚本是玩家设置信息功能js
+     */
+    class playerNewsSet extends Laya.Script {
+
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            //性别(1.男 2.女)
+            this.sexType = 1;
+            //昵称
+            this.name = '';
+            //头像Id
+            this.headId = 1;
+            this.flag=true;
+        }
+
+        onStart() {
+            this.setSexList();
+            this.sexSelect();
+            this.setHeadList();
+            this.headSelect();
+            this.setSelectedHead(this.headId);
+        }
+        /**
+         * 设置性别列表
+         */
+        setSexList() {
+            let list = this.owner.sexList;
+            list.array = [
+                { icon0: 'res/img/common/set_sex1_0.png', icon1: 'res/img/common/set_sex1_1.png', value: 1 },
+                { icon0: 'res/img/common/set_sex0_0.png', icon1: 'res/img/common/set_sex0_1.png', value: 0 }
+            ];
+            list.renderHandler = new Laya.Handler(this, this.onRenderHandlerSexList);
+        }
+
+        onRenderHandlerSexList(cell) {
+            let no = cell.getChildByName("listRow").getChildByName("select").getChildByName("no");
+            let yes = cell.getChildByName("listRow").getChildByName("select").getChildByName("yes");
+            no.loadImage(cell.dataSource.icon0);
+            yes.loadImage(cell.dataSource.icon1);
+        }
+
+        /**
+         * 性别选择
+         */
+        sexSelect() {
+            let selectJS = this.owner.sexList.parent.getComponent(MyClickSelect);
+            selectJS.MySelect(this, 0, (val) => {
+                this.sexType = val;
+            });
+        }
+
+        /**
+         * 设置头像列表
+         */
+        setHeadList() {
+            let list = this.owner.headList;
+            list.vScrollBarSkin = '';
+            list.array = [
+                { headUrl: 'res/img/head/1.png', value: 1 },
+                { headUrl: 'res/img/head/2.png', value: 2 },
+                { headUrl: 'res/img/head/3.png', value: 3 },
+                { headUrl: 'res/img/head/4.png', value: 4 }
+            ];
+            list.renderHandler = new Laya.Handler(this, this.onRenderHandlerHeadList);
+        }
+
+        onRenderHandlerHeadList(cell) {
+            let no = cell.getChildByName("listRow").getChildByName("select").getChildByName("no");
+            no.skin = cell.dataSource.headUrl;
+        }
+
+        headSelect() {
+            let selectJS = this.owner.headList.parent.getComponent(MyClickSelect);
+            selectJS.MySelect(this, 0, (val) => {
+                this.headId = val;
+                this.setSelectedHead(this.headId);
+            });
+        }
+
+        setSelectedHead(val) {
+            this.owner.headImg.skin = 'res/img/head/' + val + '.png';
+        }
+
+        /**
+         * 返回
+         */
+        Back() {
+            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                this.owner.removeSelf();
+            }));
+        }
+
+        /**
+         * 确认
+         */
+        Confrim() {
+            Main$1.showLoading(true);
+            let that = this;
+            if(this.flag){
+                this.flag=false;
+                let name = this.owner.name_value.text;
+                if (name == '' || (name.trim() == '')) {
+                    Main$1.showDiaLog('昵称不能为空!');
+                    this.flag=true;
+                    Main$1.showLoading(false);
+                    return;
+                }
+                let data = {
+                    userId: this.owner.openData.userId,
+                    sex: this.sexType,
+                    nick: name,
+                    head: this.headId
+                };
+                HTTP.$request({
+                    that: this,
+                    url: '/M.User/SetUserInfo',
+                    data: data,
+                    success(res) {
+                        if (res.status) {
+                            Main$1.showDiaLog('设置成功', 1, () => {
+                                that.openNextView();
+                            });
+                        }
+                    },
+                    fail() {
+                        this.flag=true;
+                        Main$1.showLoading(false);
+                    }
+                });
+            }
+        }
+
+        openNextView() {
+            let pageData = {
+                roomPws: -1,
+                page: Main$1.pages.page3
+            };
+            Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
+                Main$1.showLoading(false);
+                clearTimeout(this.loadTimeID);
+                this.flag = true;
+            }), Laya.Handler.create(this, () => {
+                this.loadTimeID = setTimeout(() => {
+                    Main$1.showLoading(false);
+                    Main$1.$LOG('加载超时！');
+                    clearTimeout(this.loadTimeID);
+                }, 10000);
+            }));
+        }
+    }
+
+    /**
+     * 该脚本是玩家设置信息功能js
+     */
+    class playerNewsSet$1 extends Laya.Scene {
+        constructor() { 
+            super(); 
+        }
+        onAwake(){
+            this.playerNewsSetJS=this.getComponent(playerNewsSet);
+            this.bindEvent();
+        }
+        onOpened(options) {
+            this.openData=options;
+        }
+
+        bindEvent(){
+            this.confrim_btn.on(Laya.Event.CLICK,this,()=>{
+                this.playerNewsSetJS.Confrim();
+            });
+            this.back.on(Laya.Event.CLICK,this,()=>{
+                this.playerNewsSetJS.Back();
+            });
         }
     }
 
@@ -7302,7 +7507,6 @@
 
         back() {
             Laya.Scene.open('login.scene', false, Main$1.sign.signOut, Laya.Handler.create(this, (res) => {
-                this.showHideNode(false);
                 Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
                     this.owner.removeSelf();
                 }));
@@ -7492,8 +7696,9 @@
 
         list2OnRender(cell, index) {
             let name = cell.getChildByName("name");
-            let head = cell.getChildByName("headImg");
-            Main$1.$LoadImage(head, cell.dataSource.head, Main$1.defaultImg.one, 'skin');
+            let head = cell.getChildByName("headBg").getChildByName("head");
+            let headUrl = 'res/img/head/' + cell.dataSource.head + '.png';
+            Main$1.$LoadImage(head, headUrl, Main$1.defaultImg.one, 'skin');
             name.text = cell.dataSource.nick;
         }
     }
@@ -7675,7 +7880,8 @@
         }
 
         setPageData(data){
-            Main$1.$LoadImage(this.UI.userHeadImg,data.head,Main$1.defaultImg.one);
+            let headUrl='res/img/head/'+data.head+'.png';
+            Main$1.$LoadImage(this.UI.headUrl,headUrl,Main$1.defaultImg.one);
             this.UI.userNameValue.text=data.nick;
             this.UI.userIDValue.text=data.userId;
             this.UI.userScoreValue.text=data.score;
@@ -7738,7 +7944,7 @@
                 that:this,
                 url:'/M.Lobby/Popularize/GetNoticeData',
                 data:{
-                    userId:Main$1.userInfo.userId
+                    uid:Main$1.userInfo.userId
                 },
                 success(res){
                     Main$1.$LOG('获取公告数据:',res);
@@ -7772,6 +7978,91 @@
         }
     }
 
+    /**
+     * 列表下拉刷新功能
+     */
+    class dropDownReload extends Laya.Script {
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            this.moveUpFn;//鼠标抬起回调
+        }
+
+        onEnable() {
+            this.list = this.owner;
+            // this.addShowNode();
+            console.log(this.list);
+            this.bindEvent();
+        }
+        onStart() {
+
+        }
+
+        addShowNode() {
+            this.text = new Laya.Label();
+            this.text.visible = false;
+            this.text.text = '下拉刷新';
+            this.text.color = '#935F13';
+            this.text.fontSize = 40;
+            this.text.width = 300;
+            this.text.align = 'center';
+            this.text.centerX = 0;
+            this.text.top = 50;
+            this.list.addChild(this.text);
+        }
+
+        bindEvent() {
+            this.list.off(Laya.Event.MOUSE_UP);
+            this.list.off(Laya.Event.MOUSE_MOVE);
+            this.list.on(Laya.Event.MOUSE_MOVE, this, (e) => {
+                if (e.target.scrollBar) {
+                    let mouseUpValue = e.target.scrollBar.value;
+                    // if (mouseUpValue <= -100 && mouseUpValue > -150) {
+                    //     // this.setTest(true, '下拉刷新');
+                    // } 
+                    // else if (mouseUpValue > -100) {
+                    //     this.text.visible = false;
+                    // } else if (mouseUpValue <= -150) {
+                    //     this.setTest(true, '释放立即刷新');
+                    // }
+                }
+            });
+            this.list.on(Laya.Event.MOUSE_UP, this, (e) => {
+                if (e.target.scrollBar) {
+                    let mouseUpValue = e.target.scrollBar.value;
+                    if (mouseUpValue < 0 && mouseUpValue <= -100) {
+                        if (this.moveUpFn) {
+                            // this.text.top = -100;
+                            // this.setTest(true, '正在刷新...');
+                            // e.target.top = 150;
+                            this.moveUpFn.call(this.callThis, mouseUpValue);
+                        }
+                        // else {
+                        //     this.setTest(false);
+                        // }
+                    }
+                    //  else if (mouseUpValue > -150) {
+                    //     this.setTest(false);
+                    // }
+                }
+            });
+        }
+        setTest(show, text = '下拉刷新') {
+            this.text.visible = show;
+            this.text.text = text;
+            if (!show)
+                this.text.top = 50;
+        }
+        /**
+         * 
+         * @param {*} fn 回调函数
+         */
+        initCall(that, fn) {
+            this.callThis = that;
+            this.moveUpFn = fn;
+        }
+    }
+
     // import TabPagesUI from '../TabPages/TabPagesUI'
     class GameHall extends Laya.Script {
         constructor() {
@@ -7792,7 +8083,6 @@
         }
         onStart() {
             // Main.$LOG('onStart', this.UI.pageData)
-
             // this.openGameView();
         }
 
@@ -7844,12 +8134,57 @@
          */
         setPage1Data(data) {
             let page1List = this.UI.gameHall_page1_list;
+            // page1List.top=100;
+            // let hallListHeight=page1List.height;
             page1List.vScrollBarSkin = "";
             page1List.array = data;
             page1List.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
             page1List.mouseHandler = new Laya.Handler(this, this.rowOnClick);
+            // page1List.on(Laya.Event.MOUSE_DOWN,this,()=>{
+            //     console.log('鼠标按下---事件')
+            // })
+            // page1List.on(Laya.Event.MOUSE_MOVE,this,(e)=>{
+            //     console.log('鼠标移动===事件',e.target.scrollBar.value)
+            // })
+            this.watchListMove(page1List);
+            // page1List.on(Laya.Event.MOUSE_UP, this, (e) => {
+            //     // console.log('鼠标抬起===事件',e.target.top)
+            //     // e.target.top=100;
+            //     // page1List.off(Laya.Event.MOUSE_MOVE);
+            // })
             page1List.visible = true;
+            // setTimeout(() => {
+            //     page1List.scrollBar.changeHandler = new Laya.Handler(this, (val) => {
+            //         console.log('进来啦', val)
+            //         // page1List.scrollBar.y = -100;
+            //         // if (val <= -100) {
+                        
+            //         //     page1List.scrollBar.value = -100;
+            //         // }
+            //     })
+            // })
         }
+
+        /**
+         * 监听列表下拉事件
+         * @param {*} list 列表
+         */
+        watchListMove(list) {
+            let listJS = list.getComponent(dropDownReload);
+            listJS.initCall(this, (val, fn) => {
+                // console.log(val)
+                // this.callFn = fn;
+                setTimeout(() => {
+                    this.selectThisTab(this.UI.hall_nav_bg._children[this._selectNavType], this._selectNavType);//默认选择第一项
+                }, 500);
+            });
+        }
+
+        // reloadEndFn() {
+        //     if (this.callFn)
+        //         this.callFn();
+        // }
+
         page1ListOnRender(cell, index) {
             let contentBg = cell.getChildByName("content_bg");
             let roomId = contentBg.getChildByName("roomID").getChildByName("value");
@@ -7888,11 +8223,11 @@
                     roomPws: Event.target.dataSource.roomPws,
                     page: Main$1.pages.page3
                 };
-                Main$1.showLoading(true,Main$1.loadingType.three,'正在进入房间...');
+                Main$1.showLoading(true, Main$1.loadingType.three, '正在进入房间...');
                 Main$1.$openScene('cheXuanGame_8.scene', true, data, () => {
-                    Main$1.showLoading(false,Main$1.loadingType.three,'');
+                    Main$1.showLoading(false, Main$1.loadingType.three, '');
                 });
-            }
+            } else if (Event.type == 'mouseout') ;
         }
 
         /**
@@ -7938,13 +8273,13 @@
         openGameView() {
             let data = this.UI.pageData;
             if (data.roomPws && data.roomPws > 0) {
-                Main$1.showLoading(true,Main$1.loadingType.three,'正在进入房间...');
+                Main$1.showLoading(true, Main$1.loadingType.three, '正在进入房间...');
                 let pageData = {
                     roomPws: data.roomPws,
                     page: Main$1.pages.page3
                 };
                 Main$1.$openScene('cheXuanGame_8.scene', true, pageData, () => {
-                    Main$1.showLoading(false,Main$1.loadingType.three,'');
+                    Main$1.showLoading(false, Main$1.loadingType.three, '');
                 });
             }
         }
@@ -8255,6 +8590,8 @@
     		reg("game/pages/paijuhuigu/paiJuGet.js",zhanji);
     		reg("game/pages/paijutishi/paijutishiUI.js",paijutishiUI);
     		reg("game/pages/paijutishi/tishi.js",zhanji$1);
+    		reg("game/pages/playerNewsSet/playerNewsSetUI.js",playerNewsSet$1);
+    		reg("game/pages/playerNewsSet/playerNewsSet.js",playerNewsSet);
     		reg("game/pages/register/registerUI.js",register$1);
     		reg("game/pages/register/register.js",register);
     		reg("game/pages/shishizhanji/shishizhanjiUI.js",shishizhanjiUI);
@@ -8264,6 +8601,7 @@
     		reg("game/pages/TabPages/TabPagesUI.js",TabPagesUI);
     		reg("game/pages/Me/Me.js",Me);
     		reg("game/pages/Notice/Notice.js",Notice);
+    		reg("game/common/dropDownReload.js",dropDownReload);
     		reg("game/pages/GameHall/GameHall.js",GameHall);
     		reg("game/pages/Data/Data.js",Data);
         }

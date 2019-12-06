@@ -2,10 +2,10 @@ import TIP from '../common/SuspensionTips'
 class Main {
     constructor() {
         Main.instance = this;
-        // this.websoketApi = '192.168.0.125:8082';
-        // this.requestApi = 'http://192.168.0.125:8081';
-        this.websoketApi = '132.232.34.32:8082';
-        this.requestApi = 'http://132.232.34.32:8081';
+        this.websoketApi = '192.168.0.125:8082';
+        this.requestApi = 'http://192.168.0.125:8081';
+        // this.websoketApi = '132.232.34.32:8082';
+        // this.requestApi = 'http://132.232.34.32:8081';
         //手机信息
         this.phoneNews = {
             statusHeight: 0,//手机系统栏的高度
@@ -33,7 +33,8 @@ class Main {
             desk_bg1: 'res/img/gameView/desk_bg1.png',
             desk_bg2: 'res/img/gameView/desk_bg2.png'
         }
-        this.loadScene = ['cheXuanGame_8.scene', 'register.scene', 'shishizhanji.scene', 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene']
+        this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene', 
+        'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
         this.allowGameHallSetInterval = false;
         this.allowRequesList = true;
         this.allowHideLoad = false;
