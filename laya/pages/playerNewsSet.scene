@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":8,
+    "selecteID":6,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/playerNewsSet/playerNewsSetUI.js","height":2208},
     "nodeParent":-1,
@@ -48,18 +48,17 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,bg1",
-            "props":{"width":1091,"top":30,"skin":"images/GameSet/set_bg.png","name":"bg1","height":750,"centerX":0},
+            "searchKey":"Image,bg1,s_bg1",
+            "props":{"width":1091,"var":"s_bg1","top":30,"skin":"images/GameSet/set_bg.png","name":"bg1","height":750,"centerX":0},
             "nodeParent":2,
             "label":"bg1",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":5,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,back,back",
                     "props":{"var":"back","top":40,"skin":"images/common/back.png","name":"back","left":20},
@@ -73,7 +72,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,head",
                     "props":{"skin":"images/GameSet/set_head_big.png","name":"head","centerY":-86,"centerX":0},
@@ -86,7 +84,6 @@
                     "compId":9,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,headImg,headImg",
                             "props":{"width":310,"var":"headImg","name":"headImg","height":310,"centerY":0,"centerX":0},
@@ -101,7 +98,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,sexBox",
                     "props":{"y":480,"skin":"images/GameSet/set_sexView.png","name":"sexBox","centerX":0},
@@ -222,7 +218,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,nameBox",
                     "props":{"skin":"images/GameSet/set_nameInput.png","name":"nameBox","centerX":0,"bottom":40},
@@ -235,7 +230,6 @@
                     "compId":11,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,inputBox",
                             "props":{"width":295,"right":30,"name":"inputBox","height":70,"centerY":0},
@@ -248,7 +242,6 @@
                             "compId":13,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"TextInput",
                                     "searchKey":"TextInput,inputValue,name_value",
                                     "props":{"var":"name_value","valign":"middle","type":"text","top":0,"skin":"images/common/textinput.png","right":0,"promptColor":"#FFEBBC","prompt":"请输入昵称","overflow":"hidden","name":"inputValue","maxChars":6,"left":0,"fontSize":50,"font":"Microsoft YaHei","color":"#FFFFFF","bottom":0},
@@ -268,8 +261,8 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,bg2",
-            "props":{"width":1091,"top":780,"skin":"images/GameSet/set_bg.png","name":"bg2","centerX":0,"bottom":280},
+            "searchKey":"Image,bg2,s_bg2",
+            "props":{"width":1091,"var":"s_bg2","top":780,"skin":"images/GameSet/set_bg.png","name":"bg2","centerX":0,"bottom":280},
             "nodeParent":2,
             "label":"bg2",
             "isOpen":false,

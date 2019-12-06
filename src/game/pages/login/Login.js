@@ -126,7 +126,7 @@ export default class login extends Laya.Script {
             }))
         }else{
             let openData={
-                page:'login.scene',
+                page:Main.pages.page6,
                 userId:data.userId
             }
             Main.$openScene('playerNewsSet.scene',false,openData,(res)=>{
@@ -136,7 +136,6 @@ export default class login extends Laya.Script {
                     Main.showLoading(false);
                     clearTimeout(this.loadTimeID);
                     this.flag = true;
-                    // this.owner.removeSelf();
                 }));
             })
         }

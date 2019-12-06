@@ -859,20 +859,21 @@
                 changePwd: 3,
                 shop: 4
             };
-            //tab界面
+            //界面
             this.pages = {
                 page1: 'NoticePage',
                 page2: 'CreateGamePage',
                 page3: 'HallPage',
                 page4: 'DataPage',
-                page5: 'MePage'
+                page5: 'MePage',
+                page6: 'login'
             };
             this.gameView = {
                 desk_bg1: 'res/img/gameView/desk_bg1.png',
                 desk_bg2: 'res/img/gameView/desk_bg2.png'
             };
-            this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene', 
-            'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
+            this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
+                'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
             this.allowGameHallSetInterval = false;
             this.allowRequesList = true;
             this.allowHideLoad = false;
@@ -6714,7 +6715,7 @@
                 }));
             }else{
                 let openData={
-                    page:'login.scene',
+                    page:Main$1.pages.page6,
                     userId:data.userId
                 };
                 Main$1.$openScene('playerNewsSet.scene',false,openData,(res)=>{
@@ -6724,7 +6725,6 @@
                         Main$1.showLoading(false);
                         clearTimeout(this.loadTimeID);
                         this.flag = true;
-                        // this.owner.removeSelf();
                     }));
                 });
             }
@@ -7212,15 +7212,50 @@
             this.name = '';
             //头像Id
             this.headId = 1;
-            this.flag=true;
+            this.flag = true;
+            //所在页面
+            this.fromPage = '';
+            this.userId = '';
         }
 
         onStart() {
             this.setSexList();
-            this.sexSelect();
-            this.setHeadList();
+            this.sexSelect(0);
+            this.setHeadList(0);
             this.headSelect();
-            this.setSelectedHead(this.headId);
+            this.setSelectedHead();
+            this.fromPage = this.owner.openData.page;
+            this.userId = this.owner.openData.userId;
+            if (this.fromPage == Main$1.pages.page5) {
+                this.editGetNews();
+            }
+        }
+        /**
+         * 编辑页面获取个人信息
+         */
+        editGetNews() {
+            HTTP.$request({
+                that: this,
+                url: '/M.User/GetInfo',
+                data: {
+                    uid: this.userId
+                },
+                success(res) {
+                    if (res.data.ret.type == 0)
+                        this.setNews(res.data);
+                }
+            });
+        }
+        setNews(data) {
+            let name = this.owner.name_value;
+            this.headId = data.head;
+            name.text = data.nick;
+            this.sexType = data.sex;
+            let sexType = data.sex == 0 ? 1 : 0;
+            this.sexSelect(sexType);
+            this.setHeadList();
+            this.setSelectedHead();
+            this.headSelect(parseInt(this.headId)- 1);
         }
         /**
          * 设置性别列表
@@ -7244,9 +7279,9 @@
         /**
          * 性别选择
          */
-        sexSelect() {
+        sexSelect(type) {
             let selectJS = this.owner.sexList.parent.getComponent(MyClickSelect);
-            selectJS.MySelect(this, 0, (val) => {
+            selectJS.MySelect(this, type, (val) => {
                 this.sexType = val;
             });
         }
@@ -7271,24 +7306,36 @@
             no.skin = cell.dataSource.headUrl;
         }
 
-        headSelect() {
+        headSelect(type) {
             let selectJS = this.owner.headList.parent.getComponent(MyClickSelect);
-            selectJS.MySelect(this, 0, (val) => {
+            selectJS.MySelect(this, type, (val) => {
                 this.headId = val;
-                this.setSelectedHead(this.headId);
+                this.setSelectedHead();
             });
         }
 
-        setSelectedHead(val) {
-            this.owner.headImg.skin = 'res/img/head/' + val + '.png';
+        setSelectedHead() {
+            this.owner.headImg.skin = 'res/img/head/' + this.headId + '.png';
         }
 
         /**
          * 返回
          */
         Back() {
-            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
-                this.owner.removeSelf();
+            if (this.owner.openData.page == Main$1.pages.page6) {
+                Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                    this.owner.removeSelf();
+                }));
+            } if (this.owner.openData.page == Main$1.pages.page5) {
+                this.BackMe();
+            }
+        }
+
+        BackMe() {
+            Laya.Scene.open('tabPage.scene', false, { page: Main$1.pages.page5 }, Laya.Handler.create(this, (res) => {
+                Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                    this.owner.removeSelf();
+                }));
             }));
         }
 
@@ -7298,34 +7345,47 @@
         Confrim() {
             Main$1.showLoading(true);
             let that = this;
-            if(this.flag){
-                this.flag=false;
+            let url = this.fromPage == Main$1.pages.page6 ? '/M.User/SetUserInfo' : '/M.User/ModifyUserInfo';
+            if (this.flag) {
+                this.flag = false;
                 let name = this.owner.name_value.text;
                 if (name == '' || (name.trim() == '')) {
                     Main$1.showDiaLog('昵称不能为空!');
-                    this.flag=true;
+                    this.flag = true;
                     Main$1.showLoading(false);
                     return;
                 }
-                let data = {
+                let data = this.fromPage == Main$1.pages.page6 ? {
                     userId: this.owner.openData.userId,
                     sex: this.sexType,
                     nick: name,
                     head: this.headId
-                };
+                } : {
+                        userId: this.owner.openData.userId,
+                        sex: this.sexType,
+                        nick: name,
+                        head: this.headId,
+                        signature: ''
+                    };
                 HTTP.$request({
                     that: this,
-                    url: '/M.User/SetUserInfo',
+                    url: url,
                     data: data,
                     success(res) {
                         if (res.status) {
-                            Main$1.showDiaLog('设置成功', 1, () => {
-                                that.openNextView();
-                            });
+                            if (this.fromPage == Main$1.pages.page6) {
+                                Main$1.showDiaLog('设置成功', 1, () => {
+                                    that.openNextView();
+                                });
+                            } else if (this.fromPage == Main$1.pages.page5) {
+                                Main$1.showDiaLog('修改成功', 1, () => {
+                                    that.openNextView2();
+                                });
+                            }
                         }
                     },
                     fail() {
-                        this.flag=true;
+                        this.flag = true;
                         Main$1.showLoading(false);
                     }
                 });
@@ -7348,6 +7408,12 @@
                     clearTimeout(this.loadTimeID);
                 }, 10000);
             }));
+        }
+
+        openNextView2() {
+            this.flag = true;
+            Main$1.showLoading(false);
+            this.BackMe();
         }
     }
 
@@ -7373,6 +7439,11 @@
             this.back.on(Laya.Event.CLICK,this,()=>{
                 this.playerNewsSetJS.Back();
             });
+        }
+
+        setUI() {
+            let nodeArr=[this.s_bg1,this.s_bg2];
+            Main$1.setNodeTop(nodeArr);
         }
     }
 
@@ -7810,7 +7881,6 @@
         onEnable() {
             Main$1.$LOG('Me脚本：',this);
             Me.instance=this;
-           
         }
 
         openThisPage(){
@@ -7821,14 +7891,11 @@
             }
         }
 
-        onDisable() {
-           
-        }
-
         registerEvent(){
             this.UI.signOut_btn.on(Laya.Event.CLICK,this,this.openLoginView);
             this.UI.recharge_btn.on(Laya.Event.CLICK,this,this.openShopView);
             this.UI.share_btn.on(Laya.Event.CLICK,this,this.openShareView);
+            this.UI.headView.on(Laya.Event.CLICK,this,this.openNewsView);
         }
         openLoginView(){
             Main$1.showDiaLog('是否退出重新登录?',2,()=>{
@@ -7854,6 +7921,23 @@
          */
         openShareView(){
             Share$1.open(this);
+        }
+
+        /**
+         * 修改个人信息
+         */
+        openNewsView(){
+            let openData={
+                page:Main$1.pages.page5,
+                userId:Main$1.userInfo.userId
+            };
+            Main$1.$openScene('playerNewsSet.scene',false,openData,(res)=>{
+                res.x = Laya.stage.width;
+                res.zOrder=10;
+                Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                    this.owner.removeSelf();
+                }));
+            });
         }
 
         /**
@@ -8374,14 +8458,14 @@
             month.text = cell.dataSource.month;
             day.text = cell.dataSource.day;
             let listBg = cell.getChildByName("list_bg");
-            let headNode = listBg.getChildByName("headBox").getChildByName("head");
+            // let headNode = listBg.getChildByName("headBox").getChildByName("head");
             let name = listBg.getChildByName("top_title").getChildByName("name");
             let time = listBg.getChildByName("top_title").getChildByName("time");
             let roomID = listBg.getChildByName("roomID").getChildByName("value");
             let pi = listBg.getChildByName("pi").getChildByName("value");
             let dairu = listBg.getChildByName("dairu").getChildByName("value");
             let winScore = listBg.getChildByName("winScore").getChildByName("value");
-            Main$1.$LoadImage(headNode, cell.dataSource.head, Main$1.defaultImg.one);
+            // Main.$LoadImage(headNode, cell.dataSource.head, Main.defaultImg.one);
             name.text = cell.dataSource.roomName;
             time.text = cell.dataSource.roomTime;
             roomID.text = cell.dataSource.roomPws;

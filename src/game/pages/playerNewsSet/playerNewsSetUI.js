@@ -1,7 +1,8 @@
 /**
  * 该脚本是玩家设置信息功能js
  */
-import PlayerNewsSet from './playerNewsSet'
+import PlayerNewsSet from './playerNewsSet';
+import Main from '../../common/Main';
 export default class playerNewsSet extends Laya.Scene {
     constructor() { 
         super(); 
@@ -21,5 +22,10 @@ export default class playerNewsSet extends Laya.Scene {
         this.back.on(Laya.Event.CLICK,this,()=>{
             this.playerNewsSetJS.Back();
         })
+    }
+
+    setUI() {
+        let nodeArr=[this.s_bg1,this.s_bg2];
+        Main.setNodeTop(nodeArr);
     }
 }

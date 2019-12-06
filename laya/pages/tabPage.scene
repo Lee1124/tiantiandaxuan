@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":286,
-    "selecteID":350,
+    "selectedBox":315,
+    "selecteID":316,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
@@ -356,13 +356,14 @@
                     "props":{"y":0,"x":0,"visible":false,"var":"MePage","top":0,"right":0,"name":"MePage","left":0,"bottom":0},
                     "nodeParent":67,
                     "label":"MePage",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":34,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,list_bg",
                             "props":{"top":135,"skin":"images/newMe/me_bg.png","name":"list_bg","centerX":0},
@@ -375,6 +376,7 @@
                             "compId":35,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,list_bg2",
                                     "props":{"skin":"images/newMe/11.png","name":"list_bg2","centerY":189,"centerX":0},
@@ -544,6 +546,7 @@
                                         }]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,personal_information",
                                     "props":{"y":50,"width":1050,"top":50,"name":"personal_information","height":330,"centerX":0},
@@ -556,12 +559,13 @@
                                     "compId":315,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
-                                            "searchKey":"Image,head",
-                                            "props":{"width":327,"top":0,"name":"head","left":0,"height":327},
+                                            "searchKey":"Image,head,headView",
+                                            "props":{"width":327,"var":"headView","top":0,"name":"head","left":0,"height":327},
                                             "nodeParent":315,
                                             "label":"head",
-                                            "isOpen":true,
+                                            "isOpen":false,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
@@ -573,7 +577,7 @@
                                                     "props":{"y":0,"x":0,"width":327,"skin":"images/newMe/headBg.png","name":"headBg","height":327},
                                                     "nodeParent":316,
                                                     "label":"headBg",
-                                                    "isOpen":true,
+                                                    "isOpen":false,
                                                     "isDirectory":true,
                                                     "isAniNode":true,
                                                     "hasChild":true,
@@ -623,6 +627,7 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,name",
                                             "props":{"right":0,"name":"name","left":400,"height":60,"centerY":-90},
@@ -662,6 +667,7 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,ID",
                                             "props":{"x":0,"right":0,"name":"ID","left":400,"height":60,"centerY":0},
@@ -701,6 +707,7 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,score",
                                             "props":{"x":0,"right":0,"name":"score","left":400,"height":60,"centerY":90},
@@ -742,6 +749,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/pages/Me/Me.js",
@@ -757,7 +765,7 @@
                             "child":[
                                 ]
                         }],
-                    "$HIDDEN":true
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,
@@ -1439,14 +1447,13 @@
                     "props":{"visible":false,"var":"DataPage","top":0,"right":0,"name":"DataPage","left":0,"bottom":0},
                     "nodeParent":67,
                     "label":"DataPage",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":151,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,hd",
                             "props":{"top":0,"skin":"images/Data/title.png","name":"hd","centerX":0},
@@ -1460,7 +1467,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,top_data_bg",
                             "props":{"top":180,"skin":"images/Data/top_bg.png","name":"top_data_bg","centerX":0},
@@ -1682,7 +1688,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,bt_data_bg",
                             "props":{"y":745,"top":745,"skin":"images/Data/bt_list_bg.png","name":"bt_data_bg","centerX":-4,"bottom":200},
@@ -1695,7 +1700,6 @@
                             "compId":176,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,bt_data_content",
                                     "props":{"width":1060,"top":50,"name":"bt_data_content","centerX":0,"bottom":50},
@@ -1708,7 +1712,6 @@
                                     "compId":177,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"List",
                                             "searchKey":"List,bt_data_list,paiju_data_list",
                                             "props":{"y":0,"visible":false,"var":"paiju_data_list","top":0,"spaceY":30,"right":0,"repeatX":1,"name":"bt_data_list","left":0,"height":362,"elasticEnabled":true,"bottom":0},
@@ -1721,7 +1724,6 @@
                                             "compId":279,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Box",
                                                     "searchKey":"Box,bt_data_list_box",
                                                     "props":{"y":0,"right":0,"renderType":"render","name":"bt_data_list_box","left":0,"height":192},
@@ -1734,7 +1736,6 @@
                                                     "compId":280,
                                                     "child":[
                                                         {
-                                                            "x":105,
                                                             "type":"Image",
                                                             "searchKey":"Image,list_bg",
                                                             "props":{"width":834,"top":0,"skin":"images/Data/row_bg.png","right":0,"name":"list_bg","bottom":0},
@@ -1747,7 +1748,6 @@
                                                             "compId":281,
                                                             "child":[
                                                                 {
-                                                                    "x":120,
                                                                     "type":"Image",
                                                                     "searchKey":"Image,top_title",
                                                                     "props":{"top":15,"right":0,"name":"top_title","left":245,"height":46},
@@ -1788,7 +1788,6 @@
                                                                         }]
                                                                 },
                                                                 {
-                                                                    "x":120,
                                                                     "type":"Image",
                                                                     "searchKey":"Image,headBox",
                                                                     "props":{"width":130,"name":"headBox","left":70,"height":130,"centerY":0},
@@ -1801,7 +1800,6 @@
                                                                     "compId":285,
                                                                     "child":[
                                                                         {
-                                                                            "x":135,
                                                                             "type":"Image",
                                                                             "searchKey":"Image,headBg",
                                                                             "props":{"width":130,"skin":"images/Data/head.png","name":"headBg","height":130,"centerY":0,"centerX":0},
@@ -1814,7 +1812,6 @@
                                                                             "compId":286,
                                                                             "child":[
                                                                                 {
-                                                                                    "x":150,
                                                                                     "type":"Image",
                                                                                     "searchKey":"Image,head",
                                                                                     "props":{"width":125,"skin":"images/common/defaultHead.png","name":"head","height":125,"centerY":-1,"centerX":-1},
@@ -1831,7 +1828,6 @@
                                                                     "$HIDDEN":false
                                                                 },
                                                                 {
-                                                                    "x":120,
                                                                     "type":"Image",
                                                                     "searchKey":"Image,roomID",
                                                                     "props":{"width":200,"name":"roomID","left":300,"height":30,"bottom":83},
@@ -1858,7 +1854,6 @@
                                                                         }]
                                                                 },
                                                                 {
-                                                                    "x":120,
                                                                     "type":"Image",
                                                                     "searchKey":"Image,pi",
                                                                     "props":{"width":86,"name":"pi","left":356,"height":30,"bottom":31},
@@ -1885,7 +1880,6 @@
                                                                         }]
                                                                 },
                                                                 {
-                                                                    "x":120,
                                                                     "type":"Image",
                                                                     "searchKey":"Image,dairu",
                                                                     "props":{"width":191,"name":"dairu","left":529,"height":30,"bottom":31},
@@ -1912,7 +1906,6 @@
                                                                         }]
                                                                 },
                                                                 {
-                                                                    "x":120,
                                                                     "type":"Image",
                                                                     "searchKey":"Image,winScore",
                                                                     "props":{"width":145,"name":"winScore","left":689,"height":40,"bottom":81},
@@ -1940,7 +1933,6 @@
                                                                 }]
                                                         },
                                                         {
-                                                            "x":105,
                                                             "type":"Image",
                                                             "searchKey":"Image,timeIcon",
                                                             "props":{"zOrder":2,"y":59,"x":100,"skin":"images/Data/time.png","name":"timeIcon"},
@@ -1954,7 +1946,6 @@
                                                                 ]
                                                         },
                                                         {
-                                                            "x":105,
                                                             "type":"Image",
                                                             "searchKey":"Image,line",
                                                             "props":{"zOrder":1,"y":0,"x":136,"skin":"images/Data/bt_data_line.png","name":"line","height":220},
@@ -1968,7 +1959,6 @@
                                                                 ]
                                                         },
                                                         {
-                                                            "x":105,
                                                             "type":"Image",
                                                             "searchKey":"Image,timeBox",
                                                             "props":{"x":-12,"width":100,"name":"timeBox","height":90,"centerY":-22},
@@ -1981,7 +1971,6 @@
                                                             "compId":301,
                                                             "child":[
                                                                 {
-                                                                    "x":120,
                                                                     "type":"Text",
                                                                     "searchKey":"Text,day",
                                                                     "props":{"y":0,"x":0,"width":100,"valign":"middle","name":"day","height":45,"fontSize":34,"font":"Microsoft YaHei","color":"#935F13","align":"center"},
@@ -1995,7 +1984,6 @@
                                                                         ]
                                                                 },
                                                                 {
-                                                                    "x":120,
                                                                     "type":"Text",
                                                                     "searchKey":"Text,month",
                                                                     "props":{"y":45,"x":0,"width":100,"valign":"middle","name":"month","height":45,"fontSize":34,"font":"Microsoft YaHei","color":"#935F13","align":"center"},
@@ -2014,7 +2002,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/pages/Data/Data.js",
@@ -2030,7 +2017,7 @@
                             "child":[
                                 ]
                         }],
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 }]
         },
         {

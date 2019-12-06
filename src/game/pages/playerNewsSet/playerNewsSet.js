@@ -23,15 +23,50 @@ export default class playerNewsSet extends Laya.Script {
         this.name = '';
         //头像Id
         this.headId = 1;
-        this.flag=true;
+        this.flag = true;
+        //所在页面
+        this.fromPage = '';
+        this.userId = '';
     }
 
     onStart() {
         this.setSexList();
-        this.sexSelect();
-        this.setHeadList();
+        this.sexSelect(0);
+        this.setHeadList(0);
         this.headSelect();
-        this.setSelectedHead(this.headId);
+        this.setSelectedHead();
+        this.fromPage = this.owner.openData.page;
+        this.userId = this.owner.openData.userId;
+        if (this.fromPage == Main.pages.page5) {
+            this.editGetNews();
+        }
+    }
+    /**
+     * 编辑页面获取个人信息
+     */
+    editGetNews() {
+        HTTP.$request({
+            that: this,
+            url: '/M.User/GetInfo',
+            data: {
+                uid: this.userId
+            },
+            success(res) {
+                if (res.data.ret.type == 0)
+                    this.setNews(res.data);
+            }
+        })
+    }
+    setNews(data) {
+        let name = this.owner.name_value;
+        this.headId = data.head;
+        name.text = data.nick;
+        this.sexType = data.sex;
+        let sexType = data.sex == 0 ? 1 : 0;
+        this.sexSelect(sexType);
+        this.setHeadList();
+        this.setSelectedHead();
+        this.headSelect(parseInt(this.headId)- 1);
     }
     /**
      * 设置性别列表
@@ -55,9 +90,9 @@ export default class playerNewsSet extends Laya.Script {
     /**
      * 性别选择
      */
-    sexSelect() {
+    sexSelect(type) {
         let selectJS = this.owner.sexList.parent.getComponent(MyClickSelect);
-        selectJS.MySelect(this, 0, (val) => {
+        selectJS.MySelect(this, type, (val) => {
             this.sexType = val;
         })
     }
@@ -82,24 +117,36 @@ export default class playerNewsSet extends Laya.Script {
         no.skin = cell.dataSource.headUrl;
     }
 
-    headSelect() {
+    headSelect(type) {
         let selectJS = this.owner.headList.parent.getComponent(MyClickSelect);
-        selectJS.MySelect(this, 0, (val) => {
+        selectJS.MySelect(this, type, (val) => {
             this.headId = val;
-            this.setSelectedHead(this.headId);
+            this.setSelectedHead();
         })
     }
 
-    setSelectedHead(val) {
-        this.owner.headImg.skin = 'res/img/head/' + val + '.png';
+    setSelectedHead() {
+        this.owner.headImg.skin = 'res/img/head/' + this.headId + '.png';
     }
 
     /**
      * 返回
      */
     Back() {
-        Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
-            this.owner.removeSelf();
+        if (this.owner.openData.page == Main.pages.page6) {
+            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
+                this.owner.removeSelf();
+            }))
+        } if (this.owner.openData.page == Main.pages.page5) {
+            this.BackMe();
+        }
+    }
+
+    BackMe() {
+        Laya.Scene.open('tabPage.scene', false, { page: Main.pages.page5 }, Laya.Handler.create(this, (res) => {
+            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
+                this.owner.removeSelf();
+            }))
         }))
     }
 
@@ -109,34 +156,47 @@ export default class playerNewsSet extends Laya.Script {
     Confrim() {
         Main.showLoading(true);
         let that = this;
-        if(this.flag){
-            this.flag=false;
+        let url = this.fromPage == Main.pages.page6 ? '/M.User/SetUserInfo' : '/M.User/ModifyUserInfo';
+        if (this.flag) {
+            this.flag = false;
             let name = this.owner.name_value.text;
             if (name == '' || (name.trim() == '')) {
                 Main.showDiaLog('昵称不能为空!');
-                this.flag=true;
+                this.flag = true;
                 Main.showLoading(false);
                 return;
             }
-            let data = {
+            let data = this.fromPage == Main.pages.page6 ? {
                 userId: this.owner.openData.userId,
                 sex: this.sexType,
                 nick: name,
                 head: this.headId
-            };
+            } : {
+                    userId: this.owner.openData.userId,
+                    sex: this.sexType,
+                    nick: name,
+                    head: this.headId,
+                    signature: ''
+                };
             HTTP.$request({
                 that: this,
-                url: '/M.User/SetUserInfo',
+                url: url,
                 data: data,
                 success(res) {
                     if (res.status) {
-                        Main.showDiaLog('设置成功', 1, () => {
-                            that.openNextView();
-                        });
+                        if (this.fromPage == Main.pages.page6) {
+                            Main.showDiaLog('设置成功', 1, () => {
+                                that.openNextView();
+                            });
+                        } else if (this.fromPage == Main.pages.page5) {
+                            Main.showDiaLog('修改成功', 1, () => {
+                                that.openNextView2();
+                            });
+                        }
                     }
                 },
                 fail() {
-                    this.flag=true;
+                    this.flag = true;
                     Main.showLoading(false);
                 }
             })
@@ -159,5 +219,11 @@ export default class playerNewsSet extends Laya.Script {
                 clearTimeout(this.loadTimeID);
             }, 10000)
         }))
+    }
+
+    openNextView2() {
+        this.flag = true;
+        Main.showLoading(false);
+        this.BackMe();
     }
 }

@@ -47,14 +47,14 @@ export default class Data extends Laya.Script {
         month.text = cell.dataSource.month;
         day.text = cell.dataSource.day;
         let listBg = cell.getChildByName("list_bg");
-        let headNode = listBg.getChildByName("headBox").getChildByName("head");
+        // let headNode = listBg.getChildByName("headBox").getChildByName("head");
         let name = listBg.getChildByName("top_title").getChildByName("name");
         let time = listBg.getChildByName("top_title").getChildByName("time");
         let roomID = listBg.getChildByName("roomID").getChildByName("value");
         let pi = listBg.getChildByName("pi").getChildByName("value");
         let dairu = listBg.getChildByName("dairu").getChildByName("value");
         let winScore = listBg.getChildByName("winScore").getChildByName("value");
-        Main.$LoadImage(headNode, cell.dataSource.head, Main.defaultImg.one);
+        // Main.$LoadImage(headNode, cell.dataSource.head, Main.defaultImg.one);
         name.text = cell.dataSource.roomName;
         time.text = cell.dataSource.roomTime;
         roomID.text = cell.dataSource.roomPws;

@@ -21,20 +21,21 @@ class Main {
             changePwd: 3,
             shop: 4
         }
-        //tab界面
+        //界面
         this.pages = {
             page1: 'NoticePage',
             page2: 'CreateGamePage',
             page3: 'HallPage',
             page4: 'DataPage',
-            page5: 'MePage'
+            page5: 'MePage',
+            page6: 'login'
         }
         this.gameView = {
             desk_bg1: 'res/img/gameView/desk_bg1.png',
             desk_bg2: 'res/img/gameView/desk_bg2.png'
         }
-        this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene', 
-        'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
+        this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
+            'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
         this.allowGameHallSetInterval = false;
         this.allowRequesList = true;
         this.allowHideLoad = false;

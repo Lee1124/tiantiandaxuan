@@ -19,7 +19,6 @@ export default class Me extends Laya.Script {
     onEnable() {
         Main.$LOG('Me脚本：',this);
         Me.instance=this;
-       
     }
 
     openThisPage(){
@@ -30,14 +29,11 @@ export default class Me extends Laya.Script {
         }
     }
 
-    onDisable() {
-       
-    }
-
     registerEvent(){
         this.UI.signOut_btn.on(Laya.Event.CLICK,this,this.openLoginView);
         this.UI.recharge_btn.on(Laya.Event.CLICK,this,this.openShopView);
         this.UI.share_btn.on(Laya.Event.CLICK,this,this.openShareView);
+        this.UI.headView.on(Laya.Event.CLICK,this,this.openNewsView);
     }
     openLoginView(){
         Main.showDiaLog('是否退出重新登录?',2,()=>{
@@ -63,6 +59,23 @@ export default class Me extends Laya.Script {
      */
     openShareView(){
         Share.open(this);
+    }
+
+    /**
+     * 修改个人信息
+     */
+    openNewsView(){
+        let openData={
+            page:Main.pages.page5,
+            userId:Main.userInfo.userId
+        }
+        Main.$openScene('playerNewsSet.scene',false,openData,(res)=>{
+            res.x = Laya.stage.width;
+            res.zOrder=10;
+            Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
+                this.owner.removeSelf();
+            }));
+        })
     }
 
     /**
