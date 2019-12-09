@@ -19,9 +19,9 @@ export default class playerNewsSet extends Laya.Scene {
         this.confrim_btn.on(Laya.Event.CLICK,this,()=>{
             this.playerNewsSetJS.Confrim();
         })
-        this.back.on(Laya.Event.CLICK,this,()=>{
-            this.playerNewsSetJS.Back();
-        })
+        // this.back.on(Laya.Event.CLICK,this,()=>{
+        //     this.playerNewsSetJS.Back();
+        // })
     }
 
     setUI() {

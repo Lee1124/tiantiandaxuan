@@ -1,5 +1,6 @@
 import HTTP from '../../common/HttpRequest';
 import Main from '../../common/Main';
+import OpenView from '../../common/openView';
 export default class login extends Laya.Script {
     constructor() {
         super();
@@ -21,6 +22,7 @@ export default class login extends Laya.Script {
     }
 
     onStart() {
+        this.initOpenView();
         this.startLoadPage();
     }
 
@@ -79,7 +81,7 @@ export default class login extends Laya.Script {
                             userId: res.data.userId,
                             key: res.data.key,
                             inRoomPws: res.data.inRoomPws,
-                            init:res.data.init
+                            init: res.data.init
                         }
                         this.changeMainUserInfo(data);
                         this.dealWithLoginedView(data);
@@ -112,7 +114,7 @@ export default class login extends Laya.Script {
             roomPws: data.inRoomPws,
             page: Main.pages.page3
         }
-        if(data.init){
+        if (data.init) {
             Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
                 Main.showLoading(false);
                 clearTimeout(this.loadTimeID);
@@ -124,14 +126,14 @@ export default class login extends Laya.Script {
                     clearTimeout(this.loadTimeID);
                 }, 10000)
             }))
-        }else{
-            let openData={
-                page:Main.pages.page6,
-                userId:data.userId
+        } else {
+            let openData = {
+                page: Main.pages.page6,
+                userId: data.userId
             }
-            Main.$openScene('playerNewsSet.scene',false,openData,(res)=>{
+            Main.$openScene('playerNewsSet.scene', false, openData, (res) => {
                 res.x = Laya.stage.width;
-                res.zOrder=10;
+                res.zOrder = 10;
                 Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
                     Main.showLoading(false);
                     clearTimeout(this.loadTimeID);
@@ -142,33 +144,22 @@ export default class login extends Laya.Script {
     }
 
     /**
-     * 注册
-     */
-    register() {
-        Main.$openScene('register.scene', false, { page: Main.sign.register }, (res) => {
-            res.x = Laya.stage.width;
-            Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
-                this.owner.removeSelf();
-            }));
-        })
-    }
+    * 初始化打开场景的参数
+    */
+    initOpenView() {
+        //注册
+        let openData1 = {
+            page: Main.sign.register
+        }
+        let OpenViewJS1 = this.owner.register_btn.getComponent(OpenView);
+        OpenViewJS1.initOpen(1, 'register.scene', false, openData1, 0);
 
-    /**
-     * 修改密码
-     */
-    changePwd() {
-        Main.$openScene('register.scene', false, { page: Main.sign.changePwd }, (res) => {
-            res.x = Laya.stage.width;
-            Laya.Tween.to(res, { x: 0 }, Main._speed.page, null, Laya.Handler.create(this, () => {
-                this.owner.removeSelf();
-            }));
-        })
-    }
-
-    onDisable() {
-    }
-
-    onLoaded() {
+        //修改密码
+        let openData2 = {
+            page: Main.sign.changePwd
+        }
+        let OpenViewJS2 = this.owner.change_btn.getComponent(OpenView);
+        OpenViewJS2.initOpen(1, 'register.scene', false, openData2, 0);
 
     }
 }

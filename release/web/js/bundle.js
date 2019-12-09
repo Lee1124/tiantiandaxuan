@@ -1,6 +1,898 @@
 (function () {
     'use strict';
 
+    class setSceneWH extends Laya.Script {
+
+        constructor() { 
+            super(); 
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+        }
+        
+        onEnable() {
+            this.owner.width = Laya.stage.width;
+            this.owner.height = Laya.stage.height;
+        }
+
+        onDisable() {
+        }
+    }
+
+    /**
+     * 悬浮提示
+     */
+    class SuspensionTips extends Laya.Script {
+        constructor() {
+            super();
+            //  /** @prop {name:tip,tips:"预制体TIP",type:Prefab}*/
+        }
+
+        onEnable()  {
+            //初始化数组删除方式
+            this.InitArr();
+
+            //提示内容
+            this.tipsContent = [];
+            this.targets = [];
+            this.targetY = 300;
+        }
+
+        /**
+         * 自定义数组删除方法
+         * @param {*} val 
+         */
+        InitArr(val)  {
+            Array.prototype.indexOf = function (val) {
+                for (var i = 0; i < this.length; i++) {
+                    if (this[i] == val) return i;
+                }
+                return -1;
+            };
+            Array.prototype.remove = function (val) {
+                var index = this.indexOf(val);
+                if (index > -1) {
+                    this.splice(index, 1);
+                }
+            };
+        };
+
+
+        // onClick()  {
+        //     this.add(Math.random() * 1000);
+        // }
+
+        /**
+         * 添加提示信息
+         */
+        add(content)  {
+            //添加信息
+            this.tipsContent.push(content);
+            //播放
+            this.play();
+        }
+
+        /**
+         * 创建对象
+         * @param {} char 
+         */
+        createTarget(parent, char)  {
+
+
+            //测试先创建简单的字体
+            let targetParent = new Laya.Image;
+
+            targetParent.name = "parent";
+            targetParent.anchorX = 0.5;
+            targetParent.anchorY = 0.5;
+            // Laya.loader.create('prefab/tip.json',Laya.Handler.create(this,(e)=>{
+            //     let pre=e.create();
+            //     console.log(pre)
+            // }))
+            // let tip = Laya.Pool.getItemByCreateFun("tip", this.tip.create, this.tip);
+            // console.log(tip)
+            let tipBg = new Laya.Sprite();
+            tipBg.name = "child";
+            tipBg.size(770, 110);
+            tipBg.scale(0, 0);
+            tipBg.y = this.targetY;
+            tipBg.loadImage('res/img/common/tip.png', Laya.Handler.create(this, () => {
+                tipBg.pivot(tipBg.width / 2, tipBg.height / 2);
+                tipBg.x = parent.width / 2;
+            }));
+            let msg = new Laya.Label;
+            msg.size(770, 110);
+            msg.align='center';
+            msg.valign='middle';
+            msg.text = char;
+            msg.color = "#FFFFFF";
+            msg.font = "Impact";
+            msg.fontSize = 40;
+            tipBg.addChild(msg);
+            targetParent.addChild(tipBg);
+            parent.addChild(targetParent);
+            return targetParent;
+        }
+
+        /**
+         * 播放
+         */
+        play()  {
+            if (this.tipsContent.length > 0)
+                this.setTween();
+        }
+
+        /**
+         * 设置缓动信息
+         */
+        setTween()  {
+            let content = this.tipsContent.shift();
+            //创建目标对象
+            let target = this.createTarget(this.owner, content);
+            //开始执行缓动
+            this.setScale(target.getChildByName("child"), 1, 1, 300);
+            //更新对象坐标
+            this.UpdateTargets();
+            //插入数据
+            this.targets.unshift(target);
+        }
+
+        /**
+         * 更新缓动对象
+         */
+        UpdateTargets()  {
+            // console.log("UpdateTargets:start");
+            let offsetY = 0;
+            let lastItem = null;
+            this.targets.forEach((item, index) => {
+                let tar = item.getChildByName("child");
+                let lastTar = lastItem != null ? lastItem.getChildByName("child") : null;
+
+                //首个对象不会重叠的位置
+                // let curY = this.targetY - tar.height;
+
+                //当前item坐标转换
+                let point = new Laya.Point(tar.x, tar.y);
+                let localPoint = item.localToGlobal(point);
+                //上一个item或者初始坐标位置 - 坐标转换
+                let point2 = lastTar != null ? new Laya.Point(lastTar.x, lastTar.y - tar.height) : new Laya.Point(0, this.targetY - tar.height);
+                let localPoint2 = lastTar == null ? item.localToGlobal(point2) : lastItem.localToGlobal(point2);
+
+                //与生成对象重叠
+                if (localPoint.y > localPoint2.y)  {
+                    offsetY = localPoint.y - localPoint2.y;
+                    item.y -= offsetY;
+                }
+
+                lastItem = item;
+            });
+
+            // console.log("UpdateTargets:end");
+        }
+
+        /**
+         * 设置缩放
+         * @param {*} target 
+         */
+        setScale(target, sX, sY, time)  {
+            Laya.Tween.to(target,
+                { scaleX: sX, scaleY: sX },
+                time, null, Laya.Handler.create(this, this.setMove, [target, 0, 1000]));
+        }
+
+        /**
+         * 设置移动
+         * @param {*} target 
+         */
+        setMove(target, endY, time)  {
+            this.play();
+            Laya.Tween.to(target,
+                { y: endY },
+                time, null, Laya.Handler.create(this, this.tweenEnd, [target]));
+        }
+
+        /**
+         * 更新对象移动
+         */
+        UpdateMove(target, endY, time)  {
+            Laya.Tween.to(target,
+                { y: endY },
+                time);
+        }
+
+        /**
+         * 缓动结束
+         */
+        tweenEnd(target)  {
+            this.owner.removeChild(target.parent);
+            this.targets.remove(target.parent);
+        }
+
+        /**
+         * 删除目标对象
+         */
+        removeTarget()  {
+
+        }
+
+        /**
+         * update
+         */
+        onUpdate()  {
+
+        }
+    }
+
+    class Main {
+        constructor() {
+            Main.instance = this;
+            this.websoketApi = '192.168.0.125:8082';
+            this.requestApi = 'http://192.168.0.125:8081';
+            // this.websoketApi = '132.232.34.32:8082';
+            // this.requestApi = 'http://132.232.34.32:8081';
+            //手机信息
+            this.phoneNews = {
+                statusHeight: 0,//手机系统栏的高度
+                deviceNews: '',//系统名称：Android / iOS
+            };
+            //用户信息
+            this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            // this.$LOG('Main.js获取用户信息：', this.userInfo);
+            //跳转划出界面标志
+            this.sign = {
+                signOut: 1,
+                register: 2,
+                changePwd: 3,
+                shop: 4
+            };
+            //联系客服地址
+            this.serviceUrl='';
+            //界面
+            this.pages = {
+                page1: 'NoticePage',
+                page2: 'CreateGamePage',
+                page3: 'HallPage',
+                page4: 'DataPage',
+                page5: 'MePage',
+                page6: 'login'
+            };
+            this.gameView = {
+                desk_bg1: 'res/img/gameView/desk_bg1.png',
+                desk_bg2: 'res/img/gameView/desk_bg2.png'
+            };
+            this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
+                'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene',
+                'aboutOur.scene','gameSet.scene','service.scene'];
+            this.allowGameHallSetInterval = false;
+            this.allowRequesList = true;
+            this.allowHideLoad = false;
+            this.defaultImg = {
+                one: 'res/img/common/defaultHead.png'
+            };
+
+            this.animations = {
+                qiao: 'qiao',
+                win: 'win',
+                expression: 'expression'
+            };
+
+            this.loadingType = {
+                one: 'Loading',
+                two: 'Loading2',
+                three: 'Loading3',
+            };
+
+            this._speed = {
+                page: 120
+            };
+            this.loadSceneResourcesArr = [];
+            this.openSceneViewArr = [];
+            this.loadAniArr1 = [];
+            this.loadAniArr2 = [];
+            this.loadShowArr = [];
+            this.loadShowArr2 = [];
+            this.debug = true;
+
+            this.errList = [];
+            this.tipArr1 = [];
+            this.tipArr2 = [];
+            this.diaLogArr1 = [];
+            this.diaLogArr2 = [];
+        }
+
+        $LOG(...data) {
+            if (this.debug)
+                console.log(...data);
+        }
+
+        $ERROR(...data) {
+            if (this.debug)
+                console.error(...data);
+        }
+
+        /**
+         * 创建一个tip节点
+         */
+        createTipBox() {
+            let tipBox = new Laya.Image();
+            tipBox.zOrder = 40;
+            tipBox.name = 'tipBox';
+            tipBox.height = 300;
+            tipBox.left = 0;
+            tipBox.right = 0;
+            tipBox.pivot(tipBox.width / 2, tipBox.height / 2);
+            tipBox.pos((Laya.stage.width - tipBox.width) / 2, (Laya.stage.height - tipBox.height) / 2);
+            Laya.stage.addChild(tipBox);
+            tipBox.addComponent(SuspensionTips);
+            this.tipArr1 = ['tipBox'];
+            this.tipArr2.forEach(item => {
+                let tipJS = tipBox.getComponent(SuspensionTips);
+                tipJS.add(item.msg);
+                this.tipArr2 = [];
+                return;
+            });
+        }
+
+        /**
+         * 显示提示
+         * @param {*} msg 提示文字
+         */
+        showTip(msg) {
+            this.tipArr1.forEach(item => {
+                let tipBox = Laya.stage.getChildByName(item);
+                if (tipBox) {
+                    let tipJS = tipBox.getComponent(SuspensionTips);
+                    tipJS.add(msg);
+                }
+            });
+            if (this.tipArr1.length == 0)
+                this.tipArr2 = [{ msg: msg }];
+        }
+
+        /**
+        * 获取状态栏高度入口
+        */
+        getStatusHeight(obj) {
+            if (window.plus) {
+                this.plusReady();
+                this.getDeviceInfo();
+            } else {
+                document.addEventListener('plusready', this.plusReady, false);
+                document.addEventListener('getDeviceInfo', this.getDeviceInfo, false);
+            }
+        }
+        /**
+         * 获取状态栏高度值
+         */
+        plusReady() {
+            // 获取系统状态栏样式
+            var lh = plus.navigator.getStatusbarHeight();
+            this.phoneNews.statusHeight = lh * plus.screen.scale;
+        }
+
+        getDeviceInfo() {
+            this.phoneNews.deviceNews = plus.os.name;
+        }
+
+        /**
+         * 根据状态栏设置元素的top值
+         * @param nodeArr 节点对象 数组
+         */
+        setNodeTop(nodeArr) {
+            nodeArr.forEach(node => {
+                node.top = node.top + this.phoneNews.statusHeight;
+                console.log(node.top);
+            });
+        }
+
+        /**
+         * 获取当前时间戳(以S为单位)
+         */
+        getTimeChuo() {
+            return Math.round(new Date() / 1000)
+        }
+
+        /**
+         * 获取地址栏信息(eg:id)
+         */
+        GetUrlString(name) {
+            let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            let r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+
+        /**
+         * 预创建弹框
+         */
+        createDiaLog() {
+            //弹框遮罩
+            let myMask = Laya.stage.getChildByName("dialogMask");
+            if (myMask) {
+                myMask.removeSelf();
+            }
+            let Mask = new Laya.Sprite();
+            this.diaLogMask = Mask;
+            Mask.visible = false;
+            Mask.zOrder = 4;
+            Mask.pos(0, 0);
+            Mask.size(Laya.stage.width, Laya.stage.height);
+            //弹框对象
+            this.diaLog = new Laya.Dialog();
+            this.diaLog.pos((Laya.stage.width - 1132) / 2, (Laya.stage.height - 764) / 2);
+            this.diaLog.size(1132, 764);
+            this.diaLog.zOrder = 5;
+            //弹框背景
+            let dialogBg = new Laya.Image();
+            dialogBg.pos(0, 0);
+            dialogBg.loadImage('res/img/diglog/bg.png');
+            //弹框文字内容
+            let dialogContent = new Laya.Text();
+            dialogContent.fontSize = 60;
+            dialogContent.color = '#935F13';
+            dialogContent.size(1132, 180);
+            dialogContent.align = 'center';
+            dialogContent.valign = 'middle';
+            dialogContent.y = 250;
+            dialogContent.text = '';
+            //创建一个确认按钮
+            let btn_one = new Laya.Image();
+            btn_one.size(609, 163);
+            btn_one.loadImage('res/img/diglog/btn_one.png', Laya.Handler.create(this, () => {
+                btn_one.pos((1132 - btn_one.width) / 2, 764 - btn_one.height - 60);
+            }));
+
+            //创建一个确认按钮和一个取消按钮
+            let btn_cancel = new Laya.Image();
+            let btn_comfirm = new Laya.Image();
+            btn_cancel.size(460, 163);
+            btn_comfirm.size(460, 163);
+            btn_cancel.loadImage('res/img/diglog/btn_cancel.png', Laya.Handler.create(this, () => {
+                btn_cancel.pos(72, 764 - btn_cancel.height - 60);
+            }));
+            btn_comfirm.loadImage('res/img/diglog/btn_comfirm.png', Laya.Handler.create(this, () => {
+                btn_comfirm.pos(600, 764 - btn_comfirm.height - 60);
+            }));
+            dialogBg.addChild(dialogContent);
+            dialogBg.addChild(btn_one);
+            dialogBg.addChild(btn_cancel);
+            dialogBg.addChild(btn_comfirm);
+            this.diaLog.addChild(dialogBg);
+            Mask.addChild(this.diaLog);
+            Laya.stage.addChild(Mask);
+            this.diaLogArr1 = [{ btn1: btn_one, btn2: btn_cancel, btn3: btn_comfirm, msg: dialogContent }];
+            this.diaLogCommon();
+        }
+
+        closeDiaLog() {
+            this.diaLog.close();
+            this.diaLogMask.visible = false;
+            let arr = this.diaLogArr1[0];
+            arr.btn1.off(Laya.Event.CLICK);
+            arr.btn2.off(Laya.Event.CLICK);
+            arr.btn3.off(Laya.Event.CLICK);
+        }
+
+        diaLogCommon() {
+            let arr1 = this.diaLogArr1[0];
+            this.diaLogArr2.forEach(item => {
+                arr1.btn1.visible = item.type == 1 ? true : false;
+                arr1.btn2.visible = item.type == 2 ? true : false;
+                arr1.btn3.visible = item.type == 2 ? true : false;
+                arr1.msg.text = item.msg;
+                arr1.msg.color = item.color;
+                this.diaLogMask.visible = true;
+                this.diaLog.show();
+                arr1.btn1.on(Laya.Event.CLICK, this, () => {
+                    if (item.comfirmFn)
+                        item.comfirmFn('点击了确定按钮');
+                    this.closeDiaLog();
+                });
+                arr1.btn2.on(Laya.Event.CLICK, this, () => {
+                    if (item.cancelFn)
+                        item.cancelFn('点击了取消按钮');
+                    this.closeDiaLog();
+                });
+                arr1.btn3.on(Laya.Event.CLICK, this, () => {
+                    if (item.comfirmFn)
+                        item.comfirmFn('点击了确定按钮');
+                    this.closeDiaLog();
+                });
+                this.diaLogMask.on(Laya.Event.CLICK, this, () => {
+                    if (item.cancelFn)
+                        item.cancelFn('点击了取消按钮');
+                    this.closeDiaLog();
+                });
+            });
+            this.diaLogArr2 = [];
+        }
+
+        /**
+         * 对话框
+         * @param {*} msg 提示内容
+         * @param {*} type 显示类型(注意：1--一个确定按钮,2--确定按钮和取消按钮)
+         * @param {*} comfirmFn 确认回调
+         * @param {*} cancelFn 取消回调
+         * @param {*} textColor 文字颜色
+         */
+        showDiaLog(msg = '', type, comfirmFn, cancelFn, textColor) {
+            let myMsg = msg ? msg : '';
+            let myType = type ? type : 1;
+            let myMsgColor = textColor ? textColor : '#935F13';
+            if (this.diaLogArr1.length > 0) {
+                this.diaLogArr1.forEach(item => {
+                    item.btn1.visible = myType == 1 ? true : false;
+                    item.btn2.visible = myType == 2 ? true : false;
+                    item.btn3.visible = myType == 2 ? true : false;
+                    item.msg.text = myMsg;
+                    item.msg.color = myMsgColor;
+                    this.diaLogMask.visible = true;
+                    this.diaLog.show();
+                    item.btn1.on(Laya.Event.CLICK, this, () => {
+                        if (comfirmFn)
+                            comfirmFn('点击了确定按钮');
+                        this.closeDiaLog();
+                    });
+                    item.btn2.on(Laya.Event.CLICK, this, () => {
+                        if (cancelFn)
+                            cancelFn('点击了取消按钮');
+                        this.closeDiaLog();
+                    });
+                    item.btn3.on(Laya.Event.CLICK, this, () => {
+                        if (comfirmFn)
+                            comfirmFn('点击了确定按钮');
+                        this.closeDiaLog();
+                    });
+                    this.diaLogMask.on(Laya.Event.CLICK, this, () => {
+                        if (cancelFn)
+                            cancelFn('点击了取消按钮');
+                        this.closeDiaLog();
+                    });
+                });
+                return;
+            } else {
+                this.diaLogArr2 = [{ msg: myMsg, type: myType, comfirmFn: comfirmFn, cancelFn: cancelFn, color: myMsgColor }];
+            }
+        }
+
+        setText(node, size, color) {
+            node.fontSize = size;
+            node.color = color;
+            return node;
+        }
+
+        /**
+        * 创建加载图标到stage
+        * @param type 加载图标类型
+        */
+        createLoading(type = this.loadingType.one) {
+            Laya.loader.load("res/atlas/images/common.atlas", Laya.Handler.create(this, onMyLoaded));
+            function onMyLoaded() {
+                let loadingMask = new Laya.Image();
+                loadingMask.visible = false;
+                loadingMask.left = 0;
+                loadingMask.top = 0;
+                loadingMask.bottom = 0;
+                loadingMask.right = 0;
+                loadingMask.zOrder = 10;
+                loadingMask.name = 'loadingMask-' + type;
+                loadingMask.on(Laya.Event.CLICK, this, () => { });
+                let animationBox = new Laya.Sprite();
+                let animationText = new Laya.Label();
+                if (type == this.loadingType.three) {
+                    animationText.name = 'loadingText';
+                    animationText.width = 220;
+                    animationText.centerX = 0;
+                    animationText.align = 'center';
+                    animationText.zOrder = 10;
+                    animationText.bottom = -85;
+                    let aniText = this.setText(animationText, 30, '#FFFFFF');
+                    animationBox.addChild(aniText);
+                }
+                animationBox.name = 'loadingBox';
+                animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
+                let ani = new Laya.Animation();
+                ani.name = 'loadingAni';
+                ani.loadAnimation("animation/loading/" + type + ".ani");
+                animationBox.addChild(ani);
+                loadingMask.addChild(animationBox);
+                Laya.stage.addChild(loadingMask);
+                this.loadAniArr1.push(type);
+                this.loadAniArr2.forEach(item => {
+                    if (item.key == type) {
+                        let $loadingMask = Laya.stage.getChildByName('loadingMask-' + item.type);
+                        $loadingMask.visible = item.show;
+                        animationText.text = '';
+                        if (item.show) {
+                            animationText.text = item.text;
+                            ani.play();
+                        } else {
+                            ani.stop();
+                        }
+                    }
+                });
+            }
+        }
+
+        /**
+         * 显示或隐藏加载图标
+         * @param isShow 是否显示
+         * @param type 显示类型
+         * @param msg 显示文字
+         */
+        showLoading(isShow = true, type = this.loadingType.one, msg = '') {
+            this.loadAniArr1.forEach(item => {
+                if (item == type) {
+                    let loadingMask = Laya.stage.getChildByName('loadingMask-' + type);
+                    let loadingBox = loadingMask.getChildByName('loadingBox');
+                    let loadingAni = loadingBox.getChildByName('loadingAni');
+                    let loadingText;
+                    if (type == this.loadingType.three) {
+                        loadingText = loadingBox.getChildByName('loadingText');
+                        loadingText.text = '';
+                    }
+                    if (!loadingMask.visible && isShow) {
+                        if (type == this.loadingType.three)
+                            loadingText.text = msg;
+                        loadingAni.play();
+                    } else if (!isShow) {
+                        loadingAni.stop();
+                    }
+                    loadingMask.visible = isShow;
+                    return;
+                }
+            });
+            this.loadAniArr2 = [{ key: type, show: isShow, type: type, text: msg }];
+        }
+
+        /**
+         * 隐藏所有的加载
+         */
+        hideAllLoading() {
+            this.showLoading(false, this.loadingType.one);
+            this.showLoading(false, this.loadingType.two);
+            this.showLoading(false, this.loadingType.three);
+        }
+
+
+        /**
+         * 加载图片资源,判断加载失败则显示默认图片(默认图片分多种，根据需要)
+         * @param {*} node 加载图片的节点
+         * @param {*} url 加载图片资源地址
+         * @param {*} type 默认的图片类型 
+         * @param {*} type2 加载图片方式  skin 和 loadImage两种方式 
+         */
+        $LoadImage(node, url = '', type = this.defaultImg.one, type2 = 'loadImage') {
+            if (url.indexOf('.png') != -1 || url.indexOf('.jpg') != -1 || url.indexOf('.jpeg') != -1) {
+                Laya.loader.load(url, Laya.Handler.create(this, (res) => {
+                    if (res) {
+                        if (type2 == 'loadImage') {
+                            node.loadImage(url);
+                        } else if (type2 == 'skin') {
+                            node.skin = url;
+                        }
+                    } else {
+                        if (type2 == 'loadImage') {
+                            node.loadImage(type);
+                        } else if (type2 == 'skin') {
+                            node.skin = type;
+                        }
+                    }
+                }));
+            } else {
+                if (type2 == 'loadImage') {
+                    node.loadImage(type);
+                } else if (type2 == 'skin') {
+                    node.skin = type;
+                }
+            }
+        }
+
+        /**
+         * 滑动选择
+         * @param slider_box_node 需要将内容添加到该盒子里面的节点
+         * @param slider_btn_node 滑动按钮资源节点
+         * @param that 执行域
+         * @param fn 回调函数
+         */
+        $slider(slider_box_node, slider_btn_node, that, fn) {
+            slider_btn_node.x = 0;
+            slider_btn_node.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown, [slider_box_node, slider_btn_node, that, fn]);
+        }
+        /**
+         * 接上
+         */
+        onMouseDown(slider_box_node, slider_btn_node, that, fn) {
+            Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove, [slider_box_node, slider_btn_node, that, fn]);
+            slider_btn_node.x = slider_btn_node.x;
+            Laya.stage.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
+            Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
+        }
+        /**
+        * 移动事件
+        */
+        onMouseMove(slider_box_node, slider_btn_node, that, fn) {
+            slider_btn_node.x = Math.max(Math.min(slider_box_node.mouseX, slider_box_node.width), 0);
+            if (fn)
+                fn.call(that, slider_btn_node.x);
+        }
+
+        onMouseUp() {
+            Laya.stage.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
+            Laya.stage.off(Laya.Event.MOUSE_UP, this, this.onMouseUp);
+            Laya.stage.off(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
+        }
+
+        /**
+         * switch开关
+         * @param {*} switchBox 装两个按钮的盒子
+         * @param {*} isSelected 是否开启
+         * @param {*} that 执行域
+         * @param {*} fn 回调函数，返回是否开启
+         */
+        $switch(switchBox, isSelected, that, fn) {
+            let isSelect = isSelected == 1 ? true : false;
+            let switch0 = switchBox.getChildByName("switch0");
+            let switch1 = switchBox.getChildByName("switch1");
+            switch0.visible = isSelect ? false : true;
+            switch1.visible = isSelect ? true : false;
+            switchBox.on(Laya.Event.CLICK, this, () => {
+                switch0.visible = switch1.visible;
+                switch1.visible = !switch0.visible;
+                if (switch1.visible && fn)
+                    fn.call(that, true);
+                else if (switch0.visible && fn) {
+                    fn.call(that, false);
+                }
+            });
+        }
+
+        /**
+         *  预加载的资源 
+         */
+        beforeLoadScene() {
+            Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
+            this.loadScene.forEach(item => {
+                Laya.Scene.load(item, Laya.Handler.create(this, this.openView));
+            });
+        }
+
+        /**
+         * 加载资源回调
+         * @param {*} res 加载资源结束回调参数
+         */
+        openView(res) {
+            this.$LOG('预加载的资源：', res);
+            this.loadSceneResourcesArr.push(res.url);
+            this.openSceneViewArr.forEach((item, index) => {
+                if (item.url.indexOf(res.url) != -1) {
+                    console.log('Main中正在打开==================0000');
+                    Laya.Scene.open(res.url, item.closeOther, item.data, Laya.Handler.create(this, item.fn), () => {
+                        console.log('Main中正在打开==================1');
+                    });
+                    this.openSceneViewArr.splice(index, 1);
+                    return;
+                }
+            });
+        }
+
+        /**
+         * 打开场景
+         * @param url 场景地址
+         * @param closeOther 是否关闭
+         * @param data 参数
+         * @param fn 打开回调函数
+         * @param fn2 正在打开回调函数
+         */
+        $openScene(url, closeOther = true, data = null, fn, fn2) {
+            this.loadSceneResourcesArr.forEach(item => {
+                if (item.indexOf(url) != -1) {
+                    Laya.Scene.open(url, closeOther, data, Laya.Handler.create(this, fn), Laya.Handler.create(this, () => {
+                        console.log('Main中正在打开==================2');
+                    }));
+                    return;
+                }
+            });
+            this.openSceneViewArr = [{ url: url, closeOther: closeOther, data: data, fn: fn, fn2: fn2 }];
+        }
+
+        /**
+         * 将秒转化为时分秒
+         */
+        secondToDate(result) {
+            var h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
+            var m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));
+            var s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60));
+            return result = h + ":" + m + ":" + s;
+        }
+
+
+
+
+        /**
+     * 格式化时间
+     * @timeVal new Date 格式的时间
+     * @typeStr 分割符号 例：'/'  '.'  '-'
+     */
+        getFormatTime(timeVal) {
+            if (timeVal != null) {
+                let date = new Date(timeVal);
+                let nowY = date.getFullYear();
+                let nowM = date.getMonth() + 1;
+                let nowD = date.getDate();
+                let hour = date.getHours();
+                let minutes = date.getMinutes();
+                let result = {
+                    nowY: nowY,
+                    month: (nowM < 10 ? "0" + nowM : nowM),
+                    day: (nowD < 10 ? "0" + nowD : nowD),
+                    hour: (hour < 10 ? "0" + hour : hour),
+                    minutes: (minutes < 10 ? "0" + minutes : minutes),
+                    timeStr: nowY + '-' + nowM + '-' + nowD
+                };
+                return result;
+            } else {
+                return null;
+            }
+        }
+    }
+    var Main$1 = new Main();
+
+    /**
+     * 该脚本是做返回功能
+     */
+    class back extends Laya.Script {
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+
+            //返回类型 （0：表示直接返回,不需要打开场景 1：表示打开场景再返回）
+            this.backType = 0;
+            //返回场景地址
+            this.backScene = '';
+            //返回场景所传参数
+            this.backData = null;
+            //需要移除的html节点
+            this.removeNode=null;
+        }
+        /**
+         * 初始化返回参数
+         * @param {*} backType 返回类型（0：表示直接返回,不需要打开场景 1：表示打开场景再返回）
+         * @param {*} backScene 返回场景地址
+         * @param {*} backData 返回场景所传参数
+         * @param {*} node 需要移除的节点
+         */
+        initBack(backType, backScene, backData,node) {
+            this.backType = backType?backType:0;
+            this.backScene = backScene?backScene:'';
+            this.backData = backData?backData:null;
+            this.removeNode=node?node:null;
+        }
+        onEnable() {
+            this.initBack();
+            this.bindEvent();
+        }
+        bindEvent() {
+            this.owner.on(Laya.Event.CLICK, this, this.back);
+        }
+        back() {
+            //所属场景
+            let thisScene = this.owner.scene;
+            if (this.backType == 0) {
+                Laya.Tween.to(thisScene, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                    thisScene.removeSelf();
+                }));
+            } else if (this.backType == 1) {
+                Laya.Scene.open(this.backScene, false, this.backData, Laya.Handler.create(this, (res) => {
+                    Laya.Tween.to(thisScene, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                        thisScene.removeSelf();
+                    }));
+                }));
+            }
+            if(this.removeNode){
+                Laya.Browser.document.body.removeChild(this.removeNode);
+            }
+        }
+    }
+
     class CommonSet{
         constructor() {}
         // 设置布局适配数据
@@ -633,821 +1525,6 @@
     	}
     }
 
-    /**
-     * 悬浮提示
-     */
-    class SuspensionTips extends Laya.Script {
-        constructor() {
-            super();
-            //  /** @prop {name:tip,tips:"预制体TIP",type:Prefab}*/
-        }
-
-        onEnable()  {
-            //初始化数组删除方式
-            this.InitArr();
-
-            //提示内容
-            this.tipsContent = [];
-            this.targets = [];
-            this.targetY = 300;
-        }
-
-        /**
-         * 自定义数组删除方法
-         * @param {*} val 
-         */
-        InitArr(val)  {
-            Array.prototype.indexOf = function (val) {
-                for (var i = 0; i < this.length; i++) {
-                    if (this[i] == val) return i;
-                }
-                return -1;
-            };
-            Array.prototype.remove = function (val) {
-                var index = this.indexOf(val);
-                if (index > -1) {
-                    this.splice(index, 1);
-                }
-            };
-        };
-
-
-        // onClick()  {
-        //     this.add(Math.random() * 1000);
-        // }
-
-        /**
-         * 添加提示信息
-         */
-        add(content)  {
-            //添加信息
-            this.tipsContent.push(content);
-            //播放
-            this.play();
-        }
-
-        /**
-         * 创建对象
-         * @param {} char 
-         */
-        createTarget(parent, char)  {
-
-
-            //测试先创建简单的字体
-            let targetParent = new Laya.Image;
-
-            targetParent.name = "parent";
-            targetParent.anchorX = 0.5;
-            targetParent.anchorY = 0.5;
-            // Laya.loader.create('prefab/tip.json',Laya.Handler.create(this,(e)=>{
-            //     let pre=e.create();
-            //     console.log(pre)
-            // }))
-            // let tip = Laya.Pool.getItemByCreateFun("tip", this.tip.create, this.tip);
-            // console.log(tip)
-            let tipBg = new Laya.Sprite();
-            tipBg.name = "child";
-            tipBg.size(770, 110);
-            tipBg.scale(0, 0);
-            tipBg.y = this.targetY;
-            tipBg.loadImage('res/img/common/tip.png', Laya.Handler.create(this, () => {
-                tipBg.pivot(tipBg.width / 2, tipBg.height / 2);
-                tipBg.x = parent.width / 2;
-            }));
-            let msg = new Laya.Label;
-            msg.size(770, 110);
-            msg.align='center';
-            msg.valign='middle';
-            msg.text = char;
-            msg.color = "#FFFFFF";
-            msg.font = "Impact";
-            msg.fontSize = 40;
-            tipBg.addChild(msg);
-            targetParent.addChild(tipBg);
-            parent.addChild(targetParent);
-            return targetParent;
-        }
-
-        /**
-         * 播放
-         */
-        play()  {
-            if (this.tipsContent.length > 0)
-                this.setTween();
-        }
-
-        /**
-         * 设置缓动信息
-         */
-        setTween()  {
-            let content = this.tipsContent.shift();
-            //创建目标对象
-            let target = this.createTarget(this.owner, content);
-            //开始执行缓动
-            this.setScale(target.getChildByName("child"), 1, 1, 300);
-            //更新对象坐标
-            this.UpdateTargets();
-            //插入数据
-            this.targets.unshift(target);
-        }
-
-        /**
-         * 更新缓动对象
-         */
-        UpdateTargets()  {
-            // console.log("UpdateTargets:start");
-            let offsetY = 0;
-            let lastItem = null;
-            this.targets.forEach((item, index) => {
-                let tar = item.getChildByName("child");
-                let lastTar = lastItem != null ? lastItem.getChildByName("child") : null;
-
-                //首个对象不会重叠的位置
-                // let curY = this.targetY - tar.height;
-
-                //当前item坐标转换
-                let point = new Laya.Point(tar.x, tar.y);
-                let localPoint = item.localToGlobal(point);
-                //上一个item或者初始坐标位置 - 坐标转换
-                let point2 = lastTar != null ? new Laya.Point(lastTar.x, lastTar.y - tar.height) : new Laya.Point(0, this.targetY - tar.height);
-                let localPoint2 = lastTar == null ? item.localToGlobal(point2) : lastItem.localToGlobal(point2);
-
-                //与生成对象重叠
-                if (localPoint.y > localPoint2.y)  {
-                    offsetY = localPoint.y - localPoint2.y;
-                    item.y -= offsetY;
-                }
-
-                lastItem = item;
-            });
-
-            // console.log("UpdateTargets:end");
-        }
-
-        /**
-         * 设置缩放
-         * @param {*} target 
-         */
-        setScale(target, sX, sY, time)  {
-            Laya.Tween.to(target,
-                { scaleX: sX, scaleY: sX },
-                time, null, Laya.Handler.create(this, this.setMove, [target, 0, 1000]));
-        }
-
-        /**
-         * 设置移动
-         * @param {*} target 
-         */
-        setMove(target, endY, time)  {
-            this.play();
-            Laya.Tween.to(target,
-                { y: endY },
-                time, null, Laya.Handler.create(this, this.tweenEnd, [target]));
-        }
-
-        /**
-         * 更新对象移动
-         */
-        UpdateMove(target, endY, time)  {
-            Laya.Tween.to(target,
-                { y: endY },
-                time);
-        }
-
-        /**
-         * 缓动结束
-         */
-        tweenEnd(target)  {
-            this.owner.removeChild(target.parent);
-            this.targets.remove(target.parent);
-        }
-
-        /**
-         * 删除目标对象
-         */
-        removeTarget()  {
-
-        }
-
-        /**
-         * update
-         */
-        onUpdate()  {
-
-        }
-    }
-
-    class Main {
-        constructor() {
-            Main.instance = this;
-            this.websoketApi = '192.168.0.125:8082';
-            this.requestApi = 'http://192.168.0.125:8081';
-            // this.websoketApi = '132.232.34.32:8082';
-            // this.requestApi = 'http://132.232.34.32:8081';
-            //手机信息
-            this.phoneNews = {
-                statusHeight: 0,//手机系统栏的高度
-                deviceNews: '',//系统名称：Android / iOS
-            };
-            //用户信息
-            this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            // this.$LOG('Main.js获取用户信息：', this.userInfo);
-            //跳转划出界面标志
-            this.sign = {
-                signOut: 1,
-                register: 2,
-                changePwd: 3,
-                shop: 4
-            };
-            //tab界面
-            this.pages = {
-                page1: 'NoticePage',
-                page2: 'CreateGamePage',
-                page3: 'HallPage',
-                page4: 'DataPage',
-                page5: 'MePage'
-            };
-            this.gameView = {
-                desk_bg1: 'res/img/gameView/desk_bg1.png',
-                desk_bg2: 'res/img/gameView/desk_bg2.png'
-            };
-            this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene', 
-            'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
-            this.allowGameHallSetInterval = false;
-            this.allowRequesList = true;
-            this.allowHideLoad = false;
-            this.defaultImg = {
-                one: 'res/img/common/defaultHead.png'
-            };
-
-            this.animations = {
-                qiao: 'qiao',
-                win: 'win',
-                expression: 'expression'
-            };
-
-            this.loadingType = {
-                one: 'Loading',
-                two: 'Loading2',
-                three: 'Loading3',
-            };
-
-            this._speed = {
-                page: 120
-            };
-            this.loadSceneResourcesArr = [];
-            this.openSceneViewArr = [];
-            this.loadAniArr1 = [];
-            this.loadAniArr2 = [];
-            this.loadShowArr = [];
-            this.loadShowArr2 = [];
-            this.debug = true;
-
-            this.errList = [];
-            this.tipArr1 = [];
-            this.tipArr2 = [];
-            this.diaLogArr1 = [];
-            this.diaLogArr2 = [];
-        }
-
-        $LOG(...data) {
-            if (this.debug)
-                console.log(...data);
-        }
-
-        $ERROR(...data) {
-            if (this.debug)
-                console.error(...data);
-        }
-
-        /**
-         * 创建一个tip节点
-         */
-        createTipBox() {
-            let tipBox = new Laya.Image();
-            tipBox.zOrder = 40;
-            tipBox.name = 'tipBox';
-            tipBox.height = 300;
-            tipBox.left = 0;
-            tipBox.right = 0;
-            tipBox.pivot(tipBox.width / 2, tipBox.height / 2);
-            tipBox.pos((Laya.stage.width - tipBox.width) / 2, (Laya.stage.height - tipBox.height) / 2);
-            Laya.stage.addChild(tipBox);
-            tipBox.addComponent(SuspensionTips);
-            this.tipArr1 = ['tipBox'];
-            this.tipArr2.forEach(item => {
-                let tipJS = tipBox.getComponent(SuspensionTips);
-                tipJS.add(item.msg);
-                this.tipArr2 = [];
-                return;
-            });
-        }
-
-        /**
-         * 显示提示
-         * @param {*} msg 提示文字
-         */
-        showTip(msg) {
-            this.tipArr1.forEach(item => {
-                let tipBox = Laya.stage.getChildByName(item);
-                if (tipBox) {
-                    let tipJS = tipBox.getComponent(SuspensionTips);
-                    tipJS.add(msg);
-                }
-            });
-            if (this.tipArr1.length == 0)
-                this.tipArr2 = [{ msg: msg }];
-        }
-
-        /**
-        * 获取状态栏高度入口
-        */
-        getStatusHeight(obj) {
-            if (window.plus) {
-                this.plusReady();
-                this.getDeviceInfo();
-            } else {
-                document.addEventListener('plusready', this.plusReady, false);
-                document.addEventListener('getDeviceInfo', this.getDeviceInfo, false);
-            }
-        }
-        /**
-         * 获取状态栏高度值
-         */
-        plusReady() {
-            // 获取系统状态栏样式
-            var lh = plus.navigator.getStatusbarHeight();
-            this.phoneNews.statusHeight = lh * plus.screen.scale;
-        }
-
-        getDeviceInfo() {
-            this.phoneNews.deviceNews = plus.os.name;
-        }
-
-        /**
-         * 根据状态栏设置元素的top值
-         * @param nodeArr 节点对象 数组
-         */
-        setNodeTop(nodeArr) {
-            nodeArr.forEach(node => {
-                node.top = node.top + this.phoneNews.statusHeight;
-                console.log(node.top);
-            });
-        }
-
-        /**
-         * 获取当前时间戳(以S为单位)
-         */
-        getTimeChuo() {
-            return Math.round(new Date() / 1000)
-        }
-
-        /**
-         * 获取地址栏信息(eg:id)
-         */
-        GetUrlString(name) {
-            let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            let r = window.location.search.substr(1).match(reg);
-            if (r != null) return unescape(r[2]);
-            return null;
-        }
-
-        /**
-         * 预创建弹框
-         */
-        createDiaLog() {
-            //弹框遮罩
-            let myMask = Laya.stage.getChildByName("dialogMask");
-            if (myMask) {
-                myMask.removeSelf();
-            }
-            let Mask = new Laya.Sprite();
-            this.diaLogMask = Mask;
-            Mask.visible = false;
-            Mask.zOrder = 4;
-            Mask.pos(0, 0);
-            Mask.size(Laya.stage.width, Laya.stage.height);
-            //弹框对象
-            this.diaLog = new Laya.Dialog();
-            this.diaLog.pos((Laya.stage.width - 1132) / 2, (Laya.stage.height - 764) / 2);
-            this.diaLog.size(1132, 764);
-            this.diaLog.zOrder = 5;
-            //弹框背景
-            let dialogBg = new Laya.Image();
-            dialogBg.pos(0, 0);
-            dialogBg.loadImage('res/img/diglog/bg.png');
-            //弹框文字内容
-            let dialogContent = new Laya.Text();
-            dialogContent.fontSize = 60;
-            dialogContent.color = '#935F13';
-            dialogContent.size(1132, 180);
-            dialogContent.align = 'center';
-            dialogContent.valign = 'middle';
-            dialogContent.y = 250;
-            dialogContent.text = '';
-            //创建一个确认按钮
-            let btn_one = new Laya.Image();
-            btn_one.size(609, 163);
-            btn_one.loadImage('res/img/diglog/btn_one.png', Laya.Handler.create(this, () => {
-                btn_one.pos((1132 - btn_one.width) / 2, 764 - btn_one.height - 60);
-            }));
-
-            //创建一个确认按钮和一个取消按钮
-            let btn_cancel = new Laya.Image();
-            let btn_comfirm = new Laya.Image();
-            btn_cancel.size(460, 163);
-            btn_comfirm.size(460, 163);
-            btn_cancel.loadImage('res/img/diglog/btn_cancel.png', Laya.Handler.create(this, () => {
-                btn_cancel.pos(72, 764 - btn_cancel.height - 60);
-            }));
-            btn_comfirm.loadImage('res/img/diglog/btn_comfirm.png', Laya.Handler.create(this, () => {
-                btn_comfirm.pos(600, 764 - btn_comfirm.height - 60);
-            }));
-            dialogBg.addChild(dialogContent);
-            dialogBg.addChild(btn_one);
-            dialogBg.addChild(btn_cancel);
-            dialogBg.addChild(btn_comfirm);
-            this.diaLog.addChild(dialogBg);
-            Mask.addChild(this.diaLog);
-            Laya.stage.addChild(Mask);
-            this.diaLogArr1 = [{ btn1: btn_one, btn2: btn_cancel, btn3: btn_comfirm, msg: dialogContent }];
-            this.diaLogCommon();
-        }
-
-        closeDiaLog() {
-            this.diaLog.close();
-            this.diaLogMask.visible = false;
-            let arr = this.diaLogArr1[0];
-            arr.btn1.off(Laya.Event.CLICK);
-            arr.btn2.off(Laya.Event.CLICK);
-            arr.btn3.off(Laya.Event.CLICK);
-        }
-
-        diaLogCommon() {
-            let arr1 = this.diaLogArr1[0];
-            this.diaLogArr2.forEach(item => {
-                arr1.btn1.visible = item.type == 1 ? true : false;
-                arr1.btn2.visible = item.type == 2 ? true : false;
-                arr1.btn3.visible = item.type == 2 ? true : false;
-                arr1.msg.text = item.msg;
-                arr1.msg.color = item.color;
-                this.diaLogMask.visible = true;
-                this.diaLog.show();
-                arr1.btn1.on(Laya.Event.CLICK, this, () => {
-                    if (item.comfirmFn)
-                        item.comfirmFn('点击了确定按钮');
-                    this.closeDiaLog();
-                });
-                arr1.btn2.on(Laya.Event.CLICK, this, () => {
-                    if (item.cancelFn)
-                        item.cancelFn('点击了取消按钮');
-                    this.closeDiaLog();
-                });
-                arr1.btn3.on(Laya.Event.CLICK, this, () => {
-                    if (item.comfirmFn)
-                        item.comfirmFn('点击了确定按钮');
-                    this.closeDiaLog();
-                });
-                this.diaLogMask.on(Laya.Event.CLICK, this, () => {
-                    if (item.cancelFn)
-                        item.cancelFn('点击了取消按钮');
-                    this.closeDiaLog();
-                });
-            });
-            this.diaLogArr2 = [];
-        }
-
-        /**
-         * 对话框
-         * @param {*} msg 提示内容
-         * @param {*} type 显示类型(注意：1--一个确定按钮,2--确定按钮和取消按钮)
-         * @param {*} comfirmFn 确认回调
-         * @param {*} cancelFn 取消回调
-         * @param {*} textColor 文字颜色
-         */
-        showDiaLog(msg = '', type, comfirmFn, cancelFn, textColor) {
-            let myMsg = msg ? msg : '';
-            let myType = type ? type : 1;
-            let myMsgColor = textColor ? textColor : '#935F13';
-            if (this.diaLogArr1.length > 0) {
-                this.diaLogArr1.forEach(item => {
-                    item.btn1.visible = myType == 1 ? true : false;
-                    item.btn2.visible = myType == 2 ? true : false;
-                    item.btn3.visible = myType == 2 ? true : false;
-                    item.msg.text = myMsg;
-                    item.msg.color = myMsgColor;
-                    this.diaLogMask.visible = true;
-                    this.diaLog.show();
-                    item.btn1.on(Laya.Event.CLICK, this, () => {
-                        if (comfirmFn)
-                            comfirmFn('点击了确定按钮');
-                        this.closeDiaLog();
-                    });
-                    item.btn2.on(Laya.Event.CLICK, this, () => {
-                        if (cancelFn)
-                            cancelFn('点击了取消按钮');
-                        this.closeDiaLog();
-                    });
-                    item.btn3.on(Laya.Event.CLICK, this, () => {
-                        if (comfirmFn)
-                            comfirmFn('点击了确定按钮');
-                        this.closeDiaLog();
-                    });
-                    this.diaLogMask.on(Laya.Event.CLICK, this, () => {
-                        if (cancelFn)
-                            cancelFn('点击了取消按钮');
-                        this.closeDiaLog();
-                    });
-                });
-                return;
-            } else {
-                this.diaLogArr2 = [{ msg: myMsg, type: myType, comfirmFn: comfirmFn, cancelFn: cancelFn, color: myMsgColor }];
-            }
-        }
-
-        setText(node, size, color) {
-            node.fontSize = size;
-            node.color = color;
-            return node;
-        }
-
-        /**
-        * 创建加载图标到stage
-        * @param type 加载图标类型
-        */
-        createLoading(type = this.loadingType.one) {
-            Laya.loader.load("res/atlas/images/common.atlas", Laya.Handler.create(this, onMyLoaded));
-            function onMyLoaded() {
-                let loadingMask = new Laya.Image();
-                loadingMask.visible = false;
-                loadingMask.left = 0;
-                loadingMask.top = 0;
-                loadingMask.bottom = 0;
-                loadingMask.right = 0;
-                loadingMask.zOrder = 10;
-                loadingMask.name = 'loadingMask-' + type;
-                loadingMask.on(Laya.Event.CLICK, this, () => { });
-                let animationBox = new Laya.Sprite();
-                let animationText = new Laya.Label();
-                if (type == this.loadingType.three) {
-                    animationText.name = 'loadingText';
-                    animationText.width = 220;
-                    animationText.centerX = 0;
-                    animationText.align = 'center';
-                    animationText.zOrder = 10;
-                    animationText.bottom = -85;
-                    let aniText = this.setText(animationText, 30, '#FFFFFF');
-                    animationBox.addChild(aniText);
-                }
-                animationBox.name = 'loadingBox';
-                animationBox.pos(Laya.stage.width / 2, Laya.stage.height / 2);
-                let ani = new Laya.Animation();
-                ani.name = 'loadingAni';
-                ani.loadAnimation("animation/loading/" + type + ".ani");
-                animationBox.addChild(ani);
-                loadingMask.addChild(animationBox);
-                Laya.stage.addChild(loadingMask);
-                this.loadAniArr1.push(type);
-                this.loadAniArr2.forEach(item => {
-                    if (item.key == type) {
-                        let $loadingMask = Laya.stage.getChildByName('loadingMask-' + item.type);
-                        $loadingMask.visible = item.show;
-                        animationText.text = '';
-                        if (item.show) {
-                            animationText.text = item.text;
-                            ani.play();
-                        } else {
-                            ani.stop();
-                        }
-                    }
-                });
-            }
-        }
-
-        /**
-         * 显示或隐藏加载图标
-         * @param isShow 是否显示
-         * @param type 显示类型
-         * @param msg 显示文字
-         */
-        showLoading(isShow = true, type = this.loadingType.one, msg = '') {
-            this.loadAniArr1.forEach(item => {
-                if (item == type) {
-                    let loadingMask = Laya.stage.getChildByName('loadingMask-' + type);
-                    let loadingBox = loadingMask.getChildByName('loadingBox');
-                    let loadingAni = loadingBox.getChildByName('loadingAni');
-                    let loadingText;
-                    if (type == this.loadingType.three) {
-                        loadingText = loadingBox.getChildByName('loadingText');
-                        loadingText.text = '';
-                    }
-                    if (!loadingMask.visible && isShow) {
-                        if (type == this.loadingType.three)
-                            loadingText.text = msg;
-                        loadingAni.play();
-                    } else if (!isShow) {
-                        loadingAni.stop();
-                    }
-                    loadingMask.visible = isShow;
-                    return;
-                }
-            });
-            this.loadAniArr2 = [{ key: type, show: isShow, type: type, text: msg }];
-        }
-
-        /**
-         * 隐藏所有的加载
-         */
-        hideAllLoading() {
-            this.showLoading(false, this.loadingType.one);
-            this.showLoading(false, this.loadingType.two);
-            this.showLoading(false, this.loadingType.three);
-        }
-
-
-        /**
-         * 加载图片资源,判断加载失败则显示默认图片(默认图片分多种，根据需要)
-         * @param {*} node 加载图片的节点
-         * @param {*} url 加载图片资源地址
-         * @param {*} type 默认的图片类型 
-         * @param {*} type2 加载图片方式  skin 和 loadImage两种方式 
-         */
-        $LoadImage(node, url = '', type = this.defaultImg.one, type2 = 'loadImage') {
-            if (url.indexOf('.png') != -1 || url.indexOf('.jpg') != -1 || url.indexOf('.jpeg') != -1) {
-                Laya.loader.load(url, Laya.Handler.create(this, (res) => {
-                    if (res) {
-                        if (type2 == 'loadImage') {
-                            node.loadImage(url);
-                        } else if (type2 == 'skin') {
-                            node.skin = url;
-                        }
-                    } else {
-                        if (type2 == 'loadImage') {
-                            node.loadImage(type);
-                        } else if (type2 == 'skin') {
-                            node.skin = type;
-                        }
-                    }
-                }));
-            } else {
-                if (type2 == 'loadImage') {
-                    node.loadImage(type);
-                } else if (type2 == 'skin') {
-                    node.skin = type;
-                }
-            }
-        }
-
-        /**
-         * 滑动选择
-         * @param slider_box_node 需要将内容添加到该盒子里面的节点
-         * @param slider_btn_node 滑动按钮资源节点
-         * @param that 执行域
-         * @param fn 回调函数
-         */
-        $slider(slider_box_node, slider_btn_node, that, fn) {
-            slider_btn_node.x = 0;
-            slider_btn_node.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown, [slider_box_node, slider_btn_node, that, fn]);
-        }
-        /**
-         * 接上
-         */
-        onMouseDown(slider_box_node, slider_btn_node, that, fn) {
-            Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove, [slider_box_node, slider_btn_node, that, fn]);
-            slider_btn_node.x = slider_btn_node.x;
-            Laya.stage.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
-            Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
-        }
-        /**
-        * 移动事件
-        */
-        onMouseMove(slider_box_node, slider_btn_node, that, fn) {
-            slider_btn_node.x = Math.max(Math.min(slider_box_node.mouseX, slider_box_node.width), 0);
-            if (fn)
-                fn.call(that, slider_btn_node.x);
-        }
-
-        onMouseUp() {
-            Laya.stage.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
-            Laya.stage.off(Laya.Event.MOUSE_UP, this, this.onMouseUp);
-            Laya.stage.off(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
-        }
-
-        /**
-         * switch开关
-         * @param {*} switchBox 装两个按钮的盒子
-         * @param {*} isSelected 是否开启
-         * @param {*} that 执行域
-         * @param {*} fn 回调函数，返回是否开启
-         */
-        $switch(switchBox, isSelected, that, fn) {
-            let isSelect = isSelected == 1 ? true : false;
-            let switch0 = switchBox.getChildByName("switch0");
-            let switch1 = switchBox.getChildByName("switch1");
-            switch0.visible = isSelect ? false : true;
-            switch1.visible = isSelect ? true : false;
-            switchBox.on(Laya.Event.CLICK, this, () => {
-                switch0.visible = switch1.visible;
-                switch1.visible = !switch0.visible;
-                if (switch1.visible && fn)
-                    fn.call(that, true);
-                else if (switch0.visible && fn) {
-                    fn.call(that, false);
-                }
-            });
-        }
-
-        /**
-         *  预加载的资源 
-         */
-        beforeLoadScene() {
-            Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
-            this.loadScene.forEach(item => {
-                Laya.Scene.load(item, Laya.Handler.create(this, this.openView));
-            });
-        }
-
-        /**
-         * 加载资源回调
-         * @param {*} res 加载资源结束回调参数
-         */
-        openView(res) {
-            this.$LOG('预加载的资源：', res);
-            this.loadSceneResourcesArr.push(res.url);
-            this.openSceneViewArr.forEach((item, index) => {
-                if (item.url.indexOf(res.url) != -1) {
-                    console.log('Main中正在打开==================0000');
-                    Laya.Scene.open(res.url, item.closeOther, item.data, Laya.Handler.create(this, item.fn), () => {
-                        console.log('Main中正在打开==================1');
-                    });
-                    this.openSceneViewArr.splice(index, 1);
-                    return;
-                }
-            });
-        }
-
-        /**
-         * 打开场景
-         * @param url 场景地址
-         * @param closeOther 是否关闭
-         * @param data 参数
-         * @param fn 打开回调函数
-         * @param fn2 正在打开回调函数
-         */
-        $openScene(url, closeOther = true, data = null, fn, fn2) {
-            this.loadSceneResourcesArr.forEach(item => {
-                if (item.indexOf(url) != -1) {
-                    Laya.Scene.open(url, closeOther, data, Laya.Handler.create(this, fn), Laya.Handler.create(this, () => {
-                        console.log('Main中正在打开==================2');
-                    }));
-                    return;
-                }
-            });
-            this.openSceneViewArr = [{ url: url, closeOther: closeOther, data: data, fn: fn, fn2: fn2 }];
-        }
-
-        /**
-         * 将秒转化为时分秒
-         */
-        secondToDate(result) {
-            var h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
-            var m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));
-            var s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60));
-            return result = h + ":" + m + ":" + s;
-        }
-
-
-
-
-        /**
-     * 格式化时间
-     * @timeVal new Date 格式的时间
-     * @typeStr 分割符号 例：'/'  '.'  '-'
-     */
-        getFormatTime(timeVal) {
-            if (timeVal != null) {
-                let date = new Date(timeVal);
-                let nowY = date.getFullYear();
-                let nowM = date.getMonth() + 1;
-                let nowD = date.getDate();
-                let hour = date.getHours();
-                let minutes = date.getMinutes();
-                let result = {
-                    nowY: nowY,
-                    month: (nowM < 10 ? "0" + nowM : nowM),
-                    day: (nowD < 10 ? "0" + nowD : nowD),
-                    hour: (hour < 10 ? "0" + hour : hour),
-                    minutes: (minutes < 10 ? "0" + minutes : minutes),
-                    timeStr: nowY + '-' + nowM + '-' + nowD
-                };
-                return result;
-            } else {
-                return null;
-            }
-        }
-    }
-    var Main$1 = new Main();
-
     let resPleyList=[];
      class MyCenter {
         constructor() { 
@@ -1954,7 +2031,7 @@
             });
             xhr.once(Laya.Event.ERROR, this, (err) => {
                 console.log('请求异常:', err);
-                Main$1.showTip('网络异常');
+                Main$1.showDiaLog('网络异常');
                 if (obj.fail)
                     obj.fail.call(that, err);
             });
@@ -4755,7 +4832,7 @@
             });
         }
         setPage(that, data) {
-            let head = this.showObj.getChildByName("news_head_box").getChildByName("news_head");
+            let head = this.showObj.getChildByName("news_head_box").getChildByName("headBg").getChildByName("head");
             let name = this.showObj.getChildByName("news_box").getChildByName("news_name");
             let sex_0 = name.getChildByName("news_sex").getChildByName("sex0");
             let sex_1 = name.getChildByName("news_sex").getChildByName("sex1");
@@ -4766,7 +4843,8 @@
             let fanpaiwinrate = this.showObj.getChildByName("news_fanpaiwinrate").getChildByName("news_fanpaiwinrate_value");
             let winss = this.showObj.getChildByName("news_winss").getChildByName("news_winss_value");
             let allwinrate = this.showObj.getChildByName("news_allwinrate").getChildByName("news_allwinrate_value");
-            Main$1.$LoadImage(head, data.head);
+            let headUrl='res/img/head/'+data.head+'.png';
+            Main$1.$LoadImage(head, headUrl,Main$1.defaultImg.one,'skin');
             name.text = data.name;
             name.getChildByName("news_sex").left = name.textWidth;
             sex_0.visible = data.sex == 0 ? true : false;
@@ -5380,7 +5458,7 @@
 
 
         onClickVoiceBtn() {
-            // let roomid = 6749
+            // let roomid = 2557
             // GameControl.instance.onSend({
             //     name: 'M.Room.C2R_DissolveRoom',
             //     data: {
@@ -6484,114 +6562,182 @@
         }
     }
 
-    // import Main from './Main';
     /**
-    * 该脚本为滑动选择
-    */
-    class sliderSelect extends Laya.Script {
+     * 选择开关功能
+     */
+    class MySwitch extends Laya.Script {
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            //回调函数
+            this.callback = null;
+            //回调执行函数
+            this.callbackThis = null;
+            //选择状态(false：关闭 true：打开)
+            this.switchState = true;
+        }
+
+        onEnable() {
+            this.bindEvent();
+            this.initSwitch(null, true);
+        }
+        /**
+         * 初始化
+         * @param {*} that 执行域
+         * @param {*} isSelect 是否选中
+         * @param {*} callback 回调函数
+         */
+        initSwitch(that, isSelect = true, callback) {
+            this.callbackThis = that;
+            this.callback = callback;
+            let yes = this.owner.getChildByName("yes");
+            yes.visible = isSelect ? true : false;
+        }
+
+        bindEvent() {
+            this.owner.on(Laya.Event.CLICK, this, this.clickSwitch);
+        }
+
+        clickSwitch() {
+            let yes = this.owner.getChildByName("yes");
+            yes.visible = !yes.visible;
+            this.switchState = yes.visible;
+            if (this.callback)
+                this.callback.call(this.callbackThis, this.switchState);
+        }
+    }
+
+    /**
+     * 设置
+     */
+    class Set extends Laya.Script {
         constructor() {
             super();
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
-        onEnable() {
-            console.log('demo：', this);
-            // this.i = 0;
-            // let game_music=this.owner.game_music;
-            // let switchBox=game_music.getChildByName("switchBox");
-            // Main.$switch(switchBox,true,this,(res)=>{
-            //     console.log(res)
-            // })
-            // this.listArr=[1,2,3,4];
-            // this.list1=this.owner.tipList;
-            // this.list1.vScrollBarSkin = "";
-            // this.list1.array= this.listArr;
-            // this.i=100000000000;
-            // setInterval(()=>{
-            //     listArr.push(i++);
-            //     this.list1.array=listArr;
-            //     this.list1.scrollTo(listArr.length-1);
-            //     this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
-            // },2000)
-            // this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
-            // this.owner.createBtn.on(Laya.Event.CLICK, this, this.demo)
-
+        onStart() {
+            this.initBack();
+            this.setList();
         }
 
+        initBack() {
+            let backJS = this.owner.back.getComponent(back);
+            backJS.initBack();
+        }
 
-        demo() {
-            // this.owner.Tipbox._children = [];
-            this.i++;
-            // let tip = new Laya.Sprite();
-            // let text = new Laya.Text();
-            // text.text = '就哈哈哈哈阿'+this.i;
-            // tip.addChild(text);
-            // text.color = '#FFFFFF';
-            // text.fontSize = 40;
-            // text.width = 720;
-            // text.height = 110;
-            // text.align = 'center';
-            // text.valign = 'middle';
-            // tip.name=this.i;
-            // tip.loadImage('res/img/common/tip.png', Laya.Handler.create(this, loadImgEnd));
-            // function loadImgEnd() {
-            //     this.TipBox.addChild(tip);
-            // }
-            // tip.width = 720;
-            // tip.height = 110;
-            let tip = Laya.Pool.getItemByCreateFun("tip", this.tip.create, this.tip);
-            // tip.pos((Laya.stage.width-tip.width)/2,(Laya.stage.height-tip.height)/2)
-            tip.name = 'tip' + this.i;
-            this.owner.TipBox.addChild(tip);
-            // console.log(tip)
-            // setTimeout(() => {
-            //     Laya.Tween.to(tip, { y: -300 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]))
-            // }, 100)
-            console.log(this.owner.TipBox._children);
-            // setTimeout(() => {
-              
-            // }, 300)
-            let length = this.owner.TipBox._children.length;
-            this.owner.TipBox._children.forEach((item, index) => {
-                if (index < length - 1) {
-                    item.y = -200 - (120 * (length - index - 1));
-                    console.log(item.y);
+        setList() {
+            let list = this.owner.ctList;
+            list.array = [
+                { id: 1, label: 'res/img/common/set_text1.png' },
+                { id: 2, label: 'res/img/common/set_text2.png' },
+                { id: 3, label: 'res/img/common/set_text3.png', BanBenVal: '1.0.0' },
+            ];
+            list.renderHandler = new Laya.Handler(this, this.listRender);
+            list.mouseHandler = new Laya.Handler(this, this.listSelect);
+        }
+
+        listRender(cell) {
+            let label = cell.getChildByName('label');
+            label.skin = cell.dataSource.label;
+            if (cell.dataSource.id != 1) {
+                let selectView = cell.getChildByName('selectView');
+                selectView.removeSelf();
+            }
+            if (cell.dataSource.id == 1) {
+                //初始化游戏声音的状态
+                this.initSwitch(cell);
+            }
+            if (cell.dataSource.id != 2) {
+                let goIconBox = cell.getChildByName('goIconBox');
+                goIconBox.removeSelf();
+            }
+            if (cell.dataSource.id != 3) {
+                let testBox = cell.getChildByName('testBox');
+                testBox.removeSelf();
+            }
+        }
+
+        listSelect(Event,index){
+            if(Event.type=='click'){
+                let ID=Event.target.dataSource.id;
+                if(ID==2){
+                    console.log('免费协议');
+                }
+            }
+        }
+        /**
+         * 初始化游戏声音的状态
+         */
+        initSwitch(cell) {
+            let selectView = cell.getChildByName('selectView');
+            let SwitchJS = selectView.getComponent(MySwitch);
+            let gameMusicState = localStorage.getItem('gameMusic') ? localStorage.getItem('gameMusic') : 1;
+            let isOpened = gameMusicState == 0 ? false : true;
+            SwitchJS.initSwitch(this, isOpened, (bool) => {
+                let isOpen = bool ? 1 : 0;
+                localStorage.setItem('gameMusic', isOpen);
+            });
+        }
+    }
+
+    /**
+     * 该脚本为打开某场景功能
+     */
+    class openView extends Laya.Script {
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            //打开类型(0：打开后不销毁其他场景 1：打开后销毁当前场景)
+            this.openType = 0;
+            //打开场景地址
+            this.openSceneUrl = '';
+            //打开场景时是否销毁其他场景
+            this.openCloseOtherScene = false;
+            //打开所传参数
+            this.openDta = null;
+            //打开方式(0：右边划出 1：直接显示)
+            this.openMethod = 0;
+            //所属场景
+            this.selfScene = '';
+        }
+        /**
+         * 打开某场景
+         * @param {*} openType 打开类型(0：打开后不销毁其他场景 1：打开后销毁当前场景)
+         * @param {*} openSceneUrl 打开场景地址
+         * @param {*} openCloseOtherScene 打开场景时是否销毁其他场景
+         * @param {*} openDta 打开所传参数
+         * @param {*} openMethod 打开方式(0：右边划出 1：直接显示)
+         */
+        initOpen(openType, openSceneUrl, openCloseOtherScene, openDta, openMethod) {
+            this.openType = openType ? openType : 0;
+            this.openSceneUrl = openSceneUrl ? openSceneUrl : '';
+            this.openCloseOtherScene = openCloseOtherScene ? openCloseOtherScene : false;
+            this.openDta = openDta ? openDta : null;
+            this.openMethod = openMethod ? openMethod : 0;
+        }
+
+        onEnable() {
+            this.selfScene = this.owner.scene;
+            this.initOpen();
+            this.bindEvent();
+        }
+
+        bindEvent() {
+            this.owner.on(Laya.Event.CLICK, this, this.openView);
+        }
+        openView() {
+            console.log(this.openSceneUrl);
+            Main$1.$openScene(this.openSceneUrl, this.openCloseOtherScene, this.openDta, (res) => {
+                if (this.openMethod == 0) {
+                    res.x = Laya.stage.width;
+                    res.zOrder = 10;
+                    Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
+                        if (this.openType == 1)
+                            this.selfScene.removeSelf();
+                    }));
                 }
             });
-            Laya.Tween.to(tip, { y: -200 }, 600, null, Laya.Handler.create(this, this.tipMoveEnd, [tip]));
-        }
-        tipMoveEnd(tipObj) {
-            console.log('结束');
-            // this.owner.Tipbox._children.forEach((item,index)=>{
-            //     item.y=-300-(this.owner.Tipbox._children.length-(index+1))*120
-            // })
-            // tipObj.y=tipObj.y-110*(this.owner.Tipbox._children.length-1);
-            // Laya.Tween.to(tipObj, { alpha: 0 }, 300, null, Laya.Handler.create(this, this.tipAlphaEnd, [tipObj]));
-            // let length = this.owner.TipBox._children.length;
-            // this.owner.TipBox._children.forEach((item, index) => {
-            //     // if (index < length - 1) {
-
-            //     //     console.log(item.y)
-            //     // }
-            //     item.y = -120 - (120 * (length - index - 1));
-            // });
-        }
-        tipAlphaEnd(tipObj) {
-            // tipObj.removeSelf();
-        }
-
-        page1ListOnRender(cell, index) {
-            // console.log(cell)
-            // let text=cell.getChildByName('bg').getChildByName("text");
-            // text.text=cell.dataSource;
-            // // if(index==this.list1.array.length-1){
-            // //     cell.alpha=1;
-            // //     cell.y=300;
-            // //     Laya.Tween.to(cell,{y:index*90},400)
-            // // }
-            // cell.alpha=1;
-            // cell.y=300;
-            // Laya.Tween.to(cell,{y:index*90},400)
         }
     }
 
@@ -6608,6 +6754,7 @@
         }
 
         onStart() {
+            this.initOpenView();
             this.startLoadPage();
         }
 
@@ -6666,7 +6813,7 @@
                                 userId: res.data.userId,
                                 key: res.data.key,
                                 inRoomPws: res.data.inRoomPws,
-                                init:res.data.init
+                                init: res.data.init
                             };
                             this.changeMainUserInfo(data);
                             this.dealWithLoginedView(data);
@@ -6699,7 +6846,7 @@
                 roomPws: data.inRoomPws,
                 page: Main$1.pages.page3
             };
-            if(data.init){
+            if (data.init) {
                 Laya.Scene.open('tabPage.scene', true, pageData, Laya.Handler.create(this, (res) => {
                     Main$1.showLoading(false);
                     clearTimeout(this.loadTimeID);
@@ -6711,52 +6858,40 @@
                         clearTimeout(this.loadTimeID);
                     }, 10000);
                 }));
-            }else{
-                let openData={
-                    page:'login.scene',
-                    userId:data.userId
+            } else {
+                let openData = {
+                    page: Main$1.pages.page6,
+                    userId: data.userId
                 };
-                Main$1.$openScene('playerNewsSet.scene',false,openData,(res)=>{
+                Main$1.$openScene('playerNewsSet.scene', false, openData, (res) => {
                     res.x = Laya.stage.width;
-                    res.zOrder=10;
+                    res.zOrder = 10;
                     Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
                         Main$1.showLoading(false);
                         clearTimeout(this.loadTimeID);
                         this.flag = true;
-                        // this.owner.removeSelf();
                     }));
                 });
             }
         }
 
         /**
-         * 注册
-         */
-        register() {
-            Main$1.$openScene('register.scene', false, { page: Main$1.sign.register }, (res) => {
-                res.x = Laya.stage.width;
-                Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
-                    this.owner.removeSelf();
-                }));
-            });
-        }
+        * 初始化打开场景的参数
+        */
+        initOpenView() {
+            //注册
+            let openData1 = {
+                page: Main$1.sign.register
+            };
+            let OpenViewJS1 = this.owner.register_btn.getComponent(openView);
+            OpenViewJS1.initOpen(1, 'register.scene', false, openData1, 0);
 
-        /**
-         * 修改密码
-         */
-        changePwd() {
-            Main$1.$openScene('register.scene', false, { page: Main$1.sign.changePwd }, (res) => {
-                res.x = Laya.stage.width;
-                Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
-                    this.owner.removeSelf();
-                }));
-            });
-        }
-
-        onDisable() {
-        }
-
-        onLoaded() {
+            //修改密码
+            let openData2 = {
+                page: Main$1.sign.changePwd
+            };
+            let OpenViewJS2 = this.owner.change_btn.getComponent(openView);
+            OpenViewJS2.initOpen(1, 'register.scene', false, openData2, 0);
 
         }
     }
@@ -6773,8 +6908,8 @@
         onAwake() {
             this._LoginJS = this.getComponent(login);
             this.login_btn.on(Laya.Event.CLICK, this, this.login);
-            this.register_btn.on(Laya.Event.CLICK, this, this.register);
-            this.change_btn.on(Laya.Event.CLICK, this, this.change);
+            // this.register_btn.on(Laya.Event.CLICK, this, this.register);
+            // this.change_btn.on(Laya.Event.CLICK, this, this.change);
         }
         onOpened(options) {
             this.opendNumber = 0;
@@ -6795,26 +6930,10 @@
             this._LoginJS.login();
         }
         register() {
-            this._LoginJS.register();
+            // this._LoginJS.register();
         }
         change() {
             this._LoginJS.changePwd();
-        }
-    }
-
-    class setSceneWH extends Laya.Script {
-
-        constructor() { 
-            super(); 
-            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
-        }
-        
-        onEnable() {
-            this.owner.width = Laya.stage.width;
-            this.owner.height = Laya.stage.height;
-        }
-
-        onDisable() {
         }
     }
 
@@ -6868,7 +6987,7 @@
             this.owner.e_name.text=data.nick;
             this.owner.e_userId.text='['+data.userId+']';
             this.owner.e_timeLong.text = Main$1.secondToDate(data.roomTime);
-            Main$1.$LoadImage(this.owner.e_head,data.head);
+            Main$1.$LoadImage(this.owner.e_head,'res/img/head/'+data.head+'.png',Main$1.defaultImg.one,'skin');
             this.owner.e_ct2_name.text=data.nick;
             this.owner.e_ct2_ID.text=data.userId;
             this.owner.e_score.text=data.self_sf;
@@ -7004,8 +7123,8 @@
             } else {
                 this.owner.preText.text -= 1;
                 this.owner.preText.text = this.owner.preText.text < 1 ? 1 : this.owner.preText.text;
-                if(this._LIST.length==0){
-                    this.owner.preText.text=0;
+                if (this._LIST.length == 0) {
+                    this.owner.preText.text = 0;
                 }
             }
             this.setList(this.owner.preText.text - 1);
@@ -7021,7 +7140,7 @@
         }
 
         setList(index) {
-            let list=this.owner.paiJuList;
+            let list = this.owner.paiJuList;
             list.visible = true;
             list.vScrollBarSkin = "";//运用滚动
             list.array = this._LIST[index];
@@ -7032,17 +7151,18 @@
             // console.log(cell)
             let personNews = cell.getChildByName("personNews");
             let name = personNews.getChildByName("name");
-            let head = personNews.getChildByName("head");
+            let head = personNews.getChildByName("headBg").getChildByName('head');
             let zt = personNews.getChildByName("zt");
             let zhuang = personNews.getChildByName("zhuang");
             name.text = cell.dataSource.name;
-            Main$1.$LoadImage(head, cell.dataSource.head, Main$1.defaultImg.one);
+            let headUrl = 'res/img/head/' + cell.dataSource.head + '.png';
+            Main$1.$LoadImage(head, headUrl, Main$1.defaultImg.one);
             zhuang.visible = cell.dataSource.zhuang;
-            if (cell.dataSource.opt==2) {
+            if (cell.dataSource.opt == 2) {
                 zt.loadImage('res/img/common/status_1.png');
-            } else if(cell.dataSource.opt==1){
+            } else if (cell.dataSource.opt == 1) {
                 zt.loadImage('res/img/common/status_0.png');
-            }else if(cell.dataSource.opt==0){
+            } else if (cell.dataSource.opt == 0) {
                 zt.loadImage('');
             }
             let dataView = cell.getChildByName("dataView");
@@ -7081,12 +7201,12 @@
             let right_pointText = rightPoker.getChildByName('pointText');
             if (cell.dataSource.pokers.length >= 3) {
                 isSanHua = CountPoint$1.sanHuaPoker(cell.dataSource.pokers[0].poker, cell.dataSource.pokers[1].poker, cell.dataSource.pokers[2].poker);
-                if (cell.dataSource.opt==2 && !isSanHua) {
+                if (cell.dataSource.opt == 2 && !isSanHua) {
                     point1Text = CountPoint$1.countPoint(cell.dataSource.pokers[0].poker, cell.dataSource.pokers[1].poker);
                     point2Text = CountPoint$1.countPoint(cell.dataSource.pokers[2].poker, cell.dataSource.pokers[3].poker);
                     left_pointText.text = point1Text;
                     right_pointText.text = point2Text;
-                } else if (cell.dataSource.opt!=2) {
+                } else if (cell.dataSource.opt != 2) {
                     left_pointText.text = '';
                     right_pointText.text = '';
                 }
@@ -7120,8 +7240,8 @@
                         let diPaiSign = poker.getChildByName("sign");
                         poker.loadImage('res/img/poker/' + item.poker + '.png');
                         if (showPokerSign)
-                            showPokerSign.visible = cell.dataSource.opt==2 ? false : item.isShow;
-                        diPaiSign.visible = cell.dataSource.opt==2 ? item.isdipoker : false;
+                            showPokerSign.visible = cell.dataSource.opt == 2 ? false : item.isShow;
+                        diPaiSign.visible = cell.dataSource.opt == 2 ? item.isdipoker : false;
                         let poker4 = rightPoker.getChildByName('poker4');
                         if (cell.dataSource.pokers.length == 3)
                             poker4.loadImage('');
@@ -7210,15 +7330,51 @@
             this.name = '';
             //头像Id
             this.headId = 1;
-            this.flag=true;
+            this.flag = true;
+            //所在页面
+            this.fromPage = '';
+            this.userId = '';
         }
 
         onStart() {
+            this.setBack();
             this.setSexList();
-            this.sexSelect();
-            this.setHeadList();
+            this.sexSelect(0);
+            this.setHeadList(0);
             this.headSelect();
-            this.setSelectedHead(this.headId);
+            this.setSelectedHead();
+            this.fromPage = this.owner.openData.page;
+            this.userId = this.owner.openData.userId;
+            if (this.fromPage == Main$1.pages.page5) {
+                this.editGetNews();
+            }
+        }
+        /**
+         * 编辑页面获取个人信息
+         */
+        editGetNews() {
+            HTTP.$request({
+                that: this,
+                url: '/M.User/GetInfo',
+                data: {
+                    uid: this.userId
+                },
+                success(res) {
+                    if (res.data.ret.type == 0)
+                        this.setNews(res.data);
+                }
+            });
+        }
+        setNews(data) {
+            let name = this.owner.name_value;
+            this.headId = data.head;
+            name.text = data.nick;
+            this.sexType = data.sex;
+            let sexType = data.sex == 0 ? 1 : 0;
+            this.sexSelect(sexType);
+            this.setHeadList();
+            this.setSelectedHead();
+            this.headSelect(parseInt(this.headId) - 1);
         }
         /**
          * 设置性别列表
@@ -7242,9 +7398,9 @@
         /**
          * 性别选择
          */
-        sexSelect() {
+        sexSelect(type) {
             let selectJS = this.owner.sexList.parent.getComponent(MyClickSelect);
-            selectJS.MySelect(this, 0, (val) => {
+            selectJS.MySelect(this, type, (val) => {
                 this.sexType = val;
             });
         }
@@ -7269,25 +7425,28 @@
             no.skin = cell.dataSource.headUrl;
         }
 
-        headSelect() {
+        headSelect(type) {
             let selectJS = this.owner.headList.parent.getComponent(MyClickSelect);
-            selectJS.MySelect(this, 0, (val) => {
+            selectJS.MySelect(this, type, (val) => {
                 this.headId = val;
-                this.setSelectedHead(this.headId);
+                this.setSelectedHead();
             });
         }
 
-        setSelectedHead(val) {
-            this.owner.headImg.skin = 'res/img/head/' + val + '.png';
+        setSelectedHead() {
+            this.owner.headImg.skin = 'res/img/head/' + this.headId + '.png';
         }
 
         /**
-         * 返回
+         * 设置返回参数
          */
-        Back() {
-            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
-                this.owner.removeSelf();
-            }));
+        setBack() {
+            let backJS = this.owner.back.getComponent(back);
+            if (this.owner.openData.page == Main$1.pages.page6) {
+                backJS.initBack();
+            } if (this.owner.openData.page == Main$1.pages.page5) {
+                backJS.initBack(1, 'tabPage.scene', { page: Main$1.pages.page5 });
+            }
         }
 
         /**
@@ -7296,34 +7455,47 @@
         Confrim() {
             Main$1.showLoading(true);
             let that = this;
-            if(this.flag){
-                this.flag=false;
+            let url = this.fromPage == Main$1.pages.page6 ? '/M.User/SetUserInfo' : '/M.User/ModifyUserInfo';
+            if (this.flag) {
+                this.flag = false;
                 let name = this.owner.name_value.text;
                 if (name == '' || (name.trim() == '')) {
                     Main$1.showDiaLog('昵称不能为空!');
-                    this.flag=true;
+                    this.flag = true;
                     Main$1.showLoading(false);
                     return;
                 }
-                let data = {
-                    userId: this.owner.openData.userId,
+                let data = this.fromPage == Main$1.pages.page6 ? {
+                    uid: this.owner.openData.userId,
                     sex: this.sexType,
                     nick: name,
                     head: this.headId
-                };
+                } : {
+                        uid: this.owner.openData.userId,
+                        sex: this.sexType,
+                        nick: name,
+                        head: this.headId,
+                        signature: ''
+                    };
                 HTTP.$request({
                     that: this,
-                    url: '/M.User/SetUserInfo',
+                    url: url,
                     data: data,
                     success(res) {
                         if (res.status) {
-                            Main$1.showDiaLog('设置成功', 1, () => {
-                                that.openNextView();
-                            });
+                            if (this.fromPage == Main$1.pages.page6) {
+                                Main$1.showDiaLog('设置成功', 1, () => {
+                                    that.openNextView();
+                                });
+                            } else if (this.fromPage == Main$1.pages.page5) {
+                                Main$1.showDiaLog('修改成功', 1, () => {
+                                    that.openNextView2();
+                                });
+                            }
                         }
                     },
                     fail() {
-                        this.flag=true;
+                        this.flag = true;
                         Main$1.showLoading(false);
                     }
                 });
@@ -7347,6 +7519,14 @@
                 }, 10000);
             }));
         }
+
+        openNextView2() {
+            this.flag = true;
+            Main$1.showLoading(false);
+            let backJS = this.owner.back.getComponent(back);
+            backJS.initBack(1, 'tabPage.scene', { page: Main$1.pages.page5 });
+            backJS.back();
+        }
     }
 
     /**
@@ -7368,9 +7548,14 @@
             this.confrim_btn.on(Laya.Event.CLICK,this,()=>{
                 this.playerNewsSetJS.Confrim();
             });
-            this.back.on(Laya.Event.CLICK,this,()=>{
-                this.playerNewsSetJS.Back();
-            });
+            // this.back.on(Laya.Event.CLICK,this,()=>{
+            //     this.playerNewsSetJS.Back();
+            // })
+        }
+
+        setUI() {
+            let nodeArr=[this.s_bg1,this.s_bg2];
+            Main$1.setNodeTop(nodeArr);
         }
     }
 
@@ -7398,16 +7583,7 @@
         onEnable() {
         }
         onStart() {
-            // setTimeout(() => {
-            //     this.showHideNode(true);
-            // }, Main._speed.page)
-        }
-        createInputElement() {
-            // let input = Laya.Browser.createElement("input");
-            // input.style.zIndex = Laya.Render.canvas.zIndex + 1;
-            // input.autocomplete='off';
-            // Laya.Browser.document.body.appendChild(input);
-            // return input;
+            this.initBack();
         }
         comfirmRegisterOrChange() {
             let that=this;
@@ -7464,58 +7640,16 @@
                 }
             });
         }
-
-        createNode() {
-            // this.userInput = this.createInputElement();
-            // this.pwdInput = this.createInputElement();
-            // this.codeInput = this.createInputElement();
-            // this.userInput.id = 'register_user';
-            // this.pwdInput.id = 'register_pwd';
-            // this.codeInput.id = 'register_code';
-            // this.userInput.placeholder = '请输入手机号';
-            // this.pwdInput.placeholder = '6-12个字符';
-            // this.codeInput.placeholder = '请输入验证码';
-            // this.pwdInput.type = "password";
-            // Laya.Utils.fitDOMElementInArea(this.userInput, this.owner.user_input_box, 0, 0, this.owner.user_input_box.width, this.owner.user_input_box.height);
-            // Laya.Utils.fitDOMElementInArea(this.pwdInput, this.owner.pwd_input_box, 0, 0, this.owner.pwd_input_box.width, this.owner.pwd_input_box.height);
-            // Laya.Utils.fitDOMElementInArea(this.codeInput, this.owner.code_input_box, 0, 0, this.owner.code_input_box.width, this.owner.code_input_box.height);
-            // this.showHideNode(false);
+        //初始化返回
+        initBack(){
+            let backJS = this.owner.back_btn.getComponent(back);
+            backJS.initBack(1, 'login.scene', Main$1.sign.signOut);
+            return backJS;
         }
-
-        /**
-         * 显示或隐藏input 节点
-         * @param {*} show 
-         */
-        showHideNode(show) {
-            // if (this.userInput && this.pwdInput && this.codeInput) {
-            //     this.userInput.style.display = show ? 'block' : 'none';
-            //     this.pwdInput.style.display = show ? 'block' : 'none';
-            //     this.codeInput.style.display = show ? 'block' : 'none';
-            //     if(!show){
-            //         this.userInput.disabled='disabled';
-            //         this.pwdInput.disabled='disabled';
-            //         this.codeInput.disabled='disabled';
-            //     }else{
-            //         this.userInput.removeAttribute("disabled");
-            //         this.pwdInput.removeAttribute("disabled");
-            //         this.codeInput.removeAttribute("disabled");
-            //     }
-            // }
-        }
-
-        back() {
-            Laya.Scene.open('login.scene', false, Main$1.sign.signOut, Laya.Handler.create(this, (res) => {
-                Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
-                    this.owner.removeSelf();
-                }));
-            }));
-        }
-
-        onDisable() {
-        }
-
-        onLoaded() {
-
+        //返回等登录页
+        back(){
+            let backJS=this.initBack();
+            backJS.back();
         }
     }
 
@@ -7528,28 +7662,11 @@
         }
         onAwake() {
             this._RegisterJS = this.getComponent(register);
-            this.back_btn.on(Laya.Event.CLICK, this, this.back);
             this.register_btn.on(Laya.Event.CLICK, this, this.comfirmRegisterOrChange);
             this.change_btn.on(Laya.Event.CLICK, this, this.comfirmRegisterOrChange);
         }
         onOpened(options) {
-            // Main.$LOG('注册或修改密码界面所收到的值:',options);
-            // if (options.show) {
-            //     this.zOrder = 4;
-            //     this._RegisterJS.createNode();
-            //     this._RegisterJS.setPageData(options);
-            // } else {
-            //     this.zOrder = -1;
-            // }
-            this.zOrder = 4;
-            // this._RegisterJS.createNode();
             this._RegisterJS.setPageData(options);
-        }
-        /**
-         * 返回登录界面
-         */
-        back() {
-            this._RegisterJS.back();
         }
 
         /**
@@ -7557,6 +7674,43 @@
          */
         comfirmRegisterOrChange() {
             this._RegisterJS.comfirmRegisterOrChange();
+        }
+    }
+
+    /**
+     * 联系客服
+     */
+    class service extends Laya.Script {
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            //联系客服跳转地址
+            this.serviceUrl = '';
+        }
+
+        onEnable() {
+            this.setPageData();
+        }
+        onStart() {
+            this.initBack();
+        }
+        initBack() {
+            let BackJS = this.owner.back.getComponent(back);
+            BackJS.initBack(null, null, null, this.iframe);
+        }
+        setPageData() {
+            this.serviceUrl = Main$1.serviceUrl;
+            this.iframe = this.createIframeElement();
+            this.iframe.src = this.serviceUrl;
+            this.iframe.id = 'myIframe';
+            Laya.Utils.fitDOMElementInArea(this.iframe, this.owner.contentView, this.owner.x, 0, this.owner.contentView.width, this.owner.contentView.height);
+        }
+
+        createIframeElement() {
+            let iframe = Laya.Browser.createElement("iframe");
+            iframe.style.zIndex = Laya.Render.canvas.zIndex + 1;
+            Laya.Browser.document.body.appendChild(iframe);
+            return iframe;
         }
     }
 
@@ -7694,8 +7848,9 @@
 
         list2OnRender(cell, index) {
             let name = cell.getChildByName("name");
-            let head = cell.getChildByName("headImg");
-            Main$1.$LoadImage(head, cell.dataSource.head, Main$1.defaultImg.one, 'skin');
+            let head = cell.getChildByName("headBg").getChildByName("head");
+            let headUrl = 'res/img/head/' + cell.dataSource.head + '.png';
+            Main$1.$LoadImage(head, headUrl, Main$1.defaultImg.one, 'skin');
             name.text = cell.dataSource.nick;
         }
     }
@@ -7705,33 +7860,84 @@
         constructor() {
             super();
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            //是不是tab页面
+            this.isTabPage = true;
         }
 
-        onEnable() {
+        onStart() {
+            this.setBack();
+            //获取页面数据
+            this.getPageData();
         }
 
-        onDisable() {
-        }
-        back() {
-            if (this.owner.openedData.isTabPage) {
-                this.signoutthisPage('tabPage.scene', Main$1.pages.page5);
+        setBack() {
+            this.isTabPage = this.owner.openedData ? this.owner.openedData.isTabPage : true;
+            let backJS = this.owner.shop_back_btn.getComponent(back);
+            if (this.isTabPage) {
+                backJS.initBack(1, 'tabPage.scene', { page: Main$1.pages.page5 });
             } else {
-                Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
-                    this.owner.removeSelf();
-                }));
+                backJS.initBack();
             }
         }
-        /**
-         * 打开界面
-         * @param {*} openSceneUrl 打开场景
-         * @param {*} openView 打开界面
-         */
-        signoutthisPage(openSceneUrl, openView) {
-            Laya.Scene.open(openSceneUrl, false, { page: openView }, Laya.Handler.create(this, (res) => {
-                Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
-                    this.owner.removeSelf();
-                }));
-            }));
+
+        getPageData() {
+            HTTP.$request({
+                that: this,
+                url: '/M.Shop/GetShopInfo',
+                data: {
+                    uid: Main$1.userInfo.userId
+                },
+                success(res) {
+                    // console.log(res)
+                    if (res.data.ret.type == 0) {
+                        this.setList(res.data.shopList._v[0].shopTemplates);
+                    }
+                }
+            });
+        }
+
+        setList(data) {
+            let list = this.owner.s_list;
+            data.forEach(item => {
+                item.icon = 'res/img/shop/2.png';
+                item.text = 'res/img/shop/' + item.score + '.png';
+                item.btn = 'res/img/shop/' + item.money + '_btn.png';
+            });
+            list.array = data;
+            list.vScrollBarSkin = "";//运用滚动
+            list.renderHandler = new Laya.Handler(this, this.listRender);
+        }
+
+        listRender(cell, index) {
+            let icon = cell.getChildByName('icon');
+            let text = cell.getChildByName('text');
+            let btn = cell.getChildByName('btn').getChildByName('value');
+            icon.skin = cell.dataSource.icon;
+            text.skin = cell.dataSource.text;
+            btn.skin = cell.dataSource.btn;
+            this.bindEvent(btn, cell);
+        }
+
+        bindEvent(btn, value) {
+            btn.on(Laya.Event.CLICK, this, this.clickBtn, [value]);
+        }
+        clickBtn(cell) {
+            Main$1.showDiaLog('您确认充值' + cell.dataSource.score + '积分?', 1, () => {
+                HTTP.$request({
+                    that: this,
+                    url: '/M.Shop/PlayerRecharge',
+                    data: {
+                        uid: Main$1.userInfo.userId,
+                        shopId: cell.dataSource.shopId,
+                        shopType: 1000
+                    },
+                    success(res) {
+                        if (res.data.ret.type == 0) {
+                            Main$1.showDiaLog(res.data.ret.msg);
+                        }
+                    }
+                });
+            });
         }
     }
 
@@ -7743,27 +7949,10 @@
             super();
         }
         onAwake(){
-            this._ShopMallJS=this.getComponent(shopMall);
-            this.shop_back_btn.on(Laya.Event.CLICK,this,this.back);
+            
         }
         onOpened(options){
-            // Main.$LOG('商城界面所收到的值:',options);
-            // this._RegisterJS.createNode();
-            // this._RegisterJS.setPageData(options);
             this.openedData=options;
-        }
-        /**
-         * 返回登录界面
-         */
-        back(){
-            this._ShopMallJS.back();
-        }
-
-        /**
-         * 确认注册/确认修改
-         */
-        comfirmRegisterOrChange(){
-            this._RegisterJS.comfirmRegisterOrChange();
         }
     }
 
@@ -7799,66 +7988,89 @@
 
     class Me extends Laya.Script {
 
-        constructor() { 
-            super(); 
+        constructor() {
+            super();
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
-        
+
         onEnable() {
-            Main$1.$LOG('Me脚本：',this);
-            Me.instance=this;
-           
+            Main$1.$LOG('Me脚本：', this);
+            Me.instance = this;
         }
 
-        openThisPage(){
-            if(this.owner.visible){
-                this.UI=this.owner.scene;
+        openThisPage() {
+            if (this.owner.visible) {
+                this.UI = this.owner.scene;
                 this.registerEvent();
                 this.requestPageData();
+                this.initOpenView();
             }
         }
 
-        onDisable() {
-           
+        /**
+         * 初始化打开场景的参数
+         */
+        initOpenView() {
+            //设置个人信息处的组件对象
+            let openData1 = {
+                page: Main$1.pages.page5,
+                userId: Main$1.userInfo.userId
+            };
+            let OpenViewJS1 = this.UI.headView.getComponent(openView);
+            OpenViewJS1.initOpen(1, 'playerNewsSet.scene', false, openData1, 0);
+
+            //充值商城
+            let openData2 = {
+                page: Main$1.pages.page5,
+                isTabPage: true
+            };
+            let OpenViewJS2 = this.UI.recharge_btn.getComponent(openView);
+            OpenViewJS2.initOpen(1, 'shoppingMall.scene', false, openData2, 0);
+
+            //设置
+            let OpenViewJS3 = this.UI.set_btn.getComponent(openView);
+            OpenViewJS3.initOpen(0, 'gameSet.scene', false, null, 0);
+
+            //关于我们
+            let OpenViewJS4 = this.UI.our_btn.getComponent(openView);
+            OpenViewJS4.initOpen(0, 'aboutOur.scene', false, null, 0);
+
+            //联系客服
+            let OpenViewJS5 = this.UI.customer_btn.getComponent(openView);
+            OpenViewJS5.initOpen(0, 'service.scene', false, null, 0);
         }
 
-        registerEvent(){
-            this.UI.signOut_btn.on(Laya.Event.CLICK,this,this.openLoginView);
-            this.UI.recharge_btn.on(Laya.Event.CLICK,this,this.openShopView);
-            this.UI.share_btn.on(Laya.Event.CLICK,this,this.openShareView);
+        registerEvent() {
+            this.UI.signOut_btn.on(Laya.Event.CLICK, this, this.openLoginView);
+            this.UI.share_btn.on(Laya.Event.CLICK, this, this.openShareView);
         }
-        openLoginView(){
-            Main$1.showDiaLog('是否退出重新登录?',2,()=>{
-                Main$1.allowGameHallSetInterval=false;
-                Laya.Scene.open('login.scene',true,Main$1.sign.signOut);
+        openLoginView() {
+            Main$1.showDiaLog('是否退出重新登录?', 2, () => {
+                Main$1.allowGameHallSetInterval = false;
+                Laya.Scene.open('login.scene', true, Main$1.sign.signOut);
             });
         }
 
         /**
-         * 打开商城界面
+         * 打开联系客服界面
          */
-        openShopView(){
-            Main$1.$openScene('shoppingMall.scene',false,{isTabPage:true,page:Main$1.pages.page5},(res)=>{
-                res.x = Laya.stage.width;
-                Laya.Tween.to(res, { x: 0 }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
-                    this.owner.removeSelf();
-                }));
-            });
+        openServiceView(){
+            // window.conch.setExternalLink("http://www.baidu.com");//打开webview
         }
 
         /**
          * 打开分享界面
          */
-        openShareView(){
+        openShareView() {
             Share$1.open(this);
         }
 
         /**
          * 获取页面数据
          */
-        requestPageData(){
-            let data={
-                uid:Main$1.userInfo.userId
+        requestPageData() {
+            let data = {
+                uid: Main$1.userInfo.userId
             };
             HTTP.$request({
                 that: this,
@@ -7871,19 +8083,20 @@
                         Main$1.showDiaLog(res.data.ret.msg);
                     }
                 },
-                fail(){
+                fail() {
                 }
             });
         }
 
-        setPageData(data){
-            let headUrl='res/img/head/'+data.head+'.png';
-            Main$1.$LoadImage(this.UI.headUrl,headUrl,Main$1.defaultImg.one);
-            this.UI.userNameValue.text=data.nick;
-            this.UI.userIDValue.text=data.userId;
-            this.UI.userScoreValue.text=data.score;
-            this.UI.me_sex0.visible=data.sex==0?true:false;
-            this.UI.me_sex1.visible=data.sex==1?true:false;
+        setPageData(data) {
+            let headUrl = 'res/img/head/' + data.head + '.png';
+            Main$1.$LoadImage(this.UI.headUrl, headUrl, Main$1.defaultImg.one);
+            this.UI.userNameValue.text = data.nick;
+            this.UI.userIDValue.text = data.userId;
+            this.UI.userScoreValue.text = data.score;
+            this.UI.me_sex0.visible = data.sex == 0 ? true : false;
+            this.UI.me_sex1.visible = data.sex == 1 ? true : false;
+            Main$1.serviceUrl=data.service;
         }
     }
 
@@ -8371,14 +8584,14 @@
             month.text = cell.dataSource.month;
             day.text = cell.dataSource.day;
             let listBg = cell.getChildByName("list_bg");
-            let headNode = listBg.getChildByName("headBox").getChildByName("head");
+            // let headNode = listBg.getChildByName("headBox").getChildByName("head");
             let name = listBg.getChildByName("top_title").getChildByName("name");
             let time = listBg.getChildByName("top_title").getChildByName("time");
             let roomID = listBg.getChildByName("roomID").getChildByName("value");
             let pi = listBg.getChildByName("pi").getChildByName("value");
             let dairu = listBg.getChildByName("dairu").getChildByName("value");
             let winScore = listBg.getChildByName("winScore").getChildByName("value");
-            Main$1.$LoadImage(headNode, cell.dataSource.head, Main$1.defaultImg.one);
+            // Main.$LoadImage(headNode, cell.dataSource.head, Main.defaultImg.one);
             name.text = cell.dataSource.roomName;
             time.text = cell.dataSource.roomTime;
             roomID.text = cell.dataSource.roomPws;
@@ -8570,6 +8783,8 @@
         static init() {
             //注册Script或者Runtime引用
             let reg = Laya.ClassUtils.regClass;
+    		reg("game/common/setSceneWH.js",setSceneWH);
+    		reg("game/common/back.js",back);
     		reg("game/GameCenter/GameUI.js",GameUI);
     		reg("game/GameCenter/seat.js",seat);
     		reg("game/Fuction/MySlider.js",MySlider);
@@ -8577,9 +8792,10 @@
     		reg("game/common/SetHeight.js",SetHeight);
     		reg("game/Fuction/MyClickSelect.js",MyClickSelect);
     		reg("game/GameCenter/GameControl.js",GameControl);
-    		reg("game/common/demo.js",sliderSelect);
+    		reg("game/pages/Set/Set.js",Set);
+    		reg("game/common/MySwitch.js",MySwitch);
     		reg("game/pages/login/LoginUI.js",Login);
-    		reg("game/common/setSceneWH.js",setSceneWH);
+    		reg("game/common/openView.js",openView);
     		reg("game/pages/login/Login.js",login);
     		reg("game/pages/roomEnd/roomEndUI.js",RoomEndUI);
     		reg("game/pages/roomEnd/roomEnd.js",roomEnd);
@@ -8591,6 +8807,7 @@
     		reg("game/pages/playerNewsSet/playerNewsSet.js",playerNewsSet);
     		reg("game/pages/register/registerUI.js",register$1);
     		reg("game/pages/register/register.js",register);
+    		reg("game/pages/service/service.js",service);
     		reg("game/pages/shishizhanji/shishizhanjiUI.js",shishizhanjiUI);
     		reg("game/pages/shishizhanji/ZhanJiGet.js",zhanji$2);
     		reg("game/pages/shopMall/shopMallUI.js",shopMall$1);

@@ -1,5 +1,6 @@
 import HTTP from '../../common/HttpRequest';
 import Main from '../../common/Main';
+import Back from '../../common/back';
 export default class register extends Laya.Script {
     constructor() {
         super();
@@ -32,16 +33,7 @@ export default class register extends Laya.Script {
     onEnable() {
     }
     onStart() {
-        // setTimeout(() => {
-        //     this.showHideNode(true);
-        // }, Main._speed.page)
-    }
-    createInputElement() {
-        // let input = Laya.Browser.createElement("input");
-        // input.style.zIndex = Laya.Render.canvas.zIndex + 1;
-        // input.autocomplete='off';
-        // Laya.Browser.document.body.appendChild(input);
-        // return input;
+        this.initBack();
     }
     comfirmRegisterOrChange() {
         let that=this;
@@ -98,57 +90,15 @@ export default class register extends Laya.Script {
             }
         })
     }
-
-    createNode() {
-        // this.userInput = this.createInputElement();
-        // this.pwdInput = this.createInputElement();
-        // this.codeInput = this.createInputElement();
-        // this.userInput.id = 'register_user';
-        // this.pwdInput.id = 'register_pwd';
-        // this.codeInput.id = 'register_code';
-        // this.userInput.placeholder = '请输入手机号';
-        // this.pwdInput.placeholder = '6-12个字符';
-        // this.codeInput.placeholder = '请输入验证码';
-        // this.pwdInput.type = "password";
-        // Laya.Utils.fitDOMElementInArea(this.userInput, this.owner.user_input_box, 0, 0, this.owner.user_input_box.width, this.owner.user_input_box.height);
-        // Laya.Utils.fitDOMElementInArea(this.pwdInput, this.owner.pwd_input_box, 0, 0, this.owner.pwd_input_box.width, this.owner.pwd_input_box.height);
-        // Laya.Utils.fitDOMElementInArea(this.codeInput, this.owner.code_input_box, 0, 0, this.owner.code_input_box.width, this.owner.code_input_box.height);
-        // this.showHideNode(false);
+    //初始化返回
+    initBack(){
+        let backJS = this.owner.back_btn.getComponent(Back);
+        backJS.initBack(1, 'login.scene', Main.sign.signOut);
+        return backJS;
     }
-
-    /**
-     * 显示或隐藏input 节点
-     * @param {*} show 
-     */
-    showHideNode(show) {
-        // if (this.userInput && this.pwdInput && this.codeInput) {
-        //     this.userInput.style.display = show ? 'block' : 'none';
-        //     this.pwdInput.style.display = show ? 'block' : 'none';
-        //     this.codeInput.style.display = show ? 'block' : 'none';
-        //     if(!show){
-        //         this.userInput.disabled='disabled';
-        //         this.pwdInput.disabled='disabled';
-        //         this.codeInput.disabled='disabled';
-        //     }else{
-        //         this.userInput.removeAttribute("disabled");
-        //         this.pwdInput.removeAttribute("disabled");
-        //         this.codeInput.removeAttribute("disabled");
-        //     }
-        // }
-    }
-
-    back() {
-        Laya.Scene.open('login.scene', false, Main.sign.signOut, Laya.Handler.create(this, (res) => {
-            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
-                this.owner.removeSelf();
-            }))
-        }))
-    }
-
-    onDisable() {
-    }
-
-    onLoaded() {
-
+    //返回等登录页
+    back(){
+        let backJS=this.initBack();
+        backJS.back();
     }
 }

@@ -64,6 +64,7 @@ P BE2B5568 handle_4_2_1.png
 D images/common
 P D0B25224 anim_youwinSeat.png
 P A8728439 back.png
+P 6604BAE4 bg.png
 P 55429C6B defaultHead.png
 P 64EDC66C delayTime.png
 P A1B31BBE HeadIcon.png
@@ -78,8 +79,15 @@ P 36663221 loadIcon.png
 P 1992D2C7 loading2.png
 P DFB9BA3A loadingBg2.png
 P E6DB9562 scoreBg.png
+P EF652AA2 service.png
+P 2AF2CF57 set_title.png
+P D22D26FB switch0.png
+P 56BFF689 switch1.png
+R 57887702 test.png
 P 3C60F070 textinput.png
 R F8F1CFFF tip.png
+R 6DDAFB2F title.png
+P 4132DA31 title_text.png
 D images/Data
 R 3D78C1E1 bt_data_line.png
 R AFB04F87 bt_list_bg.png
@@ -148,8 +156,13 @@ P A19B07C4 set_bg.png
 R F882FD69 set_confrim.png
 P 8D2C5B36 set_head_big.png
 P A71DFB3A set_head_small.png
+R C35298B5 set_line.png
 P 712EEFCE set_nameInput.png
+P DE5C5BF9 set_right.png
 P CD221A08 set_sexView.png
+P DE1541B9 set_text1.png
+P F970C456 set_text2.png
+P EC07C572 set_text3.png
 P D22D26FB switch0.png
 P 56BFF689 switch1.png
 P FC60CAC4 switch_bg.png
@@ -380,22 +393,6 @@ P 46637FE1 s_title5.png
 P D61B8067 switch_btn_off.png
 P D98AA63B switch_btn_on.png
 D images/ShopMall
-P D66CD0CE 10.png
-P C22582AE 100.png
-P E5E321E6 1000.png
-P 60E23B4A 10000.png
-R EDD63DB0 11.png
-P DD96E869 2.png
-P CFCDFE48 20.png
-P C1ADF48F 2000.png
-P D37A8772 300.png
-P FA3AE184 30000.png
-R 045EA89B 4.png
-P B4CC8FFC 50.png
-P 0FA41D94 500.png
-P 5521E37C 5000.png
-P 8AC4D9FA 50000.png
-P A16C4BCA back.png
 R 3C4811CB old_title.png
 R DE64C72E title.png
 D images/GIF/expression

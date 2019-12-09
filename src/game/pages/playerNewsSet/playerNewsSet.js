@@ -4,6 +4,7 @@
 import MyClickSelect from '../../Fuction/MyClickSelect';
 import Main from '../../common/Main';
 import HTTP from '../../common/HttpRequest';
+import Back from '../../common/back';
 export default class playerNewsSet extends Laya.Script {
 
     constructor() {
@@ -30,6 +31,7 @@ export default class playerNewsSet extends Laya.Script {
     }
 
     onStart() {
+        this.setBack();
         this.setSexList();
         this.sexSelect(0);
         this.setHeadList(0);
@@ -66,7 +68,7 @@ export default class playerNewsSet extends Laya.Script {
         this.sexSelect(sexType);
         this.setHeadList();
         this.setSelectedHead();
-        this.headSelect(parseInt(this.headId)- 1);
+        this.headSelect(parseInt(this.headId) - 1);
     }
     /**
      * 设置性别列表
@@ -130,24 +132,15 @@ export default class playerNewsSet extends Laya.Script {
     }
 
     /**
-     * 返回
+     * 设置返回参数
      */
-    Back() {
+    setBack() {
+        let backJS = this.owner.back.getComponent(Back);
         if (this.owner.openData.page == Main.pages.page6) {
-            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
-                this.owner.removeSelf();
-            }))
+            backJS.initBack();
         } if (this.owner.openData.page == Main.pages.page5) {
-            this.BackMe();
+            backJS.initBack(1, 'tabPage.scene', { page: Main.pages.page5 });
         }
-    }
-
-    BackMe() {
-        Laya.Scene.open('tabPage.scene', false, { page: Main.pages.page5 }, Laya.Handler.create(this, (res) => {
-            Laya.Tween.to(this.owner, { x: Laya.stage.width }, Main._speed.page, null, Laya.Handler.create(this, () => {
-                this.owner.removeSelf();
-            }))
-        }))
     }
 
     /**
@@ -167,12 +160,12 @@ export default class playerNewsSet extends Laya.Script {
                 return;
             }
             let data = this.fromPage == Main.pages.page6 ? {
-                userId: this.owner.openData.userId,
+                uid: this.owner.openData.userId,
                 sex: this.sexType,
                 nick: name,
                 head: this.headId
             } : {
-                    userId: this.owner.openData.userId,
+                    uid: this.owner.openData.userId,
                     sex: this.sexType,
                     nick: name,
                     head: this.headId,
@@ -224,6 +217,8 @@ export default class playerNewsSet extends Laya.Script {
     openNextView2() {
         this.flag = true;
         Main.showLoading(false);
-        this.BackMe();
+        let backJS = this.owner.back.getComponent(Back);
+        backJS.initBack(1, 'tabPage.scene', { page: Main.pages.page5 });
+        backJS.back();
     }
 }

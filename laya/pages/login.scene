@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":54,
+    "selecteID":47,
     "searchKey":"Scene,Login",
     "props":{"zOrder":3,"width":1242,"sceneColor":"#000000","runtime":"game/pages/login/LoginUI.js","name":"Login","height":2208},
     "nodeParent":-1,
-    "maxID":55,
+    "maxID":57,
     "label":"Login",
     "isOpen":true,
     "isDirectory":true,
@@ -170,12 +170,28 @@
             "props":{"var":"register_btn","skin":"images/login/register_btn.png","name":"register_btn","centerY":370,"centerX":0},
             "nodeParent":2,
             "label":"register_btn",
-            "isDirectory":false,
+            "isOpen":false,
+            "isDirectory":true,
             "isAniNode":true,
-            "hasChild":false,
+            "hasChild":true,
             "compId":11,
             "child":[
-                ],
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/game/common/openView.js",
+                    "searchKey":"Script,openView",
+                    "removeAble":true,
+                    "props":{},
+                    "nodeParent":11,
+                    "label":"openView",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":55,
+                    "child":[
+                        ]
+                }],
             "$HIDDEN":false
         },
         {
@@ -264,6 +280,23 @@
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":28,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/game/common/openView.js",
+                    "searchKey":"Script,openView",
+                    "removeAble":true,
+                    "props":{},
+                    "nodeParent":47,
+                    "label":"openView",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":56,
                     "child":[
                         ]
                 }]

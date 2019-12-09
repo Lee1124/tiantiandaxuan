@@ -21,6 +21,8 @@ class Main {
             changePwd: 3,
             shop: 4
         }
+        //联系客服地址
+        this.serviceUrl='';
         //界面
         this.pages = {
             page1: 'NoticePage',
@@ -35,7 +37,8 @@ class Main {
             desk_bg2: 'res/img/gameView/desk_bg2.png'
         }
         this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
-            'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene'];
+            'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene',
+            'aboutOur.scene','gameSet.scene','service.scene'];
         this.allowGameHallSetInterval = false;
         this.allowRequesList = true;
         this.allowHideLoad = false;

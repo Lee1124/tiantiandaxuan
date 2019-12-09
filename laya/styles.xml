@@ -19,4 +19,5 @@
    <item name="images/LiuZuo/l_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,80,80,80" picType="0" scale="0"/>
    <item name="images/Share/f_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,80,80,80" picType="0" scale="0"/>
    <item name="images/GameSet/set_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=40,40,40,40" picType="0" scale="0"/>
+   <item name="images/common/bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,80,80,80" picType="0" scale="0"/>
 </res>

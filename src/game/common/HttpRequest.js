@@ -70,7 +70,7 @@ class HttpRequest {
         });
         xhr.once(Laya.Event.ERROR, this, (err) => {
             console.log('请求异常:', err)
-            Main.showTip('网络异常');
+            Main.showDiaLog('网络异常');
             if (obj.fail)
                 obj.fail.call(that, err)
         });

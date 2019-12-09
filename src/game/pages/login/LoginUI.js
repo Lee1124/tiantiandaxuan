@@ -12,8 +12,8 @@ export default class Login extends Laya.Scene {
     onAwake() {
         this._LoginJS = this.getComponent(LOGIN);
         this.login_btn.on(Laya.Event.CLICK, this, this.login);
-        this.register_btn.on(Laya.Event.CLICK, this, this.register);
-        this.change_btn.on(Laya.Event.CLICK, this, this.change);
+        // this.register_btn.on(Laya.Event.CLICK, this, this.register);
+        // this.change_btn.on(Laya.Event.CLICK, this, this.change);
     }
     onOpened(options) {
         this.opendNumber = 0;
@@ -34,7 +34,7 @@ export default class Login extends Laya.Scene {
         this._LoginJS.login();
     }
     register() {
-        this._LoginJS.register();
+        // this._LoginJS.register();
     }
     change() {
         this._LoginJS.changePwd();

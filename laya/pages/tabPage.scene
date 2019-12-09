@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":315,
-    "selecteID":316,
+    "selectedBox":38,
+    "selecteID":146,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
-    "maxID":351,
+    "maxID":357,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -382,13 +382,14 @@
                                     "props":{"skin":"images/newMe/11.png","name":"list_bg2","centerY":189,"centerX":0},
                                     "nodeParent":35,
                                     "label":"list_bg2",
-                                    "isOpen":false,
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
                                     "compId":38,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,recharge,recharge_btn",
                                             "props":{"width":1046,"var":"recharge_btn","top":-176,"name":"recharge","height":180,"centerX":0},
@@ -412,9 +413,24 @@
                                                     "compId":39,
                                                     "child":[
                                                         ]
+                                                },
+                                                {
+                                                    "type":"Script",
+                                                    "source":"src/game/common/openView.js",
+                                                    "searchKey":"Script,openView",
+                                                    "props":{},
+                                                    "nodeParent":137,
+                                                    "label":"openView",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":352,
+                                                    "child":[
+                                                        ]
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,signOut,signOut_btn",
                                             "props":{"width":1046,"var":"signOut_btn","top":566,"name":"signOut","height":155,"centerX":0},
@@ -441,6 +457,7 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,share,share_btn",
                                             "props":{"y":0,"x":0,"width":1046,"var":"share_btn","top":0,"name":"share","height":140,"centerX":0},
@@ -467,18 +484,20 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,customer,customer_btn",
                                             "props":{"width":1046,"var":"customer_btn","top":143,"name":"customer","height":140,"centerX":0},
                                             "nodeParent":38,
                                             "label":"customer",
-                                            "isOpen":false,
+                                            "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
                                             "compId":142,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,value",
                                                     "props":{"x":404,"skin":"images/newMe/7.png","name":"value","centerY":0,"centerX":0},
@@ -490,9 +509,27 @@
                                                     "compId":43,
                                                     "child":[
                                                         ]
+                                                },
+                                                {
+                                                    "x":90,
+                                                    "type":"Script",
+                                                    "switchAble":true,
+                                                    "source":"src/game/common/openView.js",
+                                                    "searchKey":"Script,openView",
+                                                    "removeAble":true,
+                                                    "props":{},
+                                                    "nodeParent":142,
+                                                    "label":"openView",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":356,
+                                                    "child":[
+                                                        ]
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,our,our_btn",
                                             "props":{"width":1046,"var":"our_btn","top":286,"name":"our","height":140,"centerX":0},
@@ -516,15 +553,32 @@
                                                     "compId":44,
                                                     "child":[
                                                         ]
+                                                },
+                                                {
+                                                    "type":"Script",
+                                                    "switchAble":true,
+                                                    "source":"src/game/common/openView.js",
+                                                    "searchKey":"Script,openView",
+                                                    "removeAble":true,
+                                                    "props":{},
+                                                    "nodeParent":144,
+                                                    "label":"openView",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":355,
+                                                    "child":[
+                                                        ]
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,set,set_btn",
                                             "props":{"width":1046,"var":"set_btn","top":426,"name":"set","height":140,"centerX":0},
                                             "nodeParent":38,
                                             "label":"set",
-                                            "isOpen":true,
+                                            "isOpen":false,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
@@ -542,6 +596,22 @@
                                                     "compId":45,
                                                     "child":[
                                                         ]
+                                                },
+                                                {
+                                                    "type":"Script",
+                                                    "switchAble":true,
+                                                    "source":"src/game/common/openView.js",
+                                                    "searchKey":"Script,openView",
+                                                    "removeAble":true,
+                                                    "props":{},
+                                                    "nodeParent":146,
+                                                    "label":"openView",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":353,
+                                                    "child":[
+                                                        ]
                                                 }]
                                         }]
                                 },
@@ -552,14 +622,13 @@
                                     "props":{"y":50,"width":1050,"top":50,"name":"personal_information","height":330,"centerX":0},
                                     "nodeParent":35,
                                     "label":"personal_information",
-                                    "isOpen":true,
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
                                     "compId":315,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,head,headView",
                                             "props":{"width":327,"var":"headView","top":0,"name":"head","left":0,"height":327},
@@ -624,10 +693,23 @@
                                                     "child":[
                                                         ],
                                                     "$HIDDEN":true
+                                                },
+                                                {
+                                                    "type":"Script",
+                                                    "source":"src/game/common/openView.js",
+                                                    "searchKey":"Script,openView",
+                                                    "props":{},
+                                                    "nodeParent":316,
+                                                    "label":"openView",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":351,
+                                                    "child":[
+                                                        ]
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,name",
                                             "props":{"right":0,"name":"name","left":400,"height":60,"centerY":-90},
@@ -667,7 +749,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,ID",
                                             "props":{"x":0,"right":0,"name":"ID","left":400,"height":60,"centerY":0},
@@ -707,7 +788,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,score",
                                             "props":{"x":0,"right":0,"name":"score","left":400,"height":60,"centerY":90},
