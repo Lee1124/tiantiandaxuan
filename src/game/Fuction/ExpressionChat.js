@@ -15,6 +15,7 @@ class ExpressionChat {
         if (this.MeSeatArr.length > 0) {
             this.init();
             this.common(true);
+            this.bindEvent(true);
         } else {
             Main.showTip('旁观者不能发送表情!');
         }
@@ -29,8 +30,22 @@ class ExpressionChat {
      * 关闭发表情的弹框
      */
     close(that) {
-        if (this.GameUI && this.GameControl)
+        if (this.GameUI && this.GameControl) {
             this.common(false);
+            this.bindEvent(false);
+        }
+    }
+
+    /**
+   * 绑定事件或移除事件
+   * @param {*} isBind 是否绑定事件
+   */
+    bindEvent(isBind) {
+        let mask = GameControl.instance.owner._mask;
+        if (isBind)
+            mask.on(Laya.Event.CLICK, this, this.close);
+        else
+            mask.off(Laya.Event.CLICK);
     }
     /**
     * 初始化表情的弹框中的内容

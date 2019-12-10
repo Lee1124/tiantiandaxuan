@@ -10,8 +10,9 @@ import HTTP from '../common/HttpRequest';
 import GameRoomInit from '../Fuction/GameRoomInit'
 import PlayerDelayTime from '../Fuction/PlayerDelayTime';
 import MySlider from '../Fuction/MySlider';
-import RecSoketReloadData from '../Fuction/RecSoketReloadData'
-import ErrText from '../Fuction/ErrText'
+import RecSoketReloadData from '../Fuction/RecSoketReloadData';
+import CustomChatData from '../Fuction/CustomChatData';
+import ErrText from '../Fuction/ErrText';
 let clickIndex = 0;
 export default class GameControl extends Laya.Script {
     constructor() {
@@ -137,7 +138,7 @@ export default class GameControl extends Laya.Script {
      */
     setGameParamInit() {
         this.userId = Main.userInfo.userId;
-        this.key = Main.userInfo.key;
+        // this.key = Main.userInfo.key;
         this.roomPwd = this.owner._openedData.roomPws;
         this.roomId = '';
         this.netClient = new NetClient("ws://" + Main.websoketApi);
@@ -210,6 +211,15 @@ export default class GameControl extends Laya.Script {
                 this._playerArray[concatArr[i]].owner._piDiChiFaceToPlayerXY.x = this.owner._piDiChiFaceToPlayerXYArray[i].x;
                 this._playerArray[concatArr[i]].owner._piDiChiFaceToPlayerXY.y = this.owner._piDiChiFaceToPlayerXYArray[i].y;
             }
+
+             {//快捷聊天盒子的坐标
+                this._playerArray[concatArr[i]].owner.getChildByName("fastChatBox").x = this.owner._fastChatBoxSeat[i].x;
+                this._playerArray[concatArr[i]].owner.getChildByName("fastChatBox").y = this.owner._fastChatBoxSeat[i].y;
+            }
+            {
+                this._playerArray[concatArr[i]].owner._fastChatBoxSeatBgImg=this.owner._fastChatBoxSeatBgImg[i];
+            }
+            CustomChatData.init(this._playerArray[concatArr[i]].owner);
         }
     }
 
@@ -226,8 +236,8 @@ export default class GameControl extends Laya.Script {
             that.onSend({
                 name: 'M.User.C2G_Connect',
                 data: {
-                    uid: that.userId,
-                    key: that.key,
+                    uid: Main.userInfo.userId,
+                    key: Main.userInfo.key,
                     devid: Laya.Browser.onAndroid ? "Android" : "PC",
                     ip: "60.255.161.15"
                 },
@@ -477,7 +487,11 @@ export default class GameControl extends Laya.Script {
 
             //表情
             if (resData._t == "G2C_GameChat") {
-                this.showPlayerExpression(resData);
+                if(resData.chat.msgType==2){//表情聊天
+                    this.showPlayerExpression(resData);
+                }else if(resData.chat.msgType==1){//快捷语音
+                    this.showPlayerFastVoice(resData);
+                }
             }
 
             //留座
@@ -500,10 +514,16 @@ export default class GameControl extends Laya.Script {
             ErrText.ERR(this, 'try-catc处异常：', error);
         }
     }
+    /**快捷聊天 */
+    showPlayerFastVoice(data){
+        this._playerArray.forEach(item_player => {
+            if (item_player.owner.userId == data.chat.sender) {
+                item_player.playerSeatAddFastChat(data.chat);
+            }
+        })
+    }
 
-    /**
-     * 表情
-     */
+    /**表情*/
     showPlayerExpression(data) {
         this._playerArray.forEach(item_player => {
             if (item_player.owner.userId == data.chat.sender) {
@@ -588,6 +608,7 @@ export default class GameControl extends Laya.Script {
             }
             // ====更新牌数据
             this._playerArray.forEach((item_player, item_index) => {
+                CustomChatData.init(item_player.owner);
                 if (item_seatData.userId == item_player.owner.userId) {
                     if (item_player.owner.isMe) {
                         item_player.owner.actionType = -1;
@@ -1997,16 +2018,6 @@ export default class GameControl extends Laya.Script {
                 userId: Main.userInfo.userId,
                 roomId: this.roomId
             });
-    }
-
-    /**
-     * 打开菜单选项
-     */
-    openMenuList(show) {
-        let showObj = this.owner.menu;
-        let maskAlpha = 0.2;
-        let y = show ? 0 + Main.phoneNews.statusHeight : -this.owner.menu.height;
-        this.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
     }
 
     setMeMakeBOBO(data) {

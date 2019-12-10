@@ -13,39 +13,50 @@ class PlayerLiuZuo {
   * @param {*} that 执行域
   */
     open(that) {
-        this.GameUI = that;
-        this.GameControl = GameControl.instance;
-        this.MeSeatArr = this.GameControl._playerArray.filter(item => item.owner.isMe);
+        this.MeSeatArr = GameControl.instance._playerArray.filter(item => item.owner.isMe);
         if (this.MeSeatArr.length > 0) {
-            if (this.GameControl.isLiuZuo) {
+            if (GameControl.instance.isLiuZuo) {
                 Main.showTip('您当前已留座，不能再留座了!');
             } else {
-                this.init();
                 this.common(true);
+                this.bindEvent(true);
+                this.init();
             }
         } else {
             Main.showTip('您当前为观战模式，无法留座!');
         }
     }
     common(show) {
-        let showObj = this.GameUI.LiuZuo_dialog;
+        let showObj = GameControl.instance.owner.LiuZuo_dialog;
         let maskAlpha = 0;
         let y = show ? (Laya.stage.height - showObj.height) / 2 : Laya.stage.height;
-        this.GameControl.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
+        GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
     }
     /**
      * 关闭留座的弹框
      */
     close() {
-        if (this.GameUI && this.GameControl)
-            this.common(false);
+        this.bindEvent(false);
+        this.common(false);
+    }
+
+    /**
+ * 绑定事件或移除事件
+ * @param {*} isBind 是否绑定事件
+ */
+    bindEvent(isBind) {
+        let mask = GameControl.instance.owner._mask;
+        if (isBind)
+            mask.on(Laya.Event.CLICK, this, this.close);
+        else
+            mask.off(Laya.Event.CLICK);
     }
 
     /**
     * 确认
     */
     confrim() {
-        let confrimBtn = this.GameUI.LiuZuo_dialog.getChildByName("confrimBtn");
+        let confrimBtn = GameControl.instance.owner.LiuZuo_dialog.getChildByName("confrimBtn");
         confrimBtn.on(Laya.Event.CLICK, this, this.confrimLiuZuo);
     }
 
@@ -53,7 +64,7 @@ class PlayerLiuZuo {
      * 关闭按钮关闭
      */
     closeBtnEvent() {
-        let closeBtn = this.GameUI.LiuZuo_dialog.getChildByName("close");
+        let closeBtn = GameControl.instance.owner.LiuZuo_dialog.getChildByName("close");
         closeBtn.on(Laya.Event.CLICK, this, this.close);
     }
 
@@ -61,15 +72,15 @@ class PlayerLiuZuo {
      * 初始化
      */
     init() {
-        this.closeBtnEvent();
         this.confrim();
         this.returnSeat();
         this.selectTime();
         this.setPageData();
+        this.closeBtnEvent();
     }
 
     setPageData() {
-        this.selectListBox = this.GameUI.LiuZuo_dialog.getChildByName("selectListBox");
+        this.selectListBox = GameControl.instance.owner.LiuZuo_dialog.getChildByName("selectListBox");
         let list = this.selectListBox.getChildByName("selectList");
         list.visible = true;
         // list.vScrollBarSkin = "";//运用滚动
@@ -89,7 +100,7 @@ class PlayerLiuZuo {
      * 选择时间
      */
     selectTime() {
-        let selectListBox = this.GameUI.LiuZuo_dialog.getChildByName("selectListBox");
+        let selectListBox = GameControl.instance.owner.LiuZuo_dialog.getChildByName("selectListBox");
         let $MyClickSelect = selectListBox.getComponent(MyClickSelect);
         $MyClickSelect.MySelect(this, 0, (res) => {
             this.selectNum = res;

@@ -4,7 +4,6 @@ import back from "./game/common/back"
 import GameUI from "./game/GameCenter/GameUI"
 import seat from "./game/GameCenter/seat"
 import MySlider from "./game/Fuction/MySlider"
-import commonSet from "./game/common/commonSet"
 import SetHeight from "./game/common/SetHeight"
 import MyClickSelect from "./game/Fuction/MyClickSelect"
 import GameControl from "./game/GameCenter/GameControl"
@@ -44,7 +43,6 @@ export default class GameConfig {
 		reg("game/GameCenter/GameUI.js",GameUI);
 		reg("game/GameCenter/seat.js",seat);
 		reg("game/Fuction/MySlider.js",MySlider);
-		reg("game/common/commonSet.js",commonSet);
 		reg("game/common/SetHeight.js",SetHeight);
 		reg("game/Fuction/MyClickSelect.js",MyClickSelect);
 		reg("game/GameCenter/GameControl.js",GameControl);

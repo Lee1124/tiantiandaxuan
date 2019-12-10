@@ -10,28 +10,47 @@ class PlayerNews {
      * @param {*} isShow 是否显示
      * @param {*} data 需要的数据
      */
-    GetNews(isShow = true, data) {
-        let that = GameControl.instance;
-        if (isShow)
-            this.getPageNews(that, data);
-        // that._allowSeatUp = false;
-        this.showObj = that.owner.PlayerNews_dialog;
+    open(data) {
+        // let that = GameControl.instance;
+        this.getPageNews(data);
+        this.common(true);
+        this.bindEvent(true);
+    }
+    common(isShow) {
+        this.showObj = GameControl.instance.owner.PlayerNews_dialog;
         let maskAlpha = 0;
         let y = isShow ? (Laya.stage.height - this.showObj.height) / 2 : -this.showObj.height;
-        that.openDiaLogCommon(isShow, this.showObj, maskAlpha, 'y', y);
+        GameControl.instance.openDiaLogCommon(isShow, this.showObj, maskAlpha, 'y', y);
     }
-    getPageNews(that, data) {
+    close() {
+        this.common(false);
+        this.bindEvent(false);
+    }
+    /**
+    * 绑定事件或移除事件
+    * @param {*} isBind 是否绑定事件
+    */
+    bindEvent(isBind) {
+        let mask = GameControl.instance.owner._mask;
+        if (isBind)
+            mask.on(Laya.Event.CLICK, this, this.close);
+        else
+            mask.off(Laya.Event.CLICK);
+    }
+
+    getPageNews(data) {
         HTTP.$request({
             that: this,
             url: '/M.Games.CX/GetSeatUserInfo',
             data: {
-                uid: data.userId,
-                roomid: that.roomId
+                userId: data.userId,
+                uid:GameControl.instance.userId,
+                roomid: GameControl.instance.roomId
             },
             success(res) {
                 Main.$LOG('获取的玩家个人信息', res)
                 if (res.data.ret.type == 0) {
-                    this.setPage(that, res.data);
+                    this.setPage(res.data);
                 } else {
                     Main.showTip(res.data.ret.msg);
                 }
@@ -40,7 +59,7 @@ class PlayerNews {
             }
         })
     }
-    setPage(that, data) {
+    setPage(data) {
         let head = this.showObj.getChildByName("news_head_box").getChildByName("headBg").getChildByName("head");
         let name = this.showObj.getChildByName("news_box").getChildByName("news_name");
         let sex_0 = name.getChildByName("news_sex").getChildByName("sex0");
@@ -52,8 +71,8 @@ class PlayerNews {
         let fanpaiwinrate = this.showObj.getChildByName("news_fanpaiwinrate").getChildByName("news_fanpaiwinrate_value");
         let winss = this.showObj.getChildByName("news_winss").getChildByName("news_winss_value");
         let allwinrate = this.showObj.getChildByName("news_allwinrate").getChildByName("news_allwinrate_value");
-        let headUrl='res/img/head/'+data.head+'.png';
-        Main.$LoadImage(head, headUrl,Main.defaultImg.one,'skin');
+        let headUrl = 'res/img/head/' + data.head + '.png';
+        Main.$LoadImage(head, headUrl, Main.defaultImg.one, 'skin');
         name.text = data.name;
         name.getChildByName("news_sex").left = name.textWidth;
         sex_0.visible = data.sex == 0 ? true : false;

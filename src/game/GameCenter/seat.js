@@ -6,6 +6,7 @@ import PlyerNews from '../Fuction/PlyerNews';
 import ErrText from '../Fuction/ErrText';
 import PlayerLiuZuo from '../Fuction/PlayerLiuZuo';
 import MakeBOBO from '../Fuction/MakeBOBO';
+import CustomChat from '../Fuction/CustomChat';
 let _num3 = 0;
 export default class seat extends Laya.Script {
     constructor() {
@@ -125,13 +126,14 @@ export default class seat extends Laya.Script {
      * 玩家坐下注册点击事件
      */
     playerSeatDownRegisterEvent() {
+        this.playerSeatUpOffEvent();
         this.owner.getChildByName("head-box").on(Laya.Event.CLICK, this, this.getPlayerNews);
     }
     /**
      * 玩家离开去除点击事件
      */
     playerSeatUpOffEvent() {
-        this.owner.getChildByName("head-box").off(Laya.Event.CLICK, this, this.getPlayerNews);
+        this.owner.getChildByName("head-box").off(Laya.Event.CLICK);
     }
     /**
      * 获取玩家个人信息
@@ -140,7 +142,7 @@ export default class seat extends Laya.Script {
         let data = {
             userId: this.owner.userId
         }
-        PlyerNews.GetNews(true, data);
+        PlyerNews.open(data);
     }
 
     setMeMakeBOBO() {
@@ -152,6 +154,7 @@ export default class seat extends Laya.Script {
      * @param {*} data 剩余时间
      */
     playerSeatDownOrSeatAtCommon(isShow, data, isUpdate) {
+        this.playerSeatDownRegisterEvent();
         Laya.timer.clear(this, this.palyerSeatAtTime);
         let headBox = this.owner.getChildByName("head-box");
         let headUrl = headBox.getChildByName("headBg").getChildByName("head");
@@ -934,6 +937,14 @@ export default class seat extends Laya.Script {
                 }
             }
         }
+    }
+
+    /**
+     * 快捷聊天
+     * @param data 数据
+     */
+    playerSeatAddFastChat(data){
+        CustomChat.openSeatChatView(this,data);
     }
 
     /**

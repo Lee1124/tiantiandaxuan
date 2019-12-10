@@ -11,9 +11,36 @@ class GameSet {
     initGameSet(that) {
         this.GameUI = that;
         this.GameControl = GameControl.instance;
-        this.gameSetRegisterEvent();
         this.setGameView();
         this.getGameSetVal();
+    }
+    open() {
+        this.common(true);
+        this.bindEvent(true);
+        this.setSwitch();
+        this.gameSetRegisterEvent();
+    }
+    common(show){
+        let showObj = GameControl.instance.owner.gameSet_dialog;
+        let maskAlpha = 0;
+        let y = show ? (Laya.stage.height - showObj.height) / 2 : -showObj.height;
+        GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
+    }
+    close(){
+        this.common(false);
+        this.bindEvent(false);
+        this.gameSetRegisterEventOff();
+    }
+     /**
+     * 绑定事件或移除事件
+     * @param {*} isBind 是否绑定事件
+     */
+    bindEvent(isBind) {
+        let mask = GameControl.instance.owner._mask;
+        if (isBind)
+            mask.on(Laya.Event.CLICK, this, this.close);
+        else
+            mask.off(Laya.Event.CLICK);
     }
     setGameView() {
         let deskView = localStorage.getItem('deskView') ? localStorage.getItem('deskView') : 'desk_bg1';
@@ -33,17 +60,18 @@ class GameSet {
             item.on(Laya.Event.CLICK, this, this.onClickThisDeskView, [item])
         });
     }
+    gameSetRegisterEventOff() {
+        this.GameUI.gameSet_deskViewBox._children.forEach(item => {
+            item.off(Laya.Event.CLICK);
+        });
+        GameControl.instance.owner.game_music_switchBox.off(Laya.Event.CLICK);
+        GameControl.instance.owner.game_chat_switchBox.off(Laya.Event.CLICK);
+    }
     onClickThisDeskView(itemObj) {
         localStorage.setItem('deskView', itemObj.name);
         this.setGameView();
     }
-    gameSet(show) {
-        let showObj = this.GameUI.gameSet_dialog;
-        let maskAlpha = 0;
-        let y = show ? (Laya.stage.height - showObj.height) / 2 : -showObj.height;
-        this.GameControl.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
-        this.setSwitch();
-    }
+   
     setSwitch() {
         this.getGameSetVal();
         let game_music_switchBox = this.GameUI.game_music_switchBox;
@@ -53,7 +81,9 @@ class GameSet {
             localStorage.setItem('gameMusic', val);
         })
         Main.$switch(game_chat_switchBox, Main.gameSetVal.chatVoice, this, (res) => {
-            // console.log(res)
+            let val = res ? 1 : 2;
+            localStorage.setItem('chatVoice', val);
+            Main.chatVoiceOpenState=localStorage.getItem('chatVoice')?localStorage.getItem('chatVoice')==1?true:false:true;
         })
     }
     getGameSetVal() {

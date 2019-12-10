@@ -2,8 +2,8 @@ import TIP from '../common/SuspensionTips'
 class Main {
     constructor() {
         Main.instance = this;
-        this.websoketApi = '192.168.0.125:8082';
-        this.requestApi = 'http://192.168.0.125:8081';
+        this.websoketApi = '192.168.0.125:8092';
+        this.requestApi = 'http://192.168.0.125:8091';
         // this.websoketApi = '132.232.34.32:8082';
         // this.requestApi = 'http://132.232.34.32:8081';
         //手机信息
@@ -22,7 +22,7 @@ class Main {
             shop: 4
         }
         //联系客服地址
-        this.serviceUrl='';
+        this.serviceUrl = '';
         //界面
         this.pages = {
             page1: 'NoticePage',
@@ -38,7 +38,7 @@ class Main {
         }
         this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
             'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene',
-            'aboutOur.scene','gameSet.scene','service.scene'];
+            'aboutOur.scene', 'gameSet.scene', 'service.scene'];
         this.allowGameHallSetInterval = false;
         this.allowRequesList = true;
         this.allowHideLoad = false;
@@ -58,6 +58,20 @@ class Main {
             three: 'Loading3',
         }
 
+        this.chatVoice = [
+            { id: 0, voice: 'res/sounds/Man_Chat_0.wav', text: '大家好,很高兴见到各位!' },
+            { id: 1, voice: 'res/sounds/Man_Chat_1.wav', text: '和您合作真是太愉快了哈!' },
+            { id: 2, voice: 'res/sounds/Man_Chat_2.wav', text: '快点呀,都等得我花儿都谢了!' },
+            { id: 3, voice: 'res/sounds/Man_Chat_3.wav', text: '您的牌打得也太好了呀!' },
+            { id: 4, voice: 'res/sounds/Man_Chat_4.wav', text: '不要吵了,不要吵了,吵啥嘛吵，专心玩游戏吧!' },
+            { id: 5, voice: 'res/sounds/Man_Chat_5.wav', text: '怎么又断线了，网络怎么这么差呀!' },
+            { id: 6, voice: 'res/sounds/Man_Chat_6.wav', text: '各位，真是不好意思呀，我得离开一会儿!' },
+            { id: 7, voice: 'res/sounds/Man_Chat_7.wav', text: '不要走,决战到天亮呀!' },
+            { id: 8, voice: 'res/sounds/Man_Chat_8.wav', text: '你是GG，还是MM?' },
+            { id: 9, voice: 'res/sounds/Man_Chat_9.wav', text: '咱交个朋友吧,能告诉我您咋联系的吗!' },
+            { id: 10, voice: 'res/sounds/Man_Chat_10.wav', text: '再见啦,俺会想念大家的!' }
+        ];
+
         this._speed = {
             page: 120
         }
@@ -74,6 +88,9 @@ class Main {
         this.tipArr2 = [];
         this.diaLogArr1 = [];
         this.diaLogArr2 = [];
+
+        //聊天声音打开状态
+        this.chatVoiceOpenState=localStorage.getItem('chatVoice')?localStorage.getItem('chatVoice')==1?true:false:true;
     }
 
     $LOG(...data) {

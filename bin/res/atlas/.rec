@@ -65,6 +65,7 @@ D images/common
 P D0B25224 anim_youwinSeat.png
 P A8728439 back.png
 P 6604BAE4 bg.png
+P 503B5184 chat_bg.png
 P 55429C6B defaultHead.png
 P 64EDC66C delayTime.png
 P A1B31BBE HeadIcon.png
@@ -78,6 +79,9 @@ P 210671D7 loadBg2.png
 P 36663221 loadIcon.png
 P 1992D2C7 loading2.png
 P DFB9BA3A loadingBg2.png
+P DA78162D qipao_left.png
+P C7903D56 qipao_list.png
+P BDE68D65 qipao_right.png
 P E6DB9562 scoreBg.png
 P EF652AA2 service.png
 P 2AF2CF57 set_title.png
@@ -116,7 +120,6 @@ P C22B8A10 bobo_small.png
 P 8ED08378 bobo_tdbtn.png
 R E95EED05 bobo_tiao.png
 P D4C4C479 bobo_title.png
-P 503B5184 expression_bg.png
 D images/effect
 P D0B25224 anim_youwinSeat.png
 P EBA9F441 Card_Selected.png
@@ -186,6 +189,9 @@ P DC19AE0D FightSitatBg7.png
 P 8686519A headBg.png
 P D72B1C51 ic_zong_i6p.png
 P 10A09442 ic_zong_i6p_0.png
+P D0CED78B icon1.png
+P DB2BB722 icon2.png
+P D894213A icon3.png
 R 89021B66 menu_bg.png
 P 963E517E menu_btn.png
 R CDB9884A menu_line.png

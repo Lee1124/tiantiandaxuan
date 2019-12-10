@@ -18,9 +18,10 @@ class HttpRequest {
         if (method == 'get') {
             var timestamp = new Date().getTime();
             let sstr = "";
-            if(Main.userInfo)
+            if(Main.userInfo){
                 sstr = Main.userInfo.key + '&' + timestamp;
-
+                Main.$LOG('请求里面key:',Main.userInfo.key);
+            }
             for (var key in dataObj) {
                 if (dataObj.hasOwnProperty(key)) {
                     dataObjArr.push(key);

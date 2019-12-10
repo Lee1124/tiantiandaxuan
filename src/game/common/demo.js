@@ -2,6 +2,8 @@
 /**
 * 该脚本为滑动选择
 */
+// import Main from '../common/Main';
+// import HTTP from '../common/HttpRequest';
 export default class sliderSelect extends Laya.Script {
     constructor() {
         super();
@@ -38,13 +40,29 @@ export default class sliderSelect extends Laya.Script {
         // },2000)
         // this.list1.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
         // this.owner.createBtn.on(Laya.Event.CLICK, this, this.demo)
-
+        // let data = {
+        //     uid: Main.userInfo.userId
+        // }
+        // HTTP.$request({
+        //     that: this,
+        //     url: '/M.User/GetInfo',
+        //     data: data,
+        //     success(res) {
+        //         if (res.data.ret.type == 0) {
+        //             console.log(res)
+        //             // this.owner.myDemo.loadImage('res/img/poker/0.png')
+        //         } else {
+        //             Main.showDiaLog(res.data.ret.msg);
+        //         }
+        //     },
+        //     fail() {
+        //     }
+        // })
     }
 
 
     demo() {
         // this.owner.Tipbox._children = [];
-        this.i++;
         // let tip = new Laya.Sprite();
         // let text = new Laya.Text();
         // text.text = '就哈哈哈哈阿'+this.i;

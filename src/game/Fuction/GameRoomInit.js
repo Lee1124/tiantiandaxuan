@@ -2,7 +2,7 @@
 /**
  * 该脚本为房间初始化数据所用
  */
-
+import CustomChatData from '../Fuction/CustomChatData';
 class GameRoomInit {
     init(that) {
         let GameUI = that.owner;
@@ -16,10 +16,11 @@ class GameRoomInit {
         GameUI._mangDiChiFaceToPlayerXYArray = [];//芒底池玩家相对位置中心的坐标
         GameUI._piDiChiFaceToPlayerXYArray = [];//芒底池玩家相对位置中心的坐标
         GameUI._subPokerBoxSeat = [];//保存玩家分牌后显示的位置坐标
+        GameUI._fastChatBoxSeat = [];//保存玩家快捷聊天位置坐标
+        GameUI._fastChatBoxSeatBgImg = [];//保存玩家快捷聊天背景图的位置坐标
     }
 
     keepValue(that, data) {
-        // console.log('进来1',data.INDEX)
         let playerSeat = data.owner;
         let GameUI = that.owner;
         playerSeat.mePokerX_2 = [];
@@ -35,13 +36,19 @@ class GameRoomInit {
         playerSeat.isMe = false;
         playerSeat.showXiaZhuScore = false;
         playerSeat.xiaZhuScore = 0;
-
         GameUI._playerSeatXYArray.push({ index: that.INDEX, x: playerSeat.x, y: playerSeat.y });//保存初始的位置坐标
         GameUI._xiaZhuSeatXYArray.push({ index: that.INDEX, x: playerSeat.getChildByName("xiaZhuScore").x, y: playerSeat.getChildByName("xiaZhuScore").y });//保存初始下注的位置坐标
         GameUI._tipsSeatXYArray.push({ index: that.INDEX, x: playerSeat.getChildByName("tipsBox").x, y: playerSeat.getChildByName("tipsBox").y });//保存初始提示的位置坐标
         GameUI._pokerBoxSeat.push({ index: that.INDEX, x: playerSeat.getChildByName("show_poker_box").x, y: playerSeat.getChildByName("show_poker_box").y })
-        GameUI._subPokerBoxSeat.push({ x: playerSeat.getChildByName("sub_poker_box").x, y: playerSeat.getChildByName("sub_poker_box").y })
-
+        GameUI._subPokerBoxSeat.push({ x: playerSeat.getChildByName("sub_poker_box").x, y: playerSeat.getChildByName("sub_poker_box").y });
+        GameUI._fastChatBoxSeat.push({ x: playerSeat.getChildByName("fastChatBox").x, y: playerSeat.getChildByName("fastChatBox").y });
+        if (data.INDEX <= 4) {
+            GameUI._fastChatBoxSeatBgImg.push('qipao_left.png');
+            playerSeat._fastChatBoxSeatBgImg='qipao_left.png';
+        } else {
+            GameUI._fastChatBoxSeatBgImg.push('qipao_right.png');
+            playerSeat._fastChatBoxSeatBgImg='qipao_right.png';
+        }
         {//玩家显示筹码相对位置中心的坐标
             let parent_xiaZhuScoreObj = playerSeat.getChildByName("xiaZhuScore");
             let son_showCmObj = playerSeat.getChildByName("xiaZhuScore").getChildByName("cm_show_seat");
@@ -78,6 +85,7 @@ class GameRoomInit {
                 y: playerSeat.getChildByName("deal_cards_seat34").y
             }
         }
+        CustomChatData.init(playerSeat);
     }
 
     /**

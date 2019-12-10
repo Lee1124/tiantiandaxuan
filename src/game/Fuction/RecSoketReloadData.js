@@ -60,7 +60,10 @@ class RecSoketReloadData {
            playerSeat._mangDiChiFaceToPlayerXY.y = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].y;
            playerSeat._piDiChiFaceToPlayerXY.x = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].x;
            playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
-
+           playerSeat.getChildByName("fastChatBox").x = that.owner._fastChatBoxSeat[item_player.INDEX].x;
+           playerSeat.getChildByName("fastChatBox").y = that.owner._fastChatBoxSeat[item_player.INDEX].y;
+           playerSeat._fastChatBoxSeatBgImg=that.owner._fastChatBoxSeatBgImg[item_player.INDEX];
+           
             let headBox = playerSeat.getChildByName("head-box");
             let headImg = headBox.getChildByName("headBg").getChildByName("head");
             let xiaZhuScore = playerSeat.getChildByName("xiaZhuScore");
@@ -80,6 +83,8 @@ class RecSoketReloadData {
             let winScore = playerSeat.getChildByName("winScore");
             let tipsBox = playerSeat.getChildByName("tipsBox");
             let liuzuosign = playerSeat.getChildByName('liuzuoSign');
+            let fastChatBox = playerSeat.getChildByName('fastChatBox');
+            fastChatBox.visible=false;
             liuzuosign.visible = false;
             headBox.visible = false;
             xiaZhuScore.visible = false;

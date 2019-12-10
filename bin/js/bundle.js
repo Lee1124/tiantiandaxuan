@@ -224,8 +224,8 @@
     class Main {
         constructor() {
             Main.instance = this;
-            this.websoketApi = '192.168.0.125:8082';
-            this.requestApi = 'http://192.168.0.125:8081';
+            this.websoketApi = '192.168.0.125:8092';
+            this.requestApi = 'http://192.168.0.125:8091';
             // this.websoketApi = '132.232.34.32:8082';
             // this.requestApi = 'http://132.232.34.32:8081';
             //手机信息
@@ -244,7 +244,7 @@
                 shop: 4
             };
             //联系客服地址
-            this.serviceUrl='';
+            this.serviceUrl = '';
             //界面
             this.pages = {
                 page1: 'NoticePage',
@@ -260,7 +260,7 @@
             };
             this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
                 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene',
-                'aboutOur.scene','gameSet.scene','service.scene'];
+                'aboutOur.scene', 'gameSet.scene', 'service.scene'];
             this.allowGameHallSetInterval = false;
             this.allowRequesList = true;
             this.allowHideLoad = false;
@@ -280,6 +280,20 @@
                 three: 'Loading3',
             };
 
+            this.chatVoice = [
+                { id: 0, voice: 'res/sounds/Man_Chat_0.wav', text: '大家好,很高兴见到各位!' },
+                { id: 1, voice: 'res/sounds/Man_Chat_1.wav', text: '和您合作真是太愉快了哈!' },
+                { id: 2, voice: 'res/sounds/Man_Chat_2.wav', text: '快点呀,都等得我花儿都谢了!' },
+                { id: 3, voice: 'res/sounds/Man_Chat_3.wav', text: '您的牌打得也太好了呀!' },
+                { id: 4, voice: 'res/sounds/Man_Chat_4.wav', text: '不要吵了,不要吵了,吵啥嘛吵，专心玩游戏吧!' },
+                { id: 5, voice: 'res/sounds/Man_Chat_5.wav', text: '怎么又断线了，网络怎么这么差呀!' },
+                { id: 6, voice: 'res/sounds/Man_Chat_6.wav', text: '各位，真是不好意思呀，我得离开一会儿!' },
+                { id: 7, voice: 'res/sounds/Man_Chat_7.wav', text: '不要走,决战到天亮呀!' },
+                { id: 8, voice: 'res/sounds/Man_Chat_8.wav', text: '你是GG，还是MM?' },
+                { id: 9, voice: 'res/sounds/Man_Chat_9.wav', text: '咱交个朋友吧,能告诉我您咋联系的吗!' },
+                { id: 10, voice: 'res/sounds/Man_Chat_10.wav', text: '再见啦,俺会想念大家的!' }
+            ];
+
             this._speed = {
                 page: 120
             };
@@ -296,6 +310,9 @@
             this.tipArr2 = [];
             this.diaLogArr1 = [];
             this.diaLogArr2 = [];
+
+            //聊天声音打开状态
+            this.chatVoiceOpenState=localStorage.getItem('chatVoice')?localStorage.getItem('chatVoice')==1?true:false:true;
         }
 
         $LOG(...data) {
@@ -892,24 +909,6 @@
             }
         }
     }
-
-    class CommonSet{
-        constructor() {}
-        // 设置布局适配数据
-        /**
-         * 
-         * @param setTarget 需要设置适配参数的对象
-         */
-        setLayoutValue(setTarget){
-           
-            setTarget.x=parseInt((setTarget.x/(1242/Laya.stage.width)).toFixed(0));//设置座位适配X
-            setTarget.y=parseInt((setTarget.y/(2208/Laya.stage.height)).toFixed(0));//设置座位适配y
-
-            // console.log(setTarget,{x:setTarget.x,y:setTarget.y})
-        }
-    }
-
-    var CommonSet$1 = new CommonSet();
 
     class CountPoint{
         constructor() {}
@@ -1979,9 +1978,10 @@
             if (method == 'get') {
                 var timestamp = new Date().getTime();
                 let sstr = "";
-                if(Main$1.userInfo)
+                if(Main$1.userInfo){
                     sstr = Main$1.userInfo.key + '&' + timestamp;
-
+                    Main$1.$LOG('请求里面key:',Main$1.userInfo.key);
+                }
                 for (var key in dataObj) {
                     if (dataObj.hasOwnProperty(key)) {
                         dataObjArr.push(key);
@@ -2046,8 +2046,25 @@
     var HTTP = new HttpRequest();
 
     /**
-     * 该脚本为房间初始化数据所用
+     * 设置快捷聊天的资源数据
      */
+    class CustomChatData{
+        init(data){
+            let falseChatBox=data.getChildByName('fastChatBox');
+            this.x=falseChatBox.x;
+            this.y=falseChatBox.y;
+            falseChatBox.skin='res/img/common/'+data._fastChatBoxSeatBgImg;
+            if(data._fastChatBoxSeatBgImg.indexOf('qipao_left')!=-1){
+                falseChatBox.sizeGrid='0,28,0,51';
+            }else if(data._fastChatBoxSeatBgImg.indexOf('qipao_right')!=-1){
+                falseChatBox.sizeGrid='0,57,0,27';
+            }
+            falseChatBox.x=this.x;
+            falseChatBox.y=this.y;
+        }
+
+    }
+    var CustomChatData$1 = new CustomChatData();
 
     class GameRoomInit {
         init(that) {
@@ -2062,10 +2079,11 @@
             GameUI._mangDiChiFaceToPlayerXYArray = [];//芒底池玩家相对位置中心的坐标
             GameUI._piDiChiFaceToPlayerXYArray = [];//芒底池玩家相对位置中心的坐标
             GameUI._subPokerBoxSeat = [];//保存玩家分牌后显示的位置坐标
+            GameUI._fastChatBoxSeat = [];//保存玩家快捷聊天位置坐标
+            GameUI._fastChatBoxSeatBgImg = [];//保存玩家快捷聊天背景图的位置坐标
         }
 
         keepValue(that, data) {
-            // console.log('进来1',data.INDEX)
             let playerSeat = data.owner;
             let GameUI = that.owner;
             playerSeat.mePokerX_2 = [];
@@ -2081,13 +2099,19 @@
             playerSeat.isMe = false;
             playerSeat.showXiaZhuScore = false;
             playerSeat.xiaZhuScore = 0;
-
             GameUI._playerSeatXYArray.push({ index: that.INDEX, x: playerSeat.x, y: playerSeat.y });//保存初始的位置坐标
             GameUI._xiaZhuSeatXYArray.push({ index: that.INDEX, x: playerSeat.getChildByName("xiaZhuScore").x, y: playerSeat.getChildByName("xiaZhuScore").y });//保存初始下注的位置坐标
             GameUI._tipsSeatXYArray.push({ index: that.INDEX, x: playerSeat.getChildByName("tipsBox").x, y: playerSeat.getChildByName("tipsBox").y });//保存初始提示的位置坐标
             GameUI._pokerBoxSeat.push({ index: that.INDEX, x: playerSeat.getChildByName("show_poker_box").x, y: playerSeat.getChildByName("show_poker_box").y });
             GameUI._subPokerBoxSeat.push({ x: playerSeat.getChildByName("sub_poker_box").x, y: playerSeat.getChildByName("sub_poker_box").y });
-
+            GameUI._fastChatBoxSeat.push({ x: playerSeat.getChildByName("fastChatBox").x, y: playerSeat.getChildByName("fastChatBox").y });
+            if (data.INDEX <= 4) {
+                GameUI._fastChatBoxSeatBgImg.push('qipao_left.png');
+                playerSeat._fastChatBoxSeatBgImg='qipao_left.png';
+            } else {
+                GameUI._fastChatBoxSeatBgImg.push('qipao_right.png');
+                playerSeat._fastChatBoxSeatBgImg='qipao_right.png';
+            }
             {//玩家显示筹码相对位置中心的坐标
                 let parent_xiaZhuScoreObj = playerSeat.getChildByName("xiaZhuScore");
                 let son_showCmObj = playerSeat.getChildByName("xiaZhuScore").getChildByName("cm_show_seat");
@@ -2124,6 +2148,7 @@
                     y: playerSeat.getChildByName("deal_cards_seat34").y
                 };
             }
+            CustomChatData$1.init(playerSeat);
         }
 
         /**
@@ -2547,7 +2572,10 @@
                playerSeat._mangDiChiFaceToPlayerXY.y = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].y;
                playerSeat._piDiChiFaceToPlayerXY.x = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].x;
                playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
-
+               playerSeat.getChildByName("fastChatBox").x = that.owner._fastChatBoxSeat[item_player.INDEX].x;
+               playerSeat.getChildByName("fastChatBox").y = that.owner._fastChatBoxSeat[item_player.INDEX].y;
+               playerSeat._fastChatBoxSeatBgImg=that.owner._fastChatBoxSeatBgImg[item_player.INDEX];
+               
                 let headBox = playerSeat.getChildByName("head-box");
                 let headImg = headBox.getChildByName("headBg").getChildByName("head");
                 let xiaZhuScore = playerSeat.getChildByName("xiaZhuScore");
@@ -2567,6 +2595,8 @@
                 let winScore = playerSeat.getChildByName("winScore");
                 let tipsBox = playerSeat.getChildByName("tipsBox");
                 let liuzuosign = playerSeat.getChildByName('liuzuoSign');
+                let fastChatBox = playerSeat.getChildByName('fastChatBox');
+                fastChatBox.visible=false;
                 liuzuosign.visible = false;
                 headBox.visible = false;
                 xiaZhuScore.visible = false;
@@ -2722,7 +2752,7 @@
          */
         setGameParamInit() {
             this.userId = Main$1.userInfo.userId;
-            this.key = Main$1.userInfo.key;
+            // this.key = Main.userInfo.key;
             this.roomPwd = this.owner._openedData.roomPws;
             this.roomId = '';
             this.netClient = new NetClient("ws://" + Main$1.websoketApi);
@@ -2795,6 +2825,15 @@
                     this._playerArray[concatArr[i]].owner._piDiChiFaceToPlayerXY.x = this.owner._piDiChiFaceToPlayerXYArray[i].x;
                     this._playerArray[concatArr[i]].owner._piDiChiFaceToPlayerXY.y = this.owner._piDiChiFaceToPlayerXYArray[i].y;
                 }
+
+                 {//快捷聊天盒子的坐标
+                    this._playerArray[concatArr[i]].owner.getChildByName("fastChatBox").x = this.owner._fastChatBoxSeat[i].x;
+                    this._playerArray[concatArr[i]].owner.getChildByName("fastChatBox").y = this.owner._fastChatBoxSeat[i].y;
+                }
+                {
+                    this._playerArray[concatArr[i]].owner._fastChatBoxSeatBgImg=this.owner._fastChatBoxSeatBgImg[i];
+                }
+                CustomChatData$1.init(this._playerArray[concatArr[i]].owner);
             }
         }
 
@@ -2811,8 +2850,8 @@
                 that.onSend({
                     name: 'M.User.C2G_Connect',
                     data: {
-                        uid: that.userId,
-                        key: that.key,
+                        uid: Main$1.userInfo.userId,
+                        key: Main$1.userInfo.key,
                         devid: Laya.Browser.onAndroid ? "Android" : "PC",
                         ip: "60.255.161.15"
                     },
@@ -3062,7 +3101,11 @@
 
                 //表情
                 if (resData._t == "G2C_GameChat") {
-                    this.showPlayerExpression(resData);
+                    if(resData.chat.msgType==2){//表情聊天
+                        this.showPlayerExpression(resData);
+                    }else if(resData.chat.msgType==1){//快捷语音
+                        this.showPlayerFastVoice(resData);
+                    }
                 }
 
                 //留座
@@ -3085,10 +3128,16 @@
                 ErrText$1.ERR(this, 'try-catc处异常：', error);
             }
         }
+        /**快捷聊天 */
+        showPlayerFastVoice(data){
+            this._playerArray.forEach(item_player => {
+                if (item_player.owner.userId == data.chat.sender) {
+                    item_player.playerSeatAddFastChat(data.chat);
+                }
+            });
+        }
 
-        /**
-         * 表情
-         */
+        /**表情*/
         showPlayerExpression(data) {
             this._playerArray.forEach(item_player => {
                 if (item_player.owner.userId == data.chat.sender) {
@@ -3173,6 +3222,7 @@
                 }
                 // ====更新牌数据
                 this._playerArray.forEach((item_player, item_index) => {
+                    CustomChatData$1.init(item_player.owner);
                     if (item_seatData.userId == item_player.owner.userId) {
                         if (item_player.owner.isMe) {
                             item_player.owner.actionType = -1;
@@ -4575,16 +4625,6 @@
                 });
         }
 
-        /**
-         * 打开菜单选项
-         */
-        openMenuList(show) {
-            let showObj = this.owner.menu;
-            let maskAlpha = 0.2;
-            let y = show ? 0 + Main$1.phoneNews.statusHeight : -this.owner.menu.height;
-            this.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
-        }
-
         setMeMakeBOBO(data) {
             let addBoBoPlayer = data.param.json[0];
             this._playerArray.forEach(item_player => {
@@ -4801,28 +4841,47 @@
          * @param {*} isShow 是否显示
          * @param {*} data 需要的数据
          */
-        GetNews(isShow = true, data) {
-            let that = GameControl.instance;
-            if (isShow)
-                this.getPageNews(that, data);
-            // that._allowSeatUp = false;
-            this.showObj = that.owner.PlayerNews_dialog;
+        open(data) {
+            // let that = GameControl.instance;
+            this.getPageNews(data);
+            this.common(true);
+            this.bindEvent(true);
+        }
+        common(isShow) {
+            this.showObj = GameControl.instance.owner.PlayerNews_dialog;
             let maskAlpha = 0;
             let y = isShow ? (Laya.stage.height - this.showObj.height) / 2 : -this.showObj.height;
-            that.openDiaLogCommon(isShow, this.showObj, maskAlpha, 'y', y);
+            GameControl.instance.openDiaLogCommon(isShow, this.showObj, maskAlpha, 'y', y);
         }
-        getPageNews(that, data) {
+        close() {
+            this.common(false);
+            this.bindEvent(false);
+        }
+        /**
+        * 绑定事件或移除事件
+        * @param {*} isBind 是否绑定事件
+        */
+        bindEvent(isBind) {
+            let mask = GameControl.instance.owner._mask;
+            if (isBind)
+                mask.on(Laya.Event.CLICK, this, this.close);
+            else
+                mask.off(Laya.Event.CLICK);
+        }
+
+        getPageNews(data) {
             HTTP.$request({
                 that: this,
                 url: '/M.Games.CX/GetSeatUserInfo',
                 data: {
-                    uid: data.userId,
-                    roomid: that.roomId
+                    userId: data.userId,
+                    uid:GameControl.instance.userId,
+                    roomid: GameControl.instance.roomId
                 },
                 success(res) {
                     Main$1.$LOG('获取的玩家个人信息', res);
                     if (res.data.ret.type == 0) {
-                        this.setPage(that, res.data);
+                        this.setPage(res.data);
                     } else {
                         Main$1.showTip(res.data.ret.msg);
                     }
@@ -4831,7 +4890,7 @@
                 }
             });
         }
-        setPage(that, data) {
+        setPage(data) {
             let head = this.showObj.getChildByName("news_head_box").getChildByName("headBg").getChildByName("head");
             let name = this.showObj.getChildByName("news_box").getChildByName("news_name");
             let sex_0 = name.getChildByName("news_sex").getChildByName("sex0");
@@ -4843,8 +4902,8 @@
             let fanpaiwinrate = this.showObj.getChildByName("news_fanpaiwinrate").getChildByName("news_fanpaiwinrate_value");
             let winss = this.showObj.getChildByName("news_winss").getChildByName("news_winss_value");
             let allwinrate = this.showObj.getChildByName("news_allwinrate").getChildByName("news_allwinrate_value");
-            let headUrl='res/img/head/'+data.head+'.png';
-            Main$1.$LoadImage(head, headUrl,Main$1.defaultImg.one,'skin');
+            let headUrl = 'res/img/head/' + data.head + '.png';
+            Main$1.$LoadImage(head, headUrl, Main$1.defaultImg.one, 'skin');
             name.text = data.name;
             name.getChildByName("news_sex").left = name.textWidth;
             sex_0.visible = data.sex == 0 ? true : false;
@@ -4873,9 +4932,36 @@
         initGameSet(that) {
             this.GameUI = that;
             this.GameControl = GameControl.instance;
-            this.gameSetRegisterEvent();
             this.setGameView();
             this.getGameSetVal();
+        }
+        open() {
+            this.common(true);
+            this.bindEvent(true);
+            this.setSwitch();
+            this.gameSetRegisterEvent();
+        }
+        common(show){
+            let showObj = GameControl.instance.owner.gameSet_dialog;
+            let maskAlpha = 0;
+            let y = show ? (Laya.stage.height - showObj.height) / 2 : -showObj.height;
+            GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
+        }
+        close(){
+            this.common(false);
+            this.bindEvent(false);
+            this.gameSetRegisterEventOff();
+        }
+         /**
+         * 绑定事件或移除事件
+         * @param {*} isBind 是否绑定事件
+         */
+        bindEvent(isBind) {
+            let mask = GameControl.instance.owner._mask;
+            if (isBind)
+                mask.on(Laya.Event.CLICK, this, this.close);
+            else
+                mask.off(Laya.Event.CLICK);
         }
         setGameView() {
             let deskView = localStorage.getItem('deskView') ? localStorage.getItem('deskView') : 'desk_bg1';
@@ -4895,17 +4981,18 @@
                 item.on(Laya.Event.CLICK, this, this.onClickThisDeskView, [item]);
             });
         }
+        gameSetRegisterEventOff() {
+            this.GameUI.gameSet_deskViewBox._children.forEach(item => {
+                item.off(Laya.Event.CLICK);
+            });
+            GameControl.instance.owner.game_music_switchBox.off(Laya.Event.CLICK);
+            GameControl.instance.owner.game_chat_switchBox.off(Laya.Event.CLICK);
+        }
         onClickThisDeskView(itemObj) {
             localStorage.setItem('deskView', itemObj.name);
             this.setGameView();
         }
-        gameSet(show) {
-            let showObj = this.GameUI.gameSet_dialog;
-            let maskAlpha = 0;
-            let y = show ? (Laya.stage.height - showObj.height) / 2 : -showObj.height;
-            this.GameControl.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
-            this.setSwitch();
-        }
+       
         setSwitch() {
             this.getGameSetVal();
             let game_music_switchBox = this.GameUI.game_music_switchBox;
@@ -4915,7 +5002,9 @@
                 localStorage.setItem('gameMusic', val);
             });
             Main$1.$switch(game_chat_switchBox, Main$1.gameSetVal.chatVoice, this, (res) => {
-                // console.log(res)
+                let val = res ? 1 : 2;
+                localStorage.setItem('chatVoice', val);
+                Main$1.chatVoiceOpenState=localStorage.getItem('chatVoice')?localStorage.getItem('chatVoice')==1?true:false:true;
             });
         }
         getGameSetVal() {
@@ -4943,6 +5032,7 @@
             if (this.MeSeatArr.length > 0) {
                 this.init();
                 this.common(true);
+                this.bindEvent(true);
             } else {
                 Main$1.showTip('旁观者不能发送表情!');
             }
@@ -4957,8 +5047,22 @@
          * 关闭发表情的弹框
          */
         close(that) {
-            if (this.GameUI && this.GameControl)
+            if (this.GameUI && this.GameControl) {
                 this.common(false);
+                this.bindEvent(false);
+            }
+        }
+
+        /**
+       * 绑定事件或移除事件
+       * @param {*} isBind 是否绑定事件
+       */
+        bindEvent(isBind) {
+            let mask = GameControl.instance.owner._mask;
+            if (isBind)
+                mask.on(Laya.Event.CLICK, this, this.close);
+            else
+                mask.off(Laya.Event.CLICK);
         }
         /**
         * 初始化表情的弹框中的内容
@@ -5020,6 +5124,111 @@
         }
     }
     var ExpressionChat$1 = new ExpressionChat();
+
+    /**
+     * 自定义聊天功能(类似于：‘快点呀，我等得花儿都谢了’)
+     */
+    class CustomChat {//CustomChat_dialog
+        /** 打开*/
+        open() {
+            this.MeSeatArr = GameControl.instance._playerArray.filter(item => item.owner.isMe);
+            if (this.MeSeatArr.length > 0) {
+                this.common(true);
+                this.bindEvent(true);
+                this.initPage();
+            } else {
+                Main$1.showTip('旁观者不能发送快捷语音!');
+            }
+        }
+        /**
+         * 绑定事件或移除事件
+         * @param {*} isBind 是否绑定事件
+         */
+        bindEvent(isBind) {
+            let mask = GameControl.instance.owner._mask;
+            if (isBind)
+                mask.on(Laya.Event.CLICK, this, this.close);
+            else
+                mask.off(Laya.Event.CLICK);
+        }
+        common(show) {
+            let showObj = GameControl.instance.owner.CustomChat_dialog;
+            let maskAlpha = 0;
+            let y = show ? Laya.stage.height - showObj.height : Laya.stage.height;
+            GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
+        }
+        /**关闭 */
+        close() {
+            this.bindEvent(false);
+            this.common(false);
+        }
+
+        /**初始化列表 */
+        initPage() {
+            let list = GameControl.instance.owner.CustomChat_dialog.getChildByName('customList');
+            list.array = Main$1.chatVoice;
+            list.vScrollBarSkin = '';
+            list.visible = true;
+            list.renderHandler = new Laya.Handler(this, this.listRender);
+            list.mouseHandler = new Laya.Handler(this, this.clickListRow);
+        }
+        /**渲染列表数据 */
+        listRender(cell) {
+            let test = cell.getChildByName('test_bg').getChildByName('test');
+            test.text = cell.dataSource.text;
+        }
+        /**列表点击 */
+        clickListRow(Event, index) {
+            if (Event.type == 'click') {
+                this.close();
+                let ID = Event.target.dataSource.id;
+                let content = Event.target.dataSource.text;
+                GameControl.instance.onSend({
+                    name: 'M.Games.CX.C2G_GameChat',
+                    data: {
+                        chat: {
+                            "recipient": -1,
+                            "sender": GameControl.instance.userId,
+                            "content": content,
+                            "msgType": 1,
+                            "msgId": ID,
+                        },
+                        roomId: parseInt(GameControl.instance.roomId),
+                        chatType: 0,
+                    },
+                    success(res) {
+                        GameControl.instance.dealSoketMessage('发送快捷语音：', res);
+                    }
+                });
+            }
+        }
+
+        /**显示位置的快捷语音 */
+        openSeatChatView(that, data) {
+            let fastChatBox = that.owner.getChildByName('fastChatBox');
+            let test = fastChatBox.getChildByName('text');
+            fastChatBox.visible = true;
+            test.text = data.content;
+            let $volume = Main$1.chatVoiceOpenState ? 1 : 0;
+            that.soundUrl = Main$1.chatVoice[data.msgId].voice + new Date().getTime();
+            let nowTime = new Date().getTime();
+            that['chatVoice' + nowTime] = Laya.SoundManager.playSound(Main$1.chatVoice[data.msgId].voice, 1, Laya.Handler.create(this, () => {
+                if (that['chatVoice' + nowTime].soundUrl == that.soundUrl) {
+                    fastChatBox.visible = false;
+                    test.text = '';
+                }
+            }));
+            if(that['chatVoice' + nowTime]){
+                // Main.$LOG('声音对象：',that['chatVoice' + nowTime],'chatVoice' + nowTime,nowTime);
+                that['chatVoice' + nowTime].soundUrl = Main$1.chatVoice[data.msgId].voice + nowTime;
+                that['chatVoice' + nowTime].volume = $volume;
+            }else{
+                fastChatBox.visible = false;
+                test.text = '';
+            }
+        }
+    }
+    var CustomChat$1 = new CustomChat();
 
     /**
      * 该脚本为点击选中功能
@@ -5089,39 +5298,50 @@
       * @param {*} that 执行域
       */
         open(that) {
-            this.GameUI = that;
-            this.GameControl = GameControl.instance;
-            this.MeSeatArr = this.GameControl._playerArray.filter(item => item.owner.isMe);
+            this.MeSeatArr = GameControl.instance._playerArray.filter(item => item.owner.isMe);
             if (this.MeSeatArr.length > 0) {
-                if (this.GameControl.isLiuZuo) {
+                if (GameControl.instance.isLiuZuo) {
                     Main$1.showTip('您当前已留座，不能再留座了!');
                 } else {
-                    this.init();
                     this.common(true);
+                    this.bindEvent(true);
+                    this.init();
                 }
             } else {
                 Main$1.showTip('您当前为观战模式，无法留座!');
             }
         }
         common(show) {
-            let showObj = this.GameUI.LiuZuo_dialog;
+            let showObj = GameControl.instance.owner.LiuZuo_dialog;
             let maskAlpha = 0;
             let y = show ? (Laya.stage.height - showObj.height) / 2 : Laya.stage.height;
-            this.GameControl.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
+            GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
         }
         /**
          * 关闭留座的弹框
          */
         close() {
-            if (this.GameUI && this.GameControl)
-                this.common(false);
+            this.bindEvent(false);
+            this.common(false);
+        }
+
+        /**
+     * 绑定事件或移除事件
+     * @param {*} isBind 是否绑定事件
+     */
+        bindEvent(isBind) {
+            let mask = GameControl.instance.owner._mask;
+            if (isBind)
+                mask.on(Laya.Event.CLICK, this, this.close);
+            else
+                mask.off(Laya.Event.CLICK);
         }
 
         /**
         * 确认
         */
         confrim() {
-            let confrimBtn = this.GameUI.LiuZuo_dialog.getChildByName("confrimBtn");
+            let confrimBtn = GameControl.instance.owner.LiuZuo_dialog.getChildByName("confrimBtn");
             confrimBtn.on(Laya.Event.CLICK, this, this.confrimLiuZuo);
         }
 
@@ -5129,7 +5349,7 @@
          * 关闭按钮关闭
          */
         closeBtnEvent() {
-            let closeBtn = this.GameUI.LiuZuo_dialog.getChildByName("close");
+            let closeBtn = GameControl.instance.owner.LiuZuo_dialog.getChildByName("close");
             closeBtn.on(Laya.Event.CLICK, this, this.close);
         }
 
@@ -5137,15 +5357,15 @@
          * 初始化
          */
         init() {
-            this.closeBtnEvent();
             this.confrim();
             this.returnSeat();
             this.selectTime();
             this.setPageData();
+            this.closeBtnEvent();
         }
 
         setPageData() {
-            this.selectListBox = this.GameUI.LiuZuo_dialog.getChildByName("selectListBox");
+            this.selectListBox = GameControl.instance.owner.LiuZuo_dialog.getChildByName("selectListBox");
             let list = this.selectListBox.getChildByName("selectList");
             list.visible = true;
             // list.vScrollBarSkin = "";//运用滚动
@@ -5165,7 +5385,7 @@
          * 选择时间
          */
         selectTime() {
-            let selectListBox = this.GameUI.LiuZuo_dialog.getChildByName("selectListBox");
+            let selectListBox = GameControl.instance.owner.LiuZuo_dialog.getChildByName("selectListBox");
             let $MyClickSelect = selectListBox.getComponent(MyClickSelect);
             $MyClickSelect.MySelect(this, 0, (res) => {
                 this.selectNum = res;
@@ -5349,6 +5569,95 @@
     var MakeBOBO$1 = new MakeBOBO();
 
     /**
+     * 打开游戏中菜单功能
+     */
+    class GameMenu {
+        /**打开 */
+        open() {
+            this.common(true);
+            this.bindEvent(true);
+            this.initPage();
+        }
+        /**关闭 */
+        close() {
+            this.common(false);
+            this.bindEvent(false);
+        }
+        /**公用 */
+        common(show) {
+            let showObj = GameControl.instance.owner.menu;
+            let maskAlpha = 0.2;
+            let y = show ? 0 + Main$1.phoneNews.statusHeight : -showObj.height;
+            GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
+        }
+        /**
+         * 绑定事件或移除事件
+         * @param {*} isBind 是否绑定事件
+         */
+        bindEvent(isBind = true) {
+            let mask = GameControl.instance.owner._mask;
+            if (isBind)
+                mask.on(Laya.Event.CLICK, this, this.close);
+            else
+                mask.off(Laya.Event.CLICK);
+        }
+        /**初始化页面内容 */
+        initPage() {
+            let list = GameControl.instance.owner.menu.getChildByName('menuList');
+            list.array = [
+                { id: 1, imgUrl: 'res/img/menu/menu_1.png' },
+                { id: 2, imgUrl: 'res/img/menu/menu_2.png' },
+                { id: 3, imgUrl: 'res/img/menu/menu_3.png' },
+                { id: 4, imgUrl: 'res/img/menu/menu_4.png' },
+                { id: 5, imgUrl: 'res/img/menu/menu_5.png' },
+                { id: 6, imgUrl: 'res/img/menu/menu_6.png' },
+                { id: 7, imgUrl: 'res/img/menu/menu_7.png' },
+            ];
+            // _menuList.vScrollBarSkin = "";//运用滚动
+            list.renderHandler = new Laya.Handler(this, this.menuOnRender);
+            list.mouseHandler = new Laya.Handler(this, this.menuOnClick);
+        }
+        /**渲染列表 */
+        menuOnRender(cell, index) {
+            let menuContent = cell.getChildByName("menu_row_node").getChildByName("listContent");
+            menuContent.skin = cell.dataSource.imgUrl;
+            if (cell.dataSource.id == 7) {
+                let menuLine = cell.getChildByName("menu_row_node").getChildByName("line");
+                if (menuLine)
+                    menuLine.removeSelf();
+            }
+        }
+
+        /**列表点击事件 */
+        menuOnClick(Event, index) {
+            if (Event.type == 'click') {
+                let ID = Event.target.dataSource.id;
+                this.close();
+                if (ID == 2) {//牌局提示界面
+                    Laya.Scene.open('paijutishi.scene', false, { show: true });
+                } else if (ID == 1) {//起立
+                    GameControl.instance.playerSeatUpSend();
+                } else if (ID == 7) {//离开房间
+                    GameControl.instance.playerLeaveRoomSend();
+                } else if (ID == 4) {//补充钵钵
+                    MakeBOBO$1.open(false);
+                } else if (ID == 3) {//游戏设置
+                    GameSet$1.open(true);
+                } else if (ID == 5) {//留座离桌
+                    PlayerLiuZuo$1.open(this);
+                } else if (ID == 6) {//充值商城
+                    Main$1.$openScene('shoppingMall.scene', false, { isTabPage: false }, (res) => {
+                        res.zOrder = 30;
+                        res.x = Laya.stage.width;
+                        Laya.Tween.to(res, { x: 0 }, Main$1._speed.page);
+                    });
+                }
+            }
+        }
+    }
+    var GameMenu$1 = new GameMenu();
+
+    /**
     * 本示例采用非脚本的方式实现，而使用继承页面基类，实现页面逻辑。在IDE里面设置场景的Runtime属性即可和场景进行关联
     * 相比脚本方式，继承式页面类，可以直接使用页面定义的属性（通过IDE内var属性定义），比如this.tipLbll，this.scoreLbl，具有代码提示效果
     * 建议：如果是页面级的逻辑，需要频繁访问页面内多个元素，使用继承式写法，如果是独立小模块，功能单一，建议用脚本方式实现，比如子弹脚本。
@@ -5397,7 +5706,7 @@
             Main$1.$LOG('GameUI：', this);
         }
         onEnable() {
-            this.loadMenuContent();
+            // this.loadMenuContent();
             this._confirmDaiRuBtn = this.makeUp_bobo.getChildByName("confirmDaiRuBtn");
             this._control = this.getComponent(GameControl);
             this.confrimSubBtn1.on(Laya.Event.CLICK, this, this.onClickConfrimSubBtn1);//确认分牌事件
@@ -5409,7 +5718,8 @@
             this.errReloadBtnUI.on(Laya.Event.CLICK, this, this.onClickErrReloadBtn);//异常刷新
             this._confirmDaiRuBtn.on(Laya.Event.CLICK, this, this.onClickConfirmDaiRuBtn);//补充钵钵确认带入
             this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
-            this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
+            // this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
+            this.chatBtnUI.on(Laya.Event.CLICK, this, this.onClickChatBtn);//自定义聊天语音
             this.ceshiEvent();//有关于测试事件
         }
 
@@ -5458,7 +5768,7 @@
 
 
         onClickVoiceBtn() {
-            // let roomid = 2557
+            // let roomid = 452
             // GameControl.instance.onSend({
             //     name: 'M.Room.C2R_DissolveRoom',
             //     data: {
@@ -5468,6 +5778,7 @@
             //         console.log('解散房间：', res)
             //     }
             // })
+            // Laya.Scene.open('demo.scene',true)
             this._control.ceShi();
         }
 
@@ -5484,6 +5795,12 @@
         onClickExpression(msg) {
             ExpressionChat$1.open(this);
         }
+        /**
+         * 自定义聊天
+         */
+        onClickChatBtn() {
+            CustomChat$1.open(this);
+        }
 
         //补充钵钵(确认带入)    
         onClickConfirmDaiRuBtn() {
@@ -5494,16 +5811,12 @@
         /**
          * 所有弹框的蒙板事件
          */
-        onClickMask() {
-            this._control.openMenuList(false);
-            GameSet$1.gameSet(false);
-            PlyerNews.GetNews(false);
-            ExpressionChat$1.close();
-            PlayerLiuZuo$1.close();
-        }
+        // onClickMask() {
+        //     this._control.openMenuList(false);
+        // }
 
         onClickMenuBtn() {
-            this._control.openMenuList(true);
+            GameMenu$1.open();
         }
 
         //实时战绩    
@@ -5519,68 +5832,68 @@
         /**
          * 加载菜单内容
          */
-        loadMenuContent() {
-            let _menuList = this.menu.getChildByName('menuList');
-            _menuList.array = [
-                { id: 1, imgUrl: 'res/img/menu/menu_1.png' },
-                { id: 2, imgUrl: 'res/img/menu/menu_2.png' },
-                { id: 3, imgUrl: 'res/img/menu/menu_3.png' },
-                { id: 4, imgUrl: 'res/img/menu/menu_4.png' },
-                { id: 5, imgUrl: 'res/img/menu/menu_5.png' },
-                { id: 6, imgUrl: 'res/img/menu/menu_6.png' },
-                { id: 7, imgUrl: 'res/img/menu/menu_7.png' },
-            ];
-            // _menuList.vScrollBarSkin = "";//运用滚动
-            _menuList.renderHandler = new Laya.Handler(this, this.menuOnRender);
-            _menuList.mouseHandler = new Laya.Handler(this, this.menuOnClick);
-        }
+        // loadMenuContent() {
+        //     let _menuList = this.menu.getChildByName('menuList');
+        //     _menuList.array = [
+        //         { id: 1, imgUrl: 'res/img/menu/menu_1.png' },
+        //         { id: 2, imgUrl: 'res/img/menu/menu_2.png' },
+        //         { id: 3, imgUrl: 'res/img/menu/menu_3.png' },
+        //         { id: 4, imgUrl: 'res/img/menu/menu_4.png' },
+        //         { id: 5, imgUrl: 'res/img/menu/menu_5.png' },
+        //         { id: 6, imgUrl: 'res/img/menu/menu_6.png' },
+        //         { id: 7, imgUrl: 'res/img/menu/menu_7.png' },
+        //     ];
+        //     // _menuList.vScrollBarSkin = "";//运用滚动
+        //     _menuList.renderHandler = new Laya.Handler(this, this.menuOnRender);
+        //     _menuList.mouseHandler = new Laya.Handler(this, this.menuOnClick);
+        // }
         /**
          * 为列表赋上相应的内容
          * @param {*} cell 返回的对象
          * @param {*} index 返回的索引
          */
-        menuOnRender(cell, index) {
-            let menuContent = cell.getChildByName("menu_row_node").getChildByName("listContent");
-            menuContent.skin = cell.dataSource.imgUrl;
-            if (cell.dataSource.id == 7) {
-                let menuLine = cell.getChildByName("menu_row_node").getChildByName("line");
-                menuLine.removeSelf();
-            }
-        }
+        // menuOnRender(cell, index) {
+        //     let menuContent = cell.getChildByName("menu_row_node").getChildByName("listContent");
+        //     menuContent.skin = cell.dataSource.imgUrl;
+        //     if (cell.dataSource.id == 7) {
+        //         let menuLine = cell.getChildByName("menu_row_node").getChildByName("line");
+        //         menuLine.removeSelf();
+        //     }
+        // }
 
-        /**
-        * 为列表的选项绑定事件
-        * @param {*} Event 返回的对象
-        * @param {*} index 返回的索引
-        */
-        menuOnClick(Event, index) {
-            if (Event.type == 'click') {
-                // console.log(Event.target)
-                let ID = Event.target.dataSource.id;
-                this._control.openMenuList(false);
-                if (ID == 2) {//牌局提示界面
-                    Laya.Scene.open('paijutishi.scene', false, { show: true });
-                } else if (ID == 1) {//起立
-                    this._control.playerSeatUpSend();
-                } else if (ID == 7) {//离开房间
-                    this._control.playerLeaveRoomSend();
-                } else if (ID == 4) {//补充钵钵
-                    // this.isADDBOBO = true;
-                    MakeBOBO$1.open(false);
-                } else if (ID == 3) {//游戏设置
-                    GameSet$1.gameSet(true);
-                } else if (ID == 5) {//留座离桌
-                    PlayerLiuZuo$1.open(this);
-                } else if (ID == 6) {//充值商城
-                    // this._control.beackRoom();
-                    Main$1.$openScene('shoppingMall.scene', false, { isTabPage: false }, (res) => {
-                        res.zOrder = 30;
-                        res.x = Laya.stage.width;
-                        Laya.Tween.to(res, { x: 0 }, Main$1._speed.page);
-                    });
-                }
-            }
-        }
+        // /**
+        // * 为列表的选项绑定事件
+        // * @param {*} Event 返回的对象
+        // * @param {*} index 返回的索引
+        // */
+        // menuOnClick(Event, index) {
+        //     if (Event.type == 'click') {
+        //         // console.log(Event.target)
+        //         let ID = Event.target.dataSource.id;
+        //         this._control.openMenuList(false);
+        //         if (ID == 2) {//牌局提示界面
+        //             Laya.Scene.open('paijutishi.scene', false, { show: true });
+        //         } else if (ID == 1) {//起立
+        //             this._control.playerSeatUpSend();
+        //         } else if (ID == 7) {//离开房间
+        //             this._control.playerLeaveRoomSend();
+        //         } else if (ID == 4) {//补充钵钵
+        //             // this.isADDBOBO = true;
+        //             MakeBOBO.open(false);
+        //         } else if (ID == 3) {//游戏设置
+        //             GameSet.open(true);
+        //         } else if (ID == 5) {//留座离桌
+        //             PlayerLiuZuo.open(this);
+        //         } else if (ID == 6) {//充值商城
+        //             // this._control.beackRoom();
+        //             Main.$openScene('shoppingMall.scene', false, { isTabPage: false }, (res) => {
+        //                 res.zOrder = 30;
+        //                 res.x = Laya.stage.width;
+        //                 Laya.Tween.to(res, { x: 0 }, Main._speed.page);
+        //             })
+        //         }
+        //     }
+        // }
     }
 
     let _num3 = 0;
@@ -5693,13 +6006,14 @@
          * 玩家坐下注册点击事件
          */
         playerSeatDownRegisterEvent() {
+            this.playerSeatUpOffEvent();
             this.owner.getChildByName("head-box").on(Laya.Event.CLICK, this, this.getPlayerNews);
         }
         /**
          * 玩家离开去除点击事件
          */
         playerSeatUpOffEvent() {
-            this.owner.getChildByName("head-box").off(Laya.Event.CLICK, this, this.getPlayerNews);
+            this.owner.getChildByName("head-box").off(Laya.Event.CLICK);
         }
         /**
          * 获取玩家个人信息
@@ -5708,7 +6022,7 @@
             let data = {
                 userId: this.owner.userId
             };
-            PlyerNews.GetNews(true, data);
+            PlyerNews.open(data);
         }
 
         setMeMakeBOBO() {
@@ -5720,6 +6034,7 @@
          * @param {*} data 剩余时间
          */
         playerSeatDownOrSeatAtCommon(isShow, data, isUpdate) {
+            this.playerSeatDownRegisterEvent();
             Laya.timer.clear(this, this.palyerSeatAtTime);
             let headBox = this.owner.getChildByName("head-box");
             let headUrl = headBox.getChildByName("headBg").getChildByName("head");
@@ -6505,6 +6820,14 @@
         }
 
         /**
+         * 快捷聊天
+         * @param data 数据
+         */
+        playerSeatAddFastChat(data){
+            CustomChat$1.openSeatChatView(this,data);
+        }
+
+        /**
          * 显示其他玩家的赢的动画
          * @param {*} isShow 是否显示
          */
@@ -6524,24 +6847,6 @@
         }
         winRotation(OBJ) {
             OBJ.rotation += 4;
-        }
-    }
-
-    class commonSet extends Laya.Script {
-
-        constructor() { 
-            super(); 
-            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
-        }
-        
-        onEnable() {
-        }
-
-        onDisable() {
-        }
-        onStart(){
-            // console.log('设置参数commonSet.js',this.owner)
-            CommonSet$1.setLayoutValue(this.owner);//设置适配参数
         }
     }
 
@@ -8788,7 +9093,6 @@
     		reg("game/GameCenter/GameUI.js",GameUI);
     		reg("game/GameCenter/seat.js",seat);
     		reg("game/Fuction/MySlider.js",MySlider);
-    		reg("game/common/commonSet.js",commonSet);
     		reg("game/common/SetHeight.js",SetHeight);
     		reg("game/Fuction/MyClickSelect.js",MyClickSelect);
     		reg("game/GameCenter/GameControl.js",GameControl);
