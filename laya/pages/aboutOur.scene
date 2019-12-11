@@ -119,7 +119,7 @@
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,test",
-                    "props":{"skin":"images/common/test.png","name":"test","centerY":0,"centerX":0},
+                    "props":{"top":100,"skin":"images/common/test.png","right":50,"name":"test","left":50,"bottom":100},
                     "nodeParent":8,
                     "label":"test",
                     "isDirectory":false,

@@ -53,7 +53,7 @@ export default class openView extends Laya.Script {
         this.owner.on(Laya.Event.CLICK, this, this.openView)
     }
     openView() {
-        console.log(this.openSceneUrl)
+        Main.$LOG(this.openSceneUrl);
         Main.$openScene(this.openSceneUrl, this.openCloseOtherScene, this.openDta, (res) => {
             if (this.openMethod == 0) {
                 res.x = Laya.stage.width;

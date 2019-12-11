@@ -6893,11 +6893,13 @@
 
         onEnable() {
             this.hideLoadingView();
-            this.onLoading();
         }
 
         hideLoadingView() {
-            document.getElementById('startImg').style.opacity = 0;
+            setTimeout(()=>{
+                document.getElementById('startImg').style.opacity = 0;
+                this.onLoading();
+            },1000);
         }
 
         onLoading() {
@@ -6914,12 +6916,17 @@
         }
 
         dealWithBeforeLoadScene(res) {
+            let progress = this.owner.progressBg.getChildByName('progress');
             this.loadReturnArr.push(res);
             let $loadRate = parseInt((this.loadReturnArr.length / this.loadArrLength) * 100);
+            progress.width = this.owner.progressBg.width * ($loadRate / 100);
             this.owner.loadRate.text = $loadRate + '%';
             if ($loadRate >= 100) {
-                document.getElementById('startImg').style.display = 'none';
-                Laya.Scene.open('login.scene', true);
+                this.owner.loadText.text = '加载完成,祝您好运!';
+                setTimeout(() => {
+                    document.getElementById('startImg').style.display = 'none';
+                    Laya.Scene.open('login.scene', true);
+                }, 500);
             }
         }
     }
@@ -7020,11 +7027,15 @@
             }
         }
 
-        listSelect(Event,index){
-            if(Event.type=='click'){
-                let ID=Event.target.dataSource.id;
-                if(ID==2){
-                    console.log('免费协议');
+        listSelect(Event, index) {
+            if (Event.type == 'click') {
+                let ID = Event.target.dataSource.id;
+                if (ID == 2) {
+                    Main$1.$openScene('aboutOur.scene', false, this.openDta, (res) => {
+                        res.x = Laya.stage.width;
+                        res.zOrder = 10;
+                        Laya.Tween.to(res, { x: 0 }, Main$1._speed.page);
+                    });
                 }
             }
         }
@@ -7089,7 +7100,7 @@
             this.owner.on(Laya.Event.CLICK, this, this.openView);
         }
         openView() {
-            console.log(this.openSceneUrl);
+            Main$1.$LOG(this.openSceneUrl);
             Main$1.$openScene(this.openSceneUrl, this.openCloseOtherScene, this.openDta, (res) => {
                 if (this.openMethod == 0) {
                     res.x = Laya.stage.width;

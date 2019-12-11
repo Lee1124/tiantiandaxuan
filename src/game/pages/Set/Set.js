@@ -3,6 +3,7 @@
  */
 import Back from '../../common/back';
 import Switch from '../../common/MySwitch';
+import Main from '../../common/Main';
 export default class Set extends Laya.Script {
     constructor() {
         super();
@@ -59,11 +60,15 @@ export default class Set extends Laya.Script {
         }
     }
 
-    listSelect(Event,index){
-        if(Event.type=='click'){
-            let ID=Event.target.dataSource.id;
-            if(ID==2){
-                console.log('免费协议');
+    listSelect(Event, index) {
+        if (Event.type == 'click') {
+            let ID = Event.target.dataSource.id;
+            if (ID == 2) {
+                Main.$openScene('aboutOur.scene', false, this.openDta, (res) => {
+                    res.x = Laya.stage.width;
+                    res.zOrder = 10;
+                    Laya.Tween.to(res, { x: 0 }, Main._speed.page);
+                })
             }
         }
     }
