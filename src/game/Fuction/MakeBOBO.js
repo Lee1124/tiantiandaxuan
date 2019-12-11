@@ -28,7 +28,7 @@ class MakeBOBO {
     common(show) {
         let showObj = GameControl.instance.owner.makeUp_bobo;
         let maskAlpha = 0;
-        let y = show ? Laya.stage.height / 2 : -showObj.height;
+        let y = show ? (Laya.stage.height-showObj.height) / 2 : -showObj.height;
         GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
     }
     

@@ -26,4 +26,8 @@
    <item name="images/common/qipao_left.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,28,0,51" picType="0" scale="0"/>
    <item name="images/Chat/chat_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,160,0,65" picType="0" scale="0"/>
    <item name="images/Chat/chat_line.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,34,0,37" picType="0" scale="0"/>
+   <item name="images/newMe/bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=446,60,80,60" picType="0" scale="0"/>
+   <item name="images/hall/bg1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=200,66,200,66" picType="0" scale="0"/>
+   <item name="images/Notice/bg1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=53,98,82,88" picType="0" scale="0"/>
+   <item name="images/common/bg2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=124,100,122,133" picType="0" scale="0"/>
 </res>

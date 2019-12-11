@@ -31,8 +31,8 @@ import shopMall from "./game/pages/shopMall/shopMall"
 import TabPagesUI from "./game/pages/TabPages/TabPagesUI"
 import Me from "./game/pages/Me/Me"
 import Notice from "./game/pages/Notice/Notice"
-import dropDownReload from "./game/common/dropDownReload"
 import GameHall from "./game/pages/GameHall/GameHall"
+import dropDownReload from "./game/common/dropDownReload"
 import Data from "./game/pages/Data/Data"
 
 export default class GameConfig {
@@ -71,8 +71,8 @@ export default class GameConfig {
 		reg("game/pages/TabPages/TabPagesUI.js",TabPagesUI);
 		reg("game/pages/Me/Me.js",Me);
 		reg("game/pages/Notice/Notice.js",Notice);
-		reg("game/common/dropDownReload.js",dropDownReload);
 		reg("game/pages/GameHall/GameHall.js",GameHall);
+		reg("game/common/dropDownReload.js",dropDownReload);
 		reg("game/pages/Data/Data.js",Data);
     }
 }

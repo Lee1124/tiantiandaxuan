@@ -72,6 +72,7 @@ P 737504E6 0_0.png
 P D0B25224 anim_youwinSeat.png
 P A8728439 back.png
 P 6604BAE4 bg.png
+P 668DB51C bg2.png
 P 55429C6B defaultHead.png
 P 64EDC66C delayTime.png
 P A1B31BBE HeadIcon.png
@@ -114,7 +115,6 @@ R B7E32DE2 title.png
 R A9DFB8E5 top_bg.png
 P 10D1D190 winrate.png
 D images/dialog
-R 62009B7B bobo_bg.png
 P 6541C1A3 bobo_big.png
 P 363782E4 bobo_close.png
 R BE355353 bobo_comfirm.png
@@ -199,7 +199,6 @@ P 10A09442 ic_zong_i6p_0.png
 P D0CED78B icon1.png
 P DB2BB722 icon2.png
 P D894213A icon3.png
-R 89021B66 menu_bg.png
 P 963E517E menu_btn.png
 R CDB9884A menu_line.png
 S C4B65358 newDesk.png
@@ -218,6 +217,7 @@ D images/GIF
 D images/hall
 R 7C5BCA1D 1.png
 R C6B576D2 bg.png
+R B45A7401 bg1.png
 P 022D9BA4 da.png
 P 6C30DB5E icon.png
 R AD71FB0F list_bg.png
@@ -277,17 +277,15 @@ P 74302DC7 15.png
 P 28D2B4AA 16.png
 P 4FBE01C9 17.png
 P D67AF844 2.png
-R 013AF0B9 3.png
-R 045EA89B 4.png
 P 9F6F67AF 5.png
 P 7AA01965 6.png
 P AEF3CE0A 7.png
 P BB454A2D 8.png
 P A7904EC2 9.png
+R 577867FB bg.png
 P A1AD9B30 data_selected.png
 P 4F6CC3A8 headBg.png
 P 46886646 ID.png
-R C0EDC6B2 me_bg.png
 P 6626EA1A me_selected.png
 P EFE6B2F7 NICK.png
 P C68FDC55 notice_selected.png
@@ -296,6 +294,7 @@ P B183B79E sex0.png
 P 6F83D6AE sex1.png
 D images/Notice
 R 421ADD43 bg.png
+P 94E086AA bg1.png
 R 8C06C2A2 hd.png
 R 8BBABCA7 myNews.png
 R 456653DD nav.png

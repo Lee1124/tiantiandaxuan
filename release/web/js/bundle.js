@@ -9181,8 +9181,8 @@
     		reg("game/pages/TabPages/TabPagesUI.js",TabPagesUI);
     		reg("game/pages/Me/Me.js",Me);
     		reg("game/pages/Notice/Notice.js",Notice);
-    		reg("game/common/dropDownReload.js",dropDownReload);
     		reg("game/pages/GameHall/GameHall.js",GameHall);
+    		reg("game/common/dropDownReload.js",dropDownReload);
     		reg("game/pages/Data/Data.js",Data);
         }
     }
