@@ -61,11 +61,17 @@ P 5C876FFE handle_2_2_0.png
 P 73268BB6 handle_2_2_1.png
 P 5B2453D3 handle_4_2_0.png
 P BE2B5568 handle_4_2_1.png
+D images/Chat
+R 875A1BA4 chat_bg.png
+P 54340DEC chat_icon1.png
+P BF163D44 chat_icon2.png
+P 107C5A0B chat_line.png
+P D18FBEED chat_selected.png
 D images/common
+P 737504E6 0_0.png
 P D0B25224 anim_youwinSeat.png
 P A8728439 back.png
 P 6604BAE4 bg.png
-P 503B5184 chat_bg.png
 P 55429C6B defaultHead.png
 P 64EDC66C delayTime.png
 P A1B31BBE HeadIcon.png
@@ -80,7 +86,6 @@ P 36663221 loadIcon.png
 P 1992D2C7 loading2.png
 P DFB9BA3A loadingBg2.png
 P DA78162D qipao_left.png
-P C7903D56 qipao_list.png
 P BDE68D65 qipao_right.png
 P E6DB9562 scoreBg.png
 P EF652AA2 service.png

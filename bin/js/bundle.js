@@ -224,10 +224,10 @@
     class Main {
         constructor() {
             Main.instance = this;
-            this.websoketApi = '192.168.0.125:8092';
-            this.requestApi = 'http://192.168.0.125:8091';
-            // this.websoketApi = '132.232.34.32:8082';
-            // this.requestApi = 'http://132.232.34.32:8081';
+            // this.websoketApi = '192.168.0.125:8092';
+            // this.requestApi = 'http://192.168.0.125:8091';
+            this.websoketApi = '132.232.34.32:8082';
+            this.requestApi = 'http://132.232.34.32:8081';
             //手机信息
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
@@ -280,6 +280,7 @@
                 three: 'Loading3',
             };
 
+            //文字语音聊天列表
             this.chatVoice = [
                 { id: 0, voice: 'res/sounds/Man_Chat_0.wav', text: '大家好,很高兴见到各位!' },
                 { id: 1, voice: 'res/sounds/Man_Chat_1.wav', text: '和您合作真是太愉快了哈!' },
@@ -292,6 +293,25 @@
                 { id: 8, voice: 'res/sounds/Man_Chat_8.wav', text: '你是GG，还是MM?' },
                 { id: 9, voice: 'res/sounds/Man_Chat_9.wav', text: '咱交个朋友吧,能告诉我您咋联系的吗!' },
                 { id: 10, voice: 'res/sounds/Man_Chat_10.wav', text: '再见啦,俺会想念大家的!' }
+            ];
+
+            //表情聊天列表
+            this.expressionChat = [
+                { id: 0, icon: 'res/img/Expression/0_0.png' },
+                { id: 1, icon: 'res/img/Expression/1_0.png' },
+                { id: 2, icon: 'res/img/Expression/2_0.png' },
+                { id: 3, icon: 'res/img/Expression/3_0.png' },
+                { id: 4, icon: 'res/img/Expression/4_0.png' },
+                { id: 5, icon: 'res/img/Expression/5_0.png' },
+                { id: 6, icon: 'res/img/Expression/6_0.png' },
+                { id: 7, icon: 'res/img/Expression/7_0.png' },
+                { id: 8, icon: 'res/img/Expression/8_0.png' },
+                { id: 9, icon: 'res/img/Expression/9_0.png' },
+                { id: 10, icon: 'res/img/Expression/10_0.png' },
+                { id: 11, icon: 'res/img/Expression/11_0.png' },
+                { id: 12, icon: 'res/img/Expression/12_0.png' },
+                { id: 13, icon: 'res/img/Expression/13_0.png' },
+                { id: 14, icon: 'res/img/Expression/14_0.png' }
             ];
 
             this._speed = {
@@ -312,7 +332,7 @@
             this.diaLogArr2 = [];
 
             //聊天声音打开状态
-            this.chatVoiceOpenState=localStorage.getItem('chatVoice')?localStorage.getItem('chatVoice')==1?true:false:true;
+            this.chatVoiceOpenState = localStorage.getItem('chatVoice') ? localStorage.getItem('chatVoice') == 1 ? true : false : true;
         }
 
         $LOG(...data) {
@@ -764,8 +784,12 @@
 
         /**
          *  预加载的资源 
+         * @param that 执行域
+         * @param loadFn 加载完成回调
          */
-        beforeLoadScene() {
+        beforeLoadScene(that, loadFn) {
+            this.beforeLoadThat = that;
+            this.beforeLoadCallback = loadFn;
             Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
             this.loadScene.forEach(item => {
                 Laya.Scene.load(item, Laya.Handler.create(this, this.openView));
@@ -777,11 +801,12 @@
          * @param {*} res 加载资源结束回调参数
          */
         openView(res) {
+            this.beforeLoadCallback.call(this.beforeLoadThat, res);
             this.$LOG('预加载的资源：', res);
             this.loadSceneResourcesArr.push(res.url);
             this.openSceneViewArr.forEach((item, index) => {
                 if (item.url.indexOf(res.url) != -1) {
-                    console.log('Main中正在打开==================0000');
+                    // console.log('Main中正在打开==================0000')
                     Laya.Scene.open(res.url, item.closeOther, item.data, Laya.Handler.create(this, item.fn), () => {
                         console.log('Main中正在打开==================1');
                     });
@@ -5018,219 +5043,6 @@
     var GameSet$1 = new GameSet();
 
     /**
-     * 该脚本为表情聊天功能
-     */
-    class ExpressionChat {
-        /**
-         * 打开发表情的弹框
-         * @param {*} that 执行域
-         */
-        open(that) {
-            this.GameUI = that;
-            this.GameControl = GameControl.instance;
-            this.MeSeatArr = this.GameControl._playerArray.filter(item => item.owner.isMe);
-            if (this.MeSeatArr.length > 0) {
-                this.init();
-                this.common(true);
-                this.bindEvent(true);
-            } else {
-                Main$1.showTip('旁观者不能发送表情!');
-            }
-        }
-        common(show) {
-            let showObj = this.GameUI.Expression_dialog;
-            let maskAlpha = 0;
-            let y = show ? Laya.stage.height - showObj.height : Laya.stage.height;
-            this.GameControl.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
-        }
-        /**
-         * 关闭发表情的弹框
-         */
-        close(that) {
-            if (this.GameUI && this.GameControl) {
-                this.common(false);
-                this.bindEvent(false);
-            }
-        }
-
-        /**
-       * 绑定事件或移除事件
-       * @param {*} isBind 是否绑定事件
-       */
-        bindEvent(isBind) {
-            let mask = GameControl.instance.owner._mask;
-            if (isBind)
-                mask.on(Laya.Event.CLICK, this, this.close);
-            else
-                mask.off(Laya.Event.CLICK);
-        }
-        /**
-        * 初始化表情的弹框中的内容
-        */
-        init() {
-            let list = this.GameUI.Expression_dialog.getChildByName("e_list");
-            list.visible = true;
-            list.vScrollBarSkin = "";//运用滚动
-            list.array = [
-                { id: 0, icon: 'res/img/Expression/0_0.png' },
-                { id: 1, icon: 'res/img/Expression/1_0.png' },
-                { id: 2, icon: 'res/img/Expression/2_0.png' },
-                { id: 3, icon: 'res/img/Expression/3_0.png' },
-                { id: 4, icon: 'res/img/Expression/4_0.png' },
-                { id: 5, icon: 'res/img/Expression/5_0.png' },
-                { id: 6, icon: 'res/img/Expression/6_0.png' },
-                { id: 7, icon: 'res/img/Expression/7_0.png' },
-                { id: 8, icon: 'res/img/Expression/8_0.png' },
-                { id: 9, icon: 'res/img/Expression/9_0.png' },
-                { id: 10, icon: 'res/img/Expression/10_0.png' },
-                { id: 11, icon: 'res/img/Expression/11_0.png' },
-                { id: 12, icon: 'res/img/Expression/12_0.png' },
-                { id: 13, icon: 'res/img/Expression/13_0.png' },
-                { id: 14, icon: 'res/img/Expression/14_0.png' }
-            ];
-            list.renderHandler = new Laya.Handler(this, this.listRenderHandler);
-            list.mouseHandler = new Laya.Handler(this, this.oneMouseHandler);
-        }
-
-        listRenderHandler(cell) {
-            let iconBox = cell.getChildByName("icon");
-            iconBox.skin = cell.dataSource.icon;
-        }
-
-        oneMouseHandler(Event) {
-            //this.MeSeatArr
-            let that = this;
-            if (Event.type == 'click') {
-                this.close();
-                let ID = Event.target.dataSource.id;
-                this.GameControl.onSend({
-                    name: 'M.Games.CX.C2G_GameChat',
-                    data: {
-                        chat: {
-                            "recipient": -1,
-                            "sender": this.GameControl.userId,
-                            "content": String(ID),
-                            "msgType": 2,
-                            "msgId": 1,
-                        },
-                        roomId: parseInt(this.GameControl.roomId),
-                        chatType: 0,
-                    },
-                    success(res) {
-                        that.GameControl.dealSoketMessage('发送表情：', res);
-                    }
-                });
-            }
-        }
-    }
-    var ExpressionChat$1 = new ExpressionChat();
-
-    /**
-     * 自定义聊天功能(类似于：‘快点呀，我等得花儿都谢了’)
-     */
-    class CustomChat {//CustomChat_dialog
-        /** 打开*/
-        open() {
-            this.MeSeatArr = GameControl.instance._playerArray.filter(item => item.owner.isMe);
-            if (this.MeSeatArr.length > 0) {
-                this.common(true);
-                this.bindEvent(true);
-                this.initPage();
-            } else {
-                Main$1.showTip('旁观者不能发送快捷语音!');
-            }
-        }
-        /**
-         * 绑定事件或移除事件
-         * @param {*} isBind 是否绑定事件
-         */
-        bindEvent(isBind) {
-            let mask = GameControl.instance.owner._mask;
-            if (isBind)
-                mask.on(Laya.Event.CLICK, this, this.close);
-            else
-                mask.off(Laya.Event.CLICK);
-        }
-        common(show) {
-            let showObj = GameControl.instance.owner.CustomChat_dialog;
-            let maskAlpha = 0;
-            let y = show ? Laya.stage.height - showObj.height : Laya.stage.height;
-            GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
-        }
-        /**关闭 */
-        close() {
-            this.bindEvent(false);
-            this.common(false);
-        }
-
-        /**初始化列表 */
-        initPage() {
-            let list = GameControl.instance.owner.CustomChat_dialog.getChildByName('customList');
-            list.array = Main$1.chatVoice;
-            list.vScrollBarSkin = '';
-            list.visible = true;
-            list.renderHandler = new Laya.Handler(this, this.listRender);
-            list.mouseHandler = new Laya.Handler(this, this.clickListRow);
-        }
-        /**渲染列表数据 */
-        listRender(cell) {
-            let test = cell.getChildByName('test_bg').getChildByName('test');
-            test.text = cell.dataSource.text;
-        }
-        /**列表点击 */
-        clickListRow(Event, index) {
-            if (Event.type == 'click') {
-                this.close();
-                let ID = Event.target.dataSource.id;
-                let content = Event.target.dataSource.text;
-                GameControl.instance.onSend({
-                    name: 'M.Games.CX.C2G_GameChat',
-                    data: {
-                        chat: {
-                            "recipient": -1,
-                            "sender": GameControl.instance.userId,
-                            "content": content,
-                            "msgType": 1,
-                            "msgId": ID,
-                        },
-                        roomId: parseInt(GameControl.instance.roomId),
-                        chatType: 0,
-                    },
-                    success(res) {
-                        GameControl.instance.dealSoketMessage('发送快捷语音：', res);
-                    }
-                });
-            }
-        }
-
-        /**显示位置的快捷语音 */
-        openSeatChatView(that, data) {
-            let fastChatBox = that.owner.getChildByName('fastChatBox');
-            let test = fastChatBox.getChildByName('text');
-            fastChatBox.visible = true;
-            test.text = data.content;
-            let $volume = Main$1.chatVoiceOpenState ? 1 : 0;
-            that.soundUrl = Main$1.chatVoice[data.msgId].voice + new Date().getTime();
-            let nowTime = new Date().getTime();
-            that['chatVoice' + nowTime] = Laya.SoundManager.playSound(Main$1.chatVoice[data.msgId].voice, 1, Laya.Handler.create(this, () => {
-                if (that['chatVoice' + nowTime].soundUrl == that.soundUrl) {
-                    fastChatBox.visible = false;
-                    test.text = '';
-                }
-            }));
-            if(that['chatVoice' + nowTime]){
-                // Main.$LOG('声音对象：',that['chatVoice' + nowTime],'chatVoice' + nowTime,nowTime);
-                that['chatVoice' + nowTime].soundUrl = Main$1.chatVoice[data.msgId].voice + nowTime;
-                that['chatVoice' + nowTime].volume = $volume;
-            }else{
-                fastChatBox.visible = false;
-                test.text = '';
-            }
-        }
-    }
-    var CustomChat$1 = new CustomChat();
-
-    /**
      * 该脚本为点击选中功能
      */
     class MyClickSelect extends Laya.Script {
@@ -5285,6 +5097,205 @@
             this.init(isSelectIndex);
         }
     }
+
+    /**
+     * 自定义聊天功能(类似于：‘快点呀，我等得花儿都谢了’)
+     */
+    class CustomChat {
+        constructor() {
+            //选择的文字或表情
+            this.selectIndex = 0;
+            //弹框节点
+            this.chatDialog = null;
+            //文字语音聊天的节点
+            this.voiceChatView = null;
+            //表情语音聊天的节点
+            this.expressionChatView = null;
+        }
+        getView() {
+            this.chatDialog = GameControl.instance.owner.chat_dialog;
+            this.voiceChatView = this.chatDialog.getChildByName("voiceChatView");
+            this.expressionChatView = this.chatDialog.getChildByName("expressionChatView");
+        }
+        /** 打开*/
+        open() {
+            this.MeSeatArr = GameControl.instance._playerArray.filter(item => item.owner.isMe);
+            if (this.MeSeatArr.length > 0) {
+                this.getView();
+                this.common(true);
+                this.bindEvent(true);
+                this.initSelect();
+                this.initSelectJS();
+                this.initVoiceChatView();
+                this.initExpressionChatView();
+            } else {
+                Main$1.showTip('旁观者不能聊天!');
+            }
+        }
+        /**
+         * 绑定事件或移除事件
+         * @param {*} isBind 是否绑定事件
+         */
+        bindEvent(isBind) {
+            let mask = GameControl.instance.owner._mask;
+            if (isBind)
+                mask.on(Laya.Event.CLICK, this, this.close);
+            else
+                mask.off(Laya.Event.CLICK);
+        }
+        common(show) {
+            let showObj = this.chatDialog;
+            let maskAlpha = 0;
+            let y = show ? Laya.stage.height - showObj.height : Laya.stage.height;
+            GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
+        }
+        /**关闭 */
+        close() {
+            this.bindEvent(false);
+            this.common(false);
+        }
+
+        /**初始化选择按钮处列表 */
+        initSelect() {
+            let selectList = this.chatDialog.getChildByName('selectView').getChildByName('selectList');
+            selectList.array = [
+                { icon: 'res/img/common/chat_icon1.png', value: 0 },
+                { icon: 'res/img/common/chat_icon2.png', value: 1 }
+            ];
+            selectList.renderHandler = new Laya.Handler(this, this.selectListRender);
+        }
+        /**渲染选择按钮处列表 */
+        selectListRender(cell) {
+            let no = cell.getChildByName('listRow').getChildByName('select').getChildByName('no');
+            no.loadImage(cell.dataSource.icon);
+        }
+
+        /**初始化脚本 */
+        initSelectJS() {
+            this.selectedShowView();
+            let selectView = this.chatDialog.getChildByName("selectView");
+            let $MyClickSelect = selectView.getComponent(MyClickSelect);
+            $MyClickSelect.MySelect(this, this.selectIndex, (res) => {
+                this.selectIndex = res;
+                this.selectedShowView();
+            });
+        }
+
+        /**选择 */
+        selectedShowView() {
+            this.voiceChatView.visible = this.selectIndex == 0 ? true : false;
+            this.expressionChatView.visible = this.selectIndex == 1 ? true : false;
+        }
+
+        /**===初始化快捷语音列表=== */
+        initVoiceChatView() {
+            let voiceList = this.voiceChatView.getChildByName('voiceList');
+            voiceList.array = Main$1.chatVoice;
+            voiceList.vScrollBarSkin = '';
+            voiceList.visible = true;
+            voiceList.renderHandler = new Laya.Handler(this, this.voiceListRender);
+            voiceList.mouseHandler = new Laya.Handler(this, this.clickListRow);
+        }
+        /**渲染列表数据 */
+        voiceListRender(cell, index) {
+            if (index == Main$1.chatVoice.length - 1) {
+                if (cell.getChildByName('line'))
+                    cell.getChildByName('line').removeSelf();
+            }
+            let test = cell.getChildByName('text');
+            test.text = cell.dataSource.text;
+        }
+        /**列表点击 */
+        clickListRow(Event, index) {
+            if (Event.type == 'click') {
+                this.close();
+                let ID = Event.target.dataSource.id;
+                let content = Event.target.dataSource.text;
+                GameControl.instance.onSend({
+                    name: 'M.Games.CX.C2G_GameChat',
+                    data: {
+                        chat: {
+                            "recipient": -1,
+                            "sender": GameControl.instance.userId,
+                            "content": content,
+                            "msgType": 1,
+                            "msgId": ID,
+                        },
+                        roomId: parseInt(GameControl.instance.roomId),
+                        chatType: 0,
+                    },
+                    success(res) {
+                        GameControl.instance.dealSoketMessage('发送快捷语音：', res);
+                    }
+                });
+            }
+        }
+
+        /**显示位置的快捷语音 */
+        openSeatChatView(that, data) {
+            let fastChatBox = that.owner.getChildByName('fastChatBox');
+            let test = fastChatBox.getChildByName('text');
+            fastChatBox.visible = true;
+            test.text = data.content;
+            let $volume = Main$1.chatVoiceOpenState ? 1 : 0;
+            that.soundUrl = Main$1.chatVoice[data.msgId].voice + new Date().getTime();
+            let nowTime = new Date().getTime();
+            that['chatVoice' + nowTime] = Laya.SoundManager.playSound(Main$1.chatVoice[data.msgId].voice, 1, Laya.Handler.create(this, () => {
+                if (that['chatVoice' + nowTime].soundUrl == that.soundUrl) {
+                    fastChatBox.visible = false;
+                    test.text = '';
+                }
+            }));
+            if (that['chatVoice' + nowTime]) {
+                // Main.$LOG('声音对象：',that['chatVoice' + nowTime],'chatVoice' + nowTime,nowTime);
+                that['chatVoice' + nowTime].soundUrl = Main$1.chatVoice[data.msgId].voice + nowTime;
+                that['chatVoice' + nowTime].volume = $volume;
+            } else {
+                fastChatBox.visible = false;
+                test.text = '';
+            }
+        }
+
+        /**初始化表情聊天内容 */
+        initExpressionChatView() {
+            let expressionList = this.expressionChatView.getChildByName('expressionList');
+            expressionList.array = Main$1.expressionChat;
+            expressionList.vScrollBarSkin = '';
+            expressionList.visible = true;
+            expressionList.renderHandler = new Laya.Handler(this, this.expressionListRender);
+            expressionList.mouseHandler = new Laya.Handler(this, this.clickExpressionList);
+        }
+
+        expressionListRender(cell) {
+            let iconBox = cell.getChildByName('icon');
+            iconBox.loadImage(cell.dataSource.icon);
+        }
+
+        clickExpressionList(Event) {
+            if (Event.type == 'click') {
+                this.close();
+                let ID = Event.target.dataSource.id;
+                GameControl.instance.onSend({
+                    name: 'M.Games.CX.C2G_GameChat',
+                    data: {
+                        chat: {
+                            "recipient": -1,
+                            "sender": GameControl.instance.userId,
+                            "content": String(ID),
+                            "msgType": 2,
+                            "msgId": 1,
+                        },
+                        roomId: parseInt(GameControl.instance.roomId),
+                        chatType: 0,
+                    },
+                    success(res) {
+                        GameControl.instance.dealSoketMessage('发送表情：', res);
+                    }
+                });
+            }
+        }
+    }
+    var CustomChat$1 = new CustomChat();
 
     /**
      * 玩家留座离桌功能
@@ -5710,7 +5721,7 @@
             this._confirmDaiRuBtn = this.makeUp_bobo.getChildByName("confirmDaiRuBtn");
             this._control = this.getComponent(GameControl);
             this.confrimSubBtn1.on(Laya.Event.CLICK, this, this.onClickConfrimSubBtn1);//确认分牌事件
-            this.ExpressionUI.on(Laya.Event.CLICK, this, this.onClickExpression);//表情
+            // this.ExpressionUI.on(Laya.Event.CLICK, this, this.onClickExpression);//表情
             this._mask.on(Laya.Event.CLICK, this, this.onClickMask);//蒙板
             this.menuBtnUI.on(Laya.Event.CLICK, this, this.onClickMenuBtn);//左上方菜单
             this.nowPaiJuUI.on(Laya.Event.CLICK, this, this.onClickNowPaiJuBtn);//实时战绩
@@ -5789,12 +5800,12 @@
             this._control.confrimSubResult();
         }
 
-        /**
-         * 表情
-         */
-        onClickExpression(msg) {
-            ExpressionChat$1.open(this);
-        }
+        // /**
+        //  * 表情
+        //  */
+        // onClickExpression(msg) {
+        //     ExpressionChat.open(this);
+        // }
         /**
          * 自定义聊天
          */
@@ -6868,6 +6879,52 @@
     }
 
     /**
+    * 该脚本为资源预加载界面
+    */
+    class sliderSelect extends Laya.Script {
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            //预加载资源的数量
+            this.loadArrLength = 0;
+            //预加载返回的对象数组
+            this.loadReturnArr = [];
+        }
+
+        onEnable() {
+            this.hideLoadingView();
+            this.onLoading();
+        }
+
+        hideLoadingView() {
+            document.getElementById('startImg').style.opacity = 0;
+        }
+
+        onLoading() {
+            this.loadArrLength = Main$1.loadScene.length;
+            Main$1.beforeLoadScene(this, (res) => {
+                this.dealWithBeforeLoadScene(res);
+            });
+            Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
+            Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
+            Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
+            Main$1.createTipBox();
+            Main$1.getStatusHeight();
+            Main$1.createDiaLog();
+        }
+
+        dealWithBeforeLoadScene(res) {
+            this.loadReturnArr.push(res);
+            let $loadRate = parseInt((this.loadReturnArr.length / this.loadArrLength) * 100);
+            this.owner.loadRate.text = $loadRate + '%';
+            if ($loadRate >= 100) {
+                document.getElementById('startImg').style.display = 'none';
+                Laya.Scene.open('login.scene', true);
+            }
+        }
+    }
+
+    /**
      * 选择开关功能
      */
     class MySwitch extends Laya.Script {
@@ -7220,16 +7277,9 @@
             this.opendNumber = 0;
             this.loginState = options ? options : null;
             if (!this.loginState)
-                Main$1.beforeLoadScene();
+                // Main.beforeLoadScene();
 
-            if (!this.loginState) {
-                Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
-                Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
-                Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
-                Main$1.createTipBox();
-                Main$1.getStatusHeight();
-                Main$1.createDiaLog();
-            }
+            if (!this.loginState) ;
         }
         login() {
             this._LoginJS.login();
@@ -9096,6 +9146,7 @@
     		reg("game/common/SetHeight.js",SetHeight);
     		reg("game/Fuction/MyClickSelect.js",MyClickSelect);
     		reg("game/GameCenter/GameControl.js",GameControl);
+    		reg("game/common/demo.js",sliderSelect);
     		reg("game/pages/Set/Set.js",Set);
     		reg("game/common/MySwitch.js",MySwitch);
     		reg("game/pages/login/LoginUI.js",Login);
@@ -9130,7 +9181,7 @@
     GameConfig.screenMode = "none";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "login.scene";
+    GameConfig.startScene = "demo.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

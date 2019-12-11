@@ -2,10 +2,10 @@ import TIP from '../common/SuspensionTips'
 class Main {
     constructor() {
         Main.instance = this;
-        this.websoketApi = '192.168.0.125:8092';
-        this.requestApi = 'http://192.168.0.125:8091';
-        // this.websoketApi = '132.232.34.32:8082';
-        // this.requestApi = 'http://132.232.34.32:8081';
+        // this.websoketApi = '192.168.0.125:8092';
+        // this.requestApi = 'http://192.168.0.125:8091';
+        this.websoketApi = '132.232.34.32:8082';
+        this.requestApi = 'http://132.232.34.32:8081';
         //手机信息
         this.phoneNews = {
             statusHeight: 0,//手机系统栏的高度
@@ -58,6 +58,7 @@ class Main {
             three: 'Loading3',
         }
 
+        //文字语音聊天列表
         this.chatVoice = [
             { id: 0, voice: 'res/sounds/Man_Chat_0.wav', text: '大家好,很高兴见到各位!' },
             { id: 1, voice: 'res/sounds/Man_Chat_1.wav', text: '和您合作真是太愉快了哈!' },
@@ -71,6 +72,25 @@ class Main {
             { id: 9, voice: 'res/sounds/Man_Chat_9.wav', text: '咱交个朋友吧,能告诉我您咋联系的吗!' },
             { id: 10, voice: 'res/sounds/Man_Chat_10.wav', text: '再见啦,俺会想念大家的!' }
         ];
+
+        //表情聊天列表
+        this.expressionChat = [
+            { id: 0, icon: 'res/img/Expression/0_0.png' },
+            { id: 1, icon: 'res/img/Expression/1_0.png' },
+            { id: 2, icon: 'res/img/Expression/2_0.png' },
+            { id: 3, icon: 'res/img/Expression/3_0.png' },
+            { id: 4, icon: 'res/img/Expression/4_0.png' },
+            { id: 5, icon: 'res/img/Expression/5_0.png' },
+            { id: 6, icon: 'res/img/Expression/6_0.png' },
+            { id: 7, icon: 'res/img/Expression/7_0.png' },
+            { id: 8, icon: 'res/img/Expression/8_0.png' },
+            { id: 9, icon: 'res/img/Expression/9_0.png' },
+            { id: 10, icon: 'res/img/Expression/10_0.png' },
+            { id: 11, icon: 'res/img/Expression/11_0.png' },
+            { id: 12, icon: 'res/img/Expression/12_0.png' },
+            { id: 13, icon: 'res/img/Expression/13_0.png' },
+            { id: 14, icon: 'res/img/Expression/14_0.png' }
+        ]
 
         this._speed = {
             page: 120
@@ -90,7 +110,7 @@ class Main {
         this.diaLogArr2 = [];
 
         //聊天声音打开状态
-        this.chatVoiceOpenState=localStorage.getItem('chatVoice')?localStorage.getItem('chatVoice')==1?true:false:true;
+        this.chatVoiceOpenState = localStorage.getItem('chatVoice') ? localStorage.getItem('chatVoice') == 1 ? true : false : true;
     }
 
     $LOG(...data) {
@@ -543,8 +563,12 @@ class Main {
 
     /**
      *  预加载的资源 
+     * @param that 执行域
+     * @param loadFn 加载完成回调
      */
-    beforeLoadScene() {
+    beforeLoadScene(that, loadFn) {
+        this.beforeLoadThat = that;
+        this.beforeLoadCallback = loadFn;
         Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
         this.loadScene.forEach(item => {
             Laya.Scene.load(item, Laya.Handler.create(this, this.openView));
@@ -556,11 +580,12 @@ class Main {
      * @param {*} res 加载资源结束回调参数
      */
     openView(res) {
+        this.beforeLoadCallback.call(this.beforeLoadThat, res);
         this.$LOG('预加载的资源：', res);
         this.loadSceneResourcesArr.push(res.url);
         this.openSceneViewArr.forEach((item, index) => {
             if (item.url.indexOf(res.url) != -1) {
-                console.log('Main中正在打开==================0000')
+                // console.log('Main中正在打开==================0000')
                 Laya.Scene.open(res.url, item.closeOther, item.data, Laya.Handler.create(this, item.fn), () => {
                     console.log('Main中正在打开==================1')
                 });

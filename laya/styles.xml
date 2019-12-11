@@ -24,4 +24,6 @@
    <item name="images/common/qipao_list.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=81,74,67,17" picType="0" scale="0"/>
    <item name="images/common/qipao_right.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,57,0,27" picType="0" scale="0"/>
    <item name="images/common/qipao_left.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,28,0,51" picType="0" scale="0"/>
+   <item name="images/Chat/chat_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,160,0,65" picType="0" scale="0"/>
+   <item name="images/Chat/chat_line.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,34,0,37" picType="0" scale="0"/>
 </res>

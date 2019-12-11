@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>www.layabox.com</title>
+    <title>天天打旋</title>
     <meta charset='utf-8' />
     <meta name='renderer' content='webkit' />
     <meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'
@@ -19,11 +19,25 @@
         #myIframe{
             border: 0;
         }
+        .startImg {
+            opacity: 0;
+            width:100%;
+            height:100%;
+            position: absolute;
+            top:0;
+            left:0;
+            z-index:2019;
+            transition: all .5s;
+        }
     </style>
 </head>
 
 <body>
+     <img id="startImg" class="startImg" src="res/img/common/login_bg.png">
     <script type="text/javascript">
+        setTimeout(()=>{
+            document.getElementById('startImg').style.opacity=1;
+        })
         function loadLib(url) {
             var script = document.createElement("script");
             script.async = false;
@@ -32,6 +46,7 @@
         }
     </script>
     <script type="text/javascript" src="index.js"></script>
+   
 </body>
 
 </html>

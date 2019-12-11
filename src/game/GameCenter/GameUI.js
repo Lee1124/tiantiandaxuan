@@ -3,7 +3,7 @@ import COMMON from '../common/common'
 import Main from '../common/Main';
 import PlyerNews from '../Fuction/PlyerNews';
 import GameSet from '../Fuction/GameSet';
-import ExpressionChat from '../Fuction/ExpressionChat';
+// import ExpressionChat from '../Fuction/ExpressionChat';
 import CustomChat from '../Fuction/CustomChat';
 import GameMenu from '../Fuction/GameMenu';
 /**
@@ -59,7 +59,7 @@ export default class GameUI extends Laya.Scene {
         this._confirmDaiRuBtn = this.makeUp_bobo.getChildByName("confirmDaiRuBtn");
         this._control = this.getComponent(GameControl);
         this.confrimSubBtn1.on(Laya.Event.CLICK, this, this.onClickConfrimSubBtn1);//确认分牌事件
-        this.ExpressionUI.on(Laya.Event.CLICK, this, this.onClickExpression);//表情
+        // this.ExpressionUI.on(Laya.Event.CLICK, this, this.onClickExpression);//表情
         this._mask.on(Laya.Event.CLICK, this, this.onClickMask);//蒙板
         this.menuBtnUI.on(Laya.Event.CLICK, this, this.onClickMenuBtn);//左上方菜单
         this.nowPaiJuUI.on(Laya.Event.CLICK, this, this.onClickNowPaiJuBtn);//实时战绩
@@ -138,12 +138,12 @@ export default class GameUI extends Laya.Scene {
         this._control.confrimSubResult();
     }
 
-    /**
-     * 表情
-     */
-    onClickExpression(msg) {
-        ExpressionChat.open(this);
-    }
+    // /**
+    //  * 表情
+    //  */
+    // onClickExpression(msg) {
+    //     ExpressionChat.open(this);
+    // }
     /**
      * 自定义聊天
      */

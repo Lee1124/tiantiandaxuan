@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":1615,
-    "selecteID":1616,
+    "selectedBox":2083,
+    "selecteID":2085,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":2071,
+    "maxID":2094,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -8487,17 +8487,16 @@
             "props":{"x":0,"width":1242,"var":"BTHandleBtnBox","name":"BTHandleBtnBox","height":0,"bottom":0},
             "nodeParent":2,
             "label":"BTHandleBtnBox",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":991,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,chatBtn,chatBtnUI",
-                    "props":{"width":140,"var":"chatBtnUI","right":30,"name":"chatBtn","height":140,"bottom":220},
+                    "props":{"width":140,"var":"chatBtnUI","right":30,"name":"chatBtn","height":140,"bottom":33},
                     "nodeParent":991,
                     "label":"chatBtn",
                     "isOpen":false,
@@ -8521,35 +8520,6 @@
                         }]
                 },
                 {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,Expression,ExpressionUI",
-                    "props":{"width":140,"var":"ExpressionUI","right":30,"name":"Expression","height":140,"bottom":33},
-                    "nodeParent":991,
-                    "label":"Expression",
-                    "isOpen":true,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":1615,
-                    "child":[
-                        {
-                            "x":45,
-                            "type":"Image",
-                            "searchKey":"Image,icon",
-                            "props":{"y":9,"x":8,"width":123,"skin":"images/gameView/icon3.png","name":"icon","height":121,"centerY":0,"centerX":0},
-                            "nodeParent":1615,
-                            "label":"icon",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1616,
-                            "child":[
-                                ]
-                        }]
-                },
-                {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,nowPaiJu,nowPaiJuUI",
                     "props":{"width":140,"var":"nowPaiJuUI","name":"nowPaiJu","left":30,"height":140,"bottom":33},
@@ -8583,13 +8553,14 @@
             "props":{"zOrder":3,"x":0,"width":0,"visible":true,"var":"dialog_box","top":0,"name":"dialog_box","left":0,"isModal":true,"bottom":0,"bgColor":"#a42624","alpha":1},
             "nodeParent":2,
             "label":"dialog_box",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":913,
             "child":[
                 {
+                    "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,_mask,_mask",
                     "props":{"y":0,"x":0,"width":1242,"visible":false,"var":"_mask","name":"_mask","height":2208,"bgColor":"#000000","alpha":0.5},
@@ -8619,6 +8590,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,menu,menu",
                     "props":{"y":-1239,"x":5,"visible":false,"var":"menu","skin":"images/gameView/menu_bg.png","name":"menu"},
@@ -8698,6 +8670,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,paijuguize,paijuguize",
                     "props":{"y":0,"x":-971,"width":971,"visible":false,"var":"paijuguize","skin":"images/common/fightBg22.png","pivotY":0,"pivotX":0,"name":"paijuguize","height":2208},
@@ -8754,6 +8727,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,makeUp_bobo,makeUp_bobo",
                     "props":{"y":-400,"x":612,"visible":true,"var":"makeUp_bobo","skin":"images/dialog/bobo_bg.png","pivotY":500,"pivotX":525,"name":"makeUp_bobo"},
@@ -9015,6 +8989,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,gameSet_dialog,gameSet_dialog",
                     "props":{"y":-1186,"x":59,"visible":true,"var":"gameSet_dialog","skin":"images/GameSet/gameSet_bg.png","name":"gameSet_dialog"},
@@ -9302,6 +9277,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,PlayerNews,PlayerNews_dialog",
                     "props":{"y":-920,"x":72,"var":"PlayerNews_dialog","skin":"images/PersonNews2/news_bg.png","name":"PlayerNews"},
@@ -9638,59 +9614,7 @@
                     "$HIDDEN":true
                 },
                 {
-                    "type":"Image",
-                    "searchKey":"Image,Expression,Expression_dialog",
-                    "props":{"zOrder":10,"y":2208,"x":0,"width":1242,"visible":false,"var":"Expression_dialog","skin":"images/common/chat_bg.png","name":"Expression","left":0,"height":720},
-                    "nodeParent":913,
-                    "label":"Expression",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":1960,
-                    "child":[
-                        {
-                            "type":"List",
-                            "searchKey":"List,e_list",
-                            "props":{"visible":false,"top":50,"right":100,"repeatX":5,"name":"e_list","left":100,"bottom":50},
-                            "nodeParent":1960,
-                            "label":"e_list",
-                            "isOpen":true,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1962,
-                            "child":[
-                                {
-                                    "type":"Box",
-                                    "searchKey":"Box,e_box",
-                                    "props":{"width":208,"renderType":"render","name":"e_box","height":208},
-                                    "nodeParent":1962,
-                                    "label":"e_box",
-                                    "isOpen":true,
-                                    "isDirectory":true,
-                                    "isAniNode":false,
-                                    "hasChild":true,
-                                    "compId":1961,
-                                    "child":[
-                                        {
-                                            "type":"Image",
-                                            "searchKey":"Image,icon",
-                                            "props":{"name":"icon","centerY":0,"centerX":0},
-                                            "nodeParent":1961,
-                                            "label":"icon",
-                                            "isDirectory":false,
-                                            "isAniNode":false,
-                                            "hasChild":false,
-                                            "compId":1964,
-                                            "child":[
-                                                ]
-                                        }]
-                                }]
-                        }],
-                    "$HIDDEN":true
-                },
-                {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,LiuZuo,LiuZuo_dialog",
                     "props":{"x":64.5,"width":1140,"var":"LiuZuo_dialog","skin":"images/LiuZuo/l_bg.png","name":"LiuZuo","height":850,"bottom":-850},
@@ -9783,7 +9707,7 @@
                                                     "props":{"y":0,"x":0,"skin":"images/LiuZuo/l_kuang.png","name":"listRow","centerX":0,"bottom":0},
                                                     "nodeParent":2001,
                                                     "label":"listRow",
-                                                    "isOpen":false,
+                                                    "isOpen":true,
                                                     "isDirectory":true,
                                                     "isAniNode":false,
                                                     "hasChild":true,
@@ -9862,11 +9786,12 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
-                    "searchKey":"Image,CustomChat,CustomChat_dialog",
-                    "props":{"y":2208,"width":1242,"visible":false,"var":"CustomChat_dialog","skin":"images/common/chat_bg.png","name":"CustomChat","left":0,"height":720},
+                    "searchKey":"Image,chat,chat_dialog",
+                    "props":{"y":2208,"width":1242,"visible":false,"var":"chat_dialog","skin":"images/Chat/chat_bg.png","name":"chat","left":0,"height":630},
                     "nodeParent":913,
-                    "label":"CustomChat",
+                    "label":"chat",
                     "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
@@ -9874,58 +9799,238 @@
                     "compId":2034,
                     "child":[
                         {
-                            "type":"List",
-                            "searchKey":"List,customList",
-                            "props":{"visible":false,"top":25,"right":30,"name":"customList","left":30,"elasticEnabled":true,"bottom":10},
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,selectView",
+                            "props":{"width":142,"top":0,"right":0,"name":"selectView","height":630,"bottom":0},
                             "nodeParent":2034,
-                            "label":"customList",
-                            "isOpen":true,
+                            "label":"selectView",
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
-                            "compId":2035,
+                            "compId":2072,
                             "child":[
                                 {
-                                    "type":"Box",
-                                    "searchKey":"Box,listBox",
-                                    "props":{"right":0,"renderType":"render","name":"listBox","left":0,"height":200},
-                                    "nodeParent":2035,
-                                    "label":"listBox",
-                                    "isOpen":true,
+                                    "type":"List",
+                                    "searchKey":"List,selectList",
+                                    "props":{"top":0,"right":0,"name":"selectList","left":0,"bottom":0},
+                                    "nodeParent":2072,
+                                    "label":"selectList",
+                                    "isOpen":false,
                                     "isDirectory":true,
-                                    "isAniNode":false,
+                                    "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":2037,
+                                    "compId":2073,
                                     "child":[
                                         {
-                                            "type":"Image",
-                                            "searchKey":"Image,test_bg",
-                                            "props":{"width":1165,"skin":"images/common/qipao_list.png","name":"test_bg","height":168,"centerY":0,"centerX":0},
-                                            "nodeParent":2037,
-                                            "label":"test_bg",
+                                            "type":"Box",
+                                            "searchKey":"Box,slectBox",
+                                            "props":{"right":0,"renderType":"render","name":"slectBox","left":0,"height":315},
+                                            "nodeParent":2073,
+                                            "label":"slectBox",
                                             "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":false,
                                             "hasChild":true,
-                                            "compId":2041,
+                                            "compId":2074,
                                             "child":[
                                                 {
+                                                    "type":"Image",
+                                                    "searchKey":"Image,listRow",
+                                                    "props":{"top":0,"right":0,"name":"listRow","left":0,"bottom":0},
+                                                    "nodeParent":2074,
+                                                    "label":"listRow",
+                                                    "isOpen":true,
+                                                    "isDirectory":true,
+                                                    "isAniNode":false,
+                                                    "hasChild":true,
+                                                    "compId":2075,
+                                                    "child":[
+                                                        {
+                                                            "type":"Image",
+                                                            "searchKey":"Image,select",
+                                                            "props":{"top":0,"right":0,"name":"select","left":0,"bottom":0},
+                                                            "nodeParent":2075,
+                                                            "label":"select",
+                                                            "isOpen":true,
+                                                            "isDirectory":true,
+                                                            "isAniNode":false,
+                                                            "hasChild":true,
+                                                            "compId":2076,
+                                                            "child":[
+                                                                {
+                                                                    "type":"Sprite",
+                                                                    "searchKey":"Sprite,yes",
+                                                                    "props":{"y":4,"x":5,"visible":false,"texture":"images/Chat/chat_selected.png","name":"yes"},
+                                                                    "nodeParent":2076,
+                                                                    "label":"yes",
+                                                                    "isDirectory":false,
+                                                                    "isAniNode":false,
+                                                                    "hasChild":false,
+                                                                    "compId":2081,
+                                                                    "child":[
+                                                                        ]
+                                                                },
+                                                                {
+                                                                    "type":"Sprite",
+                                                                    "searchKey":"Sprite,no",
+                                                                    "props":{"y":112,"x":15,"name":"no"},
+                                                                    "nodeParent":2076,
+                                                                    "label":"no",
+                                                                    "isDirectory":false,
+                                                                    "isAniNode":false,
+                                                                    "hasChild":false,
+                                                                    "compId":2080,
+                                                                    "child":[
+                                                                        ]
+                                                                }]
+                                                        }]
+                                                }]
+                                        }]
+                                },
+                                {
+                                    "type":"Script",
+                                    "switchAble":true,
+                                    "source":"src/game/Fuction/MyClickSelect.js",
+                                    "searchKey":"Script,MyClickSelect",
+                                    "removeAble":true,
+                                    "props":{},
+                                    "nodeParent":2072,
+                                    "label":"MyClickSelect",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":2082,
+                                    "child":[
+                                        ]
+                                }]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,voiceChatView",
+                            "props":{"top":0,"right":142,"name":"voiceChatView","left":0,"bottom":0},
+                            "nodeParent":2034,
+                            "label":"voiceChatView",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":2083,
+                            "child":[
+                                {
+                                    "x":60,
+                                    "type":"List",
+                                    "searchKey":"List,voiceList",
+                                    "props":{"visible":false,"top":0,"right":0,"name":"voiceList","left":0,"elasticEnabled":true,"bottom":0},
+                                    "nodeParent":2083,
+                                    "label":"voiceList",
+                                    "isOpen":true,
+                                    "isDirectory":true,
+                                    "isAniNode":true,
+                                    "hasChild":true,
+                                    "compId":2085,
+                                    "child":[
+                                        {
+                                            "x":75,
+                                            "type":"Box",
+                                            "searchKey":"Box,voiceBox",
+                                            "props":{"right":0,"renderType":"render","name":"voiceBox","left":0,"height":126},
+                                            "nodeParent":2085,
+                                            "label":"voiceBox",
+                                            "isOpen":true,
+                                            "isDirectory":true,
+                                            "isAniNode":false,
+                                            "hasChild":true,
+                                            "compId":2086,
+                                            "child":[
+                                                {
+                                                    "x":90,
                                                     "type":"Label",
-                                                    "searchKey":"Label,test",
-                                                    "props":{"name":"test","left":50,"fontSize":50,"color":"#604733","centerY":0,"bold":true},
-                                                    "nodeParent":2041,
-                                                    "label":"test",
+                                                    "searchKey":"Label,text",
+                                                    "props":{"wordWrap":true,"valign":"middle","right":50,"name":"text","left":50,"fontSize":46,"color":"#FFFFFF","centerY":0,"bold":true},
+                                                    "nodeParent":2086,
+                                                    "label":"text",
                                                     "isDirectory":false,
                                                     "isAniNode":false,
                                                     "hasChild":false,
-                                                    "compId":2042,
+                                                    "compId":2087,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "x":90,
+                                                    "type":"Image",
+                                                    "searchKey":"Image,line",
+                                                    "props":{"skin":"images/Chat/chat_line.png","right":0,"name":"line","left":0,"bottom":0},
+                                                    "nodeParent":2086,
+                                                    "label":"line",
+                                                    "isDirectory":false,
+                                                    "isAniNode":false,
+                                                    "hasChild":false,
+                                                    "compId":2088,
+                                                    "child":[
+                                                        ]
+                                                }]
+                                        }]
+                                }],
+                            "$HIDDEN":true
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,expressionChatView",
+                            "props":{"y":0,"x":0,"top":0,"right":142,"name":"expressionChatView","left":0,"bottom":0},
+                            "nodeParent":2034,
+                            "label":"expressionChatView",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":2084,
+                            "child":[
+                                {
+                                    "type":"List",
+                                    "searchKey":"List,expressionList",
+                                    "props":{"visible":false,"top":0,"right":30,"name":"expressionList","left":20,"elasticEnabled":true,"bottom":0},
+                                    "nodeParent":2084,
+                                    "label":"expressionList",
+                                    "isOpen":true,
+                                    "isDirectory":true,
+                                    "isAniNode":true,
+                                    "hasChild":true,
+                                    "compId":2089,
+                                    "child":[
+                                        {
+                                            "type":"Box",
+                                            "searchKey":"Box,expressionBox",
+                                            "props":{"width":212,"renderType":"render","name":"expressionBox","height":210},
+                                            "nodeParent":2089,
+                                            "label":"expressionBox",
+                                            "isOpen":true,
+                                            "isDirectory":true,
+                                            "isAniNode":false,
+                                            "hasChild":true,
+                                            "compId":2092,
+                                            "child":[
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,icon",
+                                                    "props":{"y":37,"x":38,"width":135,"name":"icon","height":135},
+                                                    "nodeParent":2092,
+                                                    "label":"icon",
+                                                    "isDirectory":false,
+                                                    "isAniNode":false,
+                                                    "hasChild":false,
+                                                    "compId":2093,
                                                     "child":[
                                                         ]
                                                 }]
                                         }]
                                 }]
                         }],
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 }],
             "$HIDDEN":true
         },
@@ -10190,7 +10295,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,ceshi_show_view_btn,ceshi_show_view_btn",
-            "props":{"width":100,"var":"ceshi_show_view_btn","right":0,"name":"ceshi_show_view_btn","height":152,"bottom":0},
+            "props":{"width":100,"var":"ceshi_show_view_btn","name":"ceshi_show_view_btn","height":78,"centerX":0,"bottom":0},
             "nodeParent":2,
             "label":"ceshi_show_view_btn",
             "isDirectory":false,
