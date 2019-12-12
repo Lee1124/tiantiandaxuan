@@ -258,6 +258,8 @@
                 desk_bg1: 'res/img/gameView/desk_bg1.png',
                 desk_bg2: 'res/img/gameView/desk_bg2.png'
             };
+            //所有扑克的名字(在这里为了预加载，避免翻牌的渲染过慢)
+            this.gamePoker=[0,1,2,4,5,6,8,10,15,16,17,18,19,20,21,22,28,29,30,31,32,33,34,35,39,41,43,44,45,47,49,53,-1];
             this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
                 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene',
                 'aboutOur.scene', 'gameSet.scene', 'service.scene'];
@@ -278,6 +280,7 @@
                 one: 'Loading',
                 two: 'Loading2',
                 three: 'Loading3',
+                four: 'Loading4',
             };
 
             //文字语音聊天列表
@@ -596,6 +599,8 @@
             return node;
         }
 
+        
+
         /**
         * 创建加载图标到stage
         * @param type 加载图标类型
@@ -791,6 +796,10 @@
             this.beforeLoadThat = that;
             this.beforeLoadCallback = loadFn;
             Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
+            //加载所有的牌
+            this.gamePoker.forEach(item=>{
+                Laya.loader.load('res/img/poker/'+item+'.png');
+            });
             this.loadScene.forEach(item => {
                 Laya.Scene.load(item, Laya.Handler.create(this, this.openView));
             });
@@ -2007,7 +2016,7 @@
                 let sstr = "";
                 if(Main$1.userInfo){
                     sstr = Main$1.userInfo.key + '&' + timestamp;
-                    Main$1.$LOG('请求里面key:',Main$1.userInfo.key);
+                    // Main.$LOG('请求里面key:',Main.userInfo.key);
                 }
                 for (var key in dataObj) {
                     if (dataObj.hasOwnProperty(key)) {
@@ -2025,7 +2034,7 @@
                 //{"user":"1236555","pwd":"1","userId":5986855,"key":3009340712064337000,"inRoomPws":101823}
                 if (Main$1.userInfo) {
                     url += '&t=' + timestamp;
-                    console.log("md5："+ sstr + " key:" + Main$1.userInfo.key);
+                    Main$1.$LOG("md5："+ sstr + " key:" + Main$1.userInfo.key);
                     url += '&sign=' + md5$1.md5(sstr);
                 }
 
@@ -2545,8 +2554,7 @@
      * 该脚本为了soket断开重连后重置数据,保证数据正确性
      */
     class RecSoketReloadData {
-       
-        reload(that,fn) {
+        reload(that) {
             // console.log(that._playerArray)
             // GameRoomInit.init(that);
             ErrText$1.ERR(that, 'start-----Date', new Date().getTime());
@@ -2556,15 +2564,15 @@
             me_handleBox._children.forEach(item => {
                 item.visible = false;
             });
-            that.owner.me_sub_pokerBox.visible=false;
-            that.owner.subCountDown.visible=false;
-            that.owner.meAnimationBox.visible=false;
-            that.owner.delayTimeBtn.visible=false;
+            that.owner.me_sub_pokerBox.visible = false;
+            that.owner.subCountDown.visible = false;
+            that.owner.meAnimationBox.visible = false;
+            that.owner.delayTimeBtn.visible = false;
             that.owner.returnSeatBtn.visible = false;
-            that._playerArray.forEach((item_player,item_index) => {
+            that._playerArray.forEach((item_player, item_index) => {
                 // GameRoomInit.keepValue(that,item_player);
                 let playerSeat = item_player.owner;
-                that._plyerIndexArray[item_player.INDEX]=item_player.INDEX;
+                that._plyerIndexArray[item_player.INDEX] = item_player.INDEX;
                 playerSeat.userId = '';
                 playerSeat.mePokerX_2 = [];
                 playerSeat.mePokerX_3 = [];
@@ -2578,32 +2586,32 @@
                 playerSeat.xiaZhuScore = 0;
                 playerSeat.index = item_player.INDEX;
                 playerSeat.seatId = item_player.INDEX;
-                playerSeat.x=that.owner._playerSeatXYArray[item_player.INDEX].x;
-                playerSeat.y=that.owner._playerSeatXYArray[item_player.INDEX].y;
-                playerSeat.getChildByName("xiaZhuScore").x=that.owner._xiaZhuSeatXYArray[item_player.INDEX].x;
-                playerSeat.getChildByName("xiaZhuScore").y=that.owner._xiaZhuSeatXYArray[item_player.INDEX].y;
-                playerSeat.getChildByName("tipsBox").x=that.owner._tipsSeatXYArray[item_player.INDEX].x;
-                playerSeat.getChildByName("tipsBox").y=that.owner._tipsSeatXYArray[item_player.INDEX].y;
-                playerSeat.getChildByName("show_poker_box").x=that.owner._pokerBoxSeat[item_player.INDEX].x;
-                playerSeat.getChildByName("show_poker_box").y=that.owner._pokerBoxSeat[item_player.INDEX].y;
-                let create_cm_seat_children=playerSeat.getChildByName("create_cm_seat")._children;
+                playerSeat.x = that.owner._playerSeatXYArray[item_player.INDEX].x;
+                playerSeat.y = that.owner._playerSeatXYArray[item_player.INDEX].y;
+                playerSeat.getChildByName("xiaZhuScore").x = that.owner._xiaZhuSeatXYArray[item_player.INDEX].x;
+                playerSeat.getChildByName("xiaZhuScore").y = that.owner._xiaZhuSeatXYArray[item_player.INDEX].y;
+                playerSeat.getChildByName("tipsBox").x = that.owner._tipsSeatXYArray[item_player.INDEX].x;
+                playerSeat.getChildByName("tipsBox").y = that.owner._tipsSeatXYArray[item_player.INDEX].y;
+                playerSeat.getChildByName("show_poker_box").x = that.owner._pokerBoxSeat[item_player.INDEX].x;
+                playerSeat.getChildByName("show_poker_box").y = that.owner._pokerBoxSeat[item_player.INDEX].y;
+                let create_cm_seat_children = playerSeat.getChildByName("create_cm_seat")._children;
                 create_cm_seat_children.forEach(item => {
-                    item.x=that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
-                    item.y=that.owner._showCMFaceToPlayerXY[item_player.INDEX].y;
+                    item.x = that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
+                    item.y = that.owner._showCMFaceToPlayerXY[item_player.INDEX].y;
                 });
-                playerSeat.getChildByName("sub_poker_box").x=that.owner._subPokerBoxSeat[item_player.INDEX].x;
-                playerSeat.getChildByName("sub_poker_box").y=that.owner._subPokerBoxSeat[item_player.INDEX].y;
+                playerSeat.getChildByName("sub_poker_box").x = that.owner._subPokerBoxSeat[item_player.INDEX].x;
+                playerSeat.getChildByName("sub_poker_box").y = that.owner._subPokerBoxSeat[item_player.INDEX].y;
 
-               playerSeat._showCMFaceToPlayerXY.x = that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
-               playerSeat._showCMFaceToPlayerXY.y = that.owner._showCMFaceToPlayerXY[item_player.INDEX].y;
-               playerSeat._mangDiChiFaceToPlayerXY.x = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].x;
-               playerSeat._mangDiChiFaceToPlayerXY.y = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].y;
-               playerSeat._piDiChiFaceToPlayerXY.x = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].x;
-               playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
-               playerSeat.getChildByName("fastChatBox").x = that.owner._fastChatBoxSeat[item_player.INDEX].x;
-               playerSeat.getChildByName("fastChatBox").y = that.owner._fastChatBoxSeat[item_player.INDEX].y;
-               playerSeat._fastChatBoxSeatBgImg=that.owner._fastChatBoxSeatBgImg[item_player.INDEX];
-               
+                playerSeat._showCMFaceToPlayerXY.x = that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
+                playerSeat._showCMFaceToPlayerXY.y = that.owner._showCMFaceToPlayerXY[item_player.INDEX].y;
+                playerSeat._mangDiChiFaceToPlayerXY.x = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].x;
+                playerSeat._mangDiChiFaceToPlayerXY.y = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].y;
+                playerSeat._piDiChiFaceToPlayerXY.x = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].x;
+                playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
+                playerSeat.getChildByName("fastChatBox").x = that.owner._fastChatBoxSeat[item_player.INDEX].x;
+                playerSeat.getChildByName("fastChatBox").y = that.owner._fastChatBoxSeat[item_player.INDEX].y;
+                playerSeat._fastChatBoxSeatBgImg = that.owner._fastChatBoxSeatBgImg[item_player.INDEX];
+
                 let headBox = playerSeat.getChildByName("head-box");
                 let headImg = headBox.getChildByName("headBg").getChildByName("head");
                 let xiaZhuScore = playerSeat.getChildByName("xiaZhuScore");
@@ -2624,7 +2632,7 @@
                 let tipsBox = playerSeat.getChildByName("tipsBox");
                 let liuzuosign = playerSeat.getChildByName('liuzuoSign');
                 let fastChatBox = playerSeat.getChildByName('fastChatBox');
-                fastChatBox.visible=false;
+                fastChatBox.visible = false;
                 liuzuosign.visible = false;
                 headBox.visible = false;
                 xiaZhuScore.visible = false;
@@ -2649,14 +2657,7 @@
                 gifBox.visible = false;
                 winScore.visible = false;
                 name.text = '';
-                if(item_index+1==that._playerArray.length){
-                    console.log('重置进来======');
-                    ErrText$1.ERR(that, 'end-----Date', new Date().getTime());
-                    if(fn)
-                        fn.call(that,item_index+1);
-                }
             });
-            
         }
     }
     var RecSoketReloadData$1 = new RecSoketReloadData();
@@ -3736,7 +3737,7 @@
                 let $actionType = item_player.owner.actionType;
                 let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
                 let $isMe = item_player.owner.isMe;
-                Main$1.$LOG('设置玩家自动操作状态:', item_player.owner.userId, item_player.owner.isMe, isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore);
+                // Main.$LOG('设置玩家自动操作状态:', item_player.owner.userId, item_player.owner.isMe, isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
                 if ($isMe && !$visible && isShow && $actionType && $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
                     this._autoBtnArr = [];
                     this.owner.autoHandleBtnBox.visible = isShow;
@@ -4176,7 +4177,7 @@
                             let cmTyppe = item_data.curXiazhu > 0 ? 3 : 2;
                             item_player.showMoveCM(this, cmTyppe, true, this._moveCMSeat.show, this._moveCMSeat.pi, this._music.moveMangOrPi, data.endActionInfo.length);
                         }
-                        console.log('玩家id:', item_player.owner.userId, );
+                        // console.log('玩家id:', item_player.owner.userId, )
                         if (item_player.owner.actionType != 3 && item_player.owner.actionType != 5) {
                             item_player.owner.actionType = -1;
                         }
@@ -4633,13 +4634,6 @@
                     }
                 }
             });
-        }
-
-        /**
-         * 获取玩家信息
-         */
-        getPlayerNews() {
-            console.log('激励理论绿');
         }
 
         /**
@@ -5683,10 +5677,7 @@
             /** @prop {name:CM,tips:"丢-筹码预制体",type:Prefab}*/
             //设置单例的引用方式，方便其他类引用
             GameUI.instance = this;
-            //关闭多点触控，否则就无敌了
-            // Laya.MouseManager.multiTouchEnabled = false;
             //加载场景文件
-            // this.loadScene("cheXuanGame_8.scene");
             this.ceshiNum = 0;
             this.ceshiNum2 = 0;
         }
@@ -5721,11 +5712,9 @@
             Main$1.$LOG('GameUI：', this);
         }
         onEnable() {
-            // this.loadMenuContent();
             this._confirmDaiRuBtn = this.makeUp_bobo.getChildByName("confirmDaiRuBtn");
             this._control = this.getComponent(GameControl);
             this.confrimSubBtn1.on(Laya.Event.CLICK, this, this.onClickConfrimSubBtn1);//确认分牌事件
-            // this.ExpressionUI.on(Laya.Event.CLICK, this, this.onClickExpression);//表情
             this._mask.on(Laya.Event.CLICK, this, this.onClickMask);//蒙板
             this.menuBtnUI.on(Laya.Event.CLICK, this, this.onClickMenuBtn);//左上方菜单
             this.nowPaiJuUI.on(Laya.Event.CLICK, this, this.onClickNowPaiJuBtn);//实时战绩
@@ -5733,7 +5722,6 @@
             this.errReloadBtnUI.on(Laya.Event.CLICK, this, this.onClickErrReloadBtn);//异常刷新
             this._confirmDaiRuBtn.on(Laya.Event.CLICK, this, this.onClickConfirmDaiRuBtn);//补充钵钵确认带入
             this.gameSet_close.on(Laya.Event.CLICK, this, this.onClickMask);//牌局设置关闭按钮关闭
-            // this.voiceBtnUI.on(Laya.Event.CLICK, this, this.onClickVoiceBtn);
             this.chatBtnUI.on(Laya.Event.CLICK, this, this.onClickChatBtn);//自定义聊天语音
             this.ceshiEvent();//有关于测试事件
         }
@@ -5804,12 +5792,6 @@
             this._control.confrimSubResult();
         }
 
-        // /**
-        //  * 表情
-        //  */
-        // onClickExpression(msg) {
-        //     ExpressionChat.open(this);
-        // }
         /**
          * 自定义聊天
          */
@@ -5822,13 +5804,6 @@
             this._control.makeUpBoBoConfirmDaiRu();
 
         }
-
-        /**
-         * 所有弹框的蒙板事件
-         */
-        // onClickMask() {
-        //     this._control.openMenuList(false);
-        // }
 
         onClickMenuBtn() {
             GameMenu$1.open();
@@ -5843,72 +5818,6 @@
         onClickPaijuhuiguBtn() {
             this._control.openSceneView('paijuhuigu.scene');
         }
-
-        /**
-         * 加载菜单内容
-         */
-        // loadMenuContent() {
-        //     let _menuList = this.menu.getChildByName('menuList');
-        //     _menuList.array = [
-        //         { id: 1, imgUrl: 'res/img/menu/menu_1.png' },
-        //         { id: 2, imgUrl: 'res/img/menu/menu_2.png' },
-        //         { id: 3, imgUrl: 'res/img/menu/menu_3.png' },
-        //         { id: 4, imgUrl: 'res/img/menu/menu_4.png' },
-        //         { id: 5, imgUrl: 'res/img/menu/menu_5.png' },
-        //         { id: 6, imgUrl: 'res/img/menu/menu_6.png' },
-        //         { id: 7, imgUrl: 'res/img/menu/menu_7.png' },
-        //     ];
-        //     // _menuList.vScrollBarSkin = "";//运用滚动
-        //     _menuList.renderHandler = new Laya.Handler(this, this.menuOnRender);
-        //     _menuList.mouseHandler = new Laya.Handler(this, this.menuOnClick);
-        // }
-        /**
-         * 为列表赋上相应的内容
-         * @param {*} cell 返回的对象
-         * @param {*} index 返回的索引
-         */
-        // menuOnRender(cell, index) {
-        //     let menuContent = cell.getChildByName("menu_row_node").getChildByName("listContent");
-        //     menuContent.skin = cell.dataSource.imgUrl;
-        //     if (cell.dataSource.id == 7) {
-        //         let menuLine = cell.getChildByName("menu_row_node").getChildByName("line");
-        //         menuLine.removeSelf();
-        //     }
-        // }
-
-        // /**
-        // * 为列表的选项绑定事件
-        // * @param {*} Event 返回的对象
-        // * @param {*} index 返回的索引
-        // */
-        // menuOnClick(Event, index) {
-        //     if (Event.type == 'click') {
-        //         // console.log(Event.target)
-        //         let ID = Event.target.dataSource.id;
-        //         this._control.openMenuList(false);
-        //         if (ID == 2) {//牌局提示界面
-        //             Laya.Scene.open('paijutishi.scene', false, { show: true });
-        //         } else if (ID == 1) {//起立
-        //             this._control.playerSeatUpSend();
-        //         } else if (ID == 7) {//离开房间
-        //             this._control.playerLeaveRoomSend();
-        //         } else if (ID == 4) {//补充钵钵
-        //             // this.isADDBOBO = true;
-        //             MakeBOBO.open(false);
-        //         } else if (ID == 3) {//游戏设置
-        //             GameSet.open(true);
-        //         } else if (ID == 5) {//留座离桌
-        //             PlayerLiuZuo.open(this);
-        //         } else if (ID == 6) {//充值商城
-        //             // this._control.beackRoom();
-        //             Main.$openScene('shoppingMall.scene', false, { isTabPage: false }, (res) => {
-        //                 res.zOrder = 30;
-        //                 res.x = Laya.stage.width;
-        //                 Laya.Tween.to(res, { x: 0 }, Main._speed.page);
-        //             })
-        //         }
-        //     }
-        // }
     }
 
     let _num3 = 0;
@@ -7291,20 +7200,27 @@
         onOpened(options) {
             this.opendNumber = 0;
             this.loginState = options ? options : null;
-            if (!this.loginState)
-                // Main.beforeLoadScene();
+            // if (!this.loginState)
+            //     // Main.beforeLoadScene();
 
-            if (!this.loginState) ;
+            // if (!this.loginState) {
+            //     // Main.createLoading(Main.loadingType.one);//预创建HTTP请求加载中的资源
+            //     // Main.createLoading(Main.loadingType.two);//预创建断线重连加载中的资源
+            //     // Main.createLoading(Main.loadingType.three);//预创建带文字加载中的资源
+            //     // Main.createTipBox();
+            //     // Main.getStatusHeight();
+            //     // Main.createDiaLog();
+            // }
         }
         login() {
             this._LoginJS.login();
         }
-        register() {
-            // this._LoginJS.register();
-        }
-        change() {
-            this._LoginJS.changePwd();
-        }
+        // register() {
+        //     // this._LoginJS.register();
+        // }
+        // change() {
+        //     this._LoginJS.changePwd();
+        // }
     }
 
     /**
@@ -8568,78 +8484,191 @@
             super();
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this.moveUpFn;//鼠标抬起回调
-        }
 
+            //滚动条
+            this.listScrollBarSlider = null;
+        }
         onEnable() {
             this.list = this.owner;
-            // this.addShowNode();
-            console.log(this.list);
+            Main$1.$LOG('下拉列表：', this.list);
             this.bindEvent();
+            this.addShowNode();
+            this.getSmallLoading();
         }
-        onStart() {
 
+        getSmallLoading(type = Main$1.loadingType.four) {
+            Laya.loader.load("res/atlas/images/common.atlas", Laya.Handler.create(this, onMyLoaded));
+            function onMyLoaded() {
+                this.smallLoading = new Laya.Animation();
+                this.smallLoading.visible = false;
+                this.smallLoading.loadAnimation("animation/loading/" + type + ".ani");
+                this.smallLoading.pos(30, 28);
+                this.iconBox.addChild(this.smallLoading);
+            }
         }
 
         addShowNode() {
+            this.iconBox = new Laya.Image();
+            this.iconBox.size(60, 60);
+            this.iconBox.centerY = 0;
+            this.p = new Laya.Panel();
+            this.p.visible = false;
+            this.p.size(360, 60);
+            this.p.top = 0;
+            this.p.centerX = 0;
+            this.p.zOrder = -1;
             this.text = new Laya.Label();
-            this.text.visible = false;
-            this.text.text = '下拉刷新';
+            this.text.text = '';
             this.text.color = '#935F13';
             this.text.fontSize = 40;
-            this.text.width = 300;
+            this.text.width = 270;
+            this.text.top = 0;
+            this.text.bottom = 0;
+            this.text.valign = 'middle';
             this.text.align = 'center';
             this.text.centerX = 0;
-            this.text.top = 50;
-            this.list.addChild(this.text);
+            this.p.addChild(this.text);
+            this.p.addChild(this.iconBox);
+            this.list.addChild(this.p);
+        }
+
+        /**
+         * 改变图标
+         * @param {*} type 类型(0:无图片,1：为静态图标 2：为动画)
+         * @param {*} iconUrl 地址
+         */
+        changeIcon(type = 1, iconUrl = 'res/img/common/icon2.png') {
+            this.smallLoading.visible = false;
+            this.smallLoading.stop();
+            this.iconBox.loadImage('');
+            if (type == 1) {
+                this.iconBox.loadImage(iconUrl);
+            } else if (type == 2) {
+                this.iconBox.loadImage('');
+                this.smallLoading.visible = true;
+                this.smallLoading.play();
+            }
+        }
+
+        /**监听滚动条的位置 */
+        bindChangeEvent() {
+            this.list.scrollBar.changeHandler = new Laya.Handler(this, (val) => {
+                this.p.visible = val <= -40 ? true : false;
+                // console.log(val)
+            });
         }
 
         bindEvent() {
-            this.list.off(Laya.Event.MOUSE_UP);
+            // this.list.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
             this.list.off(Laya.Event.MOUSE_MOVE);
-            this.list.on(Laya.Event.MOUSE_MOVE, this, (e) => {
-                if (e.target.scrollBar) {
-                    let mouseUpValue = e.target.scrollBar.value;
-                    // if (mouseUpValue <= -100 && mouseUpValue > -150) {
-                    //     // this.setTest(true, '下拉刷新');
-                    // } 
-                    // else if (mouseUpValue > -100) {
-                    //     this.text.visible = false;
-                    // } else if (mouseUpValue <= -150) {
-                    //     this.setTest(true, '释放立即刷新');
-                    // }
-                }
-            });
-            this.list.on(Laya.Event.MOUSE_UP, this, (e) => {
-                if (e.target.scrollBar) {
-                    let mouseUpValue = e.target.scrollBar.value;
-                    if (mouseUpValue < 0 && mouseUpValue <= -100) {
-                        if (this.moveUpFn) {
-                            // this.text.top = -100;
-                            // this.setTest(true, '正在刷新...');
-                            // e.target.top = 150;
-                            this.moveUpFn.call(this.callThis, mouseUpValue);
-                        }
-                        // else {
-                        //     this.setTest(false);
-                        // }
-                    }
-                    //  else if (mouseUpValue > -150) {
-                    //     this.setTest(false);
-                    // }
-                }
-            });
+            this.list.off(Laya.Event.MOUSE_UP);
+            this.list.off(Laya.Event.MOUSE_OUT);
+            this.list.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
+            this.list.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
+            this.list.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
         }
-        setTest(show, text = '下拉刷新') {
-            this.text.visible = show;
+
+        // onMouseDown() {
+        //     Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
+        //     Laya.stage.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
+        //     Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
+        // }
+
+        onMouseMove() {
+           if(this.list.array.length>0){
+            let val = this.list.scrollBar.value;
+            if (val <= 0 && val >= -100) {
+                this.p.height = -parseInt(val);
+            }
+            if (val < -100) {
+                this.p.height = 100;
+            }
+            this.p.visible = val <= -40 ? true : false;
+            if (val > -100) {
+                this.changeIcon();
+                this.setTest('下拉刷新');
+            } else if (val <= -100) {
+                this.changeIcon(1, 'res/img/common/icon1.png');
+                this.setTest('释放立即刷新');
+            }
+           }else{
+            this.setTest('');
+           }
+        }
+
+        onMouseUp() {
+            if(this.list.array.length>0){
+                let mouseUpValue = this.list.scrollBar.value;
+                if (mouseUpValue < 0 && mouseUpValue <= -100) {
+                    this.listScrollBarSlider.min = -100;
+                    // console.log(this.listScrollBarSlider.min)
+                    if (this.moveUpFn) {
+                        this.setTest('正在刷新...');
+                        this.changeIcon(2);
+                        this.moveUpFn.call(this.callThis, mouseUpValue, (res) => {
+                            this.setTest(res);
+                            this.changeIcon(0);
+                            setTimeout(() => {
+                                this.p.visible = false;
+                            }, 500);
+                        });
+                    }
+                }
+            }
+        }
+
+        // bindEvent() {
+        //     this.list.off(Laya.Event.MOUSE_UP);
+        //     this.list.off(Laya.Event.MOUSE_MOVE);
+        //     this.list.on(Laya.Event.MOUSE_MOVE, this, (e) => {
+        //         if (e.target.scrollBar) {
+        //             let val = e.target.scrollBar.value;
+        //             if (val <= 0 && val >= -100) {
+        //                 this.p.height = -parseInt(val);
+        //             }
+        //             if(val<-100){
+        //                 this.p.height = 100;
+        //             }
+        //             this.p.visible = val <= -40 ? true : false;
+        //             if (val > -100) {
+        //                 this.changeIcon();
+        //                 this.setTest('下拉刷新');
+        //             } else if (val <= -100) {
+        //                 this.changeIcon(1, 'res/img/common/icon1.png');
+        //                 this.setTest('释放立即刷新');
+        //             }
+        //         }
+        //     })
+        //     this.list.on(Laya.Event.MOUSE_UP, this, (e) => {
+        //         if (e.target.scrollBar) {
+        //             let mouseUpValue = e.target.scrollBar.value;
+        //             if (mouseUpValue < 0 && mouseUpValue <= -100) {
+        //                 this.listScrollBarSlider.min = -100;
+        //                 if (this.moveUpFn) {
+        //                     this.setTest('正在刷新...');
+        //                     this.changeIcon(2);
+        //                     this.moveUpFn.call(this.callThis, mouseUpValue, (res) => {
+        //                         this.setTest(res);
+        //                         this.changeIcon(0);
+        //                         setTimeout(() => {
+        //                             this.p.visible = false;
+        //                         }, 500)
+        //                     });
+        //                 }
+        //             }
+        //         }
+        //     })
+        // }
+        setTest(text = '下拉刷新') {
             this.text.text = text;
-            if (!show)
-                this.text.top = 50;
         }
         /**
          * 
          * @param {*} fn 回调函数
          */
         initCall(that, fn) {
+            this.listScrollBarSlider = this.list.scrollBar.slider;
+            this.bindChangeEvent();
             this.callThis = that;
             this.moveUpFn = fn;
         }
@@ -8662,10 +8691,6 @@
         onEnable() {
             Main$1.$LOG('Hall游戏大厅脚本：', this);
             GameHall.instance = this;
-        }
-        onStart() {
-            // Main.$LOG('onStart', this.UI.pageData)
-            // this.openGameView();
         }
 
         openThisPage() {
@@ -8722,29 +8747,8 @@
             page1List.array = data;
             page1List.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
             page1List.mouseHandler = new Laya.Handler(this, this.rowOnClick);
-            // page1List.on(Laya.Event.MOUSE_DOWN,this,()=>{
-            //     console.log('鼠标按下---事件')
-            // })
-            // page1List.on(Laya.Event.MOUSE_MOVE,this,(e)=>{
-            //     console.log('鼠标移动===事件',e.target.scrollBar.value)
-            // })
             this.watchListMove(page1List);
-            // page1List.on(Laya.Event.MOUSE_UP, this, (e) => {
-            //     // console.log('鼠标抬起===事件',e.target.top)
-            //     // e.target.top=100;
-            //     // page1List.off(Laya.Event.MOUSE_MOVE);
-            // })
             page1List.visible = true;
-            // setTimeout(() => {
-            //     page1List.scrollBar.changeHandler = new Laya.Handler(this, (val) => {
-            //         console.log('进来啦', val)
-            //         // page1List.scrollBar.y = -100;
-            //         // if (val <= -100) {
-                        
-            //         //     page1List.scrollBar.value = -100;
-            //         // }
-            //     })
-            // })
         }
 
         /**
@@ -8755,17 +8759,12 @@
             let listJS = list.getComponent(dropDownReload);
             listJS.initCall(this, (val, fn) => {
                 // console.log(val)
-                // this.callFn = fn;
+                this.callFn = fn;
                 setTimeout(() => {
                     this.selectThisTab(this.UI.hall_nav_bg._children[this._selectNavType], this._selectNavType);//默认选择第一项
                 }, 500);
             });
         }
-
-        // reloadEndFn() {
-        //     if (this.callFn)
-        //         this.callFn();
-        // }
 
         page1ListOnRender(cell, index) {
             let contentBg = cell.getChildByName("content_bg");
@@ -8798,9 +8797,9 @@
         }
 
         rowOnClick(Event, index) {
-            Main$1.$LOG('游戏大厅点击列表0:', Event);
+            // Main.$LOG('游戏大厅点击列表0:', Event);
             if (Event.type == 'click') {
-                Main$1.$LOG('游戏大厅点击列表:', Event.target, Event.target.dataSource);
+                // Main.$LOG('游戏大厅点击列表:', Event.target, Event.target.dataSource);
                 let data = {
                     roomPws: Event.target.dataSource.roomPws,
                     page: Main$1.pages.page3
@@ -8809,7 +8808,7 @@
                 Main$1.$openScene('cheXuanGame_8.scene', true, data, () => {
                     Main$1.showLoading(false, Main$1.loadingType.three, '');
                 });
-            } else if (Event.type == 'mouseout') ;
+            }
         }
 
         /**
@@ -8834,7 +8833,15 @@
                         if (isShowLoading)
                             Main$1.showLoading(false);
                         if (res.data.ret.type == 0) {
-                            this.dealWithResData(res.data.rooms);
+                            if(this.callFn){
+                                this.callFn('刷新成功');
+                                this.callFn=null;
+                                setTimeout(()=>{
+                                    this.dealWithResData(res.data.rooms);
+                                },500);
+                            }else{
+                                this.dealWithResData(res.data.rooms);
+                            }
                             this.openGameView();
                         } else {
                             Main$1.showDialog(res.data.ret.msg, 1);
@@ -8844,6 +8851,10 @@
                         if (isShowLoading)
                             Main$1.showLoading(false);
                         Main$1.showDialog('网络异常!', 1);
+                        if(this.callFn){
+                            this.callFn('刷新失败');
+                            this.callFn=null;
+                        }
                     }
                 });
             }

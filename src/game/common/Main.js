@@ -36,6 +36,8 @@ class Main {
             desk_bg1: 'res/img/gameView/desk_bg1.png',
             desk_bg2: 'res/img/gameView/desk_bg2.png'
         }
+        //所有扑克的名字(在这里为了预加载，避免翻牌的渲染过慢)
+        this.gamePoker=[0,1,2,4,5,6,8,10,15,16,17,18,19,20,21,22,28,29,30,31,32,33,34,35,39,41,43,44,45,47,49,53,-1]
         this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
             'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene',
             'aboutOur.scene', 'gameSet.scene', 'service.scene'];
@@ -56,6 +58,7 @@ class Main {
             one: 'Loading',
             two: 'Loading2',
             three: 'Loading3',
+            four: 'Loading4',
         }
 
         //文字语音聊天列表
@@ -375,6 +378,8 @@ class Main {
         return node;
     }
 
+    
+
     /**
     * 创建加载图标到stage
     * @param type 加载图标类型
@@ -570,6 +575,10 @@ class Main {
         this.beforeLoadThat = that;
         this.beforeLoadCallback = loadFn;
         Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
+        //加载所有的牌
+        this.gamePoker.forEach(item=>{
+            Laya.loader.load('res/img/poker/'+item+'.png');
+        })
         this.loadScene.forEach(item => {
             Laya.Scene.load(item, Laya.Handler.create(this, this.openView));
         })

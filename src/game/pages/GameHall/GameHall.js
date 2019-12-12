@@ -27,10 +27,6 @@ export default class GameHall extends Laya.Script {
         Main.$LOG('Hall游戏大厅脚本：', this);
         GameHall.instance = this;
     }
-    onStart() {
-        // Main.$LOG('onStart', this.UI.pageData)
-        // this.openGameView();
-    }
 
     openThisPage() {
         if (this.owner.visible) {
@@ -86,29 +82,8 @@ export default class GameHall extends Laya.Script {
         page1List.array = data;
         page1List.renderHandler = new Laya.Handler(this, this.page1ListOnRender);
         page1List.mouseHandler = new Laya.Handler(this, this.rowOnClick);
-        // page1List.on(Laya.Event.MOUSE_DOWN,this,()=>{
-        //     console.log('鼠标按下---事件')
-        // })
-        // page1List.on(Laya.Event.MOUSE_MOVE,this,(e)=>{
-        //     console.log('鼠标移动===事件',e.target.scrollBar.value)
-        // })
         this.watchListMove(page1List);
-        // page1List.on(Laya.Event.MOUSE_UP, this, (e) => {
-        //     // console.log('鼠标抬起===事件',e.target.top)
-        //     // e.target.top=100;
-        //     // page1List.off(Laya.Event.MOUSE_MOVE);
-        // })
         page1List.visible = true;
-        // setTimeout(() => {
-        //     page1List.scrollBar.changeHandler = new Laya.Handler(this, (val) => {
-        //         console.log('进来啦', val)
-        //         // page1List.scrollBar.y = -100;
-        //         // if (val <= -100) {
-                    
-        //         //     page1List.scrollBar.value = -100;
-        //         // }
-        //     })
-        // })
     }
 
     /**
@@ -119,17 +94,12 @@ export default class GameHall extends Laya.Script {
         let listJS = list.getComponent(dropDownReload);
         listJS.initCall(this, (val, fn) => {
             // console.log(val)
-            // this.callFn = fn;
+            this.callFn = fn;
             setTimeout(() => {
                 this.selectThisTab(this.UI.hall_nav_bg._children[this._selectNavType], this._selectNavType);//默认选择第一项
             }, 500);
         });
     }
-
-    // reloadEndFn() {
-    //     if (this.callFn)
-    //         this.callFn();
-    // }
 
     page1ListOnRender(cell, index) {
         let contentBg = cell.getChildByName("content_bg");
@@ -162,9 +132,9 @@ export default class GameHall extends Laya.Script {
     }
 
     rowOnClick(Event, index) {
-        Main.$LOG('游戏大厅点击列表0:', Event);
+        // Main.$LOG('游戏大厅点击列表0:', Event);
         if (Event.type == 'click') {
-            Main.$LOG('游戏大厅点击列表:', Event.target, Event.target.dataSource);
+            // Main.$LOG('游戏大厅点击列表:', Event.target, Event.target.dataSource);
             let data = {
                 roomPws: Event.target.dataSource.roomPws,
                 page: Main.pages.page3
@@ -173,9 +143,6 @@ export default class GameHall extends Laya.Script {
             Main.$openScene('cheXuanGame_8.scene', true, data, () => {
                 Main.showLoading(false, Main.loadingType.three, '');
             });
-        } else if (Event.type == 'mouseout') {
-            // let list=Event.target;
-            // list.top=100;
         }
     }
 
@@ -201,7 +168,15 @@ export default class GameHall extends Laya.Script {
                     if (isShowLoading)
                         Main.showLoading(false);
                     if (res.data.ret.type == 0) {
-                        this.dealWithResData(res.data.rooms);
+                        if(this.callFn){
+                            this.callFn('刷新成功');
+                            this.callFn=null;
+                            setTimeout(()=>{
+                                this.dealWithResData(res.data.rooms);
+                            },500)
+                        }else{
+                            this.dealWithResData(res.data.rooms);
+                        }
                         this.openGameView();
                     } else {
                         Main.showDialog(res.data.ret.msg, 1);
@@ -211,6 +186,10 @@ export default class GameHall extends Laya.Script {
                     if (isShowLoading)
                         Main.showLoading(false);
                     Main.showDialog('网络异常!', 1);
+                    if(this.callFn){
+                        this.callFn('刷新失败');
+                        this.callFn=null;
+                    }
                 }
             })
         }

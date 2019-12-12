@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":399,
-    "selecteID":408,
+    "selectedBox":2,
+    "selecteID":410,
     "searchKey":"Scene",
     "props":{"y":0,"x":0,"width":1242,"visible":true,"sceneColor":"#000000","height":2208},
     "nodeParent":-1,
-    "maxID":409,
+    "maxID":415,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -55,14 +55,13 @@
             "props":{"visible":true,"top":0,"skin":"images/login/login_bg.png","right":0,"name":"bg","left":0,"bottom":0},
             "nodeParent":2,
             "label":"bg",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":399,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,progressBg,progressBg",
                     "props":{"width":500,"var":"progressBg","skin":"images/common/imgProgressBg.png","name":"progressBg","centerX":0,"bottom":300},
@@ -115,7 +114,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,logo",
                     "props":{"skin":"images/GameSet/logo.png","name":"logo","centerY":-500,"centerX":0},

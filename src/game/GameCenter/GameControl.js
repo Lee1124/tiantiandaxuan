@@ -1103,7 +1103,7 @@ export default class GameControl extends Laya.Script {
             let $actionType = item_player.owner.actionType;
             let $curXiaZhuScore = parseInt(item_player.owner.curXiaZhuScore);
             let $isMe = item_player.owner.isMe;
-            Main.$LOG('设置玩家自动操作状态:', item_player.owner.userId, item_player.owner.isMe, isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
+            // Main.$LOG('设置玩家自动操作状态:', item_player.owner.userId, item_player.owner.isMe, isShow, item_player.owner.actionType, item_player.owner.curXiaZhuScore)
             if ($isMe && !$visible && isShow && $actionType && $actionType != 3 && $actionType != 5 && $curXiaZhuScore > 0) {
                 this._autoBtnArr = [];
                 this.owner.autoHandleBtnBox.visible = isShow;
@@ -1543,7 +1543,7 @@ export default class GameControl extends Laya.Script {
                         let cmTyppe = item_data.curXiazhu > 0 ? 3 : 2;
                         item_player.showMoveCM(this, cmTyppe, true, this._moveCMSeat.show, this._moveCMSeat.pi, this._music.moveMangOrPi, data.endActionInfo.length);
                     }
-                    console.log('玩家id:', item_player.owner.userId, )
+                    // console.log('玩家id:', item_player.owner.userId, )
                     if (item_player.owner.actionType != 3 && item_player.owner.actionType != 5) {
                         item_player.owner.actionType = -1;
                     }
@@ -2000,13 +2000,6 @@ export default class GameControl extends Laya.Script {
                 }
             }
         })
-    }
-
-    /**
-     * 获取玩家信息
-     */
-    getPlayerNews() {
-        console.log('激励理论绿')
     }
 
     /**

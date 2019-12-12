@@ -9279,7 +9279,7 @@
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,PlayerNews,PlayerNews_dialog",
-                    "props":{"y":-948,"x":61,"width":1120,"var":"PlayerNews_dialog","skin":"images/common/bg2.png","name":"PlayerNews","height":948},
+                    "props":{"y":-948,"x":61,"width":1120,"var":"PlayerNews_dialog","skin":"images/PersonNews2/news_bg.png","name":"PlayerNews","height":948},
                     "nodeParent":913,
                     "label":"PlayerNews",
                     "isOpen":false,

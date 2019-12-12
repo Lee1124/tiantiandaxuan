@@ -20,7 +20,7 @@ class HttpRequest {
             let sstr = "";
             if(Main.userInfo){
                 sstr = Main.userInfo.key + '&' + timestamp;
-                Main.$LOG('请求里面key:',Main.userInfo.key);
+                // Main.$LOG('请求里面key:',Main.userInfo.key);
             }
             for (var key in dataObj) {
                 if (dataObj.hasOwnProperty(key)) {
@@ -38,7 +38,7 @@ class HttpRequest {
             //{"user":"1236555","pwd":"1","userId":5986855,"key":3009340712064337000,"inRoomPws":101823}
             if (Main.userInfo) {
                 url += '&t=' + timestamp;
-                console.log("md5："+ sstr + " key:" + Main.userInfo.key);
+                Main.$LOG("md5："+ sstr + " key:" + Main.userInfo.key);
                 url += '&sign=' + md5.md5(sstr);
             }
 

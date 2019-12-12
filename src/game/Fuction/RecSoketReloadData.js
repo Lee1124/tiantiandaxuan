@@ -5,8 +5,7 @@ import Main from '../common/Main'
 import GameRoomInit from '../Fuction/GameRoomInit'
 import ErrText from '../Fuction/ErrText'
 class RecSoketReloadData {
-   
-    reload(that,fn) {
+    reload(that) {
         // console.log(that._playerArray)
         // GameRoomInit.init(that);
         ErrText.ERR(that, 'start-----Date', new Date().getTime());
@@ -16,15 +15,15 @@ class RecSoketReloadData {
         me_handleBox._children.forEach(item => {
             item.visible = false;
         })
-        that.owner.me_sub_pokerBox.visible=false;
-        that.owner.subCountDown.visible=false;
-        that.owner.meAnimationBox.visible=false;
-        that.owner.delayTimeBtn.visible=false;
+        that.owner.me_sub_pokerBox.visible = false;
+        that.owner.subCountDown.visible = false;
+        that.owner.meAnimationBox.visible = false;
+        that.owner.delayTimeBtn.visible = false;
         that.owner.returnSeatBtn.visible = false;
-        that._playerArray.forEach((item_player,item_index) => {
+        that._playerArray.forEach((item_player, item_index) => {
             // GameRoomInit.keepValue(that,item_player);
             let playerSeat = item_player.owner;
-            that._plyerIndexArray[item_player.INDEX]=item_player.INDEX;
+            that._plyerIndexArray[item_player.INDEX] = item_player.INDEX;
             playerSeat.userId = '';
             playerSeat.mePokerX_2 = [];
             playerSeat.mePokerX_3 = [];
@@ -38,32 +37,32 @@ class RecSoketReloadData {
             playerSeat.xiaZhuScore = 0;
             playerSeat.index = item_player.INDEX;
             playerSeat.seatId = item_player.INDEX;
-            playerSeat.x=that.owner._playerSeatXYArray[item_player.INDEX].x;
-            playerSeat.y=that.owner._playerSeatXYArray[item_player.INDEX].y;
-            playerSeat.getChildByName("xiaZhuScore").x=that.owner._xiaZhuSeatXYArray[item_player.INDEX].x;
-            playerSeat.getChildByName("xiaZhuScore").y=that.owner._xiaZhuSeatXYArray[item_player.INDEX].y;
-            playerSeat.getChildByName("tipsBox").x=that.owner._tipsSeatXYArray[item_player.INDEX].x;
-            playerSeat.getChildByName("tipsBox").y=that.owner._tipsSeatXYArray[item_player.INDEX].y;
-            playerSeat.getChildByName("show_poker_box").x=that.owner._pokerBoxSeat[item_player.INDEX].x;
-            playerSeat.getChildByName("show_poker_box").y=that.owner._pokerBoxSeat[item_player.INDEX].y;
-            let create_cm_seat_children=playerSeat.getChildByName("create_cm_seat")._children;
+            playerSeat.x = that.owner._playerSeatXYArray[item_player.INDEX].x;
+            playerSeat.y = that.owner._playerSeatXYArray[item_player.INDEX].y;
+            playerSeat.getChildByName("xiaZhuScore").x = that.owner._xiaZhuSeatXYArray[item_player.INDEX].x;
+            playerSeat.getChildByName("xiaZhuScore").y = that.owner._xiaZhuSeatXYArray[item_player.INDEX].y;
+            playerSeat.getChildByName("tipsBox").x = that.owner._tipsSeatXYArray[item_player.INDEX].x;
+            playerSeat.getChildByName("tipsBox").y = that.owner._tipsSeatXYArray[item_player.INDEX].y;
+            playerSeat.getChildByName("show_poker_box").x = that.owner._pokerBoxSeat[item_player.INDEX].x;
+            playerSeat.getChildByName("show_poker_box").y = that.owner._pokerBoxSeat[item_player.INDEX].y;
+            let create_cm_seat_children = playerSeat.getChildByName("create_cm_seat")._children;
             create_cm_seat_children.forEach(item => {
-                item.x=that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
-                item.y=that.owner._showCMFaceToPlayerXY[item_player.INDEX].y
+                item.x = that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
+                item.y = that.owner._showCMFaceToPlayerXY[item_player.INDEX].y
             });
-            playerSeat.getChildByName("sub_poker_box").x=that.owner._subPokerBoxSeat[item_player.INDEX].x;
-            playerSeat.getChildByName("sub_poker_box").y=that.owner._subPokerBoxSeat[item_player.INDEX].y;
+            playerSeat.getChildByName("sub_poker_box").x = that.owner._subPokerBoxSeat[item_player.INDEX].x;
+            playerSeat.getChildByName("sub_poker_box").y = that.owner._subPokerBoxSeat[item_player.INDEX].y;
 
-           playerSeat._showCMFaceToPlayerXY.x = that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
-           playerSeat._showCMFaceToPlayerXY.y = that.owner._showCMFaceToPlayerXY[item_player.INDEX].y;
-           playerSeat._mangDiChiFaceToPlayerXY.x = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].x;
-           playerSeat._mangDiChiFaceToPlayerXY.y = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].y;
-           playerSeat._piDiChiFaceToPlayerXY.x = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].x;
-           playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
-           playerSeat.getChildByName("fastChatBox").x = that.owner._fastChatBoxSeat[item_player.INDEX].x;
-           playerSeat.getChildByName("fastChatBox").y = that.owner._fastChatBoxSeat[item_player.INDEX].y;
-           playerSeat._fastChatBoxSeatBgImg=that.owner._fastChatBoxSeatBgImg[item_player.INDEX];
-           
+            playerSeat._showCMFaceToPlayerXY.x = that.owner._showCMFaceToPlayerXY[item_player.INDEX].x;
+            playerSeat._showCMFaceToPlayerXY.y = that.owner._showCMFaceToPlayerXY[item_player.INDEX].y;
+            playerSeat._mangDiChiFaceToPlayerXY.x = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].x;
+            playerSeat._mangDiChiFaceToPlayerXY.y = that.owner._mangDiChiFaceToPlayerXYArray[item_player.INDEX].y;
+            playerSeat._piDiChiFaceToPlayerXY.x = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].x;
+            playerSeat._piDiChiFaceToPlayerXY.y = that.owner._piDiChiFaceToPlayerXYArray[item_player.INDEX].y;
+            playerSeat.getChildByName("fastChatBox").x = that.owner._fastChatBoxSeat[item_player.INDEX].x;
+            playerSeat.getChildByName("fastChatBox").y = that.owner._fastChatBoxSeat[item_player.INDEX].y;
+            playerSeat._fastChatBoxSeatBgImg = that.owner._fastChatBoxSeatBgImg[item_player.INDEX];
+
             let headBox = playerSeat.getChildByName("head-box");
             let headImg = headBox.getChildByName("headBg").getChildByName("head");
             let xiaZhuScore = playerSeat.getChildByName("xiaZhuScore");
@@ -84,7 +83,7 @@ class RecSoketReloadData {
             let tipsBox = playerSeat.getChildByName("tipsBox");
             let liuzuosign = playerSeat.getChildByName('liuzuoSign');
             let fastChatBox = playerSeat.getChildByName('fastChatBox');
-            fastChatBox.visible=false;
+            fastChatBox.visible = false;
             liuzuosign.visible = false;
             headBox.visible = false;
             xiaZhuScore.visible = false;
@@ -109,14 +108,7 @@ class RecSoketReloadData {
             gifBox.visible = false;
             winScore.visible = false;
             name.text = '';
-            if(item_index+1==that._playerArray.length){
-                console.log('重置进来======')
-                ErrText.ERR(that, 'end-----Date', new Date().getTime());
-                if(fn)
-                    fn.call(that,item_index+1)
-            }
         });
-        
     }
 }
 export default new RecSoketReloadData();
