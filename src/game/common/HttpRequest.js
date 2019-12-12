@@ -38,6 +38,7 @@ class HttpRequest {
             //{"user":"1236555","pwd":"1","userId":5986855,"key":3009340712064337000,"inRoomPws":101823}
             if (Main.userInfo) {
                 url += '&t=' + timestamp;
+                console.log("md5："+ sstr + " key:" + Main.userInfo.key);
                 url += '&sign=' + md5.md5(sstr);
             }
 

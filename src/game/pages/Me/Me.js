@@ -78,7 +78,7 @@ export default class Me extends Laya.Script {
     /**
      * 打开联系客服界面
      */
-    openServiceView(){
+    openServiceView() {
         // window.conch.setExternalLink("http://www.baidu.com");//打开webview
     }
 
@@ -94,7 +94,8 @@ export default class Me extends Laya.Script {
      */
     requestPageData() {
         let data = {
-            uid: Main.userInfo.userId
+            uid: Main.userInfo.userId,
+            tuid: Main.userInfo.userId
         }
         HTTP.$request({
             that: this,
@@ -120,6 +121,6 @@ export default class Me extends Laya.Script {
         this.UI.userScoreValue.text = data.score;
         this.UI.me_sex0.visible = data.sex == 0 ? true : false;
         this.UI.me_sex1.visible = data.sex == 1 ? true : false;
-        Main.serviceUrl=data.service;
+        Main.serviceUrl = data.service;
     }
 }

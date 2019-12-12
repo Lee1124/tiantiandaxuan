@@ -224,10 +224,10 @@
     class Main {
         constructor() {
             Main.instance = this;
-            this.websoketApi = '192.168.0.125:8082';
-            this.requestApi = 'http://192.168.0.125:8081';
-            // this.websoketApi = '132.232.34.32:8082';
-            // this.requestApi = 'http://132.232.34.32:8081';
+            // this.websoketApi = '192.168.0.125:8082';
+            // this.requestApi = 'http://192.168.0.125:8081';
+            this.websoketApi = '132.232.34.32:8082';
+            this.requestApi = 'http://132.232.34.32:8081';
             //手机信息
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
@@ -1347,6 +1347,8 @@
     		this.RpcId = 100;
     		this.RpcIdMap = new Map();
 
+    		console.log("【WebSocket】new NetClient() " + url);
+
     		this.url = "ws://localhost:8989";
     		//用于读取消息缓存数据
     		this.byte = new Laya.Byte();
@@ -1363,12 +1365,12 @@
     		this.socket.on(Laya.Event.ERROR, this, this.errorHandler);
 
     		//socket开始连接事件
-    		this.onStartConnect=function(){console.log("开始连接");};
+    		this.onStartConnect=function(){console.log("【WebSocket】开始连接");};
     		//链接成功事件,此处可用来初始化数据
-    		this.onConnectSucc=function(){ console.log("链接成功");};
+    		this.onConnectSucc=function(){ console.log("【WebSocket】链接成功");};
     		//接收消息封装,请外部自己实现
     		this.onMessage=function(data){
-    			console.log("收到消息(请自己实现消息处理)："+data);
+    			console.log("【WebSocket】收到消息(请自己实现消息处理)："+data);
     		};
     	}
 
@@ -1376,7 +1378,7 @@
     	openHandler(event){
     		this.connecting = false;
     		this.socketOpen = true;
-    		console.log('WebSocket连接已打开！');
+    		console.log('【WebSocket】连接已打开！');
     		this.onConnectSucc();
     		
     		for (var i = 0; i < this.socketMsgQueue.length; i++) {
@@ -1389,7 +1391,7 @@
     	closeHandler(e){
     		this.connecting = false;
     		this.socketOpen = false;
-    		console.log('WebSocket 已关闭！', e);
+    		console.log('【WebSocket】已关闭！', e);
     		this.socket.close();		
     	}
 
@@ -1397,7 +1399,7 @@
     	errorHandler(e){
     		this.connecting = false;
     		this.socketOpen = false;
-    		console.log('WebSocket连接打开失败，请检查！' + e);
+    		console.log('【WebSocket】连接打开失败，请检查！' + e);
     		this.socket.close();
     	}
      
@@ -1407,7 +1409,7 @@
     	}
     	//重连
     	reconnect(){
-    		console.log("开始重连");
+    		console.log("【WebSocket】开始重连");
     		this.open();
     	}
 
@@ -1418,7 +1420,7 @@
     			this.connecting = true;
     			this.socketOpen = false;
 
-    			console.log("开始连接:",this.connectUrl);
+    			console.log("【WebSocket】开始连接 ",this.connectUrl);
     			this.socket.connectByUrl(this.connectUrl);
     	 
     			return null;
@@ -1452,7 +1454,7 @@
     		this.socket.close();
     		clearInterval(this.intervalId);	
     		
-    		console.log("关闭连接：" + this.connectUrl);
+    		console.log("【WebSocket】关闭连接" + this.connectUrl);
     	}
     	
     	stringSource(s) {
@@ -1464,12 +1466,12 @@
     	
     	send(msg){
     		if(!this.valid) {
-    			console.log("请先调用 open() 开启网络");
+    			console.log("【WebSocket】请先调用 open() 开启网络");
     			return;
     		}
     		
     		if(this.debug)
-    			console.log("发送消息: " , msg);
+    			console.log("【WebSocket】发送消息 " , msg);
     		
     		if( msg.callback != null)
     		{
@@ -2023,6 +2025,7 @@
                 //{"user":"1236555","pwd":"1","userId":5986855,"key":3009340712064337000,"inRoomPws":101823}
                 if (Main$1.userInfo) {
                     url += '&t=' + timestamp;
+                    console.log("md5："+ sstr + " key:" + Main$1.userInfo.key);
                     url += '&sign=' + md5$1.md5(sstr);
                 }
 
@@ -4899,8 +4902,8 @@
                 that: this,
                 url: '/M.Games.CX/GetSeatUserInfo',
                 data: {
-                    userId: data.userId,
-                    uid:GameControl.instance.userId,
+                    uid: Main$1.userInfo.userId,
+                    tuid: data.userId,
                     roomid: GameControl.instance.roomId
                 },
                 success(res) {
@@ -5530,7 +5533,8 @@
                 that: this,
                 url: '/M.User/GetInfo',
                 data: {
-                    uid: GameControl.instance.userId
+                    uid: Main$1.userInfo.userId,
+                    tuid: Main$1.userInfo.userId
                 },
                 success(res) {
                     if (res.data.ret.type == 0) {
@@ -7723,7 +7727,8 @@
                 that: this,
                 url: '/M.User/GetInfo',
                 data: {
-                    uid: this.userId
+                    uid: Main$1.userInfo.userId,
+                    tuid: this.userId
                 },
                 success(res) {
                     if (res.data.ret.type == 0)
@@ -8420,7 +8425,7 @@
         /**
          * 打开联系客服界面
          */
-        openServiceView(){
+        openServiceView() {
             // window.conch.setExternalLink("http://www.baidu.com");//打开webview
         }
 
@@ -8436,7 +8441,8 @@
          */
         requestPageData() {
             let data = {
-                uid: Main$1.userInfo.userId
+                uid: Main$1.userInfo.userId,
+                tuid: Main$1.userInfo.userId
             };
             HTTP.$request({
                 that: this,
@@ -8462,7 +8468,7 @@
             this.UI.userScoreValue.text = data.score;
             this.UI.me_sex0.visible = data.sex == 0 ? true : false;
             this.UI.me_sex1.visible = data.sex == 1 ? true : false;
-            Main$1.serviceUrl=data.service;
+            Main$1.serviceUrl = data.service;
         }
     }
 

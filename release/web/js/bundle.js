@@ -224,10 +224,10 @@
     class Main {
         constructor() {
             Main.instance = this;
-            // this.websoketApi = '192.168.0.125:8092';
-            // this.requestApi = 'http://192.168.0.125:8091';
-            this.websoketApi = '132.232.34.32:8082';
-            this.requestApi = 'http://132.232.34.32:8081';
+            this.websoketApi = '192.168.0.125:8082';
+            this.requestApi = 'http://192.168.0.125:8081';
+            // this.websoketApi = '132.232.34.32:8082';
+            // this.requestApi = 'http://132.232.34.32:8081';
             //手机信息
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
@@ -5503,7 +5503,7 @@
         common(show) {
             let showObj = GameControl.instance.owner.makeUp_bobo;
             let maskAlpha = 0;
-            let y = show ? Laya.stage.height / 2 : -showObj.height;
+            let y = show ? (Laya.stage.height-showObj.height) / 2 : -showObj.height;
             GameControl.instance.openDiaLogCommon(show, showObj, maskAlpha, 'y', y);
         }
         

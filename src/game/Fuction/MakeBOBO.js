@@ -55,7 +55,8 @@ class MakeBOBO {
             that: this,
             url: '/M.User/GetInfo',
             data: {
-                uid: GameControl.instance.userId
+                uid: Main.userInfo.userId,
+                tuid: Main.userInfo.userId
             },
             success(res) {
                 if (res.data.ret.type == 0) {

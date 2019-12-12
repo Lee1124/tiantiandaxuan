@@ -43,8 +43,8 @@ class PlayerNews {
             that: this,
             url: '/M.Games.CX/GetSeatUserInfo',
             data: {
-                userId: data.userId,
-                uid:GameControl.instance.userId,
+                uid: Main.userInfo.userId,
+                tuid: data.userId,
                 roomid: GameControl.instance.roomId
             },
             success(res) {

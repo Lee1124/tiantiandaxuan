@@ -11,6 +11,8 @@ export default class NetClient extends Laya.Script{
 		this.RpcId = 100;
 		this.RpcIdMap = new Map();
 
+		console.log("【WebSocket】new NetClient() " + url);
+
 		this.url = "ws://localhost:8989";
 		//用于读取消息缓存数据
 		this.byte = new Laya.Byte();
@@ -27,12 +29,12 @@ export default class NetClient extends Laya.Script{
 		this.socket.on(Laya.Event.ERROR, this, this.errorHandler);
 
 		//socket开始连接事件
-		this.onStartConnect=function(){console.log("开始连接");}
+		this.onStartConnect=function(){console.log("【WebSocket】开始连接");}
 		//链接成功事件,此处可用来初始化数据
-		this.onConnectSucc=function(){ console.log("链接成功");}
+		this.onConnectSucc=function(){ console.log("【WebSocket】链接成功");}
 		//接收消息封装,请外部自己实现
 		this.onMessage=function(data){
-			console.log("收到消息(请自己实现消息处理)："+data);
+			console.log("【WebSocket】收到消息(请自己实现消息处理)："+data);
 		};
 	}
 
@@ -40,7 +42,7 @@ export default class NetClient extends Laya.Script{
 	openHandler(event){
 		this.connecting = false;
 		this.socketOpen = true;
-		console.log('WebSocket连接已打开！');
+		console.log('【WebSocket】连接已打开！');
 		this.onConnectSucc();
 		
 		for (var i = 0; i < this.socketMsgQueue.length; i++) {
@@ -53,7 +55,7 @@ export default class NetClient extends Laya.Script{
 	closeHandler(e){
 		this.connecting = false;
 		this.socketOpen = false;
-		console.log('WebSocket 已关闭！', e);
+		console.log('【WebSocket】已关闭！', e);
 		this.socket.close();		
 	}
 
@@ -61,7 +63,7 @@ export default class NetClient extends Laya.Script{
 	errorHandler(e){
 		this.connecting = false;
 		this.socketOpen = false;
-		console.log('WebSocket连接打开失败，请检查！' + e);
+		console.log('【WebSocket】连接打开失败，请检查！' + e);
 		this.socket.close();
 	}
  
@@ -71,7 +73,7 @@ export default class NetClient extends Laya.Script{
 	}
 	//重连
 	reconnect(){
-		console.log("开始重连");
+		console.log("【WebSocket】开始重连");
 		this.open();
 	}
 
@@ -82,7 +84,7 @@ export default class NetClient extends Laya.Script{
 			this.connecting = true;
 			this.socketOpen = false;
 
-			console.log("开始连接:",this.connectUrl);
+			console.log("【WebSocket】开始连接 ",this.connectUrl);
 			this.socket.connectByUrl(this.connectUrl);
 	 
 			return null;
@@ -116,7 +118,7 @@ export default class NetClient extends Laya.Script{
 		this.socket.close();
 		clearInterval(this.intervalId);	
 		
-		console.log("关闭连接：" + this.connectUrl);
+		console.log("【WebSocket】关闭连接" + this.connectUrl);
 	}
 	
 	stringSource(s) {
@@ -128,12 +130,12 @@ export default class NetClient extends Laya.Script{
 	
 	send(msg){
 		if(!this.valid) {
-			console.log("请先调用 open() 开启网络");
+			console.log("【WebSocket】请先调用 open() 开启网络");
 			return;
 		}
 		
 		if(this.debug)
-			console.log("发送消息: " , msg);
+			console.log("【WebSocket】发送消息 " , msg);
 		
 		if( msg.callback != null)
 		{
