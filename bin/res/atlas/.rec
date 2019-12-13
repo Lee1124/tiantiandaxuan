@@ -75,6 +75,7 @@ P 6604BAE4 bg.png
 P 668DB51C bg2.png
 P 55429C6B defaultHead.png
 P 64EDC66C delayTime.png
+P F9D50E03 headBg.png
 P A1B31BBE HeadIcon.png
 P EE4E134A iconKuang1.png
 P B45B8B6D ld0.png
@@ -293,7 +294,6 @@ P A4EEF1FC activity.png
 P E827AACF activity_selected.png
 R 577867FB bg.png
 P A1AD9B30 data_selected.png
-P 4F6CC3A8 headBg.png
 P 46886646 ID.png
 P 6626EA1A me_selected.png
 P EFE6B2F7 NICK.png

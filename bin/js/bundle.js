@@ -8005,7 +8005,6 @@
         }
         onStart() {
             this.initBack();
-            this.setUI();
         }
         initBack() {
             let BackJS = this.owner.back.getComponent(back);
@@ -8017,6 +8016,7 @@
             this.iframe.src = this.serviceUrl;
             this.iframe.id = 'myIframe';
             Laya.Utils.fitDOMElementInArea(this.iframe, this.owner.contentView, this.owner.x, 0, this.owner.contentView.width, this.owner.contentView.height);
+            this.setUI();
         }
 
         createIframeElement() {
@@ -8030,8 +8030,6 @@
             let nodeArr = [this.owner.contentView];
             Main$1.setNodeTop(nodeArr);
         }
-
-
     }
 
     class shishizhanjiUI extends Laya.Scene {
@@ -8277,7 +8275,7 @@
         }
 
         setUI() {
-            let nodeArr = [this.shop_hd,this.shop_content];
+            let nodeArr = [this.shop_content];
             Main$1.setNodeTop(nodeArr);
         }
     }
