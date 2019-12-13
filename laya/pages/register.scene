@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":5,
-    "selecteID":8,
+    "selectedBox":2,
+    "selecteID":12,
     "searchKey":"Scene",
     "props":{"x":0,"width":1242,"sceneColor":"#000000","runtime":"game/pages/register/registerUI.js","height":2208},
     "nodeParent":-1,
-    "maxID":31,
+    "maxID":39,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -33,6 +33,23 @@
         },
         {
             "x":15,
+            "type":"Script",
+            "switchAble":true,
+            "source":"src/game/pages/register/register.js",
+            "searchKey":"Script,register",
+            "removeAble":true,
+            "props":{"y":300,"x":41},
+            "nodeParent":2,
+            "label":"register",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":22,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
             "type":"Image",
             "searchKey":"Image,bg",
             "props":{"y":0,"x":0,"top":0,"skin":"images/login/login_bg.png","right":0,"name":"bg","left":0,"bottom":0},
@@ -50,82 +67,107 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,hd",
-            "props":{"y":0,"x":0,"top":0,"skin":"images/register/1.png","name":"hd","centerX":0},
+            "props":{"y":0,"x":0,"width":1242,"top":0,"skin":"images/common/title_hd_bg.png","right":0,"name":"hd","left":0,"height":163},
             "nodeParent":2,
             "label":"hd",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
-            "compId":5,
+            "compId":31,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
-                    "searchKey":"Image,title_1,title_1",
-                    "props":{"visible":false,"var":"title_1","skin":"images/register/2.png","name":"title_1","centerY":33,"centerX":0},
-                    "nodeParent":5,
-                    "label":"title_1",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":6,
-                    "child":[
-                        ],
-                    "$HIDDEN":false
-                },
-                {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,back_btn,back_btn",
-                    "props":{"y":78,"var":"back_btn","skin":"images/register/back.png","name":"back_btn","left":85},
-                    "nodeParent":5,
-                    "label":"back_btn",
-                    "isOpen":null,
+                    "searchKey":"Image,titleBox",
+                    "props":{"width":1242,"top":5,"right":0,"name":"titleBox","left":0,"height":153,"bottom":0},
+                    "nodeParent":31,
+                    "label":"titleBox",
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
-                    "compId":8,
+                    "compId":32,
                     "child":[
                         {
-                            "type":"Script",
-                            "switchAble":true,
-                            "source":"src/game/common/back.js",
-                            "searchKey":"Script,back",
-                            "removeAble":true,
-                            "props":{},
-                            "nodeParent":8,
-                            "label":"back",
+                            "type":"Image",
+                            "searchKey":"Image,back_btn,back_btn",
+                            "props":{"x":656,"var":"back_btn","skin":"images/common/back.png","name":"back_btn","left":85,"centerY":0},
+                            "nodeParent":32,
+                            "label":"back_btn",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":34,
+                            "child":[
+                                {
+                                    "type":"Script",
+                                    "switchAble":true,
+                                    "source":"src/game/common/back.js",
+                                    "searchKey":"Script,back",
+                                    "removeAble":true,
+                                    "props":{},
+                                    "nodeParent":34,
+                                    "label":"back",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":35,
+                                    "child":[
+                                        ]
+                                }]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,title_1,title_1",
+                            "props":{"x":0,"visible":false,"var":"title_1","skin":"images/common/title_register.png","name":"title_1","centerY":0,"centerX":0},
+                            "nodeParent":32,
+                            "label":"title_1",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":30,
+                            "compId":37,
                             "child":[
-                                ]
-                        }],
-                    "$HIDDEN":false
+                                ],
+                            "$HIDDEN":false
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,title_2,title_2",
+                            "props":{"y":0,"x":0,"visible":false,"var":"title_2","skin":"images/common/title_changePwd.png","name":"title_2","centerY":0,"centerX":0},
+                            "nodeParent":32,
+                            "label":"title_2",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":38,
+                            "child":[
+                                ],
+                            "$HIDDEN":false
+                        }]
                 },
                 {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,title_2,title_2",
-                    "props":{"visible":false,"var":"title_2","skin":"images/register/changePwd.png","name":"title_2","centerY":33,"centerX":0},
-                    "nodeParent":5,
-                    "label":"title_2",
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/game/common/setHd.js",
+                    "searchKey":"Script,setHd",
+                    "removeAble":true,
+                    "props":{},
+                    "nodeParent":31,
+                    "label":"setHd",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
-                    "compId":23,
+                    "compId":36,
                     "child":[
-                        ],
-                    "$HIDDEN":false
+                        ]
                 }]
         },
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,listBg",
-            "props":{"top":300,"skin":"images/register/listBg.png","name":"listBg","centerX":0},
+            "searchKey":"Image,listBg,register_list",
+            "props":{"var":"register_list","top":300,"skin":"images/register/listBg.png","name":"listBg","centerX":0},
             "nodeParent":2,
             "label":"listBg",
             "isOpen":false,
@@ -290,23 +332,6 @@
                     "child":[
                         ]
                 }]
-        },
-        {
-            "x":15,
-            "type":"Script",
-            "switchAble":true,
-            "source":"src/game/pages/register/register.js",
-            "searchKey":"Script,register",
-            "removeAble":true,
-            "props":{"y":300,"x":41},
-            "nodeParent":2,
-            "label":"register",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":22,
-            "child":[
-                ]
         }],
     "animations":[
         {

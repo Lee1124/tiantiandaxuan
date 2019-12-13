@@ -1,3 +1,4 @@
+import Main from '../../common/Main';
 export default class AboutOur extends Laya.Script {
 
     constructor() { 
@@ -16,6 +17,10 @@ export default class AboutOur extends Laya.Script {
     
     onEnable() {
         this.setPageData();
+    }
+
+    onStart(){
+        this.setUI()
     }
 
     setPageData() {
@@ -41,6 +46,11 @@ export default class AboutOur extends Laya.Script {
             let textLabel=cell.getChildByName("text");
             textLabel.text=cell.dataSource.text;
         })
-      
+    }
+
+    setUI(){
+        let nodeArr = [this.owner.our_bg2]
+        Main.setNodeTop(nodeArr);
+        this.owner.our_bg2.bottom=this.owner.our_bg2.bottom-Main.phoneNews.statusHeight;
     }
 }

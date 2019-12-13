@@ -13,6 +13,7 @@ export default class TabPagesUI extends Laya.Scene {
         this.allowSetInterval = true;
         let page = !options.page ? Main.pages.page3 : options.page;
         this.openView(page);
+        this.setUI();
     }
     onAwake() {
         Main.$LOG('TabPagesUI:', this);
@@ -96,5 +97,10 @@ export default class TabPagesUI extends Laya.Scene {
                 this.me_selected.visible = true;
                 break;
         }
+    }
+
+    setUI() {
+        let nodeArr = [this.notice_content,this.hall_content,this.data_content,this.me_content]
+        Main.setNodeTop(nodeArr);
     }
 }

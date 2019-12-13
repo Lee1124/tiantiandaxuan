@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":11,
-    "selecteID":30,
+    "selectedBox":2,
+    "selecteID":36,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","height":2208},
     "nodeParent":-1,
-    "maxID":36,
+    "maxID":42,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -66,54 +66,85 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,hd",
-            "props":{"top":0,"skin":"images/common/title.png","name":"hd","centerX":0},
+            "props":{"y":0,"x":0,"width":1242,"top":0,"skin":"images/common/title_hd_bg.png","right":0,"name":"hd","left":0,"height":163},
             "nodeParent":2,
             "label":"hd",
             "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
-            "compId":5,
+            "compId":36,
             "child":[
                 {
                     "type":"Image",
-                    "searchKey":"Image,title",
-                    "props":{"skin":"images/common/set_title.png","name":"title","centerY":0,"centerX":0},
-                    "nodeParent":5,
-                    "label":"title",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":6,
-                    "child":[
-                        ]
-                },
-                {
-                    "type":"Image",
-                    "searchKey":"Image,back,back",
-                    "props":{"var":"back","skin":"images/common/back.png","name":"back","left":70,"centerY":0},
-                    "nodeParent":5,
-                    "label":"back",
-                    "isOpen":null,
+                    "searchKey":"Image,titleBox",
+                    "props":{"width":1242,"top":5,"right":0,"name":"titleBox","left":0,"height":153,"bottom":0},
+                    "nodeParent":36,
+                    "label":"titleBox",
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
-                    "compId":7,
+                    "compId":37,
                     "child":[
                         {
-                            "type":"Script",
-                            "source":"src/game/common/back.js",
-                            "searchKey":"Script,back",
-                            "props":{},
-                            "nodeParent":7,
-                            "label":"back",
+                            "type":"Image",
+                            "searchKey":"Image,title",
+                            "props":{"skin":"images/common/title_set.png","name":"title","centerY":0,"centerX":0},
+                            "nodeParent":37,
+                            "label":"title",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":9,
+                            "compId":38,
                             "child":[
                                 ]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,back_btn,back",
+                            "props":{"x":656,"var":"back","skin":"images/common/back.png","name":"back_btn","left":85,"centerY":0},
+                            "nodeParent":37,
+                            "label":"back_btn",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":39,
+                            "child":[
+                                {
+                                    "type":"Script",
+                                    "switchAble":true,
+                                    "source":"src/game/common/back.js",
+                                    "searchKey":"Script,back",
+                                    "removeAble":true,
+                                    "props":{},
+                                    "nodeParent":39,
+                                    "label":"back",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":40,
+                                    "child":[
+                                        ]
+                                }]
                         }]
+                },
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/game/common/setHd.js",
+                    "searchKey":"Script,setHd",
+                    "removeAble":true,
+                    "props":{},
+                    "nodeParent":36,
+                    "label":"setHd",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":41,
+                    "child":[
+                        ]
                 }]
         },
         {
@@ -123,14 +154,13 @@
             "props":{"top":400,"skin":"images/common/bg.png","right":60,"name":"contentBg","left":60,"height":570},
             "nodeParent":2,
             "label":"contentBg",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":10,
             "child":[
                 {
-                    "x":30,
                     "type":"List",
                     "searchKey":"List,ctList,ctList",
                     "props":{"var":"ctList","top":60,"right":100,"name":"ctList","left":100,"bottom":76},
@@ -143,7 +173,6 @@
                     "compId":14,
                     "child":[
                         {
-                            "x":45,
                             "type":"Box",
                             "searchKey":"Box,listBox",
                             "props":{"right":0,"renderType":"render","name":"listBox","left":0,"height":145},
@@ -156,7 +185,6 @@
                             "compId":11,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,line",
                                     "props":{"skin":"images/GameSet/set_line.png","name":"line","centerX":0,"bottom":0},
@@ -170,7 +198,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,label",
                                     "props":{"name":"label","left":100,"centerY":0},
@@ -184,7 +211,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,goIconBox",
                                     "props":{"y":0,"x":0,"width":130,"right":100,"name":"goIconBox","height":77,"centerY":0},
@@ -211,7 +237,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,testBox",
                                     "props":{"y":0,"x":0,"width":300,"right":100,"name":"testBox","height":77,"centerY":0},
@@ -238,7 +263,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,selectView",
                                     "props":{"y":0,"x":0,"width":130,"right":100,"name":"selectView","height":77,"centerY":0},

@@ -77,8 +77,6 @@ P 55429C6B defaultHead.png
 P 64EDC66C delayTime.png
 P A1B31BBE HeadIcon.png
 P EE4E134A iconKuang1.png
-P 16079DAD imgProgress.png
-P 8568642A imgProgressBg.png
 P B45B8B6D ld0.png
 P EFB8E34C ld1.png
 P 3F6BF9E9 ld2.png
@@ -88,19 +86,28 @@ P 210671D7 loadBg2.png
 P 36663221 loadIcon.png
 P 1992D2C7 loading2.png
 P DFB9BA3A loadingBg2.png
+P 5DCB5218 progress_bg.png
+P E357695D progress_line.png
 P DA78162D qipao_left.png
 P BDE68D65 qipao_right.png
 P E6DB9562 scoreBg.png
-P EF652AA2 service.png
-P 2AF2CF57 set_title.png
 P 0F43AFCD smallLoading.png
 P D22D26FB switch0.png
 P 56BFF689 switch1.png
 R 57887702 test.png
 P 3C60F070 textinput.png
 R F8F1CFFF tip.png
-R 6DDAFB2F title.png
-P 4132DA31 title_text.png
+P 8DA1BEC8 title_aboutOur.png
+P 8C3D4FA0 title_activity.png
+P 732C8D92 title_changePwd.png
+P F8D0367F title_data.png
+P FBB34158 title_hall.png
+R 2A52F307 title_hd_bg.png
+P 7196EF00 title_notice.png
+P 7CD1A54E title_register.png
+P 822851C0 title_service.png
+P EF02B581 title_set.png
+P 9CA0B1A1 title_shop.png
 D images/Data
 R 3D78C1E1 bt_data_line.png
 R AFB04F87 bt_list_bg.png
@@ -274,7 +281,6 @@ R 8ABE0C91 11.png
 R 045D08EF 12.png
 P F4D0F97C 13.png
 P 9EDE962B 14.png
-P 74302DC7 15.png
 P 28D2B4AA 16.png
 P 4FBE01C9 17.png
 P D67AF844 2.png
@@ -283,6 +289,8 @@ P 7AA01965 6.png
 P AEF3CE0A 7.png
 P BB454A2D 8.png
 P A7904EC2 9.png
+P A4EEF1FC activity.png
+P E827AACF activity_selected.png
 R 577867FB bg.png
 P A1AD9B30 data_selected.png
 P 4F6CC3A8 headBg.png
@@ -290,7 +298,6 @@ P 46886646 ID.png
 P 6626EA1A me_selected.png
 P EFE6B2F7 NICK.png
 P C68FDC55 notice_selected.png
-P 2A027054 paiju_selected.png
 P B183B79E sex0.png
 P 6F83D6AE sex1.png
 D images/Notice

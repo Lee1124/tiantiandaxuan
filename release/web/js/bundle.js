@@ -259,7 +259,7 @@
                 desk_bg2: 'res/img/gameView/desk_bg2.png'
             };
             //所有扑克的名字(在这里为了预加载，避免翻牌的渲染过慢)
-            this.gamePoker=[0,1,2,4,5,6,8,10,15,16,17,18,19,20,21,22,28,29,30,31,32,33,34,35,39,41,43,44,45,47,49,53,-1];
+            this.gamePoker = [0, 1, 2, 4, 5, 6, 8, 10, 15, 16, 17, 18, 19, 20, 21, 22, 28, 29, 30, 31, 32, 33, 34, 35, 39, 41, 43, 44, 45, 47, 49, 53, -1];
             this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
                 'paijuhuigu.scene', 'paijutishi.scene', 'paijutishi.scene', 'tabPage.scene', 'shoppingMall.scene',
                 'aboutOur.scene', 'gameSet.scene', 'service.scene'];
@@ -417,10 +417,13 @@
          * @param nodeArr 节点对象 数组
          */
         setNodeTop(nodeArr) {
-            nodeArr.forEach(node => {
-                node.top = node.top + this.phoneNews.statusHeight;
-                console.log(node.top);
-            });
+            console.log('手机系统：',this.phoneNews.deviceNews,this.phoneNews.statusHeight);
+            if (this.phoneNews.deviceNews == 'Android') {
+                nodeArr.forEach(node => {
+                    node.top = node.top + this.phoneNews.statusHeight;
+                    console.log(node.top);
+                });
+            }
         }
 
         /**
@@ -599,7 +602,7 @@
             return node;
         }
 
-        
+
 
         /**
         * 创建加载图标到stage
@@ -797,8 +800,8 @@
             this.beforeLoadCallback = loadFn;
             Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
             //加载所有的牌
-            this.gamePoker.forEach(item=>{
-                Laya.loader.load('res/img/poker/'+item+'.png');
+            this.gamePoker.forEach(item => {
+                Laya.loader.load('res/img/poker/' + item + '.png');
             });
             this.loadScene.forEach(item => {
                 Laya.Scene.load(item, Laya.Handler.create(this, this.openView));
@@ -940,6 +943,24 @@
             }
             if(this.removeNode){
                 Laya.Browser.document.body.removeChild(this.removeNode);
+            }
+        }
+    }
+
+    /**
+     * 该脚本为了动态设置头部的高度
+     */
+    class setHd extends Laya.Script {
+        constructor() {
+            super();
+        }
+        onEnable() {
+            this.owner.zOrder=20;
+            if (Main$1.phoneNews.deviceNews == 'Android') {
+                let hdStartHeight = this.owner.height;
+                let titleBox = this.owner.getChildByName('titleBox');
+                this.owner.height = hdStartHeight + Main$1.phoneNews.statusHeight;
+                titleBox.top = titleBox.top + Main$1.phoneNews.statusHeight;
             }
         }
     }
@@ -6816,16 +6837,16 @@
         }
 
         onLoading() {
-            this.loadArrLength = Main$1.loadScene.length;
-            Main$1.beforeLoadScene(this, (res) => {
-                this.dealWithBeforeLoadScene(res);
-            });
             Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
             Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
             Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
             Main$1.createTipBox();
             Main$1.getStatusHeight();
             Main$1.createDiaLog();
+            this.loadArrLength = Main$1.loadScene.length;
+            Main$1.beforeLoadScene(this, (res) => {
+                this.dealWithBeforeLoadScene(res);
+            });
         }
 
         dealWithBeforeLoadScene(res) {
@@ -7829,19 +7850,17 @@
         }
         onOpened(options) {
             this.openData=options;
+            this.setUI();
         }
 
         bindEvent(){
             this.confrim_btn.on(Laya.Event.CLICK,this,()=>{
                 this.playerNewsSetJS.Confrim();
             });
-            // this.back.on(Laya.Event.CLICK,this,()=>{
-            //     this.playerNewsSetJS.Back();
-            // })
         }
 
         setUI() {
-            let nodeArr=[this.s_bg1,this.s_bg2];
+            let nodeArr=[this.set_bg1,this.set_bg2];
             Main$1.setNodeTop(nodeArr);
         }
     }
@@ -7954,6 +7973,7 @@
         }
         onOpened(options) {
             this._RegisterJS.setPageData(options);
+            this.setUI();
         }
 
         /**
@@ -7961,6 +7981,11 @@
          */
         comfirmRegisterOrChange() {
             this._RegisterJS.comfirmRegisterOrChange();
+        }
+
+        setUI(){
+            let nodeArr = [this.register_list];
+            Main$1.setNodeTop(nodeArr);
         }
     }
 
@@ -7980,6 +8005,7 @@
         }
         onStart() {
             this.initBack();
+            this.setUI();
         }
         initBack() {
             let BackJS = this.owner.back.getComponent(back);
@@ -7999,6 +8025,13 @@
             Laya.Browser.document.body.appendChild(iframe);
             return iframe;
         }
+
+        setUI(){
+            let nodeArr = [this.owner.contentView];
+            Main$1.setNodeTop(nodeArr);
+        }
+
+
     }
 
     class shishizhanjiUI extends Laya.Scene {
@@ -8240,6 +8273,12 @@
         }
         onOpened(options){
             this.openedData=options;
+            this.setUI();
+        }
+
+        setUI() {
+            let nodeArr = [this.shop_hd,this.shop_content];
+            Main$1.setNodeTop(nodeArr);
         }
     }
 
@@ -8518,7 +8557,7 @@
             this.p.centerX = 0;
             this.p.zOrder = -1;
             this.text = new Laya.Label();
-            this.text.text = '下拉刷新';
+            this.text.text = '';
             this.text.color = '#935F13';
             this.text.fontSize = 40;
             this.text.width = 270;
@@ -8554,7 +8593,7 @@
         bindChangeEvent() {
             this.list.scrollBar.changeHandler = new Laya.Handler(this, (val) => {
                 this.p.visible = val <= -40 ? true : false;
-                console.log(val);
+                // console.log(val)
             });
         }
 
@@ -8575,6 +8614,7 @@
         // }
 
         onMouseMove() {
+           if(this.list.array.length>0){
             let val = this.list.scrollBar.value;
             if (val <= 0 && val >= -100) {
                 this.p.height = -parseInt(val);
@@ -8590,23 +8630,28 @@
                 this.changeIcon(1, 'res/img/common/icon1.png');
                 this.setTest('释放立即刷新');
             }
+           }else{
+            this.setTest('');
+           }
         }
 
         onMouseUp() {
-            let mouseUpValue = this.list.scrollBar.value;
-            if (mouseUpValue < 0 && mouseUpValue <= -100) {
-                this.listScrollBarSlider.min = -100;
-                console.log(this.listScrollBarSlider.min);
-                if (this.moveUpFn) {
-                    this.setTest('正在刷新...');
-                    this.changeIcon(2);
-                    this.moveUpFn.call(this.callThis, mouseUpValue, (res) => {
-                        this.setTest(res);
-                        this.changeIcon(0);
-                        setTimeout(() => {
-                            this.p.visible = false;
-                        }, 500);
-                    });
+            if(this.list.array.length>0){
+                let mouseUpValue = this.list.scrollBar.value;
+                if (mouseUpValue < 0 && mouseUpValue <= -100) {
+                    this.listScrollBarSlider.min = -100;
+                    // console.log(this.listScrollBarSlider.min)
+                    if (this.moveUpFn) {
+                        this.setTest('正在刷新...');
+                        this.changeIcon(2);
+                        this.moveUpFn.call(this.callThis, mouseUpValue, (res) => {
+                            this.setTest(res);
+                            this.changeIcon(0);
+                            setTimeout(() => {
+                                this.p.visible = false;
+                            }, 500);
+                        });
+                    }
                 }
             }
         }
@@ -9068,6 +9113,7 @@
             this.allowSetInterval = true;
             let page = !options.page ? Main$1.pages.page3 : options.page;
             this.openView(page);
+            this.setUI();
         }
         onAwake() {
             Main$1.$LOG('TabPagesUI:', this);
@@ -9152,6 +9198,11 @@
                     break;
             }
         }
+
+        setUI() {
+            let nodeArr = [this.notice_content,this.hall_content,this.data_content,this.me_content];
+            Main$1.setNodeTop(nodeArr);
+        }
     }
 
     /**This class is automatically generated by LayaAirIDE, please do not make any modifications. */
@@ -9162,6 +9213,7 @@
             let reg = Laya.ClassUtils.regClass;
     		reg("game/common/setSceneWH.js",setSceneWH);
     		reg("game/common/back.js",back);
+    		reg("game/common/setHd.js",setHd);
     		reg("game/GameCenter/GameUI.js",GameUI);
     		reg("game/GameCenter/seat.js",seat);
     		reg("game/Fuction/MySlider.js",MySlider);

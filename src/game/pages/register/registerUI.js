@@ -14,6 +14,7 @@ export default class register extends Laya.Scene {
     }
     onOpened(options) {
         this._RegisterJS.setPageData(options);
+        this.setUI();
     }
 
     /**
@@ -21,5 +22,10 @@ export default class register extends Laya.Scene {
      */
     comfirmRegisterOrChange() {
         this._RegisterJS.comfirmRegisterOrChange();
+    }
+
+    setUI(){
+        let nodeArr = [this.register_list]
+        Main.setNodeTop(nodeArr);
     }
 }

@@ -12,5 +12,11 @@ export default class shopMall extends Laya.Scene{
     }
     onOpened(options){
         this.openedData=options;
+        this.setUI();
+    }
+
+    setUI() {
+        let nodeArr = [this.shop_hd,this.shop_content]
+        Main.setNodeTop(nodeArr);
     }
 }

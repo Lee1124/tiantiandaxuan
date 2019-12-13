@@ -24,6 +24,7 @@ export default class service extends Laya.Script {
     }
     onStart() {
         this.initBack();
+        this.setUI();
     }
     initBack() {
         let BackJS = this.owner.back.getComponent(Back);
@@ -43,4 +44,11 @@ export default class service extends Laya.Script {
         Laya.Browser.document.body.appendChild(iframe);
         return iframe;
     }
+
+    setUI(){
+        let nodeArr = [this.owner.contentView]
+        Main.setNodeTop(nodeArr);
+    }
+
+
 }

@@ -13,19 +13,17 @@ export default class playerNewsSet extends Laya.Scene {
     }
     onOpened(options) {
         this.openData=options;
+        this.setUI();
     }
 
     bindEvent(){
         this.confrim_btn.on(Laya.Event.CLICK,this,()=>{
             this.playerNewsSetJS.Confrim();
         })
-        // this.back.on(Laya.Event.CLICK,this,()=>{
-        //     this.playerNewsSetJS.Back();
-        // })
     }
 
     setUI() {
-        let nodeArr=[this.s_bg1,this.s_bg2];
+        let nodeArr=[this.set_bg1,this.set_bg2];
         Main.setNodeTop(nodeArr);
     }
 }

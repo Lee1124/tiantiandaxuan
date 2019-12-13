@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":410,
+    "selectedBox":399,
+    "selecteID":404,
     "searchKey":"Scene",
     "props":{"y":0,"x":0,"width":1242,"visible":true,"sceneColor":"#000000","height":2208},
     "nodeParent":-1,
@@ -55,28 +55,30 @@
             "props":{"visible":true,"top":0,"skin":"images/login/login_bg.png","right":0,"name":"bg","left":0,"bottom":0},
             "nodeParent":2,
             "label":"bg",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":399,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,progressBg,progressBg",
-                    "props":{"width":500,"var":"progressBg","skin":"images/common/imgProgressBg.png","name":"progressBg","centerX":0,"bottom":300},
+                    "props":{"width":900,"var":"progressBg","skin":"images/common/progress_bg.png","name":"progressBg","height":35,"centerY":800,"centerX":0},
                     "nodeParent":399,
                     "label":"progressBg",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":404,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,progress",
-                            "props":{"width":0,"skin":"images/common/imgProgress.png","name":"progress","left":0},
+                            "props":{"width":50,"skin":"images/common/progress_line.png","name":"progress","left":0},
                             "nodeParent":404,
                             "label":"progress",
                             "isDirectory":false,
@@ -87,9 +89,10 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,test,loadText",
-                            "props":{"width":500,"var":"loadText","text":"正在加载资源...","name":"test","left":0,"fontSize":30,"color":"#FFFFFF","bottom":-50,"bold":true},
+                            "props":{"width":900,"var":"loadText","text":"正在加载资源...","name":"test","left":0,"height":40,"fontSize":40,"color":"#FFFFFF","bottom":-60,"bold":true},
                             "nodeParent":404,
                             "label":"test",
                             "isOpen":true,
@@ -99,9 +102,10 @@
                             "compId":406,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,test2,loadRate",
-                                    "props":{"y":0,"width":100,"var":"loadRate","text":"0%","right":0,"name":"test2","fontSize":30,"color":"#FFFFFF","centerY":0,"bold":true,"align":"right"},
+                                    "props":{"y":0,"width":100,"var":"loadRate","text":"0%","right":0,"name":"test2","fontSize":40,"color":"#FFFFFF","centerY":0,"bold":true,"align":"right"},
                                     "nodeParent":406,
                                     "label":"test2",
                                     "isDirectory":false,
@@ -114,9 +118,10 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,logo",
-                    "props":{"skin":"images/GameSet/logo.png","name":"logo","centerY":-500,"centerX":0},
+                    "props":{"skin":"images/login/logo.png","name":"logo","centerY":-644,"centerX":0},
                     "nodeParent":399,
                     "label":"logo",
                     "isDirectory":false,
@@ -124,7 +129,8 @@
                     "hasChild":false,
                     "compId":408,
                     "child":[
-                        ]
+                        ],
+                    "$HIDDEN":false
                 }]
         }],
     "animations":[
