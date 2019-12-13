@@ -11,8 +11,12 @@ class Main {
             statusHeight: 0,//手机系统栏的高度
             deviceNews: '',//系统名称：Android / iOS
         }
+        //是不是微信小游戏平台
+        this.wxGame=false;
         //用户信息
-        this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        console.log(this.wxGame)
+        // this.userInfo =this.wxGame?'1111':JSON.parse(localStorage.getItem("userInfo"));
+        this.userInfo =null;
         // this.$LOG('Main.js获取用户信息：', this.userInfo);
         //跳转划出界面标志
         this.sign = {
@@ -104,7 +108,7 @@ class Main {
         this.loadAniArr2 = [];
         this.loadShowArr = [];
         this.loadShowArr2 = [];
-        this.debug = true;
+        this.debug = false;
 
         this.errList = [];
         this.tipArr1 = [];
@@ -195,7 +199,7 @@ class Main {
      * @param nodeArr 节点对象 数组
      */
     setNodeTop(nodeArr) {
-        console.log('手机系统：',this.phoneNews.deviceNews,this.phoneNews.statusHeight)
+        // console.log('手机系统：',this.phoneNews.deviceNews,this.phoneNews.statusHeight)
         if (this.phoneNews.deviceNews == 'Android') {
             nodeArr.forEach(node => {
                 node.top = node.top + this.phoneNews.statusHeight;

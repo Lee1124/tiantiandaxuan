@@ -22,17 +22,37 @@ export default class sliderSelect extends Laya.Script {
     }
 
     onEnable() {
+        this.getForm();
+        this.getUserInfo();
         this.hideLoadingView();
     }
 
+    /**获取是不是微信小游戏平台 */
+    getForm() {
+        Main.wxGame = Laya.Browser.onWeiXin;
+        Main.$LOG('是不是微信平台===:', Main.wxGame);
+    }
+
+    /**获取玩家信息 */
+    getUserInfo() {
+        Main.userInfo = Main.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+    }
+
     hideLoadingView() {
-        setTimeout(()=>{
-            document.getElementById('startImg').style.opacity = 0;
+        if (!Main.wxGame)
+            setTimeout(() => {
+                document.getElementById('startImg').style.opacity = 0;
+                this.onLoading();
+            }, 1000)
+        else {
             this.onLoading();
-        },1000)
+        }
     }
 
     onLoading() {
+        Main.beforeLoadScene(this, (res) => {
+            this.dealWithBeforeLoadScene(res);
+        });
         Main.createLoading(Main.loadingType.one);//预创建HTTP请求加载中的资源
         Main.createLoading(Main.loadingType.two);//预创建断线重连加载中的资源
         Main.createLoading(Main.loadingType.three);//预创建带文字加载中的资源
@@ -40,9 +60,6 @@ export default class sliderSelect extends Laya.Script {
         Main.getStatusHeight();
         Main.createDiaLog();
         this.loadArrLength = Main.loadScene.length;
-        Main.beforeLoadScene(this, (res) => {
-            this.dealWithBeforeLoadScene(res);
-        });
     }
 
     dealWithBeforeLoadScene(res) {
@@ -54,7 +71,8 @@ export default class sliderSelect extends Laya.Script {
         if ($loadRate >= 100) {
             this.owner.loadText.text = '加载完成,祝您好运!';
             setTimeout(() => {
-                document.getElementById('startImg').style.display = 'none';
+                if (!Main.wxGame)
+                    document.getElementById('startImg').style.display = 'none';
                 Laya.Scene.open('login.scene', true);
             }, 500);
         }

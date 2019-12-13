@@ -233,8 +233,12 @@
                 statusHeight: 0,//手机系统栏的高度
                 deviceNews: '',//系统名称：Android / iOS
             };
+            //是不是微信小游戏平台
+            this.wxGame=false;
             //用户信息
-            this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            console.log(this.wxGame);
+            // this.userInfo =this.wxGame?'1111':JSON.parse(localStorage.getItem("userInfo"));
+            this.userInfo =null;
             // this.$LOG('Main.js获取用户信息：', this.userInfo);
             //跳转划出界面标志
             this.sign = {
@@ -417,7 +421,7 @@
          * @param nodeArr 节点对象 数组
          */
         setNodeTop(nodeArr) {
-            console.log('手机系统：',this.phoneNews.deviceNews,this.phoneNews.statusHeight);
+            // console.log('手机系统：',this.phoneNews.deviceNews,this.phoneNews.statusHeight)
             if (this.phoneNews.deviceNews == 'Android') {
                 nodeArr.forEach(node => {
                     node.top = node.top + this.phoneNews.statusHeight;
@@ -6826,14 +6830,29 @@
         }
 
         onEnable() {
+            this.getForm();
+            this.getUserInfo();
             this.hideLoadingView();
         }
 
+        /**获取是不是微信小游戏平台 */
+        getForm() {
+            Main$1.wxGame = Laya.Browser.onWeiXin;
+            Main$1.$LOG('是不是微信平台===:', Main$1.wxGame);
+        }
+
+        /**获取玩家信息 */
+        getUserInfo() {
+            Main$1.userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+            console.log(Main$1.userInfo);
+        }
+
         hideLoadingView() {
-            setTimeout(()=>{
-                document.getElementById('startImg').style.opacity = 0;
-                this.onLoading();
-            },1000);
+            if (!Main$1.wxGame)
+                setTimeout(() => {
+                    document.getElementById('startImg').style.opacity = 0;
+                    this.onLoading();
+                }, 1000);
         }
 
         onLoading() {
@@ -8001,6 +8020,7 @@
         }
 
         onEnable() {
+            this.setUI();
             this.setPageData();
         }
         onStart() {
@@ -8016,7 +8036,6 @@
             this.iframe.src = this.serviceUrl;
             this.iframe.id = 'myIframe';
             Laya.Utils.fitDOMElementInArea(this.iframe, this.owner.contentView, this.owner.x, 0, this.owner.contentView.width, this.owner.contentView.height);
-            this.setUI();
         }
 
         createIframeElement() {

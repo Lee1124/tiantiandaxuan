@@ -30,7 +30,7 @@ export default class login extends Laya.Script {
      * 等待加载图标创建完毕后再加载页面
      */
     startLoadPage() {
-        let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        let userInfo = Main.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
         if (userInfo) {
             this.phone.text = userInfo.user ? userInfo.user : '';
             this.pwd.text = userInfo.pwd ? userInfo.pwd : '';
@@ -103,7 +103,11 @@ export default class login extends Laya.Script {
      * 登录后将公用的个人信息更新
      */
     changeMainUserInfo(data) {
-        localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+        if(Main.wxGame){
+            wx.setStorageSync('userInfo', data);
+        }else{
+            localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+        }
         Main.userInfo = data;
     }
     /**

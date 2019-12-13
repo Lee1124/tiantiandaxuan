@@ -74,7 +74,12 @@ export default class register extends Laya.Script {
                         user: user,
                         pwd: pwd,
                     }
-                    localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+                    if(Main.wxGame){
+                        wx.setStorageSync('userInfo', data);
+                    }else{
+                        localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+                    }
+                    // localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
                     if(this._pageType==2){
                         Main.showDiaLog('注册成功,返回登录',1,()=>{
                             that.back();

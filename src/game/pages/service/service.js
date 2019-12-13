@@ -20,6 +20,7 @@ export default class service extends Laya.Script {
     }
 
     onEnable() {
+        this.setUI();
         this.setPageData();
     }
     onStart() {
@@ -35,7 +36,6 @@ export default class service extends Laya.Script {
         this.iframe.src = this.serviceUrl;
         this.iframe.id = 'myIframe';
         Laya.Utils.fitDOMElementInArea(this.iframe, this.owner.contentView, this.owner.x, 0, this.owner.contentView.width, this.owner.contentView.height);
-        this.setUI();
     }
 
     createIframeElement() {
@@ -46,7 +46,7 @@ export default class service extends Laya.Script {
     }
 
     setUI(){
-        let nodeArr = [this.owner.contentView]
+        let nodeArr = [this.owner.contentView];
         Main.setNodeTop(nodeArr);
     }
 }
