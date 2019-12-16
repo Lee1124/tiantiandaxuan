@@ -14,7 +14,6 @@ class Main {
         //是不是微信小游戏平台
         this.wxGame=false;
         //用户信息
-        console.log(this.wxGame)
         // this.userInfo =this.wxGame?'1111':JSON.parse(localStorage.getItem("userInfo"));
         this.userInfo =null;
         // this.$LOG('Main.js获取用户信息：', this.userInfo);

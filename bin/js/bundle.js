@@ -236,7 +236,6 @@
             //是不是微信小游戏平台
             this.wxGame=false;
             //用户信息
-            console.log(this.wxGame);
             // this.userInfo =this.wxGame?'1111':JSON.parse(localStorage.getItem("userInfo"));
             this.userInfo =null;
             // this.$LOG('Main.js获取用户信息：', this.userInfo);
@@ -918,7 +917,7 @@
          * @param {*} backData 返回场景所传参数
          * @param {*} node 需要移除的节点
          */
-        initBack(backType, backScene, backData,node) {
+        initBack(backType, backScene, backData,node,updatePage) {
             this.backType = backType?backType:0;
             this.backScene = backScene?backScene:'';
             this.backData = backData?backData:null;

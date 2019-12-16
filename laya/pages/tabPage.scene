@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":380,
-    "selecteID":381,
+    "selectedBox":2,
+    "selecteID":67,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
@@ -249,14 +249,13 @@
             "props":{"var":"pages","top":0,"right":0,"name":"pages","left":0,"bottom":0},
             "nodeParent":2,
             "label":"pages",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":67,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,CreateGamePage,CreateGamePage",
                     "props":{"y":0,"x":0,"visible":false,"var":"CreateGamePage","top":0,"right":0,"name":"CreateGamePage","left":0,"bottom":0},
@@ -391,7 +390,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,MePage,MePage",
                     "props":{"y":0,"x":0,"visible":false,"var":"MePage","top":0,"right":0,"name":"MePage","left":0,"bottom":0},
@@ -404,7 +402,6 @@
                     "compId":34,
                     "child":[
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/pages/Me/Me.js",
@@ -421,7 +418,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,list_bg,me_content",
                             "props":{"var":"me_content","top":135,"skin":"images/newMe/bg.png","right":58,"name":"list_bg","left":58,"height":1387},
@@ -434,7 +430,6 @@
                             "compId":361,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,personal_information",
                                     "props":{"y":50,"x":38,"width":1050,"top":50,"name":"personal_information","height":330,"centerX":0},
@@ -447,7 +442,6 @@
                                     "compId":363,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,head,headView",
                                             "props":{"width":327,"var":"headView","top":0,"name":"head","left":0,"height":327},
@@ -460,7 +454,6 @@
                                             "compId":380,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,headBg",
                                                     "props":{"y":0,"x":0,"width":327,"skin":"images/common/headBg.png","name":"headBg","height":327},
@@ -487,7 +480,6 @@
                                                         }]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,sex0,me_sex0",
                                                     "props":{"visible":false,"var":"me_sex0","skin":"images/newMe/sex0.png","right":10,"name":"sex0","bottom":10},
@@ -502,7 +494,6 @@
                                                     "$HIDDEN":false
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,sex1,me_sex1",
                                                     "props":{"y":0,"x":0,"visible":false,"var":"me_sex1","skin":"images/newMe/sex1.png","right":10,"name":"sex1","bottom":10},
@@ -517,7 +508,6 @@
                                                     "$HIDDEN":true
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Script",
                                                     "switchAble":true,
                                                     "source":"src/game/common/openView.js",
@@ -535,7 +525,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,name",
                                             "props":{"right":0,"name":"name","left":400,"height":60,"centerY":-90},
@@ -548,7 +537,6 @@
                                             "compId":386,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,label",
                                                     "props":{"top":0,"skin":"images/newMe/NICK.png","name":"label","left":0},
@@ -562,7 +550,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Text",
                                                     "searchKey":"Text,nameValue,userNameValue",
                                                     "props":{"y":0,"x":168,"width":554,"var":"userNameValue","text":"×××","name":"nameValue","height":60,"fontSize":60,"color":"#FFFFFF"},
@@ -577,7 +564,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,ID",
                                             "props":{"x":0,"right":0,"name":"ID","left":400,"height":60,"centerY":0},
@@ -590,7 +576,6 @@
                                             "compId":389,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,label",
                                                     "props":{"skin":"images/newMe/ID.png","name":"label","left":0,"centerY":0},
@@ -604,7 +589,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Text",
                                                     "searchKey":"Text,IDValue,userIDValue",
                                                     "props":{"y":0,"x":105,"width":615,"var":"userIDValue","text":"××××××","name":"IDValue","height":60,"fontSize":60,"color":"#FFFFFF"},
@@ -619,7 +603,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,score",
                                             "props":{"x":0,"right":0,"name":"score","left":400,"height":60,"centerY":90},
@@ -632,7 +615,6 @@
                                             "compId":392,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,icon",
                                                     "props":{"x":0,"skin":"images/newMe/2.png","name":"icon","centerY":0},
@@ -646,7 +628,6 @@
                                                         ]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Text",
                                                     "searchKey":"Text,scoreValue,userScoreValue",
                                                     "props":{"y":0,"x":150,"width":572,"var":"userScoreValue","text":"0","name":"scoreValue","height":60,"fontSize":60,"color":"#FFFFFF"},
@@ -662,7 +643,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,list_bg2",
                                     "props":{"y":0,"x":0,"skin":"images/newMe/11.png","name":"list_bg2","centerY":189,"centerX":0},
@@ -897,7 +877,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,NoticePage,NoticePage",
                     "props":{"visible":true,"var":"NoticePage","top":0,"right":0,"name":"NoticePage","left":0,"bottom":0},
@@ -1155,7 +1134,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,HallPage,HallPage",
                     "props":{"visible":false,"var":"HallPage","top":0,"right":0,"name":"HallPage","left":0,"bottom":0},
@@ -1678,7 +1656,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,DataPage,DataPage",
                     "props":{"visible":false,"var":"DataPage","top":0,"right":0,"name":"DataPage","left":0,"bottom":0},

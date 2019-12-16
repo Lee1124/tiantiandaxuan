@@ -236,7 +236,6 @@
             //是不是微信小游戏平台
             this.wxGame=false;
             //用户信息
-            console.log(this.wxGame);
             // this.userInfo =this.wxGame?'1111':JSON.parse(localStorage.getItem("userInfo"));
             this.userInfo =null;
             // this.$LOG('Main.js获取用户信息：', this.userInfo);
@@ -330,7 +329,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = true;
+            this.debug = false;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -910,6 +909,8 @@
             this.backData = null;
             //需要移除的html节点
             this.removeNode=null;
+            //返回需要刷新的数据
+            // this.updatePage=null;
         }
         /**
          * 初始化返回参数
@@ -918,11 +919,12 @@
          * @param {*} backData 返回场景所传参数
          * @param {*} node 需要移除的节点
          */
-        initBack(backType, backScene, backData,node) {
+        initBack(backType, backScene, backData,node,updatePage) {
             this.backType = backType?backType:0;
             this.backScene = backScene?backScene:'';
             this.backData = backData?backData:null;
             this.removeNode=node?node:null;
+            // this.updatePage=updatePage?updatePage:null;
         }
         onEnable() {
             this.initBack();
@@ -935,6 +937,7 @@
             //所属场景
             let thisScene = this.owner.scene;
             if (this.backType == 0) {
+                // this.backUpdatePageData();
                 Laya.Tween.to(thisScene, { x: Laya.stage.width }, Main$1._speed.page, null, Laya.Handler.create(this, () => {
                     thisScene.removeSelf();
                 }));
@@ -949,6 +952,13 @@
                 Laya.Browser.document.body.removeChild(this.removeNode);
             }
         }
+
+        /**返回重新加载数据 */
+        // backUpdatePageData(){
+        //     if(this.updatePage){
+        //         this.updatePage=null;
+        //     }
+        // }
     }
 
     /**
@@ -6844,7 +6854,6 @@
         /**获取玩家信息 */
         getUserInfo() {
             Main$1.userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
-            console.log(Main$1.userInfo);
         }
 
         hideLoadingView() {
@@ -6853,9 +6862,15 @@
                     document.getElementById('startImg').style.opacity = 0;
                     this.onLoading();
                 }, 1000);
+            else {
+                this.onLoading();
+            }
         }
 
         onLoading() {
+            Main$1.beforeLoadScene(this, (res) => {
+                this.dealWithBeforeLoadScene(res);
+            });
             Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
             Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
             Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
@@ -6863,9 +6878,6 @@
             Main$1.getStatusHeight();
             Main$1.createDiaLog();
             this.loadArrLength = Main$1.loadScene.length;
-            Main$1.beforeLoadScene(this, (res) => {
-                this.dealWithBeforeLoadScene(res);
-            });
         }
 
         dealWithBeforeLoadScene(res) {
@@ -6877,7 +6889,8 @@
             if ($loadRate >= 100) {
                 this.owner.loadText.text = '加载完成,祝您好运!';
                 setTimeout(() => {
-                    document.getElementById('startImg').style.display = 'none';
+                    if (!Main$1.wxGame)
+                        document.getElementById('startImg').style.display = 'none';
                     Laya.Scene.open('login.scene', true);
                 }, 500);
             }
@@ -7088,7 +7101,7 @@
          * 等待加载图标创建完毕后再加载页面
          */
         startLoadPage() {
-            let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            let userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
             if (userInfo) {
                 this.phone.text = userInfo.user ? userInfo.user : '';
                 this.pwd.text = userInfo.pwd ? userInfo.pwd : '';
@@ -7161,7 +7174,11 @@
          * 登录后将公用的个人信息更新
          */
         changeMainUserInfo(data) {
-            localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+            if(Main$1.wxGame){
+                wx.setStorageSync('userInfo', data);
+            }else{
+                localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+            }
             Main$1.userInfo = data;
         }
         /**
@@ -7949,7 +7966,12 @@
                             user: user,
                             pwd: pwd,
                         };
-                        localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+                        if(Main$1.wxGame){
+                            wx.setStorageSync('userInfo', data);
+                        }else{
+                            localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+                        }
+                        // localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
                         if(this._pageType==2){
                             Main$1.showDiaLog('注册成功,返回登录',1,()=>{
                                 that.back();

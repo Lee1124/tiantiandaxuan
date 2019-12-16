@@ -29,7 +29,7 @@
    <item name="images/newMe/bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=446,60,80,60" picType="0" scale="0"/>
    <item name="images/hall/bg1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=200,66,200,66" picType="0" scale="0"/>
    <item name="images/Notice/bg1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=53,98,82,88" picType="0" scale="0"/>
-   <item name="images/common/bg2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=124,100,122,133" picType="0" scale="0"/>
+   <item name="images/common/bg2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=120,120,120,120" picType="0" scale="0"/>
    <item name="images/common/hd_notice.png" type="Sprite" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
    <item name="images/common/progress_bg.png" type="ProgressBar" compress="0" pack="0" quality="80" props="sizeGrid=0,46,0,38" picType="0" scale="0"/>
    <item name="images/common/progress_line.png" type="ProgressBar" compress="0" pack="0" quality="80" props="sizeGrid=0,17,0,16" picType="0" scale="0"/>

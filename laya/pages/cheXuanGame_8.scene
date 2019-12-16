@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":913,
-    "selecteID":2139,
+    "selectedBox":991,
+    "selecteID":1907,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":2164,
+    "maxID":2185,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -8487,13 +8487,14 @@
             "props":{"x":0,"width":1242,"var":"BTHandleBtnBox","name":"BTHandleBtnBox","height":0,"bottom":0},
             "nodeParent":2,
             "label":"BTHandleBtnBox",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":991,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,chatBtn,chatBtnUI",
                     "props":{"width":140,"var":"chatBtnUI","right":30,"name":"chatBtn","height":140,"bottom":33},
@@ -8520,6 +8521,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,nowPaiJu,nowPaiJuUI",
                     "props":{"width":140,"var":"nowPaiJuUI","name":"nowPaiJu","left":30,"height":140,"bottom":33},
@@ -8544,6 +8546,46 @@
                             "child":[
                                 ]
                         }]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,delayTimeView,delayTimeBtn",
+                    "props":{"x":1112,"width":100,"visible":false,"var":"delayTimeBtn","top":-310,"right":30,"name":"delayTimeView","height":110},
+                    "nodeParent":991,
+                    "label":"delayTimeView",
+                    "isOpen":false,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":1907,
+                    "child":[
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,value",
+                            "props":{"y":74,"x":0,"width":100,"text":"10","name":"value","height":36,"fontSize":36,"color":"#FFFFFF","align":"center"},
+                            "nodeParent":1907,
+                            "label":"value",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1908,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Sprite",
+                            "searchKey":"Sprite,icon",
+                            "props":{"y":0,"x":20,"texture":"images/common/delayTime.png","name":"icon"},
+                            "nodeParent":1907,
+                            "label":"icon",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1909,
+                            "child":[
+                                ]
+                        }]
                 }]
         },
         {
@@ -8553,14 +8595,13 @@
             "props":{"zOrder":3,"x":0,"width":0,"visible":true,"var":"dialog_box","top":0,"name":"dialog_box","left":0,"isModal":true,"bottom":0,"bgColor":"#a42624","alpha":1},
             "nodeParent":2,
             "label":"dialog_box",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":913,
             "child":[
                 {
-                    "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,_mask,_mask",
                     "props":{"y":0,"x":0,"width":1242,"visible":false,"var":"_mask","name":"_mask","height":2208,"bgColor":"#000000","alpha":0.5},
@@ -8590,7 +8631,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,menu,menu",
                     "props":{"y":-1240,"x":-15,"width":674,"var":"menu","skin":"images/common/bg2.png","name":"menu","height":1240},
@@ -8617,7 +8657,7 @@
                                 {
                                     "type":"Box",
                                     "searchKey":"Box,menuList_box",
-                                    "props":{"y":0,"right":0,"renderType":"render","name":"menuList_box","left":0,"height":165},
+                                    "props":{"y":0,"right":0,"renderType":"render","name":"menuList_box","left":0,"height":162},
                                     "nodeParent":2095,
                                     "label":"menuList_box",
                                     "isOpen":true,
@@ -8654,7 +8694,7 @@
                                                 {
                                                     "type":"Image",
                                                     "searchKey":"Image,listContent",
-                                                    "props":{"name":"listContent","centerY":0,"centerX":-10},
+                                                    "props":{"y":82,"x":288,"name":"listContent","centerY":0,"centerX":-10},
                                                     "nodeParent":2097,
                                                     "label":"listContent",
                                                     "isDirectory":false,
@@ -8669,85 +8709,27 @@
                         }]
                 },
                 {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,paijuguize,paijuguize",
-                    "props":{"y":0,"x":-971,"width":971,"visible":false,"var":"paijuguize","skin":"images/common/fightBg22.png","pivotY":0,"pivotX":0,"name":"paijuguize","height":2208},
-                    "nodeParent":913,
-                    "label":"paijuguize",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":1035,
-                    "child":[
-                        {
-                            "type":"Script",
-                            "switchAble":true,
-                            "source":"src/game/common/SetHeight.js",
-                            "searchKey":"Script,SetHeight",
-                            "removeAble":true,
-                            "props":{},
-                            "nodeParent":1035,
-                            "label":"SetHeight",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1036,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Sprite",
-                            "searchKey":"Sprite",
-                            "props":{"y":136,"x":65,"texture":"images/gameView/paixingtishi.png"},
-                            "nodeParent":1035,
-                            "label":"Sprite",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1037,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Text",
-                            "searchKey":"Text,title",
-                            "props":{"y":42,"x":358.5,"text":"牌局提示","name":"title","fontSize":50,"color":"#FFFFFF"},
-                            "nodeParent":1035,
-                            "label":"title",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1038,
-                            "child":[
-                                ]
-                        }],
-                    "$HIDDEN":true
-                },
-                {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,makeUp_bobo,makeUp_bobo",
-                    "props":{"y":-902,"x":90,"width":1055,"var":"makeUp_bobo","skin":"images/common/bg2.png","name":"makeUp_bobo","height":880},
+                    "props":{"y":-880,"x":96,"width":1050,"var":"makeUp_bobo","skin":"images/common/bg2.png","name":"makeUp_bobo","height":880},
                     "nodeParent":913,
                     "label":"makeUp_bobo",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
-                    "compId":2100,
+                    "compId":2165,
                     "child":[
                         {
                             "type":"Image",
                             "searchKey":"Image,close,bobo_close",
-                            "props":{"var":"bobo_close","top":80,"skin":"images/dialog/bobo_close.png","right":80,"name":"close"},
-                            "nodeParent":2100,
+                            "props":{"y":0,"x":0,"var":"bobo_close","top":80,"skin":"images/dialog/bobo_close.png","right":80,"name":"close"},
+                            "nodeParent":2165,
                             "label":"close",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":2120,
+                            "compId":2166,
                             "child":[
                                 ]
                         },
@@ -8755,49 +8737,49 @@
                             "type":"Image",
                             "searchKey":"Image,title",
                             "props":{"y":80,"x":393,"top":80,"skin":"images/dialog/bobo_title.png","name":"title","centerX":0},
-                            "nodeParent":2100,
+                            "nodeParent":2165,
                             "label":"title",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":2121,
+                            "compId":2167,
                             "child":[
                                 ]
                         },
                         {
                             "type":"Image",
                             "searchKey":"Image,personNews",
-                            "props":{"x":0,"width":860,"top":550,"name":"personNews","height":65,"centerX":0},
-                            "nodeParent":2100,
+                            "props":{"y":0,"x":0,"width":860,"top":550,"name":"personNews","height":65,"centerX":0},
+                            "nodeParent":2165,
                             "label":"personNews",
                             "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
-                            "compId":2122,
+                            "compId":2168,
                             "child":[
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,title1",
                                     "props":{"skin":"images/dialog/bobo_ID.png","name":"title1","left":0,"centerY":0},
-                                    "nodeParent":2122,
+                                    "nodeParent":2168,
                                     "label":"title1",
                                     "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":2126,
+                                    "compId":2172,
                                     "child":[
                                         {
                                             "type":"Text",
                                             "searchKey":"Text,value,bobo_ID",
                                             "props":{"y":-3,"x":61,"width":172,"var":"bobo_ID","name":"value","height":40,"fontSize":40,"color":"#936e1e","bold":true},
-                                            "nodeParent":2126,
+                                            "nodeParent":2172,
                                             "label":"value",
                                             "isDirectory":false,
                                             "isAniNode":true,
                                             "hasChild":false,
-                                            "compId":2127,
+                                            "compId":2173,
                                             "child":[
                                                 ]
                                         }]
@@ -8806,24 +8788,24 @@
                                     "type":"Image",
                                     "searchKey":"Image,title2",
                                     "props":{"x":232,"skin":"images/dialog/bobo_jifen.png","name":"title2","centerY":0},
-                                    "nodeParent":2122,
+                                    "nodeParent":2168,
                                     "label":"title2",
                                     "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":2128,
+                                    "compId":2174,
                                     "child":[
                                         {
                                             "type":"Image",
                                             "searchKey":"Image,icon",
                                             "props":{"top":10,"skin":"images/dialog/bobo_jibi.png","right":-57,"name":"icon"},
-                                            "nodeParent":2128,
+                                            "nodeParent":2174,
                                             "label":"icon",
                                             "isDirectory":false,
                                             "isAniNode":true,
                                             "hasChild":false,
-                                            "compId":2129,
+                                            "compId":2175,
                                             "child":[
                                                 ]
                                         },
@@ -8831,12 +8813,12 @@
                                             "type":"Text",
                                             "searchKey":"Text,value,bobo_trueScore",
                                             "props":{"y":6,"x":252,"width":213,"var":"bobo_trueScore","text":"0","name":"value","height":40,"fontSize":40,"color":"#936e1e","bold":true},
-                                            "nodeParent":2128,
+                                            "nodeParent":2174,
                                             "label":"value",
                                             "isDirectory":false,
                                             "isAniNode":true,
                                             "hasChild":false,
-                                            "compId":2130,
+                                            "compId":2176,
                                             "child":[
                                                 ]
                                         }]
@@ -8845,24 +8827,24 @@
                                     "type":"Image",
                                     "searchKey":"Image,title3",
                                     "props":{"skin":"images/dialog/bobo_moeny.png","name":"title3","left":661,"centerY":3},
-                                    "nodeParent":2122,
+                                    "nodeParent":2168,
                                     "label":"title3",
                                     "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":2131,
+                                    "compId":2177,
                                     "child":[
                                         {
                                             "type":"Text",
                                             "searchKey":"Text,value,bobo_fuwufei",
                                             "props":{"y":5,"x":149,"width":84,"var":"bobo_fuwufei","text":"0","name":"value","height":40,"fontSize":40,"color":"#936e1e","bold":true},
-                                            "nodeParent":2131,
+                                            "nodeParent":2177,
                                             "label":"value",
                                             "isDirectory":false,
                                             "isAniNode":true,
                                             "hasChild":false,
-                                            "compId":2132,
+                                            "compId":2178,
                                             "child":[
                                                 ]
                                         }]
@@ -8872,24 +8854,24 @@
                             "type":"Image",
                             "searchKey":"Image,selectTitle",
                             "props":{"y":0,"x":0,"width":860,"top":250,"name":"selectTitle","height":65,"centerX":0},
-                            "nodeParent":2100,
+                            "nodeParent":2165,
                             "label":"selectTitle",
                             "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
-                            "compId":2123,
+                            "compId":2169,
                             "child":[
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,title1",
                                     "props":{"skin":"images/dialog/bobo_small.png","name":"title1","left":0,"centerY":0},
-                                    "nodeParent":2123,
+                                    "nodeParent":2169,
                                     "label":"title1",
                                     "isDirectory":false,
                                     "isAniNode":true,
                                     "hasChild":false,
-                                    "compId":2133,
+                                    "compId":2179,
                                     "child":[
                                         ]
                                 },
@@ -8897,12 +8879,12 @@
                                     "type":"Image",
                                     "searchKey":"Image,title3",
                                     "props":{"skin":"images/dialog/bobo_big.png","right":0,"name":"title3","centerY":0},
-                                    "nodeParent":2123,
+                                    "nodeParent":2169,
                                     "label":"title3",
                                     "isDirectory":false,
                                     "isAniNode":true,
                                     "hasChild":false,
-                                    "compId":2134,
+                                    "compId":2180,
                                     "child":[
                                         ]
                                 },
@@ -8910,24 +8892,24 @@
                                     "type":"Image",
                                     "searchKey":"Image,title2",
                                     "props":{"skin":"images/dialog/bobo_dairu.png","name":"title2","centerY":0,"centerX":-81},
-                                    "nodeParent":2123,
+                                    "nodeParent":2169,
                                     "label":"title2",
                                     "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":2135,
+                                    "compId":2181,
                                     "child":[
                                         {
                                             "type":"Text",
                                             "searchKey":"Text,bobo_daiRuScore,bobo_daiRuScore",
                                             "props":{"y":-7,"x":209,"width":192,"var":"bobo_daiRuScore","text":"0","name":"bobo_daiRuScore","height":60,"fontSize":60,"color":"#FF9E2D","bold":true},
-                                            "nodeParent":2135,
+                                            "nodeParent":2181,
                                             "label":"bobo_daiRuScore",
                                             "isDirectory":false,
                                             "isAniNode":true,
                                             "hasChild":false,
-                                            "compId":2136,
+                                            "compId":2182,
                                             "child":[
                                                 ]
                                         }]
@@ -8937,24 +8919,24 @@
                             "type":"Image",
                             "searchKey":"Image,sliderView,sliderView",
                             "props":{"y":0,"x":0,"width":817,"var":"sliderView","name":"sliderView","height":100,"centerY":-30,"centerX":10},
-                            "nodeParent":2100,
+                            "nodeParent":2165,
                             "label":"sliderView",
                             "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
-                            "compId":2124,
+                            "compId":2170,
                             "child":[
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,slider_bg",
                                     "props":{"y":0,"x":0,"visible":true,"skin":"images/dialog/bobo_tiao.png","name":"slider_bg","centerY":0,"centerX":0},
-                                    "nodeParent":2124,
+                                    "nodeParent":2170,
                                     "label":"slider_bg",
                                     "isDirectory":false,
                                     "isAniNode":true,
                                     "hasChild":false,
-                                    "compId":2137,
+                                    "compId":2183,
                                     "child":[
                                         ]
                                 },
@@ -8962,12 +8944,12 @@
                                     "type":"Image",
                                     "searchKey":"Image,slider_btn",
                                     "props":{"y":0,"x":0,"width":92,"visible":true,"skin":"images/dialog/bobo_tdbtn.png","pivotY":50,"pivotX":46,"name":"slider_btn","height":99,"centerY":0},
-                                    "nodeParent":2124,
+                                    "nodeParent":2170,
                                     "label":"slider_btn",
                                     "isDirectory":false,
                                     "isAniNode":true,
                                     "hasChild":false,
-                                    "compId":2138,
+                                    "compId":2184,
                                     "child":[
                                         ]
                                 }]
@@ -8975,20 +8957,18 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,confirmDaiRuBtn",
-                            "props":{"width":464,"skin":"images/dialog/bobo_comfirm.png","name":"confirmDaiRuBtn","height":124,"centerX":0,"bottom":80},
-                            "nodeParent":2100,
+                            "props":{"y":0,"x":0,"width":464,"skin":"images/dialog/bobo_comfirm.png","name":"confirmDaiRuBtn","height":124,"centerX":0,"bottom":80},
+                            "nodeParent":2165,
                             "label":"confirmDaiRuBtn",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":2125,
+                            "compId":2171,
                             "child":[
                                 ]
-                        }],
-                    "$HIDDEN":true
+                        }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,gameSet_dialog,gameSet_dialog",
                     "props":{"y":-1186,"x":59,"visible":true,"var":"gameSet_dialog","skin":"images/GameSet/gameSet_bg.png","name":"gameSet_dialog"},
@@ -9276,7 +9256,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,PlayerNews,PlayerNews_dialog",
                     "props":{"y":-948,"x":61,"width":1120,"var":"PlayerNews_dialog","skin":"images/PersonNews2/news_bg.png","name":"PlayerNews","height":948},
@@ -9289,7 +9268,6 @@
                     "compId":2139,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_title",
                             "props":{"y":80,"x":422,"skin":"images/PersonNews2/news_title.png","name":"news_title"},
@@ -9304,7 +9282,6 @@
                             "$LOCKED":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_close",
                             "props":{"y":70,"x":969,"skin":"images/PersonNews2/news_close.png","name":"news_close"},
@@ -9319,7 +9296,6 @@
                             "$LOCKED":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_head_box",
                             "props":{"y":190,"x":119,"width":275,"skin":"images/PersonNews2/news_head.png","name":"news_head_box","height":275},
@@ -9359,7 +9335,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_box",
                             "props":{"y":258,"x":463,"width":556,"name":"news_box","height":177},
@@ -9452,7 +9427,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_alljs",
                             "props":{"y":538,"x":152,"skin":"images/PersonNews2/news_totaljs.png","name":"news_alljs"},
@@ -9480,7 +9454,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_fanpairate",
                             "props":{"y":538,"x":610,"skin":"images/PersonNews2/news_fanpairate.png","name":"news_fanpairate"},
@@ -9508,7 +9481,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_allss",
                             "props":{"y":633,"x":152,"skin":"images/PersonNews2/news_totalss.png","name":"news_allss"},
@@ -9536,7 +9508,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_fanpaiwinrate",
                             "props":{"y":633,"x":610,"skin":"images/PersonNews2/news_fanpaiwinrate.png","name":"news_fanpaiwinrate"},
@@ -9564,7 +9535,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_winss",
                             "props":{"y":723,"x":152,"skin":"images/PersonNews2/news_winss.png","name":"news_winss"},
@@ -9592,7 +9562,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,news_allwinrate",
                             "props":{"y":724,"x":610,"skin":"images/PersonNews2/news_allwinrate.png","name":"news_allwinrate"},
@@ -9618,10 +9587,10 @@
                                     "child":[
                                         ]
                                 }]
-                        }]
+                        }],
+                    "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,LiuZuo,LiuZuo_dialog",
                     "props":{"x":64.5,"width":1140,"var":"LiuZuo_dialog","skin":"images/LiuZuo/l_bg.png","name":"LiuZuo","height":850,"bottom":-850},
@@ -9793,7 +9762,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,chat,chat_dialog",
                     "props":{"y":2208,"width":1242,"visible":false,"var":"chat_dialog","skin":"images/Chat/chat_bg.png","name":"chat","left":0,"height":630},
@@ -10126,46 +10094,6 @@
             "compId":1808,
             "child":[
                 ]
-        },
-        {
-            "x":15,
-            "type":"Image",
-            "searchKey":"Image,delayTimeView,delayTimeBtn",
-            "props":{"width":100,"visible":false,"var":"delayTimeBtn","right":30,"name":"delayTimeView","height":110,"bottom":385},
-            "nodeParent":2,
-            "label":"delayTimeView",
-            "isOpen":false,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":1907,
-            "child":[
-                {
-                    "type":"Text",
-                    "searchKey":"Text,value",
-                    "props":{"y":74,"x":0,"width":100,"text":"10","name":"value","height":36,"fontSize":36,"color":"#FFFFFF","align":"center"},
-                    "nodeParent":1907,
-                    "label":"value",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":1908,
-                    "child":[
-                        ]
-                },
-                {
-                    "type":"Sprite",
-                    "searchKey":"Sprite,icon",
-                    "props":{"y":0,"x":20,"texture":"images/common/delayTime.png","name":"icon"},
-                    "nodeParent":1907,
-                    "label":"icon",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":1909,
-                    "child":[
-                        ]
-                }]
         },
         {
             "x":15,

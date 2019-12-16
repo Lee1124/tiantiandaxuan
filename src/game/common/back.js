@@ -31,7 +31,7 @@ export default class back extends Laya.Script {
      * @param {*} backData 返回场景所传参数
      * @param {*} node 需要移除的节点
      */
-    initBack(backType, backScene, backData,node) {
+    initBack(backType, backScene, backData,node,updatePage) {
         this.backType = backType?backType:0;
         this.backScene = backScene?backScene:'';
         this.backData = backData?backData:null;
