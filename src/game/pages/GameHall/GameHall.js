@@ -1,6 +1,7 @@
 import Main from '../../common/Main';
 import HTTP from '../../common/HttpRequest';
-import dropDownReload from '../../common/dropDownReload'
+import dropDownReload from '../../common/dropDownReload';
+import AUTO from '../../common/AUTO';
 // import TabPagesUI from '../TabPages/TabPagesUI'
 export default class GameHall extends Laya.Script {
     constructor() {
@@ -75,6 +76,8 @@ export default class GameHall extends Laya.Script {
      * 设置全页面的数据
      */
     setPage1Data(data) {
+        if (Main.AUTO&&(this.UI.pageData.roomPws<=0||!this.UI.pageData.roomPws))
+            AUTO.initHall(this, data);
         let page1List = this.UI.gameHall_page1_list;
         // page1List.top=100;
         // let hallListHeight=page1List.height;
@@ -168,13 +171,13 @@ export default class GameHall extends Laya.Script {
                     if (isShowLoading)
                         Main.showLoading(false);
                     if (res.data.ret.type == 0) {
-                        if(this.callFn){
+                        if (this.callFn) {
                             this.callFn('刷新成功');
-                            this.callFn=null;
-                            setTimeout(()=>{
+                            this.callFn = null;
+                            setTimeout(() => {
                                 this.dealWithResData(res.data.rooms);
-                            },500)
-                        }else{
+                            }, 500)
+                        } else {
                             this.dealWithResData(res.data.rooms);
                         }
                         this.openGameView();
@@ -186,9 +189,9 @@ export default class GameHall extends Laya.Script {
                     if (isShowLoading)
                         Main.showLoading(false);
                     Main.showDialog('网络异常!', 1);
-                    if(this.callFn){
+                    if (this.callFn) {
                         this.callFn('刷新失败');
-                        this.callFn=null;
+                        this.callFn = null;
                     }
                 }
             })

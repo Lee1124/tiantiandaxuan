@@ -8,7 +8,6 @@ import MySlider from "./game/Fuction/MySlider"
 import SetHeight from "./game/common/SetHeight"
 import MyClickSelect from "./game/Fuction/MyClickSelect"
 import GameControl from "./game/GameCenter/GameControl"
-import demo from "./game/common/demo"
 import Set from "./game/pages/Set/Set"
 import MySwitch from "./game/common/MySwitch"
 import LoginUI from "./game/pages/login/LoginUI"
@@ -29,6 +28,7 @@ import shishizhanjiUI from "./game/pages/shishizhanji/shishizhanjiUI"
 import ZhanJiGet from "./game/pages/shishizhanji/ZhanJiGet"
 import shopMallUI from "./game/pages/shopMall/shopMallUI"
 import shopMall from "./game/pages/shopMall/shopMall"
+import Start from "./game/Fuction/Start"
 import TabPagesUI from "./game/pages/TabPages/TabPagesUI"
 import Me from "./game/pages/Me/Me"
 import Notice from "./game/pages/Notice/Notice"
@@ -49,7 +49,6 @@ export default class GameConfig {
 		reg("game/common/SetHeight.js",SetHeight);
 		reg("game/Fuction/MyClickSelect.js",MyClickSelect);
 		reg("game/GameCenter/GameControl.js",GameControl);
-		reg("game/common/demo.js",demo);
 		reg("game/pages/Set/Set.js",Set);
 		reg("game/common/MySwitch.js",MySwitch);
 		reg("game/pages/login/LoginUI.js",LoginUI);
@@ -70,6 +69,7 @@ export default class GameConfig {
 		reg("game/pages/shishizhanji/ZhanJiGet.js",ZhanJiGet);
 		reg("game/pages/shopMall/shopMallUI.js",shopMallUI);
 		reg("game/pages/shopMall/shopMall.js",shopMall);
+		reg("game/Fuction/Start.js",Start);
 		reg("game/pages/TabPages/TabPagesUI.js",TabPagesUI);
 		reg("game/pages/Me/Me.js",Me);
 		reg("game/pages/Notice/Notice.js",Notice);
@@ -84,7 +84,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "none";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "demo.scene";
+GameConfig.startScene = "start.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

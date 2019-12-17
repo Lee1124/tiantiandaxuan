@@ -13,6 +13,9 @@ import MySlider from '../Fuction/MySlider';
 import RecSoketReloadData from '../Fuction/RecSoketReloadData';
 import CustomChatData from '../Fuction/CustomChatData';
 import ErrText from '../Fuction/ErrText';
+
+import AUTO from '../common/AUTO';
+
 let clickIndex = 0;
 export default class GameControl extends Laya.Script {
     constructor() {
@@ -212,12 +215,12 @@ export default class GameControl extends Laya.Script {
                 this._playerArray[concatArr[i]].owner._piDiChiFaceToPlayerXY.y = this.owner._piDiChiFaceToPlayerXYArray[i].y;
             }
 
-             {//快捷聊天盒子的坐标
+            {//快捷聊天盒子的坐标
                 this._playerArray[concatArr[i]].owner.getChildByName("fastChatBox").x = this.owner._fastChatBoxSeat[i].x;
                 this._playerArray[concatArr[i]].owner.getChildByName("fastChatBox").y = this.owner._fastChatBoxSeat[i].y;
             }
             {
-                this._playerArray[concatArr[i]].owner._fastChatBoxSeatBgImg=this.owner._fastChatBoxSeatBgImg[i];
+                this._playerArray[concatArr[i]].owner._fastChatBoxSeatBgImg = this.owner._fastChatBoxSeatBgImg[i];
             }
             CustomChatData.init(this._playerArray[concatArr[i]].owner);
         }
@@ -487,9 +490,9 @@ export default class GameControl extends Laya.Script {
 
             //表情
             if (resData._t == "G2C_GameChat") {
-                if(resData.chat.msgType==2){//表情聊天
+                if (resData.chat.msgType == 2) {//表情聊天
                     this.showPlayerExpression(resData);
-                }else if(resData.chat.msgType==1){//快捷语音
+                } else if (resData.chat.msgType == 1) {//快捷语音
                     this.showPlayerFastVoice(resData);
                 }
             }
@@ -515,7 +518,7 @@ export default class GameControl extends Laya.Script {
         }
     }
     /**快捷聊天 */
-    showPlayerFastVoice(data){
+    showPlayerFastVoice(data) {
         this._playerArray.forEach(item_player => {
             if (item_player.owner.userId == data.chat.sender) {
                 item_player.playerSeatAddFastChat(data.chat);
@@ -594,6 +597,7 @@ export default class GameControl extends Laya.Script {
         } else {
             this.newIndexConcatArr = this._plyerIndexArray;
         }
+
         data.roomSeat.forEach(item_seatData => {
             item_seatData.seatidx = item_seatData.seat_idx;
             item_seatData.userId = item_seatData._id;
@@ -606,6 +610,7 @@ export default class GameControl extends Laya.Script {
                 this.playerSeatDown(item_seatData);
                 this.playerLiuZuo(item_seatData);
             }
+
             // ====更新牌数据
             this._playerArray.forEach((item_player, item_index) => {
                 CustomChatData.init(item_player.owner);
@@ -667,6 +672,17 @@ export default class GameControl extends Laya.Script {
             // ====/更新牌数据
         })
         /* =====/更新座位上的数据===== */
+
+        /**===测试=== */
+        if (data.roomSeat.length == 0 && Main.AUTO) {
+            AUTO.intoAfterSeatAt(this);
+        } else if (data.roomSeat.length > 0 && Main.AUTO) {
+            let seatHaveMe = data.roomSeat.filter(item => item._id == this.userId);
+            if (seatHaveMe.length == 0) {
+                AUTO.intoAfterSeatAt(this);
+            }
+        }
+        /**===测试=== */
     }
 
     /**
@@ -1270,6 +1286,11 @@ export default class GameControl extends Laya.Script {
         this._btnMoveNum++;
         if (this._btnMoveNum == 3) {
             this.showFastBtnAndBindVal(true, data);
+             /**===测试=== */
+             if (Main.AUTO) {
+                AUTO.handle(this, data);
+            }
+            /**===测试=== */
             if (Main.gameSetVal.gameMusic == 1)
                 Laya.SoundManager.playSound(this._music.handle, 1);
         }
@@ -1389,6 +1410,7 @@ export default class GameControl extends Laya.Script {
      */
     showFastBtnAndBindVal(isShow, data) {
         this.owner.fastXiaZhuBtnBox.visible = isShow;
+        console.log('显示快捷操作按钮并绑定相应的值:',isShow)
         if (isShow) {
             let btn1 = this.owner.fastXiaZhuBtnBox.getChildByName("btn1");
             let btn2 = this.owner.fastXiaZhuBtnBox.getChildByName("btn2");
@@ -1694,6 +1716,22 @@ export default class GameControl extends Laya.Script {
                 pokerArr.forEach((mePokerObj, index) => {
                     mePokerObj.on(Laya.Event.CLICK, this, this.onClickPoker, [mePokerObj, pokerArr, me_item.owner]);//补充钵钵关闭按钮关闭
                 })
+
+                /**===测试=== */
+                if (Main.AUTO) {
+                    setTimeout(() => {
+                        let clickIndex1 = parseInt(Math.random() * (pokerArr.length));
+                        let clickIndex2 = parseInt(Math.random() * (pokerArr.length - 1));
+                        let clickObj1 = pokerArr[clickIndex1];
+                        let clickObj2 = pokerArr.filter(item => item != clickObj1)[clickIndex2];
+                        this.onClickPoker(clickObj1, pokerArr, me_item.owner);
+                        this.onClickPoker(clickObj2, pokerArr, me_item.owner);
+                        setTimeout(()=>{
+                            this.confrimSubResult();
+                        },600)
+                    },1000)
+                }
+                /**===测试=== */
             }
         })
     }
@@ -1959,6 +1997,13 @@ export default class GameControl extends Laya.Script {
                 item_player.playerSeatDownOrSeatAtCommon(true, data);
                 item_player.playerSeatAtSetContent(data);
             }
+            /**===测试=== */
+            if (item_player.owner.isMe && Main.AUTO) {
+                setTimeout(() => {
+                    this.makeUpBoBoConfirmDaiRu();
+                }, 1000)
+            }
+            /**===测试=== */
         })
     }
 

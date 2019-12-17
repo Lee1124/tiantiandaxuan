@@ -25,6 +25,27 @@ export default class sliderSelect extends Laya.Script {
         this.getForm();
         this.getUserInfo();
         this.hideLoadingView();
+        /**===测试=== */
+        if (Main.AUTO)
+            this.setUser();
+        /**===测试=== */
+    }
+
+    /**测试 获取url中所带的账户和密码 */
+    setUser() {
+        let user = Main.GetUrlString('user');
+        let pwd = Main.GetUrlString('pwd');
+        if (user && pwd) {
+            let data = {
+                user: user,
+                pwd: pwd
+            }
+            if (Main.wxGame) {
+                wx.setStorageSync('userInfo', data);
+            } else {
+                localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+            }
+        }
     }
 
     /**获取是不是微信小游戏平台 */

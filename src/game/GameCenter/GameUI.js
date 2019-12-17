@@ -75,9 +75,14 @@ export default class GameUI extends Laya.Scene {
     }
 
     ceshiEvent() {
+        let ceshi_view=this.ceshi_view;
+        let ceshi_LOG=ceshi_view.getChildByName('LOG');
+        let ceshi_ERRROLAD=ceshi_view.getChildByName('ERRROLAD');
+        let ceshi_AUTO=ceshi_view.getChildByName('AUTO');
         this.ceshi_show_view_btn.on(Laya.Event.CLICK, this, this.click_ceshi_btn);
-        this.ceshi_LOG.on(Laya.Event.CLICK, this, this.ceshiContent, [1]);
-        this.ceshi_ERRROLAD.on(Laya.Event.CLICK, this, this.ceshiContent, [2]);
+        ceshi_LOG.on(Laya.Event.CLICK, this, this.ceshiContent, [1]);
+        ceshi_ERRROLAD.on(Laya.Event.CLICK, this, this.ceshiContent, [2]);
+        ceshi_AUTO.on(Laya.Event.CLICK, this, this.ceshiContent, [3,ceshi_AUTO]);
     }
 
     click_ceshi_btn() {
@@ -93,7 +98,7 @@ export default class GameUI extends Laya.Scene {
         }
     }
 
-    ceshiContent(type) {
+    ceshiContent(type,obj) {
         if (type == 1) {
             this.ceshiNum2++;
             if (this.ceshiNum2 % 2 == 0) {
@@ -105,6 +110,9 @@ export default class GameUI extends Laya.Scene {
             GameControl.instance.onClose();
             GameControl.instance.onConnect();
             Main.showTip('正在刷新数据，请稍后...');
+        }  else if (type == 3) {
+            obj.text=obj.text=='关闭自动'?'打开自动':'关闭自动';
+            Main.AUTO=obj.text=='关闭自动'?true:false;
         }
     }
 

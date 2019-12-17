@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":991,
-    "selecteID":1907,
+    "selectedBox":1941,
+    "selecteID":1953,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":2185,
+    "maxID":2186,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -8487,14 +8487,13 @@
             "props":{"x":0,"width":1242,"var":"BTHandleBtnBox","name":"BTHandleBtnBox","height":0,"bottom":0},
             "nodeParent":2,
             "label":"BTHandleBtnBox",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":991,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,chatBtn,chatBtnUI",
                     "props":{"width":140,"var":"chatBtnUI","right":30,"name":"chatBtn","height":140,"bottom":33},
@@ -8521,7 +8520,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,nowPaiJu,nowPaiJuUI",
                     "props":{"width":140,"var":"nowPaiJuUI","name":"nowPaiJu","left":30,"height":140,"bottom":33},
@@ -8548,7 +8546,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,delayTimeView,delayTimeBtn",
                     "props":{"x":1112,"width":100,"visible":false,"var":"delayTimeBtn","top":-310,"right":30,"name":"delayTimeView","height":110},
@@ -10116,19 +10113,20 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,ceshi_view,ceshi_view",
-            "props":{"width":200,"visible":false,"var":"ceshi_view","name":"ceshi_view","left":-200,"height":242,"bottom":0},
+            "props":{"width":200,"visible":false,"var":"ceshi_view","name":"ceshi_view","left":-200,"height":300,"bottom":0},
             "nodeParent":2,
             "label":"ceshi_view",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":1941,
             "child":[
                 {
+                    "x":30,
                     "type":"Label",
-                    "searchKey":"Label,LOG,ceshi_LOG",
-                    "props":{"var":"ceshi_LOG","valign":"middle","top":0,"text":"log","right":0,"name":"LOG","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
+                    "searchKey":"Label,LOG",
+                    "props":{"valign":"middle","top":0,"text":"log","right":0,"name":"LOG","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
                     "nodeParent":1941,
                     "label":"LOG",
                     "isDirectory":false,
@@ -10139,15 +10137,30 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Label",
-                    "searchKey":"Label,ERRROLAD,ceshi_ERRROLAD",
-                    "props":{"var":"ceshi_ERRROLAD","valign":"middle","top":100,"text":"异常刷新","right":0,"name":"ERRROLAD","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
+                    "searchKey":"Label,ERRROLAD",
+                    "props":{"valign":"middle","top":100,"text":"异常刷新","right":0,"name":"ERRROLAD","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
                     "nodeParent":1941,
                     "label":"ERRROLAD",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":1953,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Label",
+                    "searchKey":"Label,AUTO",
+                    "props":{"valign":"middle","top":200,"text":"关闭自动","right":0,"name":"AUTO","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
+                    "nodeParent":1941,
+                    "label":"AUTO",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":2185,
                     "child":[
                         ]
                 }]

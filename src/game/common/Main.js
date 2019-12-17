@@ -1,6 +1,8 @@
 import TIP from '../common/SuspensionTips'
 class Main {
     constructor() {
+        this.AUTONUM=0;
+        this.AUTO=false;
         Main.instance = this;
         // this.websoketApi = '192.168.0.125:8082';
         // this.requestApi = 'http://192.168.0.125:8081';
@@ -107,7 +109,7 @@ class Main {
         this.loadAniArr2 = [];
         this.loadShowArr = [];
         this.loadShowArr2 = [];
-        this.debug = false;
+        this.debug = true;
 
         this.errList = [];
         this.tipArr1 = [];
@@ -127,6 +129,17 @@ class Main {
     $ERROR(...data) {
         if (this.debug)
             console.error(...data);
+    }
+
+    /**
+     * 获取地址栏信息
+     * @param {String} name 名称
+     */
+    GetUrlString(name) {
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        let r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
     }
 
     /**
