@@ -224,7 +224,7 @@
     class Main {
         constructor() {
             this.AUTONUM=0;
-            this.AUTO=false;
+            this.AUTO=true;
             Main.instance = this;
             // this.websoketApi = '192.168.0.125:8082';
             // this.requestApi = 'http://192.168.0.125:8081';
@@ -2699,7 +2699,6 @@
     }
     var RecSoketReloadData$1 = new RecSoketReloadData();
 
-    // import GL from '../common/GL';
     class Auto {
         constructor() {
             //房间列表索引(例如：10条数据即0-9随机数)
@@ -2792,6 +2791,40 @@
             } else if (handleNum == 1) {
                 that.daSendSoket(data.maxXiazu * 2 + data.xiazu, handleNum);
             }
+        }
+
+        /**注册新账号 */
+        registerNewUser(that,fn){
+            let url = "/M.Acc/Register";
+            HTTP.$request({
+                that: that,
+                url: url,
+                data: {
+                    name: Main$1.userInfo.user,
+                    pws: Main$1.userInfo.pwd,
+                    code: 1234
+                },
+                success(res) {
+                    // console.log(res)
+                    if (res.data.ret.type == 0) {
+                        let data = {
+                            user: Main$1.userInfo.user,
+                            pwd: Main$1.userInfo.pwd,
+                        };
+                        Main$1.userInfo=data;
+                        Main$1.showDiaLog('注册成功,返回登录',1);
+                        setTimeout(()=>{
+                            Main$1.closeDiaLog();
+                            if(fn)
+                                fn.call(that);
+                        },600);
+                    } else {
+                        Main$1.showDiaLog(res.data.ret.msg);
+                    }
+                },
+                fail(){
+                }
+            });
         }
     }
     var AUTO = new Auto();
@@ -7179,7 +7212,11 @@
          * 等待加载图标创建完毕后再加载页面
          */
         startLoadPage() {
-            let userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+            let userInfo;
+            if (!Main$1.AUTO)
+                userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+            else
+                userInfo = Main$1.userInfo;
             if (userInfo) {
                 this.phone.text = userInfo.user ? userInfo.user : '';
                 this.pwd.text = userInfo.pwd ? userInfo.pwd : '';
@@ -7232,12 +7269,23 @@
                                 inRoomPws: res.data.inRoomPws,
                                 init: res.data.init
                             };
+
                             this.changeMainUserInfo(data);
                             this.dealWithLoginedView(data);
                         } else {
                             this.flag = true;
                             Main$1.showLoading(false);
                             Main$1.showDiaLog(res.data.ret.msg);
+                            /**===测试=== */
+                            if (Main$1.AUTO) {
+                                setTimeout(() => {
+                                    Main$1.closeDiaLog();
+                                    AUTO.registerNewUser(this, () => {
+                                        this.login();
+                                    });
+                                }, 400);
+                            }
+                            /**===测试=== */
                         }
                     },
                     fail() {
@@ -7252,10 +7300,12 @@
          * 登录后将公用的个人信息更新
          */
         changeMainUserInfo(data) {
-            if(Main$1.wxGame){
-                wx.setStorageSync('userInfo', data);
-            }else{
-                localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+            if (!Main$1.AUTO) {
+                if (Main$1.wxGame) {
+                    wx.setStorageSync('userInfo', data);
+                } else {
+                    localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+                }
             }
             Main$1.userInfo = data;
         }
@@ -7769,6 +7819,15 @@
             if (this.fromPage == Main$1.pages.page5) {
                 this.editGetNews();
             }
+
+            /**===测试=== */
+            if (Main$1.AUTO)
+                setTimeout(() => {
+                    this.owner.name_value.text = '用户' + new Date().getTime();
+                    console.log(this.owner.name_value.text);
+                    this.Confrim();
+                }, 600);
+            /**===测试=== */
         }
         /**
          * 编辑页面获取个人信息
@@ -7909,6 +7968,14 @@
                                 Main$1.showDiaLog('设置成功', 1, () => {
                                     that.openNextView();
                                 });
+                                /**===测试=== */
+                                if (Main$1.AUTO) {
+                                    setTimeout(() => {
+                                        Main$1.closeDiaLog();
+                                        that.openNextView();
+                                    }, 500);
+                                }
+                                /**===测试=== */
                             } else if (this.fromPage == Main$1.pages.page5) {
                                 Main$1.showDiaLog('修改成功', 1, () => {
                                     that.openNextView2();
@@ -8414,7 +8481,8 @@
 
         onEnable() {
             this.getForm();
-            this.getUserInfo();
+            if (!Main$1.AUTO)
+                this.getUserInfo();
             this.hideLoadingView();
             /**===测试=== */
             if (Main$1.AUTO)
@@ -8431,11 +8499,12 @@
                     user: user,
                     pwd: pwd
                 };
-                if (Main$1.wxGame) {
-                    wx.setStorageSync('userInfo', data);
-                } else {
-                    localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
-                }
+                Main$1.userInfo = data;
+                // if (Main.wxGame) {
+                //     wx.setStorageSync('userInfo', data);
+                // } else {
+                //     localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+                // }
             }
         }
 

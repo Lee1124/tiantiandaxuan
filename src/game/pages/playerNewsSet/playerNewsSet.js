@@ -42,6 +42,15 @@ export default class playerNewsSet extends Laya.Script {
         if (this.fromPage == Main.pages.page5) {
             this.editGetNews();
         }
+
+        /**===测试=== */
+        if (Main.AUTO)
+            setTimeout(() => {
+                this.owner.name_value.text = '用户' + new Date().getTime();
+                console.log(this.owner.name_value.text)
+                this.Confrim();
+            }, 600)
+        /**===测试=== */
     }
     /**
      * 编辑页面获取个人信息
@@ -182,6 +191,14 @@ export default class playerNewsSet extends Laya.Script {
                             Main.showDiaLog('设置成功', 1, () => {
                                 that.openNextView();
                             });
+                            /**===测试=== */
+                            if (Main.AUTO) {
+                                setTimeout(() => {
+                                    Main.closeDiaLog();
+                                    that.openNextView();
+                                }, 500)
+                            }
+                            /**===测试=== */
                         } else if (this.fromPage == Main.pages.page5) {
                             Main.showDiaLog('修改成功', 1, () => {
                                 that.openNextView2();

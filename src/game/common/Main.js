@@ -2,7 +2,7 @@ import TIP from '../common/SuspensionTips'
 class Main {
     constructor() {
         this.AUTONUM=0;
-        this.AUTO=false;
+        this.AUTO=true;
         Main.instance = this;
         // this.websoketApi = '192.168.0.125:8082';
         // this.requestApi = 'http://192.168.0.125:8081';

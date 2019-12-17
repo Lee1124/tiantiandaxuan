@@ -1,6 +1,7 @@
 import HTTP from '../../common/HttpRequest';
 import Main from '../../common/Main';
 import OpenView from '../../common/openView';
+import AUTO from '../../common/AUTO';
 export default class login extends Laya.Script {
     constructor() {
         super();
@@ -30,7 +31,11 @@ export default class login extends Laya.Script {
      * 等待加载图标创建完毕后再加载页面
      */
     startLoadPage() {
-        let userInfo = Main.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+        let userInfo;
+        if (!Main.AUTO)
+            userInfo = Main.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+        else
+            userInfo = Main.userInfo;
         if (userInfo) {
             this.phone.text = userInfo.user ? userInfo.user : '';
             this.pwd.text = userInfo.pwd ? userInfo.pwd : '';
@@ -83,12 +88,23 @@ export default class login extends Laya.Script {
                             inRoomPws: res.data.inRoomPws,
                             init: res.data.init
                         }
+
                         this.changeMainUserInfo(data);
                         this.dealWithLoginedView(data);
                     } else {
                         this.flag = true;
                         Main.showLoading(false);
                         Main.showDiaLog(res.data.ret.msg);
+                        /**===测试=== */
+                        if (Main.AUTO) {
+                            setTimeout(() => {
+                                Main.closeDiaLog();
+                                AUTO.registerNewUser(this, () => {
+                                    this.login();
+                                });
+                            }, 400)
+                        }
+                        /**===测试=== */
                     }
                 },
                 fail() {
@@ -103,10 +119,12 @@ export default class login extends Laya.Script {
      * 登录后将公用的个人信息更新
      */
     changeMainUserInfo(data) {
-        if(Main.wxGame){
-            wx.setStorageSync('userInfo', data);
-        }else{
-            localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+        if (!Main.AUTO) {
+            if (Main.wxGame) {
+                wx.setStorageSync('userInfo', data);
+            } else {
+                localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+            }
         }
         Main.userInfo = data;
     }

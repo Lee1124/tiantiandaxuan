@@ -1,5 +1,5 @@
 import Main from '../common/Main';
-// import GL from '../common/GL';
+import HTTP from '../common/HttpRequest';
 class Auto {
     constructor() {
         //房间列表索引(例如：10条数据即0-9随机数)
@@ -92,6 +92,40 @@ class Auto {
         } else if (handleNum == 1) {
             that.daSendSoket(data.maxXiazu * 2 + data.xiazu, handleNum);
         }
+    }
+
+    /**注册新账号 */
+    registerNewUser(that,fn){
+        let url = "/M.Acc/Register";
+        HTTP.$request({
+            that: that,
+            url: url,
+            data: {
+                name: Main.userInfo.user,
+                pws: Main.userInfo.pwd,
+                code: 1234
+            },
+            success(res) {
+                // console.log(res)
+                if (res.data.ret.type == 0) {
+                    let data = {
+                        user: Main.userInfo.user,
+                        pwd: Main.userInfo.pwd,
+                    }
+                    Main.userInfo=data;
+                    Main.showDiaLog('注册成功,返回登录',1);
+                    setTimeout(()=>{
+                        Main.closeDiaLog();
+                        if(fn)
+                            fn.call(that)
+                    },600)
+                } else {
+                    Main.showDiaLog(res.data.ret.msg);
+                }
+            },
+            fail(){
+            }
+        })
     }
 }
 export default new Auto();

@@ -23,7 +23,8 @@ export default class sliderSelect extends Laya.Script {
 
     onEnable() {
         this.getForm();
-        this.getUserInfo();
+        if (!Main.AUTO)
+            this.getUserInfo();
         this.hideLoadingView();
         /**===测试=== */
         if (Main.AUTO)
@@ -40,11 +41,12 @@ export default class sliderSelect extends Laya.Script {
                 user: user,
                 pwd: pwd
             }
-            if (Main.wxGame) {
-                wx.setStorageSync('userInfo', data);
-            } else {
-                localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
-            }
+            Main.userInfo = data;
+            // if (Main.wxGame) {
+            //     wx.setStorageSync('userInfo', data);
+            // } else {
+            //     localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+            // }
         }
     }
 
