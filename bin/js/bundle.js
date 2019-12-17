@@ -331,7 +331,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = true;
+            this.debug = false;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -2717,12 +2717,14 @@
         }
         /**打开游戏界面 */
         openGame(that, data) {
-            this.hallIndex = parseInt(Math.random() * (data.length));
-            let filterRoom = data[this.hallIndex];
-            if (filterRoom.participate < 8) {
+            // this.hallIndex = parseInt(Math.random() * (data.length));
+            let filterRoom = data.filter(item=>item.participate<8);
+            if (filterRoom.length>0) {
                 Main$1.showLoading(true, Main$1.loadingType.three, '正在进入房间...');
+                // console.log(filterRoom)
+                // return
                 let data = {
-                    roomPws: filterRoom.roomPws,
+                    roomPws: filterRoom[0].roomPws,
                     // roomPws: 112471,
                     page: Main$1.pages.page3
                 };
@@ -2737,21 +2739,25 @@
 
         /**进入房间后占座 */
         intoAfterSeatAt(that) {
-            let kongSeat = that._playerArray.filter(item => item.owner.userId == '')[0];
-            that.onSend({
-                name: 'M.Room.C2R_SeatAt',
-                data: {
-                    roomid: that.roomId,
-                    idx: kongSeat.owner.seatId
-                },
-                success(res) {
-                    that.dealSoketMessage('占位：', res);
-                    if (res.ret.type == 0) {
-                        let click_seat_index = kongSeat.owner.index;
-                        that.changeSeatXY(click_seat_index, that._speed.changeSeatSpeed);
+            let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
+            if(kongSeat.length>0){
+                that.onSend({
+                    name: 'M.Room.C2R_SeatAt',
+                    data: {
+                        roomid: that.roomId,
+                        idx: kongSeat[0].owner.seatId
+                    },
+                    success(res) {
+                        that.dealSoketMessage('占位：', res);
+                        if (res.ret.type == 0) {
+                            let click_seat_index = kongSeat[0].owner.index;
+                            that.changeSeatXY(click_seat_index, that._speed.changeSeatSpeed);
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                that.playerLeaveRoomSend();
+            }
         }
 
         /**自己操作 */
@@ -2762,7 +2768,7 @@
             let handleNum = data.opts[handleIndex];
             if (handleNum == 3) {
                 Main$1.AUTONUM++;
-                console.log('AUTONUM============>',Main$1.AUTONUM);
+                // console.log('AUTONUM============>',Main.AUTONUM);
                 if (Main$1.AUTONUM <= 10) {
                     this.handle(that, data);
                 } else {
@@ -7823,8 +7829,7 @@
             /**===测试=== */
             if (Main$1.AUTO)
                 setTimeout(() => {
-                    this.owner.name_value.text = '用户' + new Date().getTime();
-                    console.log(this.owner.name_value.text);
+                    this.owner.name_value.text = '用户' + String(new Date().getTime()).slice(6);
                     this.Confrim();
                 }, 600);
             /**===测试=== */
@@ -8245,7 +8250,6 @@
         }
 
         setUI() {
-            console.log(this.s_hd.top);
             let nodeArr=[this.s_hd,this.s_bg1,this.s_bg3];
             Main$1.setNodeTop(nodeArr);
         }
@@ -8480,14 +8484,20 @@
         }
 
         onEnable() {
+            /**===测试=== */
+            this.isAuto();
+            if (Main$1.AUTO)
+                this.setUser();
+            /**===测试=== */
             this.getForm();
             if (!Main$1.AUTO)
                 this.getUserInfo();
             this.hideLoadingView();
-            /**===测试=== */
-            if (Main$1.AUTO)
-                this.setUser();
-            /**===测试=== */
+        }
+
+        isAuto(){
+            let isAuto= Main$1.GetUrlString('auto');
+            Main$1.AUTO=isAuto==1?true:false;
         }
 
         /**测试 获取url中所带的账户和密码 */

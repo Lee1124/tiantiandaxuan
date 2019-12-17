@@ -18,12 +18,14 @@ class Auto {
     }
     /**打开游戏界面 */
     openGame(that, data) {
-        this.hallIndex = parseInt(Math.random() * (data.length));
-        let filterRoom = data[this.hallIndex];
-        if (filterRoom.participate < 8) {
+        // this.hallIndex = parseInt(Math.random() * (data.length));
+        let filterRoom = data.filter(item=>item.participate<8);
+        if (filterRoom.length>0) {
             Main.showLoading(true, Main.loadingType.three, '正在进入房间...');
+            // console.log(filterRoom)
+            // return
             let data = {
-                roomPws: filterRoom.roomPws,
+                roomPws: filterRoom[0].roomPws,
                 // roomPws: 112471,
                 page: Main.pages.page3
             }
@@ -38,21 +40,25 @@ class Auto {
 
     /**进入房间后占座 */
     intoAfterSeatAt(that) {
-        let kongSeat = that._playerArray.filter(item => item.owner.userId == '')[0];
-        that.onSend({
-            name: 'M.Room.C2R_SeatAt',
-            data: {
-                roomid: that.roomId,
-                idx: kongSeat.owner.seatId
-            },
-            success(res) {
-                that.dealSoketMessage('占位：', res)
-                if (res.ret.type == 0) {
-                    let click_seat_index = kongSeat.owner.index;
-                    that.changeSeatXY(click_seat_index, that._speed.changeSeatSpeed);
+        let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
+        if(kongSeat.length>0){
+            that.onSend({
+                name: 'M.Room.C2R_SeatAt',
+                data: {
+                    roomid: that.roomId,
+                    idx: kongSeat[0].owner.seatId
+                },
+                success(res) {
+                    that.dealSoketMessage('占位：', res)
+                    if (res.ret.type == 0) {
+                        let click_seat_index = kongSeat[0].owner.index;
+                        that.changeSeatXY(click_seat_index, that._speed.changeSeatSpeed);
+                    }
                 }
-            }
-        })
+            })
+        }else{
+            that.playerLeaveRoomSend();
+        }
     }
 
     /**自己操作 */
@@ -63,7 +69,7 @@ class Auto {
         let handleNum = data.opts[handleIndex];
         if (handleNum == 3) {
             Main.AUTONUM++;
-            console.log('AUTONUM============>',Main.AUTONUM);
+            // console.log('AUTONUM============>',Main.AUTONUM);
             if (Main.AUTONUM <= 10) {
                 this.handle(that, data);
             } else {

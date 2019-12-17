@@ -22,14 +22,20 @@ export default class sliderSelect extends Laya.Script {
     }
 
     onEnable() {
+        /**===测试=== */
+        this.isAuto();
+        if (Main.AUTO)
+            this.setUser();
+        /**===测试=== */
         this.getForm();
         if (!Main.AUTO)
             this.getUserInfo();
         this.hideLoadingView();
-        /**===测试=== */
-        if (Main.AUTO)
-            this.setUser();
-        /**===测试=== */
+    }
+
+    isAuto(){
+        let isAuto= Main.GetUrlString('auto');
+        Main.AUTO=isAuto==1?true:false;
     }
 
     /**测试 获取url中所带的账户和密码 */

@@ -46,8 +46,7 @@ export default class playerNewsSet extends Laya.Script {
         /**===测试=== */
         if (Main.AUTO)
             setTimeout(() => {
-                this.owner.name_value.text = '用户' + new Date().getTime();
-                console.log(this.owner.name_value.text)
+                this.owner.name_value.text = '用户' + String(new Date().getTime()).slice(6);
                 this.Confrim();
             }, 600)
         /**===测试=== */

@@ -34,7 +34,6 @@ export default class shishizhanjiUI extends Laya.Scene {
     }
 
     setUI() {
-        console.log(this.s_hd.top)
         let nodeArr=[this.s_hd,this.s_bg1,this.s_bg3]
         Main.setNodeTop(nodeArr);
     }

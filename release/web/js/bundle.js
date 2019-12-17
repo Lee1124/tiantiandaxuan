@@ -331,7 +331,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = true;
+            this.debug = false;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -351,6 +351,17 @@
         $ERROR(...data) {
             if (this.debug)
                 console.error(...data);
+        }
+
+        /**
+         * 获取地址栏信息
+         * @param {String} name 名称
+         */
+        GetUrlString(name) {
+            let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            let r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
         }
 
         /**
@@ -2688,7 +2699,6 @@
     }
     var RecSoketReloadData$1 = new RecSoketReloadData();
 
-    // import GL from '../common/GL';
     class Auto {
         constructor() {
             //房间列表索引(例如：10条数据即0-9随机数)
@@ -2707,18 +2717,19 @@
         }
         /**打开游戏界面 */
         openGame(that, data) {
-            this.hallIndex = parseInt(Math.random() * (data.length));
-            let filterRoom = data[this.hallIndex];
-            if (filterRoom.participate < 8) {
+            // this.hallIndex = parseInt(Math.random() * (data.length));
+            let filterRoom = data.filter(item=>item.participate<8);
+            if (filterRoom.length>0) {
                 Main$1.showLoading(true, Main$1.loadingType.three, '正在进入房间...');
+                // console.log(filterRoom)
+                // return
                 let data = {
-                    roomPws: filterRoom.roomPws,
+                    roomPws: filterRoom[0].roomPws,
                     // roomPws: 112471,
                     page: Main$1.pages.page3
                 };
                 Main$1.$openScene('cheXuanGame_8.scene', true, data, () => {
                     Main$1.showLoading(false, Main$1.loadingType.three, '');
-                    // this.intoAfterSeatAt();
                 });
                 return false;
             } else {
@@ -2728,21 +2739,25 @@
 
         /**进入房间后占座 */
         intoAfterSeatAt(that) {
-            let kongSeat = that._playerArray.filter(item => item.owner.userId == '')[0];
-            that.onSend({
-                name: 'M.Room.C2R_SeatAt',
-                data: {
-                    roomid: that.roomId,
-                    idx: kongSeat.owner.seatId
-                },
-                success(res) {
-                    that.dealSoketMessage('占位：', res);
-                    if (res.ret.type == 0) {
-                        let click_seat_index = kongSeat.owner.index;
-                        that.changeSeatXY(click_seat_index, that._speed.changeSeatSpeed);
+            let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
+            if(kongSeat.length>0){
+                that.onSend({
+                    name: 'M.Room.C2R_SeatAt',
+                    data: {
+                        roomid: that.roomId,
+                        idx: kongSeat[0].owner.seatId
+                    },
+                    success(res) {
+                        that.dealSoketMessage('占位：', res);
+                        if (res.ret.type == 0) {
+                            let click_seat_index = kongSeat[0].owner.index;
+                            that.changeSeatXY(click_seat_index, that._speed.changeSeatSpeed);
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                that.playerLeaveRoomSend();
+            }
         }
 
         /**自己操作 */
@@ -2753,7 +2768,7 @@
             let handleNum = data.opts[handleIndex];
             if (handleNum == 3) {
                 Main$1.AUTONUM++;
-                console.log('AUTONUM============>',Main$1.AUTONUM);
+                // console.log('AUTONUM============>',Main.AUTONUM);
                 if (Main$1.AUTONUM <= 10) {
                     this.handle(that, data);
                 } else {
@@ -2782,6 +2797,40 @@
             } else if (handleNum == 1) {
                 that.daSendSoket(data.maxXiazu * 2 + data.xiazu, handleNum);
             }
+        }
+
+        /**注册新账号 */
+        registerNewUser(that,fn){
+            let url = "/M.Acc/Register";
+            HTTP.$request({
+                that: that,
+                url: url,
+                data: {
+                    name: Main$1.userInfo.user,
+                    pws: Main$1.userInfo.pwd,
+                    code: 1234
+                },
+                success(res) {
+                    // console.log(res)
+                    if (res.data.ret.type == 0) {
+                        let data = {
+                            user: Main$1.userInfo.user,
+                            pwd: Main$1.userInfo.pwd,
+                        };
+                        Main$1.userInfo=data;
+                        Main$1.showDiaLog('注册成功,返回登录',1);
+                        setTimeout(()=>{
+                            Main$1.closeDiaLog();
+                            if(fn)
+                                fn.call(that);
+                        },600);
+                    } else {
+                        Main$1.showDiaLog(res.data.ret.msg);
+                    }
+                },
+                fail(){
+                }
+            });
         }
     }
     var AUTO = new Auto();
@@ -6966,77 +7015,6 @@
     }
 
     /**
-    * 该脚本为资源预加载界面
-    */
-    class sliderSelect extends Laya.Script {
-        constructor() {
-            super();
-            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
-            //预加载资源的数量
-            this.loadArrLength = 0;
-            //预加载返回的对象数组
-            this.loadReturnArr = [];
-        }
-
-        onEnable() {
-            this.getForm();
-            this.getUserInfo();
-            this.hideLoadingView();
-        }
-
-        /**获取是不是微信小游戏平台 */
-        getForm() {
-            Main$1.wxGame = Laya.Browser.onWeiXin;
-            Main$1.$LOG('是不是微信平台===:', Main$1.wxGame);
-        }
-
-        /**获取玩家信息 */
-        getUserInfo() {
-            Main$1.userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
-        }
-
-        hideLoadingView() {
-            if (!Main$1.wxGame)
-                setTimeout(() => {
-                    document.getElementById('startImg').style.opacity = 0;
-                    this.onLoading();
-                }, 1000);
-            else {
-                this.onLoading();
-            }
-        }
-
-        onLoading() {
-            Main$1.beforeLoadScene(this, (res) => {
-                this.dealWithBeforeLoadScene(res);
-            });
-            Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
-            Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
-            Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
-            Main$1.createTipBox();
-            Main$1.getStatusHeight();
-            Main$1.createDiaLog();
-            this.loadArrLength = Main$1.loadScene.length;
-        }
-
-        dealWithBeforeLoadScene(res) {
-            let progress = this.owner.progressBg.getChildByName('progress');
-            this.loadReturnArr.push(res);
-            let $loadRate = parseInt((this.loadReturnArr.length / this.loadArrLength) * 100);
-            progress.width = this.owner.progressBg.width * ($loadRate / 100);
-            this.owner.loadRate.text = $loadRate + '%';
-            if ($loadRate >= 100) {
-                this.owner.loadText.text = '加载完成,祝您好运!';
-                setTimeout(() => {
-                    if (!Main$1.wxGame)
-                        document.getElementById('startImg').style.display = 'none';
-                    Laya.Scene.open('login.scene', true);
-                }, 500);
-            }
-        }
-    }
-
-    /**
      * 选择开关功能
      */
     class MySwitch extends Laya.Script {
@@ -7240,7 +7218,11 @@
          * 等待加载图标创建完毕后再加载页面
          */
         startLoadPage() {
-            let userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+            let userInfo;
+            if (!Main$1.AUTO)
+                userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+            else
+                userInfo = Main$1.userInfo;
             if (userInfo) {
                 this.phone.text = userInfo.user ? userInfo.user : '';
                 this.pwd.text = userInfo.pwd ? userInfo.pwd : '';
@@ -7293,12 +7275,23 @@
                                 inRoomPws: res.data.inRoomPws,
                                 init: res.data.init
                             };
+
                             this.changeMainUserInfo(data);
                             this.dealWithLoginedView(data);
                         } else {
                             this.flag = true;
                             Main$1.showLoading(false);
                             Main$1.showDiaLog(res.data.ret.msg);
+                            /**===测试=== */
+                            if (Main$1.AUTO) {
+                                setTimeout(() => {
+                                    Main$1.closeDiaLog();
+                                    AUTO.registerNewUser(this, () => {
+                                        this.login();
+                                    });
+                                }, 400);
+                            }
+                            /**===测试=== */
                         }
                     },
                     fail() {
@@ -7313,10 +7306,12 @@
          * 登录后将公用的个人信息更新
          */
         changeMainUserInfo(data) {
-            if(Main$1.wxGame){
-                wx.setStorageSync('userInfo', data);
-            }else{
-                localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+            if (!Main$1.AUTO) {
+                if (Main$1.wxGame) {
+                    wx.setStorageSync('userInfo', data);
+                } else {
+                    localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+                }
             }
             Main$1.userInfo = data;
         }
@@ -7830,6 +7825,14 @@
             if (this.fromPage == Main$1.pages.page5) {
                 this.editGetNews();
             }
+
+            /**===测试=== */
+            if (Main$1.AUTO)
+                setTimeout(() => {
+                    this.owner.name_value.text = '用户' + String(new Date().getTime()).slice(6);
+                    this.Confrim();
+                }, 600);
+            /**===测试=== */
         }
         /**
          * 编辑页面获取个人信息
@@ -7970,6 +7973,14 @@
                                 Main$1.showDiaLog('设置成功', 1, () => {
                                     that.openNextView();
                                 });
+                                /**===测试=== */
+                                if (Main$1.AUTO) {
+                                    setTimeout(() => {
+                                        Main$1.closeDiaLog();
+                                        that.openNextView();
+                                    }, 500);
+                                }
+                                /**===测试=== */
                             } else if (this.fromPage == Main$1.pages.page5) {
                                 Main$1.showDiaLog('修改成功', 1, () => {
                                     that.openNextView2();
@@ -8239,7 +8250,6 @@
         }
 
         setUI() {
-            console.log(this.s_hd.top);
             let nodeArr=[this.s_hd,this.s_bg1,this.s_bg3];
             Main$1.setNodeTop(nodeArr);
         }
@@ -8457,6 +8467,106 @@
         setUI() {
             let nodeArr = [this.shop_content];
             Main$1.setNodeTop(nodeArr);
+        }
+    }
+
+    /**
+    * 该脚本为资源预加载界面
+    */
+    class sliderSelect extends Laya.Script {
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            //预加载资源的数量
+            this.loadArrLength = 0;
+            //预加载返回的对象数组
+            this.loadReturnArr = [];
+        }
+
+        onEnable() {
+            /**===测试=== */
+            this.isAuto();
+            if (Main$1.AUTO)
+                this.setUser();
+            /**===测试=== */
+            this.getForm();
+            if (!Main$1.AUTO)
+                this.getUserInfo();
+            this.hideLoadingView();
+        }
+
+        isAuto(){
+            let isAuto= Main$1.GetUrlString('auto');
+            Main$1.AUTO=isAuto==1?true:false;
+        }
+
+        /**测试 获取url中所带的账户和密码 */
+        setUser() {
+            let user = Main$1.GetUrlString('user');
+            let pwd = Main$1.GetUrlString('pwd');
+            if (user && pwd) {
+                let data = {
+                    user: user,
+                    pwd: pwd
+                };
+                Main$1.userInfo = data;
+                // if (Main.wxGame) {
+                //     wx.setStorageSync('userInfo', data);
+                // } else {
+                //     localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
+                // }
+            }
+        }
+
+        /**获取是不是微信小游戏平台 */
+        getForm() {
+            Main$1.wxGame = Laya.Browser.onWeiXin;
+            Main$1.$LOG('是不是微信平台===:', Main$1.wxGame);
+        }
+
+        /**获取玩家信息 */
+        getUserInfo() {
+            Main$1.userInfo = Main$1.wxGame ? wx.getStorageSync('userInfo') : JSON.parse(localStorage.getItem("userInfo"));
+        }
+
+        hideLoadingView() {
+            if (!Main$1.wxGame)
+                setTimeout(() => {
+                    document.getElementById('startImg').style.opacity = 0;
+                    this.onLoading();
+                }, 1000);
+            else {
+                this.onLoading();
+            }
+        }
+
+        onLoading() {
+            Main$1.beforeLoadScene(this, (res) => {
+                this.dealWithBeforeLoadScene(res);
+            });
+            Main$1.createLoading(Main$1.loadingType.one);//预创建HTTP请求加载中的资源
+            Main$1.createLoading(Main$1.loadingType.two);//预创建断线重连加载中的资源
+            Main$1.createLoading(Main$1.loadingType.three);//预创建带文字加载中的资源
+            Main$1.createTipBox();
+            Main$1.getStatusHeight();
+            Main$1.createDiaLog();
+            this.loadArrLength = Main$1.loadScene.length;
+        }
+
+        dealWithBeforeLoadScene(res) {
+            let progress = this.owner.progressBg.getChildByName('progress');
+            this.loadReturnArr.push(res);
+            let $loadRate = parseInt((this.loadReturnArr.length / this.loadArrLength) * 100);
+            progress.width = this.owner.progressBg.width * ($loadRate / 100);
+            this.owner.loadRate.text = $loadRate + '%';
+            if ($loadRate >= 100) {
+                this.owner.loadText.text = '加载完成,祝您好运!';
+                setTimeout(() => {
+                    if (!Main$1.wxGame)
+                        document.getElementById('startImg').style.display = 'none';
+                    Laya.Scene.open('login.scene', true);
+                }, 500);
+            }
         }
     }
 
@@ -9400,7 +9510,6 @@
     		reg("game/common/SetHeight.js",SetHeight);
     		reg("game/Fuction/MyClickSelect.js",MyClickSelect);
     		reg("game/GameCenter/GameControl.js",GameControl);
-    		reg("game/common/demo.js",sliderSelect);
     		reg("game/pages/Set/Set.js",Set);
     		reg("game/common/MySwitch.js",MySwitch);
     		reg("game/pages/login/LoginUI.js",Login);
@@ -9421,6 +9530,7 @@
     		reg("game/pages/shishizhanji/ZhanJiGet.js",zhanji$2);
     		reg("game/pages/shopMall/shopMallUI.js",shopMall$1);
     		reg("game/pages/shopMall/shopMall.js",shopMall);
+    		reg("game/Fuction/Start.js",sliderSelect);
     		reg("game/pages/TabPages/TabPagesUI.js",TabPagesUI);
     		reg("game/pages/Me/Me.js",Me);
     		reg("game/pages/Notice/Notice.js",Notice);
@@ -9435,7 +9545,7 @@
     GameConfig.screenMode = "none";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "demo.scene";
+    GameConfig.startScene = "start.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
