@@ -331,7 +331,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = false;
+            this.debug = true;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -2717,18 +2717,19 @@
         }
         /**打开游戏界面 */
         openGame(that, data) {
+           
             // this.hallIndex = parseInt(Math.random() * (data.length));
             let filterRoom = data.filter(item=>item.participate<8);
+            // console.log(filterRoom)
             if (filterRoom.length>0) {
                 Main$1.showLoading(true, Main$1.loadingType.three, '正在进入房间...');
-                // console.log(filterRoom)
-                // return
-                let data = {
+                let _data = {
                     roomPws: filterRoom[0].roomPws,
                     // roomPws: 112471,
                     page: Main$1.pages.page3
                 };
-                Main$1.$openScene('cheXuanGame_8.scene', true, data, () => {
+                // console.log(_data)
+                Main$1.$openScene('cheXuanGame_8.scene', true, _data, () => {
                     Main$1.showLoading(false, Main$1.loadingType.three, '');
                 });
                 return false;
@@ -2738,9 +2739,12 @@
         }
 
         /**进入房间后占座 */
-        intoAfterSeatAt(that) {
-            let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
-            if(kongSeat.length>0){
+        intoAfterSeatAt(that,ID=0) {
+            let _this=this;
+            // let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
+            let kongSeat=[that._playerArray[ID]];
+            // console.log('位置对象：',kongSeat)
+            if(kongSeat){
                 that.onSend({
                     name: 'M.Room.C2R_SeatAt',
                     data: {
@@ -2748,10 +2752,14 @@
                         idx: kongSeat[0].owner.seatId
                     },
                     success(res) {
+                        // console.log('占座：',res)
                         that.dealSoketMessage('占位：', res);
                         if (res.ret.type == 0) {
                             let click_seat_index = kongSeat[0].owner.index;
                             that.changeSeatXY(click_seat_index, that._speed.changeSeatSpeed);
+                            return false;
+                        }else{
+                            _this.intoAfterSeatAt(that,ID+1);
                         }
                     }
                 });
@@ -3252,6 +3260,7 @@
                     this._startAction = null;
                     if (resData.type == 0) {//首牌(第1、2张)
                         this.playerBindPoker12Val(resData);
+                        console.log('首牌(第1、2张====:', resData, this._isUpdateData);
                         if (this._isUpdateData) {
                             this.startDealPoker1And2();
                         }
@@ -4090,8 +4099,8 @@
             this._btnMoveNum++;
             if (this._btnMoveNum == 3) {
                 this.showFastBtnAndBindVal(true, data);
-                 /**===测试=== */
-                 if (Main$1.AUTO) {
+                /**===测试=== */
+                if (Main$1.AUTO) {
                     AUTO.handle(this, data);
                 }
                 /**===测试=== */
@@ -4214,7 +4223,7 @@
          */
         showFastBtnAndBindVal(isShow, data) {
             this.owner.fastXiaZhuBtnBox.visible = isShow;
-            console.log('显示快捷操作按钮并绑定相应的值:',isShow);
+            // console.log('显示快捷操作按钮并绑定相应的值:',isShow)
             if (isShow) {
                 let btn1 = this.owner.fastXiaZhuBtnBox.getChildByName("btn1");
                 let btn2 = this.owner.fastXiaZhuBtnBox.getChildByName("btn2");
@@ -4530,10 +4539,10 @@
                             let clickObj2 = pokerArr.filter(item => item != clickObj1)[clickIndex2];
                             this.onClickPoker(clickObj1, pokerArr, me_item.owner);
                             this.onClickPoker(clickObj2, pokerArr, me_item.owner);
-                            setTimeout(()=>{
+                            setTimeout(() => {
                                 this.confrimSubResult();
-                            },600);
-                        },1000);
+                            }, 600);
+                        }, 1000);
                     }
                     /**===测试=== */
                 }
@@ -4800,14 +4809,15 @@
                     this.keepMeSeatIndex(data, data.seatidx);
                     item_player.playerSeatDownOrSeatAtCommon(true, data);
                     item_player.playerSeatAtSetContent(data);
+                    /**===测试=== */
+                    if (item_player.owner.isMe && Main$1.AUTO) {
+                        setTimeout(() => {
+                            this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu;
+                            this.makeUpBoBoConfirmDaiRu();
+                        }, 1200);
+                    }
+                    /**===测试=== */
                 }
-                /**===测试=== */
-                if (item_player.owner.isMe && Main$1.AUTO) {
-                    setTimeout(() => {
-                        this.makeUpBoBoConfirmDaiRu();
-                    }, 1000);
-                }
-                /**===测试=== */
             });
         }
 
@@ -4864,10 +4874,12 @@
 
         setMeMakeBOBO(data) {
             let addBoBoPlayer = data.param.json[0];
-            this._playerArray.forEach(item_player => {
-                if (addBoBoPlayer.userId == item_player.owner.userId && addBoBoPlayer.userId == this.userId)
-                    item_player.setMeMakeBOBO();
-            });
+            Main$1.$LOG(addBoBoPlayer);
+            if (addBoBoPlayer)
+                this._playerArray.forEach(item_player => {
+                    if (addBoBoPlayer.userId == item_player.owner.userId && addBoBoPlayer.userId == this.userId)
+                        item_player.setMeMakeBOBO();
+                });
         }
 
 
@@ -4983,6 +4995,7 @@
         startDealPoker1And2() {
             this._isUpdateData = false;
             let count = this._dealPoker12Array.length;
+            console.log('发首牌=====：', count, this._dealPoker12Array);
             this._dealNumber = 0;
             for (let i = 1; i <= 2; i++) {
                 this._dealPoker12Array.forEach((item_data, item_index) => {
@@ -5963,6 +5976,9 @@
 
         click_ceshi_btn() {
             this.ceshiNum++;
+            if(this.ceshiNum==2){
+                this.onClickVoiceBtn();
+            }
             if (this.ceshiNum == 5) {
                 this.ceshi_view.visible = true;
                 Laya.Tween.to(this.ceshi_view, { x: 20, alpha: 1 }, 200);
@@ -5975,6 +5991,7 @@
         }
 
         ceshiContent(type,obj) {
+            
             if (type == 1) {
                 this.ceshiNum2++;
                 if (this.ceshiNum2 % 2 == 0) {
@@ -5994,18 +6011,17 @@
 
 
         onClickVoiceBtn() {
-            // let roomid = 452
-            // GameControl.instance.onSend({
-            //     name: 'M.Room.C2R_DissolveRoom',
-            //     data: {
-            //         roomid: roomid,
-            //     },
-            //     success(res) {
-            //         console.log('解散房间：', res)
-            //     }
-            // })
-            // Laya.Scene.open('demo.scene',true)
-            this._control.ceShi();
+            let roomid = 12861;
+            GameControl.instance.onSend({
+                name: 'M.Room.C2R_DissolveRoom',
+                data: {
+                    roomid: roomid,
+                },
+                success(res) {
+                    console.log('解散房间：', res);
+                }
+            });
+            Laya.Scene.open('demo.scene',true);
         }
 
         /**

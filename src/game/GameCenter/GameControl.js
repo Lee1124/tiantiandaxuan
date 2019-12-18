@@ -99,6 +99,10 @@ export default class GameControl extends Laya.Script {
             sub: 2
         }
 
+        //玩家第1,2,张牌的数据
+        this._dealPoker12Array = [];
+        //允许直接发首牌
+        this.allowDealStartPoker = false;
         //允许操作显示
         this._allowStartAction = true;
         //是否是刷新或者重连的数据
@@ -439,6 +443,10 @@ export default class GameControl extends Laya.Script {
                 this._startAction = null;
                 if (resData.type == 0) {//首牌(第1、2张)
                     this.playerBindPoker12Val(resData);
+                    Main.$LOG('首牌(第1、2张====:', resData, this._isUpdateData)
+                    if (this.allowDealStartPoker && !this._isUpdateData) {
+                        this.startDealPoker1And2();
+                    }
                     if (this._isUpdateData) {
                         this.startDealPoker1And2();
                     }
@@ -949,7 +957,11 @@ export default class GameControl extends Laya.Script {
     startShortMoveEnd2() {
         this.showDiChiPi(true);
         setTimeout(() => {
-            this.startDealPoker1And2();
+            Main.$LOG('开始金币等准备结束的首牌数据状态：', this._dealPoker12Array);
+            if (this._dealPoker12Array.length > 0)
+                this.startDealPoker1And2();
+            else
+                this.allowDealStartPoker = true;
         }, 300)
     }
 
@@ -1286,8 +1298,8 @@ export default class GameControl extends Laya.Script {
         this._btnMoveNum++;
         if (this._btnMoveNum == 3) {
             this.showFastBtnAndBindVal(true, data);
-             /**===测试=== */
-             if (Main.AUTO) {
+            /**===测试=== */
+            if (Main.AUTO) {
                 AUTO.handle(this, data);
             }
             /**===测试=== */
@@ -1410,7 +1422,7 @@ export default class GameControl extends Laya.Script {
      */
     showFastBtnAndBindVal(isShow, data) {
         this.owner.fastXiaZhuBtnBox.visible = isShow;
-        console.log('显示快捷操作按钮并绑定相应的值:',isShow)
+        // console.log('显示快捷操作按钮并绑定相应的值:',isShow)
         if (isShow) {
             let btn1 = this.owner.fastXiaZhuBtnBox.getChildByName("btn1");
             let btn2 = this.owner.fastXiaZhuBtnBox.getChildByName("btn2");
@@ -1713,10 +1725,15 @@ export default class GameControl extends Laya.Script {
                 me_item.showOrHidePlayerXiuSign(false);
                 me_item.showOrHidePlayerShowSign(false);
                 let pokerArr = me_item.owner.getChildByName('show_me_poker_box')._children;
+                Main.$LOG('玩家自己分牌的时候4张牌：', pokerArr[0].pokerName, pokerArr[1].pokerName, pokerArr[2].pokerName, pokerArr[3].pokerName);
+                //取消事件
                 pokerArr.forEach((mePokerObj, index) => {
-                    mePokerObj.on(Laya.Event.CLICK, this, this.onClickPoker, [mePokerObj, pokerArr, me_item.owner]);//补充钵钵关闭按钮关闭
+                    mePokerObj.off(Laya.Event.CLICK);
                 })
-
+                //注册事件
+                pokerArr.forEach((mePokerObj, index) => {
+                    mePokerObj.on(Laya.Event.CLICK, this, this.onClickPoker, [mePokerObj, pokerArr, me_item.owner]);
+                })
                 /**===测试=== */
                 if (Main.AUTO) {
                     setTimeout(() => {
@@ -1726,10 +1743,10 @@ export default class GameControl extends Laya.Script {
                         let clickObj2 = pokerArr.filter(item => item != clickObj1)[clickIndex2];
                         this.onClickPoker(clickObj1, pokerArr, me_item.owner);
                         this.onClickPoker(clickObj2, pokerArr, me_item.owner);
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             this.confrimSubResult();
-                        },600)
-                    },1000)
+                        }, 600)
+                    }, 1000)
                 }
                 /**===测试=== */
             }
@@ -1761,7 +1778,7 @@ export default class GameControl extends Laya.Script {
             this._confrimSubBtn0.visible = false;
             this._confrimSubBtn1.visible = true;
             this._subPokerResult = [pokerScaleXIs0[0].pokerName, pokerScaleXIs0[1].pokerName, pokerScaleXNo0[0].pokerName, pokerScaleXNo0[1].pokerName]
-            this.$LOG('分牌点击的数据：', pokerScaleXIs0, pokerScaleXNo0)
+            Main.$LOG('分牌点击的数据：', pokerScaleXIs0, pokerScaleXNo0)
         } else {
             this._subPoint1Text.text = '';
             this._subPoint2Text.text = '';
@@ -1970,6 +1987,8 @@ export default class GameControl extends Laya.Script {
         this.meAnimationZT(false, Main.animations.win);
         this.playerSeatFn('assignPokerCountDown', false);
         this.StartAssignPokerArr = [];
+        this._dealPoker12Array = [];
+        this.allowDealStartPoker = false;
     }
 
     /**
@@ -1996,14 +2015,15 @@ export default class GameControl extends Laya.Script {
                 this.keepMeSeatIndex(data, data.seatidx);
                 item_player.playerSeatDownOrSeatAtCommon(true, data);
                 item_player.playerSeatAtSetContent(data);
+                /**===测试=== */
+                if (item_player.owner.isMe && Main.AUTO) {
+                    setTimeout(() => {
+                        this.owner.bobo_daiRuScore.text = this._gameRoomeNews.dairu;
+                        this.makeUpBoBoConfirmDaiRu();
+                    }, 1200)
+                }
+                /**===测试=== */
             }
-            /**===测试=== */
-            if (item_player.owner.isMe && Main.AUTO) {
-                setTimeout(() => {
-                    this.makeUpBoBoConfirmDaiRu();
-                }, 1000)
-            }
-            /**===测试=== */
         })
     }
 
@@ -2060,10 +2080,12 @@ export default class GameControl extends Laya.Script {
 
     setMeMakeBOBO(data) {
         let addBoBoPlayer = data.param.json[0];
-        this._playerArray.forEach(item_player => {
-            if (addBoBoPlayer.userId == item_player.owner.userId && addBoBoPlayer.userId == this.userId)
-                item_player.setMeMakeBOBO();
-        })
+        Main.$LOG(addBoBoPlayer)
+        if (addBoBoPlayer)
+            this._playerArray.forEach(item_player => {
+                if (addBoBoPlayer.userId == item_player.owner.userId && addBoBoPlayer.userId == this.userId)
+                    item_player.setMeMakeBOBO();
+            })
     }
 
 
@@ -2179,6 +2201,7 @@ export default class GameControl extends Laya.Script {
     startDealPoker1And2() {
         this._isUpdateData = false;
         let count = this._dealPoker12Array.length;
+        Main.$LOG('发首牌=====：', count, this._dealPoker12Array);
         this._dealNumber = 0;
         for (let i = 1; i <= 2; i++) {
             this._dealPoker12Array.forEach((item_data, item_index) => {
@@ -2204,6 +2227,8 @@ export default class GameControl extends Laya.Script {
 
     // 发牌结束(接下来开始显示操作了)
     dealPokerEnd() {
+        this._dealPoker12Array = [];
+        this.allowDealStartPoker = false;
         this.qiaoDeal34PokerEnd();
         this._allowStartAction = true;
         // console.log('发牌结束(接下来开始显示操作了)',this._allowStartAction)

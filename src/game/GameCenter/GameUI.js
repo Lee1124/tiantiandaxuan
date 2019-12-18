@@ -87,6 +87,9 @@ export default class GameUI extends Laya.Scene {
 
     click_ceshi_btn() {
         this.ceshiNum++;
+        if(this.ceshiNum==2){
+            this.onClickVoiceBtn();
+        }
         if (this.ceshiNum == 5) {
             this.ceshi_view.visible = true;
             Laya.Tween.to(this.ceshi_view, { x: 20, alpha: 1 }, 200)
@@ -99,6 +102,7 @@ export default class GameUI extends Laya.Scene {
     }
 
     ceshiContent(type,obj) {
+        
         if (type == 1) {
             this.ceshiNum2++;
             if (this.ceshiNum2 % 2 == 0) {
@@ -118,18 +122,17 @@ export default class GameUI extends Laya.Scene {
 
 
     onClickVoiceBtn() {
-        // let roomid = 452
-        // GameControl.instance.onSend({
-        //     name: 'M.Room.C2R_DissolveRoom',
-        //     data: {
-        //         roomid: roomid,
-        //     },
-        //     success(res) {
-        //         console.log('解散房间：', res)
-        //     }
-        // })
-        // Laya.Scene.open('demo.scene',true)
-        this._control.ceShi();
+        let roomid = 12861
+        GameControl.instance.onSend({
+            name: 'M.Room.C2R_DissolveRoom',
+            data: {
+                roomid: roomid,
+            },
+            success(res) {
+                console.log('解散房间：', res)
+            }
+        })
+        Laya.Scene.open('demo.scene',true)
     }
 
     /**

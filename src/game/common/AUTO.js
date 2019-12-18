@@ -18,18 +18,19 @@ class Auto {
     }
     /**打开游戏界面 */
     openGame(that, data) {
+       
         // this.hallIndex = parseInt(Math.random() * (data.length));
         let filterRoom = data.filter(item=>item.participate<8);
+        // console.log(filterRoom)
         if (filterRoom.length>0) {
             Main.showLoading(true, Main.loadingType.three, '正在进入房间...');
-            // console.log(filterRoom)
-            // return
-            let data = {
+            let _data = {
                 roomPws: filterRoom[0].roomPws,
                 // roomPws: 112471,
                 page: Main.pages.page3
             }
-            Main.$openScene('cheXuanGame_8.scene', true, data, () => {
+            // console.log(_data)
+            Main.$openScene('cheXuanGame_8.scene', true, _data, () => {
                 Main.showLoading(false, Main.loadingType.three, '');
             });
             return false;
@@ -39,9 +40,12 @@ class Auto {
     }
 
     /**进入房间后占座 */
-    intoAfterSeatAt(that) {
-        let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
-        if(kongSeat.length>0){
+    intoAfterSeatAt(that,ID=0) {
+        let _this=this;
+        // let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
+        let kongSeat=[that._playerArray[ID]];
+        // console.log('位置对象：',kongSeat)
+        if(kongSeat){
             that.onSend({
                 name: 'M.Room.C2R_SeatAt',
                 data: {
@@ -49,10 +53,14 @@ class Auto {
                     idx: kongSeat[0].owner.seatId
                 },
                 success(res) {
+                    // console.log('占座：',res)
                     that.dealSoketMessage('占位：', res)
                     if (res.ret.type == 0) {
                         let click_seat_index = kongSeat[0].owner.index;
                         that.changeSeatXY(click_seat_index, that._speed.changeSeatSpeed);
+                        return false;
+                    }else{
+                        _this.intoAfterSeatAt(that,ID+1);
                     }
                 }
             })
