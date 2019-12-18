@@ -44,8 +44,8 @@ class Auto {
         let _this=this;
         // let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
         let kongSeat=[that._playerArray[ID]];
-        // console.log('位置对象：',kongSeat)
-        if(kongSeat){
+        Main.$LOG('位置对象：',kongSeat)
+        if(kongSeat[0]){
             that.onSend({
                 name: 'M.Room.C2R_SeatAt',
                 data: {

@@ -192,8 +192,11 @@ export default class zhanji extends Laya.Script {
                         showPokerSign.visible = cell.dataSource.opt == 2 ? false : item.isShow;
                     diPaiSign.visible = cell.dataSource.opt == 2 ? item.isdipoker : false;
                     let poker4 = rightPoker.getChildByName('poker4');
-                    if (cell.dataSource.pokers.length == 3)
+                    let diPaiSign4 = poker4.getChildByName("sign");
+                    if (cell.dataSource.pokers.length == 3){
                         poker4.loadImage('');
+                        diPaiSign4.visible = false;
+                    }
                 } else {
                     let pokerName = 'poker' + (index + 1);
                     let poker = index <= 2 ? sanhua_leftPoker.getChildByName(pokerName) : sanhua_rightPoker.getChildByName(pokerName);

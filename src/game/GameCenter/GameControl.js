@@ -261,6 +261,7 @@ export default class GameControl extends Laya.Script {
                                     roomPws: that.roomPwd
                                 },
                                 success(res) {
+                                    Main.showLoading(true, Main.loadingType.two);
                                     that.dealSoketMessage('初始化---C2R_IntoRoom进入房间', res);
                                 }
                             })
@@ -369,6 +370,7 @@ export default class GameControl extends Laya.Script {
             }
             // 进入房间数据(即刷新数据)
             if (resData._t == 'R2C_UpdateRoom') {
+                Main.showLoading(false, Main.loadingType.two);
                 if (resData.ret.type == 0) {
                     resData.param.json.forEach(item => {
                         if (item._t == "CXIntoRoom") {

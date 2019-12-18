@@ -331,7 +331,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = true;
+            this.debug = false;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -2743,8 +2743,8 @@
             let _this=this;
             // let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
             let kongSeat=[that._playerArray[ID]];
-            // console.log('位置对象：',kongSeat)
-            if(kongSeat){
+            Main$1.$LOG('位置对象：',kongSeat);
+            if(kongSeat[0]){
                 that.onSend({
                     name: 'M.Room.C2R_SeatAt',
                     data: {
@@ -3082,6 +3082,7 @@
                                         roomPws: that.roomPwd
                                     },
                                     success(res) {
+                                        Main$1.showLoading(true, Main$1.loadingType.two);
                                         that.dealSoketMessage('初始化---C2R_IntoRoom进入房间', res);
                                     }
                                 });
@@ -3190,6 +3191,7 @@
                 }
                 // 进入房间数据(即刷新数据)
                 if (resData._t == 'R2C_UpdateRoom') {
+                    Main$1.showLoading(false, Main$1.loadingType.two);
                     if (resData.ret.type == 0) {
                         resData.param.json.forEach(item => {
                             if (item._t == "CXIntoRoom") {
@@ -6031,7 +6033,7 @@
 
 
         onClickVoiceBtn() {
-            let roomid = 12861;
+            let roomid = 13004;
             GameControl.instance.onSend({
                 name: 'M.Room.C2R_DissolveRoom',
                 data: {
@@ -7756,8 +7758,11 @@
                             showPokerSign.visible = cell.dataSource.opt == 2 ? false : item.isShow;
                         diPaiSign.visible = cell.dataSource.opt == 2 ? item.isdipoker : false;
                         let poker4 = rightPoker.getChildByName('poker4');
-                        if (cell.dataSource.pokers.length == 3)
+                        let diPaiSign4 = poker4.getChildByName("sign");
+                        if (cell.dataSource.pokers.length == 3){
                             poker4.loadImage('');
+                            diPaiSign4.visible = false;
+                        }
                     } else {
                         let pokerName = 'poker' + (index + 1);
                         let poker = index <= 2 ? sanhua_leftPoker.getChildByName(pokerName) : sanhua_rightPoker.getChildByName(pokerName);

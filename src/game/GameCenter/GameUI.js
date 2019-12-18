@@ -122,7 +122,7 @@ export default class GameUI extends Laya.Scene {
 
 
     onClickVoiceBtn() {
-        let roomid = 12861
+        let roomid = 13004
         GameControl.instance.onSend({
             name: 'M.Room.C2R_DissolveRoom',
             data: {

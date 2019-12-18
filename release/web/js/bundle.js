@@ -331,7 +331,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = true;
+            this.debug = false;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -2743,8 +2743,8 @@
             let _this=this;
             // let kongSeat = that._playerArray.filter(item => item.owner.userId == '');
             let kongSeat=[that._playerArray[ID]];
-            // console.log('位置对象：',kongSeat)
-            if(kongSeat){
+            Main$1.$LOG('位置对象：',kongSeat);
+            if(kongSeat[0]){
                 that.onSend({
                     name: 'M.Room.C2R_SeatAt',
                     data: {
@@ -2920,6 +2920,10 @@
                 sub: 2
             };
 
+            //玩家第1,2,张牌的数据
+            this._dealPoker12Array = [];
+            //允许直接发首牌
+            this.allowDealStartPoker = false;
             //允许操作显示
             this._allowStartAction = true;
             //是否是刷新或者重连的数据
@@ -3078,6 +3082,7 @@
                                         roomPws: that.roomPwd
                                     },
                                     success(res) {
+                                        Main$1.showLoading(true, Main$1.loadingType.two);
                                         that.dealSoketMessage('初始化---C2R_IntoRoom进入房间', res);
                                     }
                                 });
@@ -3186,6 +3191,7 @@
                 }
                 // 进入房间数据(即刷新数据)
                 if (resData._t == 'R2C_UpdateRoom') {
+                    Main$1.showLoading(false, Main$1.loadingType.two);
                     if (resData.ret.type == 0) {
                         resData.param.json.forEach(item => {
                             if (item._t == "CXIntoRoom") {
@@ -3260,7 +3266,10 @@
                     this._startAction = null;
                     if (resData.type == 0) {//首牌(第1、2张)
                         this.playerBindPoker12Val(resData);
-                        console.log('首牌(第1、2张====:', resData, this._isUpdateData);
+                        Main$1.$LOG('首牌(第1、2张====:', resData, this._isUpdateData);
+                        if (this.allowDealStartPoker && !this._isUpdateData) {
+                            this.startDealPoker1And2();
+                        }
                         if (this._isUpdateData) {
                             this.startDealPoker1And2();
                         }
@@ -3762,7 +3771,11 @@
         startShortMoveEnd2() {
             this.showDiChiPi(true);
             setTimeout(() => {
-                this.startDealPoker1And2();
+                Main$1.$LOG('开始金币等准备结束的首牌数据状态：', this._dealPoker12Array);
+                if (this._dealPoker12Array.length > 0)
+                    this.startDealPoker1And2();
+                else
+                    this.allowDealStartPoker = true;
             }, 300);
         }
 
@@ -4526,10 +4539,15 @@
                     me_item.showOrHidePlayerXiuSign(false);
                     me_item.showOrHidePlayerShowSign(false);
                     let pokerArr = me_item.owner.getChildByName('show_me_poker_box')._children;
+                    Main$1.$LOG('玩家自己分牌的时候4张牌：', pokerArr[0].pokerName, pokerArr[1].pokerName, pokerArr[2].pokerName, pokerArr[3].pokerName);
+                    //取消事件
                     pokerArr.forEach((mePokerObj, index) => {
-                        mePokerObj.on(Laya.Event.CLICK, this, this.onClickPoker, [mePokerObj, pokerArr, me_item.owner]);//补充钵钵关闭按钮关闭
+                        mePokerObj.off(Laya.Event.CLICK);
                     });
-
+                    //注册事件
+                    pokerArr.forEach((mePokerObj, index) => {
+                        mePokerObj.on(Laya.Event.CLICK, this, this.onClickPoker, [mePokerObj, pokerArr, me_item.owner]);
+                    });
                     /**===测试=== */
                     if (Main$1.AUTO) {
                         setTimeout(() => {
@@ -4574,7 +4592,7 @@
                 this._confrimSubBtn0.visible = false;
                 this._confrimSubBtn1.visible = true;
                 this._subPokerResult = [pokerScaleXIs0[0].pokerName, pokerScaleXIs0[1].pokerName, pokerScaleXNo0[0].pokerName, pokerScaleXNo0[1].pokerName];
-                this.$LOG('分牌点击的数据：', pokerScaleXIs0, pokerScaleXNo0);
+                Main$1.$LOG('分牌点击的数据：', pokerScaleXIs0, pokerScaleXNo0);
             } else {
                 this._subPoint1Text.text = '';
                 this._subPoint2Text.text = '';
@@ -4783,6 +4801,8 @@
             this.meAnimationZT(false, Main$1.animations.win);
             this.playerSeatFn('assignPokerCountDown', false);
             this.StartAssignPokerArr = [];
+            this._dealPoker12Array = [];
+            this.allowDealStartPoker = false;
         }
 
         /**
@@ -4995,7 +5015,7 @@
         startDealPoker1And2() {
             this._isUpdateData = false;
             let count = this._dealPoker12Array.length;
-            console.log('发首牌=====：', count, this._dealPoker12Array);
+            Main$1.$LOG('发首牌=====：', count, this._dealPoker12Array);
             this._dealNumber = 0;
             for (let i = 1; i <= 2; i++) {
                 this._dealPoker12Array.forEach((item_data, item_index) => {
@@ -5021,6 +5041,8 @@
 
         // 发牌结束(接下来开始显示操作了)
         dealPokerEnd() {
+            this._dealPoker12Array = [];
+            this.allowDealStartPoker = false;
             this.qiaoDeal34PokerEnd();
             this._allowStartAction = true;
             // console.log('发牌结束(接下来开始显示操作了)',this._allowStartAction)
@@ -6011,7 +6033,7 @@
 
 
         onClickVoiceBtn() {
-            let roomid = 12861;
+            let roomid = 13004;
             GameControl.instance.onSend({
                 name: 'M.Room.C2R_DissolveRoom',
                 data: {
@@ -7736,8 +7758,11 @@
                             showPokerSign.visible = cell.dataSource.opt == 2 ? false : item.isShow;
                         diPaiSign.visible = cell.dataSource.opt == 2 ? item.isdipoker : false;
                         let poker4 = rightPoker.getChildByName('poker4');
-                        if (cell.dataSource.pokers.length == 3)
+                        let diPaiSign4 = poker4.getChildByName("sign");
+                        if (cell.dataSource.pokers.length == 3){
                             poker4.loadImage('');
+                            diPaiSign4.visible = false;
+                        }
                     } else {
                         let pokerName = 'poker' + (index + 1);
                         let poker = index <= 2 ? sanhua_leftPoker.getChildByName(pokerName) : sanhua_rightPoker.getChildByName(pokerName);
