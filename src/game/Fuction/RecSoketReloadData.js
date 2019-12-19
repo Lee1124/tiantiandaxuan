@@ -11,7 +11,7 @@ class RecSoketReloadData {
         ErrText.ERR(that, 'start-----Date', new Date().getTime());
         that.showDiChiMang(false);
         that.showDiChiPi(false);
-        let me_handleBox = that.owner.getChildByName("me_handleBox");
+        let me_handleBox = that.owner.me_handleBox;
         me_handleBox._children.forEach(item => {
             item.visible = false;
         })

@@ -102,7 +102,6 @@ export default class GameUI extends Laya.Scene {
     }
 
     ceshiContent(type,obj) {
-        
         if (type == 1) {
             this.ceshiNum2++;
             if (this.ceshiNum2 % 2 == 0) {
@@ -122,7 +121,7 @@ export default class GameUI extends Laya.Scene {
 
 
     onClickVoiceBtn() {
-        let roomid = 13004
+        let roomid = 13008
         GameControl.instance.onSend({
             name: 'M.Room.C2R_DissolveRoom',
             data: {

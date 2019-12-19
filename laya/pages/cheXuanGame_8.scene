@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":1290,
+    "selecteID":1923,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
@@ -75,13 +75,14 @@
             "props":{"var":"deskView","top":0,"right":0,"name":"deskView","left":0,"bottom":0},
             "nodeParent":2,
             "label":"deskView",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":3,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-1",
                     "props":{"zOrder":1,"x":621,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-1","height":167,"bottom":342},
@@ -99,7 +100,7 @@
                             "props":{"y":0,"x":-5,"width":176,"visible":false,"name":"head-box","height":164},
                             "nodeParent":5,
                             "label":"head-box",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -1011,7 +1012,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,fastChatBox",
-                            "props":{"zOrder":30,"y":0,"x":0,"width":400,"visible":false,"top":0,"name":"fastChatBox","left":150,"height":98},
+                            "props":{"zOrder":30,"y":0,"x":0,"width":400,"visible":false,"top":0,"skin":"images/common/qipao_left.png","name":"fastChatBox","left":150,"height":98},
                             "nodeParent":5,
                             "label":"fastChatBox",
                             "isOpen":true,
@@ -1036,6 +1037,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"centerY":360},
@@ -1975,6 +1977,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-3",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-3","left":45,"height":167,"centerY":-95},
@@ -2907,6 +2910,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167,"centerY":-552},
@@ -3839,6 +3843,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-5",
                     "props":{"zOrder":1,"x":621,"width":167,"top":130,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-5","height":167},
@@ -4771,6 +4776,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167,"centerY":-552},
@@ -5707,6 +5713,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-7",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-7","height":167,"centerY":-95},
@@ -6639,6 +6646,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"centerY":360},
@@ -7070,7 +7078,7 @@
                             "props":{"y":224,"x":-228,"width":624,"name":"show_me_poker_box","height":210},
                             "nodeParent":31,
                             "label":"show_me_poker_box",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -7189,7 +7197,7 @@
                             "props":{"y":135,"x":110,"width":0,"name":"deal_cards_seat34","height":0},
                             "nodeParent":31,
                             "label":"deal_cards_seat34",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -7571,18 +7579,20 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,deskBg,deskBg",
                     "props":{"var":"deskBg","top":0,"skin":"images/gameView/newDesk.png","right":0,"name":"deskBg","left":0,"bottom":0},
                     "nodeParent":3,
                     "label":"deskBg",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":2017,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,paijurule",
                             "props":{"y":1024,"x":421,"width":400,"name":"paijurule","height":180,"centerY":10,"centerX":0,"alpha":0.6},
@@ -7662,6 +7672,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,game_logo",
                             "props":{"y":480,"x":354,"top":480,"skin":"images/GameSet/logo.png","name":"game_logo","centerX":0},
@@ -7674,457 +7685,457 @@
                             "compId":214,
                             "child":[
                                 ]
-                        }]
-                }],
-            "$HIDDEN":false
-        },
-        {
-            "x":15,
-            "type":"Image",
-            "searchKey":"Image,me_handleBox",
-            "props":{"visible":true,"name":"me_handleBox","centerX":0,"bottom":426},
-            "nodeParent":2,
-            "label":"me_handleBox",
-            "isOpen":false,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":746,
-            "child":[
-                {
-                    "type":"Image",
-                    "searchKey":"Image,fastBtnBox,fastXiaZhuBtnBox",
-                    "props":{"y":-400,"x":-200,"width":400,"visible":false,"var":"fastXiaZhuBtnBox","name":"fastBtnBox","height":0},
-                    "nodeParent":746,
-                    "label":"fastBtnBox",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":747,
-                    "child":[
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,btn1",
-                            "props":{"y":0,"x":0,"width":145,"visible":true,"pivotY":85,"pivotX":73,"name":"btn1","height":170},
-                            "nodeParent":747,
-                            "label":"btn1",
-                            "isOpen":false,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":760,
-                            "child":[
-                                {
-                                    "type":"Text",
-                                    "searchKey":"Text,value",
-                                    "props":{"y":105,"x":9,"width":120,"valign":"middle","text":"1","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
-                                    "nodeParent":760,
-                                    "label":"value",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1274,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,btn0",
-                                    "props":{"texture":"images/Action/handle_1_2_0.png","name":"btn0"},
-                                    "nodeParent":760,
-                                    "label":"btn0",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1750,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,btn1",
-                                    "props":{"texture":"images/Action/handle_1_2_1.png","name":"btn1"},
-                                    "nodeParent":760,
-                                    "label":"btn1",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1751,
-                                    "child":[
-                                        ],
-                                    "$HIDDEN":true
-                                }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
-                            "searchKey":"Image,btn2",
-                            "props":{"y":0,"x":200,"width":145,"visible":true,"pivotY":85,"pivotX":73,"name":"btn2","height":170},
-                            "nodeParent":747,
-                            "label":"btn2",
+                            "searchKey":"Image,me_handleBox,me_handleBox",
+                            "props":{"y":1782,"x":621,"visible":true,"var":"me_handleBox","name":"me_handleBox","centerX":0,"bottom":426},
+                            "nodeParent":2017,
+                            "label":"me_handleBox",
                             "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
-                            "compId":772,
+                            "compId":746,
                             "child":[
                                 {
-                                    "type":"Text",
-                                    "searchKey":"Text,value",
-                                    "props":{"y":105,"x":9,"width":120,"valign":"middle","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
-                                    "nodeParent":772,
-                                    "label":"value",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1278,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,btn0",
-                                    "props":{"texture":"images/Action/handle_2_2_0.png","name":"btn0"},
-                                    "nodeParent":772,
-                                    "label":"btn0",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1752,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,btn1",
-                                    "props":{"texture":"images/Action/handle_2_2_1.png","name":"btn1"},
-                                    "nodeParent":772,
-                                    "label":"btn1",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1753,
-                                    "child":[
-                                        ]
-                                }]
-                        },
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,btn3",
-                            "props":{"y":0,"x":400,"width":145,"visible":true,"pivotY":85,"pivotX":73,"name":"btn3","height":170},
-                            "nodeParent":747,
-                            "label":"btn3",
-                            "isOpen":false,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":773,
-                            "child":[
-                                {
-                                    "type":"Text",
-                                    "searchKey":"Text,value",
-                                    "props":{"y":105,"x":9,"width":120,"valign":"middle","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
-                                    "nodeParent":773,
-                                    "label":"value",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1279,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,btn0",
-                                    "props":{"texture":"images/Action/handle_4_2_0.png","name":"btn0"},
-                                    "nodeParent":773,
-                                    "label":"btn0",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1754,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,btn1",
-                                    "props":{"texture":"images/Action/handle_4_2_1.png","name":"btn1"},
-                                    "nodeParent":773,
-                                    "label":"btn1",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1755,
-                                    "child":[
-                                        ]
-                                }]
-                        }],
-                    "$LOCKED":true
-                },
-                {
-                    "type":"Image",
-                    "searchKey":"Image,handleBtnBox,handleBtnBox",
-                    "props":{"visible":false,"var":"handleBtnBox","name":"handleBtnBox"},
-                    "nodeParent":746,
-                    "label":"handleBtnBox",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":751,
-                    "child":[
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,left,handle_left",
-                            "props":{"y":0,"x":-280,"width":172,"visible":true,"var":"handle_left","pivotY":86,"pivotX":86,"name":"left","height":172,"alpha":0},
-                            "nodeParent":751,
-                            "label":"left",
-                            "isOpen":true,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1757,
-                            "child":[
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,diu_btn",
-                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-3.png","name":"diu_btn"},
-                                    "nodeParent":1757,
-                                    "label":"diu_btn",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1758,
-                                    "child":[
-                                        ]
-                                }]
-                        },
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,right,handle_right",
-                            "props":{"y":0,"x":280,"width":172,"visible":true,"var":"handle_right","pivotY":86,"pivotX":86,"name":"right","height":172,"alpha":0},
-                            "nodeParent":751,
-                            "label":"right",
-                            "isOpen":false,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1759,
-                            "child":[
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,xiu_btn",
-                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-4.png","name":"xiu_btn"},
-                                    "nodeParent":1759,
-                                    "label":"xiu_btn",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1761,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,gen_btn",
-                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-2.png","name":"gen_btn"},
-                                    "nodeParent":1759,
-                                    "label":"gen_btn",
+                                    "type":"Image",
+                                    "searchKey":"Image,fastBtnBox,fastXiaZhuBtnBox",
+                                    "props":{"y":-400,"x":-200,"width":400,"visible":false,"var":"fastXiaZhuBtnBox","name":"fastBtnBox","height":0},
+                                    "nodeParent":746,
+                                    "label":"fastBtnBox",
                                     "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":1762,
+                                    "compId":747,
                                     "child":[
                                         {
-                                            "type":"Text",
-                                            "searchKey":"Text,value",
-                                            "props":{"y":34,"x":11,"width":150,"valign":"middle","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
-                                            "nodeParent":1762,
-                                            "label":"value",
-                                            "isDirectory":false,
+                                            "type":"Image",
+                                            "searchKey":"Image,btn1",
+                                            "props":{"y":0,"x":0,"width":145,"visible":true,"pivotY":85,"pivotX":73,"name":"btn1","height":170},
+                                            "nodeParent":747,
+                                            "label":"btn1",
+                                            "isOpen":false,
+                                            "isDirectory":true,
                                             "isAniNode":true,
-                                            "hasChild":false,
-                                            "compId":1772,
+                                            "hasChild":true,
+                                            "compId":760,
                                             "child":[
-                                                ]
+                                                {
+                                                    "type":"Text",
+                                                    "searchKey":"Text,value",
+                                                    "props":{"y":105,"x":9,"width":120,"valign":"middle","text":"1","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
+                                                    "nodeParent":760,
+                                                    "label":"value",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1274,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,btn0",
+                                                    "props":{"texture":"images/Action/handle_1_2_0.png","name":"btn0"},
+                                                    "nodeParent":760,
+                                                    "label":"btn0",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1750,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,btn1",
+                                                    "props":{"texture":"images/Action/handle_1_2_1.png","name":"btn1"},
+                                                    "nodeParent":760,
+                                                    "label":"btn1",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1751,
+                                                    "child":[
+                                                        ],
+                                                    "$HIDDEN":true
+                                                }]
+                                        },
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,btn2",
+                                            "props":{"y":0,"x":200,"width":145,"visible":true,"pivotY":85,"pivotX":73,"name":"btn2","height":170},
+                                            "nodeParent":747,
+                                            "label":"btn2",
+                                            "isOpen":false,
+                                            "isDirectory":true,
+                                            "isAniNode":true,
+                                            "hasChild":true,
+                                            "compId":772,
+                                            "child":[
+                                                {
+                                                    "type":"Text",
+                                                    "searchKey":"Text,value",
+                                                    "props":{"y":105,"x":9,"width":120,"valign":"middle","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
+                                                    "nodeParent":772,
+                                                    "label":"value",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1278,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,btn0",
+                                                    "props":{"texture":"images/Action/handle_2_2_0.png","name":"btn0"},
+                                                    "nodeParent":772,
+                                                    "label":"btn0",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1752,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,btn1",
+                                                    "props":{"texture":"images/Action/handle_2_2_1.png","name":"btn1"},
+                                                    "nodeParent":772,
+                                                    "label":"btn1",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1753,
+                                                    "child":[
+                                                        ]
+                                                }]
+                                        },
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,btn3",
+                                            "props":{"y":0,"x":400,"width":145,"visible":true,"pivotY":85,"pivotX":73,"name":"btn3","height":170},
+                                            "nodeParent":747,
+                                            "label":"btn3",
+                                            "isOpen":false,
+                                            "isDirectory":true,
+                                            "isAniNode":true,
+                                            "hasChild":true,
+                                            "compId":773,
+                                            "child":[
+                                                {
+                                                    "type":"Text",
+                                                    "searchKey":"Text,value",
+                                                    "props":{"y":105,"x":9,"width":120,"valign":"middle","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
+                                                    "nodeParent":773,
+                                                    "label":"value",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1279,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,btn0",
+                                                    "props":{"texture":"images/Action/handle_4_2_0.png","name":"btn0"},
+                                                    "nodeParent":773,
+                                                    "label":"btn0",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1754,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,btn1",
+                                                    "props":{"texture":"images/Action/handle_4_2_1.png","name":"btn1"},
+                                                    "nodeParent":773,
+                                                    "label":"btn1",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1755,
+                                                    "child":[
+                                                        ]
+                                                }]
                                         }],
-                                    "$HIDDEN":false
-                                }]
-                        },
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,top,handle_top",
-                            "props":{"y":-180,"x":0,"width":172,"visible":true,"var":"handle_top","pivotY":86,"pivotX":86,"name":"top","height":172,"alpha":0},
-                            "nodeParent":751,
-                            "label":"top",
-                            "isOpen":false,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1764,
-                            "child":[
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,da_btn",
-                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-1.png","name":"da_btn"},
-                                    "nodeParent":1764,
-                                    "label":"da_btn",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1768,
-                                    "child":[
-                                        ]
+                                    "$LOCKED":true
                                 },
                                 {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,qiao_btn",
-                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-5.png","name":"qiao_btn"},
-                                    "nodeParent":1764,
-                                    "label":"qiao_btn",
-                                    "isOpen":null,
+                                    "type":"Image",
+                                    "searchKey":"Image,handleBtnBox,handleBtnBox",
+                                    "props":{"visible":false,"var":"handleBtnBox","name":"handleBtnBox"},
+                                    "nodeParent":746,
+                                    "label":"handleBtnBox",
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":1769,
+                                    "compId":751,
                                     "child":[
                                         {
-                                            "type":"Text",
-                                            "searchKey":"Text,value",
-                                            "props":{"y":41,"x":11,"width":150,"valign":"middle","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
-                                            "nodeParent":1769,
-                                            "label":"value",
-                                            "isDirectory":false,
+                                            "type":"Image",
+                                            "searchKey":"Image,left,handle_left",
+                                            "props":{"y":0,"x":-280,"width":172,"visible":true,"var":"handle_left","pivotY":86,"pivotX":86,"name":"left","height":172,"alpha":0},
+                                            "nodeParent":751,
+                                            "label":"left",
+                                            "isOpen":true,
+                                            "isDirectory":true,
                                             "isAniNode":true,
-                                            "hasChild":false,
-                                            "compId":1771,
+                                            "hasChild":true,
+                                            "compId":1757,
                                             "child":[
-                                                ]
-                                        }]
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,diu_btn",
+                                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-3.png","name":"diu_btn"},
+                                                    "nodeParent":1757,
+                                                    "label":"diu_btn",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1758,
+                                                    "child":[
+                                                        ]
+                                                }]
+                                        },
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,right,handle_right",
+                                            "props":{"y":0,"x":280,"width":172,"visible":true,"var":"handle_right","pivotY":86,"pivotX":86,"name":"right","height":172,"alpha":0},
+                                            "nodeParent":751,
+                                            "label":"right",
+                                            "isOpen":false,
+                                            "isDirectory":true,
+                                            "isAniNode":true,
+                                            "hasChild":true,
+                                            "compId":1759,
+                                            "child":[
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,xiu_btn",
+                                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-4.png","name":"xiu_btn"},
+                                                    "nodeParent":1759,
+                                                    "label":"xiu_btn",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1761,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,gen_btn",
+                                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-2.png","name":"gen_btn"},
+                                                    "nodeParent":1759,
+                                                    "label":"gen_btn",
+                                                    "isOpen":false,
+                                                    "isDirectory":true,
+                                                    "isAniNode":true,
+                                                    "hasChild":true,
+                                                    "compId":1762,
+                                                    "child":[
+                                                        {
+                                                            "type":"Text",
+                                                            "searchKey":"Text,value",
+                                                            "props":{"y":34,"x":11,"width":150,"valign":"middle","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
+                                                            "nodeParent":1762,
+                                                            "label":"value",
+                                                            "isDirectory":false,
+                                                            "isAniNode":true,
+                                                            "hasChild":false,
+                                                            "compId":1772,
+                                                            "child":[
+                                                                ]
+                                                        }],
+                                                    "$HIDDEN":false
+                                                }]
+                                        },
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,top,handle_top",
+                                            "props":{"y":-180,"x":0,"width":172,"visible":true,"var":"handle_top","pivotY":86,"pivotX":86,"name":"top","height":172,"alpha":0},
+                                            "nodeParent":751,
+                                            "label":"top",
+                                            "isOpen":false,
+                                            "isDirectory":true,
+                                            "isAniNode":true,
+                                            "hasChild":true,
+                                            "compId":1764,
+                                            "child":[
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,da_btn",
+                                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-1.png","name":"da_btn"},
+                                                    "nodeParent":1764,
+                                                    "label":"da_btn",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1768,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,qiao_btn",
+                                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-5.png","name":"qiao_btn"},
+                                                    "nodeParent":1764,
+                                                    "label":"qiao_btn",
+                                                    "isOpen":null,
+                                                    "isDirectory":true,
+                                                    "isAniNode":true,
+                                                    "hasChild":true,
+                                                    "compId":1769,
+                                                    "child":[
+                                                        {
+                                                            "type":"Text",
+                                                            "searchKey":"Text,value",
+                                                            "props":{"y":41,"x":11,"width":150,"valign":"middle","name":"value","height":40,"fontSize":38,"color":"#FFFFFF","align":"center"},
+                                                            "nodeParent":1769,
+                                                            "label":"value",
+                                                            "isDirectory":false,
+                                                            "isAniNode":true,
+                                                            "hasChild":false,
+                                                            "compId":1771,
+                                                            "child":[
+                                                                ]
+                                                        }]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,NOda_btn",
+                                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-6.png","name":"NOda_btn"},
+                                                    "nodeParent":1764,
+                                                    "label":"NOda_btn",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1770,
+                                                    "child":[
+                                                        ]
+                                                }]
+                                        }],
+                                    "$LOCKED":true,
+                                    "$HIDDEN":false
                                 },
                                 {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,NOda_btn",
-                                    "props":{"y":0,"x":0,"texture":"images/Action/handle-6.png","name":"NOda_btn"},
-                                    "nodeParent":1764,
-                                    "label":"NOda_btn",
-                                    "isDirectory":false,
+                                    "type":"Image",
+                                    "searchKey":"Image,autoHandleBtnBox,autoHandleBtnBox",
+                                    "props":{"y":0,"x":0,"visible":false,"var":"autoHandleBtnBox","name":"autoHandleBtnBox"},
+                                    "nodeParent":746,
+                                    "label":"autoHandleBtnBox",
+                                    "isOpen":false,
+                                    "isDirectory":true,
                                     "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1770,
+                                    "hasChild":true,
+                                    "compId":1776,
                                     "child":[
-                                        ]
-                                }]
-                        }],
-                    "$LOCKED":true,
-                    "$HIDDEN":false
-                },
-                {
-                    "type":"Image",
-                    "searchKey":"Image,autoHandleBtnBox,autoHandleBtnBox",
-                    "props":{"y":0,"x":0,"visible":false,"var":"autoHandleBtnBox","name":"autoHandleBtnBox"},
-                    "nodeParent":746,
-                    "label":"autoHandleBtnBox",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":1776,
-                    "child":[
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,left,auto_handle_left",
-                            "props":{"y":0,"x":-280,"width":172,"var":"auto_handle_left","pivotY":86,"pivotX":86,"name":"left","height":172,"alpha":1},
-                            "nodeParent":1776,
-                            "label":"left",
-                            "isOpen":true,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1791,
-                            "child":[
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,auto_0",
-                                    "props":{"y":0,"x":0,"texture":"images/Action/auto_xiuOrDiu_0.png","name":"auto_0"},
-                                    "nodeParent":1791,
-                                    "label":"auto_0",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1793,
-                                    "child":[
-                                        ]
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,left,auto_handle_left",
+                                            "props":{"y":0,"x":-280,"width":172,"var":"auto_handle_left","pivotY":86,"pivotX":86,"name":"left","height":172,"alpha":1},
+                                            "nodeParent":1776,
+                                            "label":"left",
+                                            "isOpen":true,
+                                            "isDirectory":true,
+                                            "isAniNode":true,
+                                            "hasChild":true,
+                                            "compId":1791,
+                                            "child":[
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,auto_0",
+                                                    "props":{"y":0,"x":0,"texture":"images/Action/auto_xiuOrDiu_0.png","name":"auto_0"},
+                                                    "nodeParent":1791,
+                                                    "label":"auto_0",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1793,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,auto_1",
+                                                    "props":{"y":0,"x":0,"visible":false,"texture":"images/Action/auto_xiuOrDiu_selected.png","name":"auto_1"},
+                                                    "nodeParent":1791,
+                                                    "label":"auto_1",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1794,
+                                                    "child":[
+                                                        ]
+                                                }]
+                                        },
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image,right,auto_handle_right",
+                                            "props":{"y":0,"x":280,"width":172,"var":"auto_handle_right","pivotY":86,"pivotX":86,"name":"right","height":172,"alpha":1},
+                                            "nodeParent":1776,
+                                            "label":"right",
+                                            "isOpen":true,
+                                            "isDirectory":true,
+                                            "isAniNode":true,
+                                            "hasChild":true,
+                                            "compId":1795,
+                                            "child":[
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,auto_0",
+                                                    "props":{"y":0,"x":0,"texture":"images/Action/auto_xiu_0.png","name":"auto_0"},
+                                                    "nodeParent":1795,
+                                                    "label":"auto_0",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1796,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "type":"Sprite",
+                                                    "searchKey":"Sprite,auto_1",
+                                                    "props":{"y":0,"x":0,"visible":false,"texture":"images/Action/auto_xiu_selected.png","name":"auto_1"},
+                                                    "nodeParent":1795,
+                                                    "label":"auto_1",
+                                                    "isDirectory":false,
+                                                    "isAniNode":true,
+                                                    "hasChild":false,
+                                                    "compId":1797,
+                                                    "child":[
+                                                        ]
+                                                }]
+                                        }],
+                                    "$HIDDEN":false
                                 },
                                 {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,auto_1",
-                                    "props":{"y":0,"x":0,"visible":false,"texture":"images/Action/auto_xiuOrDiu_selected.png","name":"auto_1"},
-                                    "nodeParent":1791,
-                                    "label":"auto_1",
+                                    "type":"Image",
+                                    "searchKey":"Image,returnSeatBtn,returnSeatBtn",
+                                    "props":{"visible":false,"var":"returnSeatBtn","top":-105,"skin":"images/LiuZuo/l_return.png","right":-275,"name":"returnSeatBtn"},
+                                    "nodeParent":746,
+                                    "label":"returnSeatBtn",
                                     "isDirectory":false,
                                     "isAniNode":true,
                                     "hasChild":false,
-                                    "compId":1794,
+                                    "compId":2016,
                                     "child":[
                                         ]
-                                }]
-                        },
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,right,auto_handle_right",
-                            "props":{"y":0,"x":280,"width":172,"var":"auto_handle_right","pivotY":86,"pivotX":86,"name":"right","height":172,"alpha":1},
-                            "nodeParent":1776,
-                            "label":"right",
-                            "isOpen":true,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1795,
-                            "child":[
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,auto_0",
-                                    "props":{"y":0,"x":0,"texture":"images/Action/auto_xiu_0.png","name":"auto_0"},
-                                    "nodeParent":1795,
-                                    "label":"auto_0",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1796,
-                                    "child":[
-                                        ]
-                                },
-                                {
-                                    "type":"Sprite",
-                                    "searchKey":"Sprite,auto_1",
-                                    "props":{"y":0,"x":0,"visible":false,"texture":"images/Action/auto_xiu_selected.png","name":"auto_1"},
-                                    "nodeParent":1795,
-                                    "label":"auto_1",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1797,
-                                    "child":[
-                                        ]
-                                }]
-                        }],
-                    "$HIDDEN":false
-                },
-                {
-                    "type":"Image",
-                    "searchKey":"Image,returnSeatBtn,returnSeatBtn",
-                    "props":{"visible":false,"var":"returnSeatBtn","top":-105,"skin":"images/LiuZuo/l_return.png","right":-275,"name":"returnSeatBtn"},
-                    "nodeParent":746,
-                    "label":"returnSeatBtn",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":2016,
-                    "child":[
-                        ]
+                                }],
+                            "$HIDDEN":false
+                        }]
                 }],
             "$HIDDEN":false
         },
