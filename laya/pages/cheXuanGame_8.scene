@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":1923,
+    "selectedBox":913,
+    "selecteID":1676,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":2186,
+    "maxID":2215,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -75,14 +75,13 @@
             "props":{"var":"deskView","top":0,"right":0,"name":"deskView","left":0,"bottom":0},
             "nodeParent":2,
             "label":"deskView",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":3,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-1",
                     "props":{"zOrder":1,"x":621,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-1","height":167,"bottom":342},
@@ -1037,7 +1036,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-2",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-2","left":45,"height":167,"centerY":360},
@@ -1977,7 +1975,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-3",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-3","left":45,"height":167,"centerY":-95},
@@ -2910,7 +2907,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-4",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-4","left":45,"height":167,"centerY":-552},
@@ -3843,7 +3839,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-5",
                     "props":{"zOrder":1,"x":621,"width":167,"top":130,"skin":"images/gameView/zuoweiBg.png","pivotY":84,"pivotX":84,"name":"empty-seat-5","height":167},
@@ -4776,7 +4771,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-6",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-6","height":167,"centerY":-552},
@@ -5713,7 +5707,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-7",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-7","height":167,"centerY":-95},
@@ -6646,7 +6639,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,empty-seat-8",
                     "props":{"zOrder":1,"width":167,"skin":"images/gameView/zuoweiBg.png","right":45,"pivotY":84,"pivotX":84,"name":"empty-seat-8","height":167,"centerY":360},
@@ -7579,7 +7571,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,deskBg,deskBg",
                     "props":{"var":"deskBg","top":0,"skin":"images/gameView/newDesk.png","right":0,"name":"deskBg","left":0,"bottom":0},
@@ -7592,7 +7583,6 @@
                     "compId":2017,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,paijurule",
                             "props":{"y":1024,"x":421,"width":400,"name":"paijurule","height":180,"centerY":10,"centerX":0,"alpha":0.6},
@@ -7672,7 +7662,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,game_logo",
                             "props":{"y":480,"x":354,"top":480,"skin":"images/GameSet/logo.png","name":"game_logo","centerX":0},
@@ -7687,7 +7676,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,me_handleBox,me_handleBox",
                             "props":{"y":1782,"x":621,"visible":true,"var":"me_handleBox","name":"me_handleBox","centerX":0,"bottom":426},
@@ -8153,97 +8141,6 @@
             "compId":1923,
             "child":[
                 {
-                    "type":"Image",
-                    "searchKey":"Image,da_sliderBg",
-                    "props":{"skin":"images/Action/h_line.png","name":"da_sliderBg","centerX":0,"bottom":522},
-                    "nodeParent":1923,
-                    "label":"da_sliderBg",
-                    "isOpen":true,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":1925,
-                    "child":[
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,da_sliderHeight",
-                            "props":{"y":132,"x":13,"width":138,"name":"da_sliderHeight","height":582},
-                            "nodeParent":1925,
-                            "label":"da_sliderHeight",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1932,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,cancelBtn",
-                            "props":{"skin":"images/Action/h_cancel.png","name":"cancelBtn","centerX":0,"bottom":-16},
-                            "nodeParent":1925,
-                            "label":"cancelBtn",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1926,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,da_maxNum",
-                            "props":{"top":-15,"skin":"images/Action/h_num.png","name":"da_maxNum","centerX":0},
-                            "nodeParent":1925,
-                            "label":"da_maxNum",
-                            "isOpen":true,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1929,
-                            "child":[
-                                {
-                                    "type":"Label",
-                                    "searchKey":"Label,value",
-                                    "props":{"y":44,"x":44,"width":100,"valign":"middle","text":"0","name":"value","height":100,"fontSize":50,"color":"#FFFFFF","bold":true,"align":"center"},
-                                    "nodeParent":1929,
-                                    "label":"value",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1930,
-                                    "child":[
-                                        ]
-                                }]
-                        },
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,da_handler",
-                            "props":{"width":215,"skin":"images/Action/h_btn.png","pivotY":93,"name":"da_handler","height":93,"centerX":0,"bottom":158},
-                            "nodeParent":1925,
-                            "label":"da_handler",
-                            "isOpen":true,
-                            "isDirectory":true,
-                            "isAniNode":true,
-                            "hasChild":true,
-                            "compId":1927,
-                            "child":[
-                                {
-                                    "type":"Label",
-                                    "searchKey":"Label,da_texNum",
-                                    "props":{"width":210,"valign":"middle","text":"0","name":"da_texNum","height":90,"fontSize":50,"centerY":0,"centerX":0,"bold":true,"align":"center"},
-                                    "nodeParent":1927,
-                                    "label":"da_texNum",
-                                    "isDirectory":false,
-                                    "isAniNode":true,
-                                    "hasChild":false,
-                                    "compId":1928,
-                                    "child":[
-                                        ]
-                                }]
-                        }]
-                },
-                {
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/game/Fuction/MySlider.js",
@@ -8258,6 +8155,97 @@
                     "compId":1931,
                     "child":[
                         ]
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image,da_sliderBg",
+                    "props":{"skin":"images/Action/h_line.png","name":"da_sliderBg","height":875,"centerX":0,"bottom":522},
+                    "nodeParent":1923,
+                    "label":"da_sliderBg",
+                    "isOpen":null,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":2186,
+                    "child":[
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,da_sliderHeight",
+                            "props":{"y":132,"x":13,"width":138,"name":"da_sliderHeight","height":582},
+                            "nodeParent":2186,
+                            "label":"da_sliderHeight",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":2187,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,cancelBtn",
+                            "props":{"y":0,"x":0,"skin":"images/Action/h_cancel.png","name":"cancelBtn","centerX":0,"bottom":-16},
+                            "nodeParent":2186,
+                            "label":"cancelBtn",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":2188,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,da_maxNum",
+                            "props":{"y":0,"x":0,"top":-15,"skin":"images/Action/h_num.png","name":"da_maxNum","centerX":0},
+                            "nodeParent":2186,
+                            "label":"da_maxNum",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":2189,
+                            "child":[
+                                {
+                                    "type":"Label",
+                                    "searchKey":"Label,value",
+                                    "props":{"y":44,"x":44,"width":100,"valign":"middle","text":"0","name":"value","height":100,"fontSize":50,"color":"#FFFFFF","bold":true,"align":"center"},
+                                    "nodeParent":2189,
+                                    "label":"value",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":2191,
+                                    "child":[
+                                        ]
+                                }]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,da_handler",
+                            "props":{"y":0,"x":0,"width":215,"skin":"images/Action/h_btn.png","pivotY":93,"name":"da_handler","height":93,"centerX":0,"bottom":158},
+                            "nodeParent":2186,
+                            "label":"da_handler",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":2190,
+                            "child":[
+                                {
+                                    "type":"Label",
+                                    "searchKey":"Label,da_texNum",
+                                    "props":{"width":210,"valign":"middle","text":"0","name":"da_texNum","height":90,"fontSize":50,"centerY":0,"centerX":0,"bold":true,"align":"center"},
+                                    "nodeParent":2190,
+                                    "label":"da_texNum",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":2192,
+                                    "child":[
+                                        ]
+                                }]
+                        }]
                 }],
             "$HIDDEN":false
         },
@@ -8603,13 +8591,14 @@
             "props":{"zOrder":3,"x":0,"width":0,"visible":true,"var":"dialog_box","top":0,"name":"dialog_box","left":0,"isModal":true,"bottom":0,"bgColor":"#a42624","alpha":1},
             "nodeParent":2,
             "label":"dialog_box",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":913,
             "child":[
                 {
+                    "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,_mask,_mask",
                     "props":{"y":0,"x":0,"width":1242,"visible":false,"var":"_mask","name":"_mask","height":2208,"bgColor":"#000000","alpha":0.5},
@@ -8639,6 +8628,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,menu,menu",
                     "props":{"y":-1240,"x":-15,"width":674,"var":"menu","skin":"images/common/bg2.png","name":"menu","height":1240},
@@ -8717,12 +8707,13 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,makeUp_bobo,makeUp_bobo",
                     "props":{"y":-880,"x":96,"width":1050,"var":"makeUp_bobo","skin":"images/common/bg2.png","name":"makeUp_bobo","height":880},
                     "nodeParent":913,
                     "label":"makeUp_bobo",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -8977,65 +8968,66 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,gameSet_dialog,gameSet_dialog",
-                    "props":{"y":-1186,"x":59,"visible":true,"var":"gameSet_dialog","skin":"images/GameSet/gameSet_bg.png","name":"gameSet_dialog"},
+                    "props":{"y":-1185,"x":59,"width":1124,"var":"gameSet_dialog","skin":"images/common/bg2.png","name":"gameSet_dialog","height":1185},
                     "nodeParent":913,
                     "label":"gameSet_dialog",
                     "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
-                    "compId":1676,
+                    "compId":2193,
                     "child":[
                         {
                             "type":"Image",
                             "searchKey":"Image,close,gameSet_close",
-                            "props":{"var":"gameSet_close","top":85,"skin":"images/dialog/bobo_close.png","right":85,"name":"close"},
-                            "nodeParent":1676,
+                            "props":{"y":0,"x":0,"var":"gameSet_close","top":85,"skin":"images/dialog/bobo_close.png","right":85,"name":"close"},
+                            "nodeParent":2193,
                             "label":"close",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":1699,
+                            "compId":2194,
                             "child":[
                                 ]
                         },
                         {
                             "type":"Image",
                             "searchKey":"Image,gameSet_title",
-                            "props":{"x":0,"top":100,"skin":"images/GameSet/gameSet_title.png","name":"gameSet_title","centerX":0},
-                            "nodeParent":1676,
+                            "props":{"y":0,"x":0,"top":100,"skin":"images/GameSet/gameSet_title.png","name":"gameSet_title","centerX":0},
+                            "nodeParent":2193,
                             "label":"gameSet_title",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":1700,
+                            "compId":2195,
                             "child":[
                                 ]
                         },
                         {
                             "type":"Image",
                             "searchKey":"Image,gameSet_selectDesk",
-                            "props":{"x":0,"width":800,"top":240,"name":"gameSet_selectDesk","height":450,"centerX":0},
-                            "nodeParent":1676,
+                            "props":{"y":0,"x":0,"width":800,"top":240,"name":"gameSet_selectDesk","height":450,"centerX":0},
+                            "nodeParent":2193,
                             "label":"gameSet_selectDesk",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
-                            "compId":1701,
+                            "compId":2196,
                             "child":[
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,gameSet_title2",
                                     "props":{"y":0,"x":0,"skin":"images/GameSet/gameSet_deskselect.png","name":"gameSet_title2"},
-                                    "nodeParent":1701,
+                                    "nodeParent":2196,
                                     "label":"gameSet_title2",
                                     "isDirectory":false,
                                     "isAniNode":true,
                                     "hasChild":false,
-                                    "compId":1705,
+                                    "compId":2199,
                                     "child":[
                                         ]
                                 },
@@ -9043,48 +9035,48 @@
                                     "type":"Image",
                                     "searchKey":"Image,deskViewBox,gameSet_deskViewBox",
                                     "props":{"y":93,"width":800,"var":"gameSet_deskViewBox","name":"deskViewBox","height":353,"centerX":0},
-                                    "nodeParent":1701,
+                                    "nodeParent":2196,
                                     "label":"deskViewBox",
                                     "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":1729,
+                                    "compId":2200,
                                     "child":[
                                         {
                                             "type":"Image",
                                             "searchKey":"Image,desk_bg1",
                                             "props":{"y":-22.5,"skin":"images/GameSet/desk_bg.png","name":"desk_bg1","centerX":-150},
-                                            "nodeParent":1729,
+                                            "nodeParent":2200,
                                             "label":"desk_bg1",
                                             "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
-                                            "compId":1894,
+                                            "compId":2201,
                                             "child":[
                                                 {
                                                     "type":"Image",
                                                     "searchKey":"Image,desk",
                                                     "props":{"y":23,"width":195,"skin":"images/GameSet/desk2.png","name":"desk","height":353,"centerY":0,"centerX":0},
-                                                    "nodeParent":1894,
+                                                    "nodeParent":2201,
                                                     "label":"desk",
                                                     "isOpen":false,
                                                     "isDirectory":true,
                                                     "isAniNode":true,
                                                     "hasChild":true,
-                                                    "compId":1732,
+                                                    "compId":2202,
                                                     "child":[
                                                         {
                                                             "type":"Image",
                                                             "searchKey":"Image,selectSign",
                                                             "props":{"visible":true,"skin":"images/GameSet/gameSet_selectedBox.png","name":"selectSign","centerY":0,"centerX":0},
-                                                            "nodeParent":1732,
+                                                            "nodeParent":2202,
                                                             "label":"selectSign",
                                                             "isDirectory":false,
                                                             "isAniNode":true,
                                                             "hasChild":false,
-                                                            "compId":1734,
+                                                            "compId":2203,
                                                             "child":[
                                                                 ]
                                                         }]
@@ -9094,36 +9086,36 @@
                                             "type":"Image",
                                             "searchKey":"Image,desk_bg2",
                                             "props":{"y":-22,"skin":"images/GameSet/desk_bg.png","name":"desk_bg2","centerX":150},
-                                            "nodeParent":1729,
+                                            "nodeParent":2200,
                                             "label":"desk_bg2",
                                             "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
-                                            "compId":1895,
+                                            "compId":2204,
                                             "child":[
                                                 {
                                                     "type":"Image",
                                                     "searchKey":"Image,desk",
                                                     "props":{"y":22,"width":195,"skin":"images/GameSet/desk1.png","name":"desk","height":353,"centerY":0,"centerX":0},
-                                                    "nodeParent":1895,
+                                                    "nodeParent":2204,
                                                     "label":"desk",
                                                     "isOpen":false,
                                                     "isDirectory":true,
                                                     "isAniNode":true,
                                                     "hasChild":true,
-                                                    "compId":1731,
+                                                    "compId":2205,
                                                     "child":[
                                                         {
                                                             "type":"Image",
                                                             "searchKey":"Image,selectSign",
                                                             "props":{"visible":false,"skin":"images/GameSet/gameSet_selectedBox.png","name":"selectSign","centerY":0,"centerX":0},
-                                                            "nodeParent":1731,
+                                                            "nodeParent":2205,
                                                             "label":"selectSign",
                                                             "isDirectory":false,
                                                             "isAniNode":true,
                                                             "hasChild":false,
-                                                            "compId":1733,
+                                                            "compId":2206,
                                                             "child":[
                                                                 ]
                                                         }]
@@ -9134,49 +9126,49 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,switch_bg",
-                            "props":{"skin":"images/GameSet/switch_bg.png","name":"switch_bg","left":118,"bottom":285},
-                            "nodeParent":1676,
+                            "props":{"y":0,"x":0,"skin":"images/GameSet/switch_bg.png","name":"switch_bg","left":118,"bottom":285},
+                            "nodeParent":2193,
                             "label":"switch_bg",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
-                            "compId":1896,
+                            "compId":2197,
                             "child":[
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,game_music",
                                     "props":{"skin":"images/GameSet/gameSet_1.png","name":"game_music","centerY":0,"centerX":-75},
-                                    "nodeParent":1896,
+                                    "nodeParent":2197,
                                     "label":"game_music",
                                     "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":1702,
+                                    "compId":2207,
                                     "child":[
                                         {
                                             "type":"Image",
                                             "searchKey":"Image,switchBox,game_music_switchBox",
                                             "props":{"width":129,"var":"game_music_switchBox","right":-150,"name":"switchBox","height":77,"centerY":0},
-                                            "nodeParent":1702,
+                                            "nodeParent":2207,
                                             "label":"switchBox",
                                             "isOpen":false,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
-                                            "compId":1710,
+                                            "compId":2208,
                                             "child":[
                                                 {
                                                     "type":"Image",
                                                     "searchKey":"Image,switch0",
                                                     "props":{"skin":"images/GameSet/switch0.png","name":"switch0"},
-                                                    "nodeParent":1710,
+                                                    "nodeParent":2208,
                                                     "label":"switch0",
                                                     "isDirectory":false,
                                                     "isAniNode":true,
                                                     "hasChild":false,
-                                                    "compId":1711,
+                                                    "compId":2209,
                                                     "child":[
                                                         ]
                                                 },
@@ -9184,12 +9176,12 @@
                                                     "type":"Image",
                                                     "searchKey":"Image,switch1",
                                                     "props":{"y":0,"x":0,"visible":false,"skin":"images/GameSet/switch1.png","name":"switch1"},
-                                                    "nodeParent":1710,
+                                                    "nodeParent":2208,
                                                     "label":"switch1",
                                                     "isDirectory":false,
                                                     "isAniNode":true,
                                                     "hasChild":false,
-                                                    "compId":1712,
+                                                    "compId":2210,
                                                     "child":[
                                                         ]
                                                 }]
@@ -9199,49 +9191,49 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,switch_bg",
-                            "props":{"y":0,"skin":"images/GameSet/switch_bg.png","right":118,"name":"switch_bg","bottom":285},
-                            "nodeParent":1676,
+                            "props":{"y":0,"x":0,"skin":"images/GameSet/switch_bg.png","right":118,"name":"switch_bg","bottom":285},
+                            "nodeParent":2193,
                             "label":"switch_bg",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
-                            "compId":1897,
+                            "compId":2198,
                             "child":[
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,game_chat",
                                     "props":{"skin":"images/GameSet/gameSet_label2.png","name":"game_chat","centerY":0,"centerX":-75},
-                                    "nodeParent":1897,
+                                    "nodeParent":2198,
                                     "label":"game_chat",
                                     "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":1902,
+                                    "compId":2211,
                                     "child":[
                                         {
                                             "type":"Image",
                                             "searchKey":"Image,switchBox,game_chat_switchBox",
                                             "props":{"width":129,"var":"game_chat_switchBox","right":-150,"name":"switchBox","height":77,"centerY":0},
-                                            "nodeParent":1902,
+                                            "nodeParent":2211,
                                             "label":"switchBox",
                                             "isOpen":false,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
-                                            "compId":1903,
+                                            "compId":2212,
                                             "child":[
                                                 {
                                                     "type":"Image",
                                                     "searchKey":"Image,switch0",
                                                     "props":{"skin":"images/GameSet/switch0.png","name":"switch0"},
-                                                    "nodeParent":1903,
+                                                    "nodeParent":2212,
                                                     "label":"switch0",
                                                     "isDirectory":false,
                                                     "isAniNode":true,
                                                     "hasChild":false,
-                                                    "compId":1904,
+                                                    "compId":2213,
                                                     "child":[
                                                         ]
                                                 },
@@ -9249,21 +9241,21 @@
                                                     "type":"Image",
                                                     "searchKey":"Image,switch1",
                                                     "props":{"y":0,"x":0,"skin":"images/GameSet/switch1.png","name":"switch1"},
-                                                    "nodeParent":1903,
+                                                    "nodeParent":2212,
                                                     "label":"switch1",
                                                     "isDirectory":false,
                                                     "isAniNode":true,
                                                     "hasChild":false,
-                                                    "compId":1905,
+                                                    "compId":2214,
                                                     "child":[
                                                         ]
                                                 }]
                                         }]
                                 }]
-                        }],
-                    "$HIDDEN":true
+                        }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,PlayerNews,PlayerNews_dialog",
                     "props":{"y":-948,"x":61,"width":1120,"var":"PlayerNews_dialog","skin":"images/PersonNews2/news_bg.png","name":"PlayerNews","height":948},
@@ -9599,6 +9591,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,LiuZuo,LiuZuo_dialog",
                     "props":{"x":64.5,"width":1140,"var":"LiuZuo_dialog","skin":"images/LiuZuo/l_bg.png","name":"LiuZuo","height":850,"bottom":-850},
@@ -9770,6 +9763,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,chat,chat_dialog",
                     "props":{"y":2208,"width":1242,"visible":false,"var":"chat_dialog","skin":"images/Chat/chat_bg.png","name":"chat","left":0,"height":630},
@@ -10006,7 +10000,7 @@
                                         }]
                                 }]
                         }],
-                    "$HIDDEN":true
+                    "$HIDDEN":false
                 }],
             "$HIDDEN":true
         },
@@ -10127,14 +10121,13 @@
             "props":{"width":200,"visible":false,"var":"ceshi_view","name":"ceshi_view","left":-200,"height":300,"bottom":0},
             "nodeParent":2,
             "label":"ceshi_view",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":1941,
             "child":[
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,LOG",
                     "props":{"valign":"middle","top":0,"text":"log","right":0,"name":"LOG","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
@@ -10148,7 +10141,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,ERRROLAD",
                     "props":{"valign":"middle","top":100,"text":"异常刷新","right":0,"name":"ERRROLAD","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},
@@ -10162,7 +10154,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,AUTO",
                     "props":{"valign":"middle","top":200,"text":"关闭自动","right":0,"name":"AUTO","left":0,"height":100,"fontSize":50,"color":"#935F13","borderColor":"#935F13","bgColor":"#FFFFFF","align":"center"},

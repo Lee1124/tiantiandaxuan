@@ -1743,6 +1743,7 @@ export default class GameControl extends Laya.Script {
                         let clickIndex2 = parseInt(Math.random() * (pokerArr.length - 1));
                         let clickObj1 = pokerArr[clickIndex1];
                         let clickObj2 = pokerArr.filter(item => item != clickObj1)[clickIndex2];
+                        Main.$LOG('玩家自动分牌的时候模拟点击的2张牌===：', clickObj1.pokerName,clickObj2.pokerName);
                         this.onClickPoker(clickObj1, pokerArr, me_item.owner);
                         this.onClickPoker(clickObj2, pokerArr, me_item.owner);
                         setTimeout(() => {

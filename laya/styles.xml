@@ -34,4 +34,7 @@
    <item name="images/common/progress_bg.png" type="ProgressBar" compress="0" pack="0" quality="80" props="sizeGrid=0,46,0,38" picType="0" scale="0"/>
    <item name="images/common/progress_line.png" type="ProgressBar" compress="0" pack="0" quality="80" props="sizeGrid=0,17,0,16" picType="0" scale="0"/>
    <item name="images/common/title_hd_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=2,0,158,0" picType="0" scale="0"/>
+   <item name="images/Action/h_bg1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=20,20,20,20" picType="0" scale="0"/>
+   <item name="images/Action/h_line1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,0,80,0" picType="0" scale="0"/>
+   <item name="images/Action/h_line.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=82,0,82,0" picType="0" scale="0"/>
 </res>

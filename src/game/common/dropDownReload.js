@@ -96,7 +96,7 @@ export default class dropDownReload extends Laya.Script {
         this.list.off(Laya.Event.MOUSE_OUT);
         this.list.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
         this.list.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
-        this.list.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
+        // this.list.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
     }
 
     // onMouseDown() {

@@ -109,7 +109,7 @@ class Main {
         this.loadAniArr2 = [];
         this.loadShowArr = [];
         this.loadShowArr2 = [];
-        this.debug = false;
+        this.debug = true;
 
         this.errList = [];
         this.tipArr1 = [];

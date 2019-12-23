@@ -331,7 +331,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = false;
+            this.debug = true;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -4555,6 +4555,7 @@
                             let clickIndex2 = parseInt(Math.random() * (pokerArr.length - 1));
                             let clickObj1 = pokerArr[clickIndex1];
                             let clickObj2 = pokerArr.filter(item => item != clickObj1)[clickIndex2];
+                            Main$1.$LOG('玩家自动分牌的时候模拟点击的2张牌===：', clickObj1.pokerName,clickObj2.pokerName);
                             this.onClickPoker(clickObj1, pokerArr, me_item.owner);
                             this.onClickPoker(clickObj2, pokerArr, me_item.owner);
                             setTimeout(() => {
@@ -6292,7 +6293,7 @@
             countDownBox.visible = isShow;
             if (isShow) {
                 this._allTime = data.endTime - data.startTime - 2;
-                this._rotation = 360 * (((new Date().getTime() / 1000 - data.startTime)) / this._allTime);
+                this._rotation = 360 * (((new Date().getTime() / 1000 - data.startTime)) / this._allTime)+2;
                 this._timeOutFlag = true;
                 this._showTimePlayerObj = this.owner;
                 this._imgNode = countDownBox.getChildByName("countDown");
@@ -8938,7 +8939,7 @@
             this.list.off(Laya.Event.MOUSE_OUT);
             this.list.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
             this.list.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
-            this.list.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
+            // this.list.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
         }
 
         // onMouseDown() {

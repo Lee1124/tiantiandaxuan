@@ -228,7 +228,7 @@ export default class seat extends Laya.Script {
         countDownBox.visible = isShow;
         if (isShow) {
             this._allTime = data.endTime - data.startTime - 2;
-            this._rotation = 360 * (((new Date().getTime() / 1000 - data.startTime)) / this._allTime);
+            this._rotation = 360 * (((new Date().getTime() / 1000 - data.startTime)) / this._allTime)+2;
             this._timeOutFlag = true;
             this._showTimePlayerObj = this.owner;
             this._imgNode = countDownBox.getChildByName("countDown");
