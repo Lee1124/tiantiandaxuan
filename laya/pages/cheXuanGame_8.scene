@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":913,
-    "selecteID":1676,
+    "selectedBox":2097,
+    "selecteID":2098,
     "searchKey":"Scene",
     "props":{"zOrder":0,"y":0,"x":0,"width":1242,"sceneColor":"#4f312f","runtime":"game/GameCenter/GameUI.js","pivotY":0,"pivotX":0,"height":2208},
     "nodeParent":-1,
-    "maxID":2215,
+    "maxID":2219,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -8634,13 +8634,14 @@
                     "props":{"y":-1240,"x":-15,"width":674,"var":"menu","skin":"images/common/bg2.png","name":"menu","height":1240},
                     "nodeParent":913,
                     "label":"menu",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":2094,
                     "child":[
                         {
+                            "x":45,
                             "type":"List",
                             "searchKey":"List,menuList",
                             "props":{"top":48,"spaceY":0,"right":48,"repeatY":7,"repeatX":1,"name":"menuList","left":50,"bottom":53},
@@ -8653,6 +8654,7 @@
                             "compId":2095,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,menuList_box",
                                     "props":{"y":0,"right":0,"renderType":"render","name":"menuList_box","left":0,"height":162},
@@ -8665,6 +8667,7 @@
                                     "compId":2096,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,menu_row_node",
                                             "props":{"top":0,"right":0,"name":"menu_row_node","left":0,"bottom":0},
@@ -8677,6 +8680,7 @@
                                             "compId":2097,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,line",
                                                     "props":{"y":162,"skin":"images/gameView/menu_line.png","right":0,"name":"line","left":0},
@@ -8690,6 +8694,7 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,listContent",
                                                     "props":{"y":82,"x":288,"name":"listContent","centerY":0,"centerX":-10},
@@ -8704,7 +8709,8 @@
                                                 }]
                                         }]
                                 }]
-                        }]
+                        }],
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,
@@ -8748,7 +8754,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,personNews",
-                            "props":{"y":0,"x":0,"width":860,"top":550,"name":"personNews","height":65,"centerX":0},
+                            "props":{"x":0,"width":860,"top":530,"name":"personNews","height":65,"centerX":0},
                             "nodeParent":2165,
                             "label":"personNews",
                             "isOpen":false,
@@ -8900,15 +8906,15 @@
                                     "compId":2181,
                                     "child":[
                                         {
-                                            "type":"Text",
-                                            "searchKey":"Text,bobo_daiRuScore,bobo_daiRuScore",
-                                            "props":{"y":-7,"x":209,"width":192,"var":"bobo_daiRuScore","text":"0","name":"bobo_daiRuScore","height":60,"fontSize":60,"color":"#FF9E2D","bold":true},
+                                            "type":"Label",
+                                            "searchKey":"Label,bobo_daiRuScore,bobo_daiRuScore",
+                                            "props":{"y":-7,"x":210,"wordWrap":true,"width":310,"var":"bobo_daiRuScore","text":"0","name":"bobo_daiRuScore","fontSize":60,"color":"#FF9E2D"},
                                             "nodeParent":2181,
                                             "label":"bobo_daiRuScore",
                                             "isDirectory":false,
                                             "isAniNode":true,
                                             "hasChild":false,
-                                            "compId":2182,
+                                            "compId":2215,
                                             "child":[
                                                 ]
                                         }]
@@ -8956,16 +8962,30 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,confirmDaiRuBtn",
-                            "props":{"y":0,"x":0,"width":464,"skin":"images/dialog/bobo_comfirm.png","name":"confirmDaiRuBtn","height":124,"centerX":0,"bottom":80},
+                            "props":{"width":600,"skin":"images/common/btn1_box.png","name":"confirmDaiRuBtn","height":163,"centerX":0,"bottom":70},
                             "nodeParent":2165,
                             "label":"confirmDaiRuBtn",
-                            "isDirectory":false,
+                            "isOpen":false,
+                            "isDirectory":true,
                             "isAniNode":true,
-                            "hasChild":false,
-                            "compId":2171,
+                            "hasChild":true,
+                            "compId":2217,
                             "child":[
-                                ]
-                        }]
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,text",
+                                    "props":{"y":45,"x":-80,"skin":"images/common/btn1_text3.png","name":"text","centerY":0,"centerX":0},
+                                    "nodeParent":2217,
+                                    "label":"text",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":2216,
+                                    "child":[
+                                        ]
+                                }]
+                        }],
+                    "$HIDDEN":true
                 },
                 {
                     "x":30,
@@ -9252,7 +9272,8 @@
                                                 }]
                                         }]
                                 }]
-                        }]
+                        }],
+                    "$HIDDEN":true
                 },
                 {
                     "x":30,
@@ -9630,17 +9651,30 @@
                                 ]
                         },
                         {
-                            "type":"Sprite",
-                            "searchKey":"Sprite,confrimBtn",
-                            "props":{"y":590,"x":265,"texture":"images/LiuZuo/l_confrim.png","name":"confrimBtn"},
+                            "type":"Image",
+                            "searchKey":"Image,confrimBtn",
+                            "props":{"y":590,"width":608,"skin":"images/common/btn1_box.png","name":"confrimBtn","centerX":0},
                             "nodeParent":1966,
                             "label":"confrimBtn",
-                            "isDirectory":false,
+                            "isOpen":false,
+                            "isDirectory":true,
                             "isAniNode":true,
-                            "hasChild":false,
+                            "hasChild":true,
                             "compId":1980,
                             "child":[
-                                ]
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,text",
+                                    "props":{"skin":"images/common/btn1_test1.png","name":"text","centerY":0,"centerX":0},
+                                    "nodeParent":1980,
+                                    "label":"text",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":2218,
+                                    "child":[
+                                        ]
+                                }]
                         },
                         {
                             "type":"Image",
@@ -9681,10 +9715,10 @@
                                                 {
                                                     "type":"Image",
                                                     "searchKey":"Image,listRow",
-                                                    "props":{"y":0,"x":0,"skin":"images/LiuZuo/l_kuang.png","name":"listRow","centerX":0,"bottom":0},
+                                                    "props":{"y":0,"x":0,"width":760,"skin":"images/LiuZuo/l_kuang1.png","name":"listRow","centerX":0,"bottom":0},
                                                     "nodeParent":2001,
                                                     "label":"listRow",
-                                                    "isOpen":true,
+                                                    "isOpen":false,
                                                     "isDirectory":true,
                                                     "isAniNode":false,
                                                     "hasChild":true,
@@ -9696,7 +9730,7 @@
                                                             "props":{"y":22,"width":61,"name":"select","left":65,"height":61},
                                                             "nodeParent":2002,
                                                             "label":"select",
-                                                            "isOpen":false,
+                                                            "isOpen":true,
                                                             "isDirectory":true,
                                                             "isAniNode":false,
                                                             "hasChild":true,
@@ -9747,8 +9781,10 @@
                                 },
                                 {
                                     "type":"Script",
+                                    "switchAble":true,
                                     "source":"src/game/Fuction/MyClickSelect.js",
                                     "searchKey":"Script,MyClickSelect",
+                                    "removeAble":true,
                                     "props":{},
                                     "nodeParent":1983,
                                     "label":"MyClickSelect",
@@ -10000,7 +10036,7 @@
                                         }]
                                 }]
                         }],
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 }],
             "$HIDDEN":true
         },

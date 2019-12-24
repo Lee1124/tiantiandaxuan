@@ -1,1 +1,0 @@
-{"type":"Scene","props":{"width":1242,"name":"Me","height":2208},"compId":2,"child":[{"type":"Script","props":{"runtime":"game/common/setSceneWH.js"},"compId":3},{"type":"Image","props":{"top":0,"skin":"images/login/login_bg.png","right":0,"name":"login_bg","left":0,"bottom":0},"compId":4}],"loadList":["images/login/login_bg.png"],"loadList3D":[]}

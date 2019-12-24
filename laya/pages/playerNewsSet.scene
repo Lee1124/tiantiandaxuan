@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":106,
+    "selecteID":132,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/playerNewsSet/playerNewsSetUI.js","height":2208},
     "nodeParent":-1,
-    "maxID":132,
+    "maxID":134,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -416,15 +416,29 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,btn,confrim_btn",
-            "props":{"y":0,"x":0,"var":"confrim_btn","skin":"images/GameSet/set_confrim.png","name":"btn","centerX":0,"bottom":80},
+            "props":{"width":610,"var":"confrim_btn","skin":"images/common/btn1_box.png","name":"btn","height":163,"centerX":0,"bottom":80},
             "nodeParent":2,
             "label":"btn",
-            "isDirectory":false,
+            "isOpen":false,
+            "isDirectory":true,
             "isAniNode":true,
-            "hasChild":false,
-            "compId":107,
+            "hasChild":true,
+            "compId":132,
             "child":[
-                ]
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,text",
+                    "props":{"skin":"images/common/btn1_test1.png","name":"text","centerY":0,"centerX":0},
+                    "nodeParent":132,
+                    "label":"text",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":133,
+                    "child":[
+                        ]
+                }]
         }],
     "animations":[
         {

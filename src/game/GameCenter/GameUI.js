@@ -1,5 +1,4 @@
 import GameControl from './GameControl'
-import COMMON from '../common/common'
 import Main from '../common/Main';
 import PlyerNews from '../Fuction/PlyerNews';
 import GameSet from '../Fuction/GameSet';

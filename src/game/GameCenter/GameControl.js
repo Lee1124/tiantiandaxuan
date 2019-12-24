@@ -1,7 +1,6 @@
 /**
  * 游戏控制脚本
  *  */
-import CommonSet from '../common/common'
 import CountPoint from '../common/CountPoint';//查找点数
 import NetClient from '../common/NetClient';//websoket
 import Main from '../common/Main';//Main.js

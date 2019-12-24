@@ -6,7 +6,7 @@
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
-    "maxID":607,
+    "maxID":631,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -49,7 +49,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,nav",
-            "props":{"zOrder":2,"skin":"images/newMe/12.png","name":"nav","centerX":0,"bottom":0},
+            "props":{"zOrder":2,"skin":"images/common/tab1_bg.png","right":0,"name":"nav","left":0,"bottom":0},
             "nodeParent":2,
             "label":"nav",
             "isOpen":false,
@@ -64,7 +64,7 @@
                     "props":{"width":220,"var":"tab_notice","top":0,"name":"notice","height":147,"centerX":-440},
                     "nodeParent":28,
                     "label":"notice",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -104,7 +104,7 @@
                     "props":{"width":220,"var":"tab_paiju","top":0,"name":"paiju","height":147,"centerX":-220},
                     "nodeParent":28,
                     "label":"paiju",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -208,7 +208,7 @@
                     "props":{"width":220,"var":"tab_me","top":0,"name":"me","height":147,"centerX":440},
                     "nodeParent":28,
                     "label":"me",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -981,7 +981,7 @@
                                     "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,nav",
-                                    "props":{"x":0,"top":0,"skin":"images/Notice/nav_bg.png","name":"nav","centerX":0},
+                                    "props":{"x":0,"width":1040,"top":0,"skin":"images/hall/nav_bg.png","name":"nav","centerX":0},
                                     "nodeParent":422,
                                     "label":"nav",
                                     "isOpen":false,
@@ -1185,10 +1185,10 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,nav_bg,hall_nav_bg",
-                                    "props":{"x":0,"var":"hall_nav_bg","top":0,"skin":"images/hall/nav_bg.png","name":"nav_bg","centerX":0},
+                                    "props":{"x":0,"width":1040,"var":"hall_nav_bg","top":0,"skin":"images/hall/nav_bg.png","name":"nav_bg","centerX":0},
                                     "nodeParent":447,
                                     "label":"nav_bg",
-                                    "isOpen":false,
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
@@ -1231,7 +1231,8 @@
                                                     "compId":463,
                                                     "child":[
                                                         ]
-                                                }]
+                                                }],
+                                            "$HIDDEN":false
                                         },
                                         {
                                             "type":"Image",
@@ -1265,7 +1266,7 @@
                                             "props":{"y":0,"width":257,"right":257,"name":"select_box3","height":117,"centerY":0},
                                             "nodeParent":460,
                                             "label":"select_box3",
-                                            "isOpen":true,
+                                            "isOpen":false,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
@@ -1984,86 +1985,86 @@
                                 {
                                     "type":"Image",
                                     "searchKey":"Image,bt_data_bg",
-                                    "props":{"x":0,"top":560,"skin":"images/Data/bt_list_bg.png","name":"bt_data_bg","centerX":-4,"bottom":0},
+                                    "props":{"top":570,"skin":"images/common/bg3.png","right":54,"name":"bt_data_bg","left":50,"bottom":5},
                                     "nodeParent":512,
                                     "label":"bt_data_bg",
-                                    "isOpen":false,
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
-                                    "compId":566,
+                                    "compId":607,
                                     "child":[
                                         {
                                             "type":"Image",
                                             "searchKey":"Image,bt_data_content",
-                                            "props":{"width":1060,"top":50,"name":"bt_data_content","centerX":0,"bottom":50},
-                                            "nodeParent":566,
+                                            "props":{"y":0,"x":0,"width":1060,"top":50,"name":"bt_data_content","centerX":0,"bottom":50},
+                                            "nodeParent":607,
                                             "label":"bt_data_content",
-                                            "isOpen":true,
+                                            "isOpen":false,
                                             "isDirectory":true,
                                             "isAniNode":true,
                                             "hasChild":true,
-                                            "compId":567,
+                                            "compId":608,
                                             "child":[
                                                 {
                                                     "type":"List",
                                                     "searchKey":"List,bt_data_list,paiju_data_list",
                                                     "props":{"y":0,"visible":false,"var":"paiju_data_list","top":0,"spaceY":30,"right":0,"repeatX":1,"name":"bt_data_list","left":0,"height":362,"elasticEnabled":true,"bottom":0},
-                                                    "nodeParent":567,
+                                                    "nodeParent":608,
                                                     "label":"bt_data_list",
                                                     "isOpen":true,
                                                     "isDirectory":true,
                                                     "isAniNode":true,
                                                     "hasChild":true,
-                                                    "compId":568,
+                                                    "compId":609,
                                                     "child":[
                                                         {
                                                             "type":"Box",
                                                             "searchKey":"Box,bt_data_list_box",
                                                             "props":{"y":0,"right":0,"renderType":"render","name":"bt_data_list_box","left":0,"height":192},
-                                                            "nodeParent":568,
+                                                            "nodeParent":609,
                                                             "label":"bt_data_list_box",
                                                             "isOpen":true,
                                                             "isDirectory":true,
                                                             "isAniNode":false,
                                                             "hasChild":true,
-                                                            "compId":569,
+                                                            "compId":610,
                                                             "child":[
                                                                 {
                                                                     "type":"Image",
                                                                     "searchKey":"Image,list_bg",
                                                                     "props":{"width":834,"top":0,"skin":"images/Data/row_bg.png","right":0,"name":"list_bg","bottom":0},
-                                                                    "nodeParent":569,
+                                                                    "nodeParent":610,
                                                                     "label":"list_bg",
                                                                     "isOpen":true,
                                                                     "isDirectory":true,
                                                                     "isAniNode":false,
                                                                     "hasChild":true,
-                                                                    "compId":570,
+                                                                    "compId":611,
                                                                     "child":[
                                                                         {
                                                                             "type":"Image",
                                                                             "searchKey":"Image,top_title",
                                                                             "props":{"top":15,"right":0,"name":"top_title","left":245,"height":46},
-                                                                            "nodeParent":570,
+                                                                            "nodeParent":611,
                                                                             "label":"top_title",
                                                                             "isOpen":false,
                                                                             "isDirectory":true,
                                                                             "isAniNode":false,
                                                                             "hasChild":true,
-                                                                            "compId":571,
+                                                                            "compId":612,
                                                                             "child":[
                                                                                 {
                                                                                     "type":"Text",
                                                                                     "searchKey":"Text,name",
                                                                                     "props":{"y":3,"x":0,"text":"---","name":"name","fontSize":40,"font":"Microsoft YaHei","color":"#935F13","bold":false},
-                                                                                    "nodeParent":571,
+                                                                                    "nodeParent":612,
                                                                                     "label":"name",
                                                                                     "isOpen":true,
                                                                                     "isDirectory":false,
                                                                                     "isAniNode":false,
                                                                                     "hasChild":false,
-                                                                                    "compId":572,
+                                                                                    "compId":613,
                                                                                     "child":[
                                                                                         ]
                                                                                 },
@@ -2071,12 +2072,12 @@
                                                                                     "type":"Text",
                                                                                     "searchKey":"Text,time",
                                                                                     "props":{"y":9,"x":502,"text":"00:00","name":"time","fontSize":28,"color":"#98999D"},
-                                                                                    "nodeParent":571,
+                                                                                    "nodeParent":612,
                                                                                     "label":"time",
                                                                                     "isDirectory":false,
                                                                                     "isAniNode":false,
                                                                                     "hasChild":false,
-                                                                                    "compId":573,
+                                                                                    "compId":614,
                                                                                     "child":[
                                                                                         ]
                                                                                 }]
@@ -2085,36 +2086,36 @@
                                                                             "type":"Image",
                                                                             "searchKey":"Image,headBox",
                                                                             "props":{"width":130,"name":"headBox","left":70,"height":130,"centerY":0},
-                                                                            "nodeParent":570,
+                                                                            "nodeParent":611,
                                                                             "label":"headBox",
                                                                             "isOpen":true,
                                                                             "isDirectory":true,
                                                                             "isAniNode":false,
                                                                             "hasChild":true,
-                                                                            "compId":574,
+                                                                            "compId":615,
                                                                             "child":[
                                                                                 {
                                                                                     "type":"Image",
                                                                                     "searchKey":"Image,headBg",
                                                                                     "props":{"width":130,"skin":"images/Data/head.png","name":"headBg","height":130,"centerY":0,"centerX":0},
-                                                                                    "nodeParent":574,
+                                                                                    "nodeParent":615,
                                                                                     "label":"headBg",
                                                                                     "isOpen":true,
                                                                                     "isDirectory":true,
                                                                                     "isAniNode":false,
                                                                                     "hasChild":true,
-                                                                                    "compId":575,
+                                                                                    "compId":616,
                                                                                     "child":[
                                                                                         {
                                                                                             "type":"Image",
                                                                                             "searchKey":"Image,head",
                                                                                             "props":{"width":125,"skin":"images/common/defaultHead.png","name":"head","height":125,"centerY":-1,"centerX":-1},
-                                                                                            "nodeParent":575,
+                                                                                            "nodeParent":616,
                                                                                             "label":"head",
                                                                                             "isDirectory":false,
                                                                                             "isAniNode":false,
                                                                                             "hasChild":false,
-                                                                                            "compId":576,
+                                                                                            "compId":617,
                                                                                             "child":[
                                                                                                 ]
                                                                                         }]
@@ -2125,24 +2126,24 @@
                                                                             "type":"Image",
                                                                             "searchKey":"Image,roomID",
                                                                             "props":{"width":200,"name":"roomID","left":300,"height":30,"bottom":83},
-                                                                            "nodeParent":570,
+                                                                            "nodeParent":611,
                                                                             "label":"roomID",
                                                                             "isOpen":false,
                                                                             "isDirectory":true,
                                                                             "isAniNode":false,
                                                                             "hasChild":true,
-                                                                            "compId":577,
+                                                                            "compId":618,
                                                                             "child":[
                                                                                 {
                                                                                     "type":"Text",
                                                                                     "searchKey":"Text,value",
                                                                                     "props":{"y":1,"x":0,"name":"value","fontSize":28,"color":"#98999D"},
-                                                                                    "nodeParent":577,
+                                                                                    "nodeParent":618,
                                                                                     "label":"value",
                                                                                     "isDirectory":false,
                                                                                     "isAniNode":false,
                                                                                     "hasChild":false,
-                                                                                    "compId":578,
+                                                                                    "compId":619,
                                                                                     "child":[
                                                                                         ]
                                                                                 }]
@@ -2151,24 +2152,24 @@
                                                                             "type":"Image",
                                                                             "searchKey":"Image,pi",
                                                                             "props":{"width":86,"name":"pi","left":356,"height":30,"bottom":31},
-                                                                            "nodeParent":570,
+                                                                            "nodeParent":611,
                                                                             "label":"pi",
                                                                             "isOpen":false,
                                                                             "isDirectory":true,
                                                                             "isAniNode":false,
                                                                             "hasChild":true,
-                                                                            "compId":579,
+                                                                            "compId":620,
                                                                             "child":[
                                                                                 {
                                                                                     "type":"Text",
                                                                                     "searchKey":"Text,value",
                                                                                     "props":{"y":1,"x":0,"width":77,"text":"0","name":"value","height":28,"fontSize":28,"color":"#98999D"},
-                                                                                    "nodeParent":579,
+                                                                                    "nodeParent":620,
                                                                                     "label":"value",
                                                                                     "isDirectory":false,
                                                                                     "isAniNode":false,
                                                                                     "hasChild":false,
-                                                                                    "compId":580,
+                                                                                    "compId":621,
                                                                                     "child":[
                                                                                         ]
                                                                                 }]
@@ -2177,24 +2178,24 @@
                                                                             "type":"Image",
                                                                             "searchKey":"Image,dairu",
                                                                             "props":{"width":191,"name":"dairu","left":529,"height":30,"bottom":31},
-                                                                            "nodeParent":570,
+                                                                            "nodeParent":611,
                                                                             "label":"dairu",
                                                                             "isOpen":false,
                                                                             "isDirectory":true,
                                                                             "isAniNode":false,
                                                                             "hasChild":true,
-                                                                            "compId":581,
+                                                                            "compId":622,
                                                                             "child":[
                                                                                 {
                                                                                     "type":"Text",
                                                                                     "searchKey":"Text,value",
                                                                                     "props":{"y":1,"x":0,"width":77,"text":"0","name":"value","height":28,"fontSize":28,"color":"#98999D"},
-                                                                                    "nodeParent":581,
+                                                                                    "nodeParent":622,
                                                                                     "label":"value",
                                                                                     "isDirectory":false,
                                                                                     "isAniNode":false,
                                                                                     "hasChild":false,
-                                                                                    "compId":582,
+                                                                                    "compId":623,
                                                                                     "child":[
                                                                                         ]
                                                                                 }]
@@ -2203,24 +2204,24 @@
                                                                             "type":"Image",
                                                                             "searchKey":"Image,winScore",
                                                                             "props":{"width":145,"name":"winScore","left":689,"height":40,"bottom":81},
-                                                                            "nodeParent":570,
+                                                                            "nodeParent":611,
                                                                             "label":"winScore",
                                                                             "isOpen":false,
                                                                             "isDirectory":true,
                                                                             "isAniNode":false,
                                                                             "hasChild":true,
-                                                                            "compId":583,
+                                                                            "compId":624,
                                                                             "child":[
                                                                                 {
                                                                                     "type":"Text",
                                                                                     "searchKey":"Text,value",
                                                                                     "props":{"y":0,"x":0,"width":145,"text":"0","name":"value","height":40,"fontSize":40,"color":"#FF0000","align":"center"},
-                                                                                    "nodeParent":583,
+                                                                                    "nodeParent":624,
                                                                                     "label":"value",
                                                                                     "isDirectory":false,
                                                                                     "isAniNode":false,
                                                                                     "hasChild":false,
-                                                                                    "compId":584,
+                                                                                    "compId":625,
                                                                                     "child":[
                                                                                         ]
                                                                                 }]
@@ -2230,12 +2231,12 @@
                                                                     "type":"Image",
                                                                     "searchKey":"Image,timeIcon",
                                                                     "props":{"zOrder":2,"y":59,"x":100,"skin":"images/Data/time.png","name":"timeIcon"},
-                                                                    "nodeParent":569,
+                                                                    "nodeParent":610,
                                                                     "label":"timeIcon",
                                                                     "isDirectory":false,
                                                                     "isAniNode":false,
                                                                     "hasChild":false,
-                                                                    "compId":585,
+                                                                    "compId":626,
                                                                     "child":[
                                                                         ]
                                                                 },
@@ -2243,12 +2244,12 @@
                                                                     "type":"Image",
                                                                     "searchKey":"Image,line",
                                                                     "props":{"zOrder":1,"y":0,"x":136,"skin":"images/Data/bt_data_line.png","name":"line","height":220},
-                                                                    "nodeParent":569,
+                                                                    "nodeParent":610,
                                                                     "label":"line",
                                                                     "isDirectory":false,
                                                                     "isAniNode":false,
                                                                     "hasChild":false,
-                                                                    "compId":586,
+                                                                    "compId":627,
                                                                     "child":[
                                                                         ]
                                                                 },
@@ -2256,24 +2257,24 @@
                                                                     "type":"Image",
                                                                     "searchKey":"Image,timeBox",
                                                                     "props":{"x":-12,"width":100,"name":"timeBox","height":90,"centerY":-22},
-                                                                    "nodeParent":569,
+                                                                    "nodeParent":610,
                                                                     "label":"timeBox",
                                                                     "isOpen":true,
                                                                     "isDirectory":true,
                                                                     "isAniNode":false,
                                                                     "hasChild":true,
-                                                                    "compId":587,
+                                                                    "compId":628,
                                                                     "child":[
                                                                         {
                                                                             "type":"Text",
                                                                             "searchKey":"Text,day",
                                                                             "props":{"y":0,"x":0,"width":100,"valign":"middle","name":"day","height":45,"fontSize":34,"font":"Microsoft YaHei","color":"#935F13","align":"center"},
-                                                                            "nodeParent":587,
+                                                                            "nodeParent":628,
                                                                             "label":"day",
                                                                             "isDirectory":false,
                                                                             "isAniNode":false,
                                                                             "hasChild":false,
-                                                                            "compId":588,
+                                                                            "compId":629,
                                                                             "child":[
                                                                                 ]
                                                                         },
@@ -2281,19 +2282,20 @@
                                                                             "type":"Text",
                                                                             "searchKey":"Text,month",
                                                                             "props":{"y":45,"x":0,"width":100,"valign":"middle","name":"month","height":45,"fontSize":34,"font":"Microsoft YaHei","color":"#935F13","align":"center"},
-                                                                            "nodeParent":587,
+                                                                            "nodeParent":628,
                                                                             "label":"month",
                                                                             "isDirectory":false,
                                                                             "isAniNode":false,
                                                                             "hasChild":false,
-                                                                            "compId":589,
+                                                                            "compId":630,
                                                                             "child":[
                                                                                 ]
                                                                         }]
                                                                 }]
                                                         }]
                                                 }]
-                                        }]
+                                        }],
+                                    "$HIDDEN":true
                                 }]
                         }],
                     "$HIDDEN":true

@@ -70,6 +70,13 @@ P 5090AD66 anim_youwinSeat.png
 P 341E45E3 back.png
 P 1622BC1C bg.png
 P DA00E453 bg2.png
+P FE4823F1 bg3.png
+P A681EDF7 btn1_box.png
+P CAB0CB65 btn1_test1.png
+P E6912F0A btn1_text2.png
+P 7ACDBEC5 btn1_text3.png
+P 1A2AB7DF btn1_text4.png
+P 31DBAC43 btn2_box.png
 P 1D3C55B4 defaultHead.png
 P 47D33055 delayTime.png
 P 85B5363D headBg.png
@@ -92,6 +99,7 @@ P 1A59C217 scoreBg.png
 P 035316D8 smallLoading.png
 P FB0FEE29 switch0.png
 P B539BF7B switch1.png
+P EA6A258D tab1_bg.png
 R 57887702 test.png
 P 3DAFB2BD textinput.png
 R F8F1CFFF tip.png
@@ -100,7 +108,7 @@ P 0DCFAB10 title_activity.png
 P C236A4E0 title_changePwd.png
 P D22A763E title_data.png
 P 5BE152B1 title_hall.png
-R A1AB1450 title_hd_bg.png
+P B48750B6 title_hd_bg.png
 P A1968EDF title_notice.png
 P D7C7E5F4 title_register.png
 P 5B518F6C title_service.png
@@ -108,7 +116,6 @@ P 172D7EB5 title_set.png
 P AAE869F7 title_shop.png
 D images/Data
 R 3D78C1E1 bt_data_line.png
-R AFB04F87 bt_list_bg.png
 P 3F299A09 fanpairate.png
 P 7A3C26EC fanpaiwinrate.png
 P F44F7048 head.png
@@ -121,7 +128,6 @@ P 26456C59 winrate.png
 D images/dialog
 P 6541C1A3 bobo_big.png
 P 9CD4C44C bobo_close.png
-R 2AB85D68 bobo_comfirm.png
 P D5EA4C76 bobo_dairu.png
 P 1513E0AC bobo_ID.png
 P A9B384F8 bobo_jibi.png
@@ -165,7 +171,6 @@ P EE1C2593 gameSet_title.png
 P 5C23ADD0 head_selected.png
 R F3B4D43F logo.png
 P FE4823F1 set_bg.png
-R 443399F6 set_confrim.png
 P 7D2D72DA set_head_big.png
 P 18CC624D set_head_small.png
 R 4A5F01C2 set_line.png
@@ -194,7 +199,7 @@ P DB504AE8 ic_zong_i6p_0.png
 P 185DBF18 icon1.png
 P BD1B9F6A icon2.png
 P FDF8674C menu_btn.png
-R 7BBF98B3 menu_line.png
+P 95942AC2 menu_line.png
 S F74EE98A newDesk.png
 P E2E4D446 pai_icon.png
 P 1FFA3D19 paijuhuigu_icon.png
@@ -207,7 +212,7 @@ R 0BA681DE bg1.png
 P 40A52AA9 da.png
 P 6C30DB5E icon.png
 R 7682939B list_bg.png
-R DD0E77D4 nav_bg.png
+P F03CE459 nav_bg.png
 R 5BA10CAE nav_text.png
 P 8B984317 quan.png
 P 95DD0B1C xiao.png
@@ -221,8 +226,7 @@ P 97DC2AFE l_120.png
 P 39C83972 l_300.png
 P DA00E453 l_bg.png
 P 9CD4C44C l_close.png
-R A9E2999C l_confrim.png
-R 59ED7E88 l_kuang.png
+P E3E0DA21 l_kuang1.png
 P 90C723D1 l_kuang2.png
 P 4C0B1DE6 l_no.png
 P CACB2461 l_return.png
@@ -232,15 +236,12 @@ P B3866EDF l_yes.png
 D images/login
 P 7589B868 changePwd.png
 S 9A05AE6C login_bg.png
-R 827064AF login_btn.png
 R 90A66BE9 login_line.png
 R E2ECD46C logo.png
-R 72CB31B2 register_btn.png
 R 18AF3A51 tip_text.png
 D images/newMe
 P 12FF8DC5 10.png
 R 681261EE 11.png
-R 679B401D 12.png
 P 72355362 13.png
 P 9EDE962B 14.png
 P 28D2B4AA 16.png
@@ -296,17 +297,13 @@ P 7FABC354 news_winss.png
 D images/poker
 P 3B354E1A -1.png
 D images/register
-R B95CD740 3.png
 P 96A308F8 4.png
-R FDE748A1 5.png
 P 6913A538 6.png
-R 16233D01 7.png
 P 1076E5AD 8.png
 P 538B7A06 9.png
-R F882FD69 change_btn.png
-R 181365E8 confrim_btn.png
-R 534C6D89 listBg.png
-R 6DDAFB2F old_1.png
+P F3C1489B r_1.png
+P 2EFBF351 r_2.png
+P EF29FAC1 r_3.png
 D images/Share
 P 5C065189 f_bg.png
 P 9CD4C44C f_close.png

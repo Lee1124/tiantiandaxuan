@@ -33,8 +33,17 @@
    <item name="images/common/hd_notice.png" type="Sprite" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
    <item name="images/common/progress_bg.png" type="ProgressBar" compress="0" pack="0" quality="80" props="sizeGrid=0,46,0,38" picType="0" scale="0"/>
    <item name="images/common/progress_line.png" type="ProgressBar" compress="0" pack="0" quality="80" props="sizeGrid=0,17,0,16" picType="0" scale="0"/>
-   <item name="images/common/title_hd_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=2,0,158,0" picType="0" scale="0"/>
+   <item name="images/common/title_hd_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,90,0,90" picType="0" scale="0"/>
    <item name="images/Action/h_bg1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=20,20,20,20" picType="0" scale="0"/>
    <item name="images/Action/h_line1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,0,80,0" picType="0" scale="0"/>
    <item name="images/Action/h_line.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=82,0,82,0" picType="0" scale="0"/>
+   <item name="images/common/bg3.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=40,40,40,40" picType="0" scale="0"/>
+   <item name="images/common/btn1_box.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,96,80,97" picType="0" scale="0"/>
+   <item name="images/register/r_1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,91,0,329" picType="0" scale="0"/>
+   <item name="images/register/r_2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,81,0,202" picType="0" scale="0"/>
+   <item name="images/register/r_3.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,69,0,255" picType="0" scale="0"/>
+   <item name="images/common/tab1_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,151,0,126" picType="0" scale="0"/>
+   <item name="images/common/btn2_box.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,70,0,70" picType="0" scale="0"/>
+   <item name="images/LiuZuo/l_kuang1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,80,0,80" picType="0" scale="0"/>
+   <item name="images/hall/nav_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,100,0,100" picType="0" scale="0"/>
 </res>
