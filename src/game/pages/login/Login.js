@@ -110,6 +110,9 @@ export default class login extends Laya.Script {
                 fail() {
                     this.flag = true;
                     Main.showLoading(false);
+                },
+                timeout(){
+                    this.flag = true;
                 }
             })
         }

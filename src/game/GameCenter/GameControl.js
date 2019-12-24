@@ -32,7 +32,7 @@ export default class GameControl extends Laya.Script {
         this._music = {
             moveShow: 'res/sounds/chips_to_table.wav',
             moveMangOrPi: 'res/sounds/chips_to_pot.wav',
-            dealCards: 'res/sounds/movecard.mp3',
+            dealCards: 'res/sounds/movecard.wav',
             fanCards: 'res/sounds/card_turning.wav',
             handle: 'res/sounds/handle.wav',
             diu: 'res/sounds/diu.wav',

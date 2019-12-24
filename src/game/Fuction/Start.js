@@ -33,9 +33,9 @@ export default class sliderSelect extends Laya.Script {
         this.hideLoadingView();
     }
 
-    isAuto(){
-        let isAuto= Main.GetUrlString('auto');
-        Main.AUTO=isAuto==1?true:false;
+    isAuto() {
+        let isAuto = Main.GetUrlString('auto');
+        Main.AUTO = isAuto == 1 ? true : false;
     }
 
     /**测试 获取url中所带的账户和密码 */
@@ -70,7 +70,8 @@ export default class sliderSelect extends Laya.Script {
     hideLoadingView() {
         if (!Main.wxGame)
             setTimeout(() => {
-                document.getElementById('startImg').style.opacity = 0;
+                if (document.getElementById('startImg'))
+                    document.getElementById('startImg').style.opacity = 0;
                 this.onLoading();
             }, 1000)
         else {
@@ -100,7 +101,7 @@ export default class sliderSelect extends Laya.Script {
         if ($loadRate >= 100) {
             this.owner.loadText.text = '加载完成,祝您好运!';
             setTimeout(() => {
-                if (!Main.wxGame)
+                if (!Main.wxGame&&document.getElementById('startImg'))
                     document.getElementById('startImg').style.display = 'none';
                 Laya.Scene.open('login.scene', true);
             }, 500);

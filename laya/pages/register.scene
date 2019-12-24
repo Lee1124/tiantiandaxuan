@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":65,
+    "selecteID":4,
     "searchKey":"Scene",
     "props":{"x":0,"width":1242,"sceneColor":"#000000","runtime":"game/pages/register/registerUI.js","height":2208},
     "nodeParent":-1,

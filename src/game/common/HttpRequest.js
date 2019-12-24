@@ -54,7 +54,13 @@ class HttpRequest {
                 }
             }
         }
-        xhr.http.timeout = 20000;//设置超时时间；
+        xhr.http.timeout = 10000;//设置超时时间;
+        xhr.http.ontimeout = function () {
+            Main.showLoading(false);
+            Main.showDiaLog('请求超时,稍后再试!');
+            if (obj.timeout)
+                obj.timeout.call(that,'请求超时,稍后再试!');
+        }
         xhr.once(Laya.Event.COMPLETE, this, (res) => {
             if (!res.status) {
                 Main.$ERROR('冲突登录:', res);
@@ -71,13 +77,13 @@ class HttpRequest {
             obj.success.call(that, res)
         });
         xhr.once(Laya.Event.ERROR, this, (err) => {
-            console.log('请求异常:', err)
+            Main.$ERROR('请求异常:', err);
             Main.showDiaLog('网络异常');
             if (obj.fail)
                 obj.fail.call(that, err)
         });
-        xhr.on(Laya.Event.PROGRESS, this, (ess) => {
-            console.log(ess)
+        xhr.once(Laya.Event.PROGRESS, this, (ess) => {
+            Main.$ERROR('PROGRESS:', ess);
             if (obj.ess)
                 obj.ess(ess)
         });

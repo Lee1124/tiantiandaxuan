@@ -2087,7 +2087,13 @@
                     }
                 }
             }
-            xhr.http.timeout = 20000;//设置超时时间；
+            xhr.http.timeout = 10000;//设置超时时间;
+            xhr.http.ontimeout = function () {
+                Main$1.showLoading(false);
+                Main$1.showDiaLog('请求超时,稍后再试!');
+                if (obj.timeout)
+                    obj.timeout.call(that,'请求超时,稍后再试!');
+            };
             xhr.once(Laya.Event.COMPLETE, this, (res) => {
                 if (!res.status) {
                     Main$1.$ERROR('冲突登录:', res);
@@ -2104,13 +2110,13 @@
                 obj.success.call(that, res);
             });
             xhr.once(Laya.Event.ERROR, this, (err) => {
-                console.log('请求异常:', err);
+                Main$1.$ERROR('请求异常:', err);
                 Main$1.showDiaLog('网络异常');
                 if (obj.fail)
                     obj.fail.call(that, err);
             });
-            xhr.on(Laya.Event.PROGRESS, this, (ess) => {
-                console.log(ess);
+            xhr.once(Laya.Event.PROGRESS, this, (ess) => {
+                Main$1.$ERROR('PROGRESS:', ess);
                 if (obj.ess)
                     obj.ess(ess);
             });
@@ -7335,6 +7341,9 @@
                     fail() {
                         this.flag = true;
                         Main$1.showLoading(false);
+                    },
+                    timeout(){
+                        this.flag = true;
                     }
                 });
             }
@@ -8104,18 +8113,18 @@
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
-        setPageData(options){
-            this._pageType=options.page;
-            if(options.page==Main$1.sign.register){
-                this.owner.title_1.visible=true;
-                this.owner.title_2.visible=false;
-                this.owner.register_btn.visible=true;
-                this.owner.change_btn.visible=false;
-            }else if(options.page==Main$1.sign.changePwd){
-                this.owner.title_1.visible=false;
-                this.owner.title_2.visible=true;
-                this.owner.register_btn.visible=false;
-                this.owner.change_btn.visible=true;
+        setPageData(options) {
+            this._pageType = options.page;
+            if (options.page == Main$1.sign.register) {
+                this.owner.title_1.visible = true;
+                this.owner.title_2.visible = false;
+                this.owner.register_btn.visible = true;
+                this.owner.change_btn.visible = false;
+            } else if (options.page == Main$1.sign.changePwd) {
+                this.owner.title_1.visible = false;
+                this.owner.title_2.visible = true;
+                this.owner.register_btn.visible = false;
+                this.owner.change_btn.visible = true;
             }
         }
 
@@ -8125,17 +8134,24 @@
             this.initBack();
         }
         comfirmRegisterOrChange() {
-            let that=this;
+            let that = this;
             let user = this.owner.phone_value.text;
             let pwd = this.owner.pwd_value.text;
             let code = this.owner.code_value.text;
+            Main$1.showLoading(true);
             if (user == "") {
+                this.flag = true;
+                Main$1.showLoading(false);
                 Main$1.showDiaLog('手机号不能为空！!');
                 return
             } else if (pwd == "") {
+                this.flag = true;
+                Main$1.showLoading(false);
                 Main$1.showDiaLog('密码不能为空!');
                 return
             } else if (code == "") {
+                this.flag = true;
+                Main$1.showLoading(false);
                 Main$1.showDiaLog('验证码不能为空!');
                 return
             }
@@ -8144,14 +8160,14 @@
                 pws: pwd,
                 code: code
             };
-            if(this._pageType==3){
+            if (this._pageType == 3) {
                 data = {
                     name: user,
                     now: pwd,
                     code: code
                 };
             }
-            let url = this._pageType==2?"/M.Acc/Register":"/M.Acc/ModifyPws";
+            let url = this._pageType == 2 ? "/M.Acc/Register" : "/M.Acc/ModifyPws";
             HTTP.$request({
                 that: this,
                 url: url,
@@ -8159,40 +8175,49 @@
                 success(res) {
                     // console.log(res)
                     if (res.data.ret.type == 0) {
+                        this.flag = true;
+                        Main$1.showLoading(false);
                         let data = {
                             user: user,
                             pwd: pwd,
                         };
-                        if(Main$1.wxGame){
+                        if (Main$1.wxGame) {
                             wx.setStorageSync('userInfo', data);
-                        }else{
+                        } else {
                             localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
                         }
                         // localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
-                        if(this._pageType==2){
-                            Main$1.showDiaLog('注册成功,返回登录',1,()=>{
+                        if (this._pageType == 2) {
+                            Main$1.showDiaLog('注册成功,返回登录', 1, () => {
                                 that.back();
-                            },null,null,false);
-                        }else{
+                            }, null, null, false);
+                        } else {
                             Main$1.showDiaLog('修改成功');
                         }
                     } else {
+                        this.flag = true;
+                        Main$1.showLoading(false);
                         Main$1.showDiaLog(res.data.ret.msg);
                     }
                 },
-                fail(){
+                fail() {
+                    this.flag = true;
+                    Main$1.showLoading(false);
+                },
+                timeout() {
+                    this.flag = true;
                 }
             });
         }
         //初始化返回
-        initBack(){
+        initBack() {
             let backJS = this.owner.back_btn.getComponent(back);
             backJS.initBack(1, 'login.scene', Main$1.sign.signOut);
             return backJS;
         }
         //返回等登录页
-        back(){
-            let backJS=this.initBack();
+        back() {
+            let backJS = this.initBack();
             backJS.back();
         }
     }
