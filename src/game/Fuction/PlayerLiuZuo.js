@@ -100,6 +100,7 @@ class PlayerLiuZuo {
      * 选择时间
      */
     selectTime() {
+        this.selectNum = 150;
         let selectListBox = GameControl.instance.owner.LiuZuo_dialog.getChildByName("selectListBox");
         let $MyClickSelect = selectListBox.getComponent(MyClickSelect);
         $MyClickSelect.MySelect(this, 0, (res) => {

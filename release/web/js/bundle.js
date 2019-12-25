@@ -2860,7 +2860,7 @@
             this._music = {
                 moveShow: 'res/sounds/chips_to_table.wav',
                 moveMangOrPi: 'res/sounds/chips_to_pot.wav',
-                dealCards: 'res/sounds/movecard.mp3',
+                dealCards: 'res/sounds/movecard.wav',
                 fanCards: 'res/sounds/card_turning.wav',
                 handle: 'res/sounds/handle.wav',
                 diu: 'res/sounds/diu.wav',
@@ -5650,6 +5650,7 @@
          * 选择时间
          */
         selectTime() {
+            this.selectNum = 150;
             let selectListBox = GameControl.instance.owner.LiuZuo_dialog.getChildByName("selectListBox");
             let $MyClickSelect = selectListBox.getComponent(MyClickSelect);
             $MyClickSelect.MySelect(this, 0, (res) => {
@@ -8567,9 +8568,9 @@
             this.hideLoadingView();
         }
 
-        isAuto(){
-            let isAuto= Main$1.GetUrlString('auto');
-            Main$1.AUTO=isAuto==1?true:false;
+        isAuto() {
+            let isAuto = Main$1.GetUrlString('auto');
+            Main$1.AUTO = isAuto == 1 ? true : false;
         }
 
         /**测试 获取url中所带的账户和密码 */
@@ -8604,7 +8605,8 @@
         hideLoadingView() {
             if (!Main$1.wxGame)
                 setTimeout(() => {
-                    document.getElementById('startImg').style.opacity = 0;
+                    if (document.getElementById('startImg'))
+                        document.getElementById('startImg').style.opacity = 0;
                     this.onLoading();
                 }, 1000);
             else {
@@ -8634,7 +8636,7 @@
             if ($loadRate >= 100) {
                 this.owner.loadText.text = '加载完成,祝您好运!';
                 setTimeout(() => {
-                    if (!Main$1.wxGame)
+                    if (!Main$1.wxGame&&document.getElementById('startImg'))
                         document.getElementById('startImg').style.display = 'none';
                     Laya.Scene.open('login.scene', true);
                 }, 500);
