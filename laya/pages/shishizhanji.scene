@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":95,
-    "selecteID":106,
+    "selectedBox":2,
+    "selecteID":6,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/shishizhanji/shishizhanjiUI.js","height":2208},
     "nodeParent":-1,
@@ -18,7 +18,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,shishizhanjiBg,shishizhanjiBg",
-            "props":{"x":-1242,"var":"shishizhanjiBg","top":0,"skin":"images/shishizhanji/s_bg.png","name":"shishizhanjiBg","bottom":1},
+            "props":{"x":-1242,"width":1242,"var":"shishizhanjiBg","top":0,"skin":"images/shishizhanji/s_bg.png","name":"shishizhanjiBg","bottom":0.01},
             "nodeParent":2,
             "label":"shishizhanjiBg",
             "isOpen":true,
@@ -257,14 +257,13 @@
                     "props":{"x":32,"var":"s_bg3","top":990,"skin":"images/shishizhanji/s_bg3.png","name":"s_bg3","bottom":150},
                     "nodeParent":6,
                     "label":"s_bg3",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":95,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,left_line",
                             "props":{"y":46,"x":17,"texture":"images/shishizhanji/2_03.png","name":"left_line"},
@@ -278,7 +277,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,right_line",
                             "props":{"y":46,"x":563,"texture":"images/shishizhanji/2_03.png","name":"right_line"},
@@ -292,7 +290,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,weiGuanTitle,weiGuanTitle",
                             "props":{"y":46,"var":"weiGuanTitle","text":"(0)","name":"weiGuanTitle","height":39,"fontSize":40,"color":"#935F13","centerX":41,"align":"center"},
@@ -319,7 +316,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,listBox",
                             "props":{"width":900,"top":120,"name":"listBox","centerX":0,"bottom":25},
@@ -332,7 +328,6 @@
                             "compId":106,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"List",
                                     "searchKey":"List,PersonList,PersonList",
                                     "props":{"x":0,"visible":false,"var":"PersonList","top":0,"spaceY":20,"spaceX":70,"right":0,"repeatX":4,"name":"PersonList","left":0,"elasticEnabled":true,"bottom":0},
@@ -345,7 +340,6 @@
                                     "compId":107,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Box",
                                             "searchKey":"Box,PersonBox",
                                             "props":{"y":0,"x":15,"width":165,"renderType":"render","name":"PersonBox","height":165},
@@ -358,7 +352,6 @@
                                             "compId":108,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,headBg",
                                                     "props":{"y":10,"x":17,"width":130,"skin":"images/shishizhanji/s_head.png","name":"headBg","height":130},
@@ -371,7 +364,6 @@
                                                     "compId":109,
                                                     "child":[
                                                         {
-                                                            "x":105,
                                                             "type":"Image",
                                                             "searchKey":"Image,head",
                                                             "props":{"width":124,"name":"head","height":124,"centerY":1,"centerX":0},
@@ -386,7 +378,6 @@
                                                         }]
                                                 },
                                                 {
-                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label,name",
                                                     "props":{"width":182,"overflow":"hidden","name":"name","height":30,"fontSize":30,"color":"#935F13","centerX":0,"bottom":-12,"align":"center"},

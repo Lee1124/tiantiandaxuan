@@ -29,11 +29,18 @@ export default class register extends Laya.Script {
             this.owner.change_btn.visible = true;
         }
     }
-
     onEnable() {
     }
     onStart() {
         this.initBack();
+        //微信小游戏背景图
+        if (Main.wxGame)
+            this.initPage();
+    }
+    /**初始化页面(加载背景) */
+    initPage() {
+        let bg=this.owner.getChildByName('bg');
+        bg.skin = 'res/img/common/login_bg.jpg';
     }
     comfirmRegisterOrChange() {
         let that = this;

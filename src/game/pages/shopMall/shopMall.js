@@ -22,6 +22,14 @@ export default class shopMall extends Laya.Script {
         this.setBack();
         //获取页面数据
         this.getPageData();
+        if (Main.wxGame)
+            this.initPage();
+    }
+
+    /**初始化页面(加载背景) */
+    initPage() {
+        let bg=this.owner.getChildByName('bg');
+        bg.skin = 'res/img/common/login_bg.jpg';
     }
 
     setBack() {

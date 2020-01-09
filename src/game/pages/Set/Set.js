@@ -21,6 +21,13 @@ export default class Set extends Laya.Script {
     onStart() {
         this.initBack();
         this.setList();
+        if (Main.wxGame)
+            this.initPage();
+    }
+    /**初始化页面(加载背景) */
+    initPage() {
+        let bg=this.owner.getChildByName('bg');
+        bg.skin = 'res/img/common/login_bg.jpg';
     }
 
     initBack() {

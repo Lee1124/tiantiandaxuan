@@ -2,6 +2,7 @@
 import setSceneWH from "./game/common/setSceneWH"
 import back from "./game/common/back"
 import setHd from "./game/common/setHd"
+import AboutOur from "./game/pages/AboutOur/AboutOur"
 import GameUI from "./game/GameCenter/GameUI"
 import seat from "./game/GameCenter/seat"
 import MySlider from "./game/Fuction/MySlider"
@@ -38,11 +39,13 @@ import Data from "./game/pages/Data/Data"
 
 export default class GameConfig {
     static init() {
+		
         //注册Script或者Runtime引用
         let reg = Laya.ClassUtils.regClass;
 		reg("game/common/setSceneWH.js",setSceneWH);
 		reg("game/common/back.js",back);
 		reg("game/common/setHd.js",setHd);
+		reg("game/pages/AboutOur/AboutOur.js",AboutOur);
 		reg("game/GameCenter/GameUI.js",GameUI);
 		reg("game/GameCenter/seat.js",seat);
 		reg("game/Fuction/MySlider.js",MySlider);

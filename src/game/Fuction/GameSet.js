@@ -44,7 +44,11 @@ class GameSet {
     }
     setGameView() {
         let deskView = localStorage.getItem('deskView') ? localStorage.getItem('deskView') : 'desk_bg1';
-        Main.$LoadImage(this.GameUI.deskBg,Main.gameView[deskView],Main.gameView.desk_bg1,'skin');
+        if(Main.wxGame){//是微信端
+            Main.$LoadImage(this.GameUI.deskBg,Main.gameView['wx_'+deskView],Main.gameView.wx_desk_bg1,'skin');
+        }else{
+            Main.$LoadImage(this.GameUI.deskBg,Main.gameView[deskView],Main.gameView.desk_bg1,'skin');
+        }
         this.GameUI.gameSet_deskViewBox._children.forEach(item => {
             item.getChildByName("desk").getChildByName("selectSign").visible = false;
             if (item.name == deskView) {

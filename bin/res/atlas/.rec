@@ -102,7 +102,6 @@ P B539BF7B switch1.png
 P EA6A258D tab1_bg.png
 R 57887702 test.png
 P 3DAFB2BD textinput.png
-R F8F1CFFF tip.png
 P 279D3A71 title_aboutOur.png
 P 0DCFAB10 title_activity.png
 P C236A4E0 title_changePwd.png
@@ -188,6 +187,8 @@ P CD13AC34 banker.png
 P AD316698 bg1.png
 P D7DC051E CardPrompt.png
 P 9313E06E choumaKuangBg.png
+S 75A93940 desk_bg1.jpg
+S 17B279AA desk_bg2.jpg
 P 19D104A3 errLoad.png
 P A2A0408F fightBg2.png
 P 8676D1E1 fightBg3.png
@@ -200,7 +201,6 @@ P 185DBF18 icon1.png
 P BD1B9F6A icon2.png
 P FDF8674C menu_btn.png
 P 95942AC2 menu_line.png
-S F74EE98A newDesk.png
 P E2E4D446 pai_icon.png
 P 1FFA3D19 paijuhuigu_icon.png
 S A6159A0D paijutishi.png
@@ -269,7 +269,7 @@ R 456653DD nav.png
 R B490A3A2 nav_bg.png
 R 4D9438E1 system_notice.png
 D images/paijuhuigu
-S 98A5891C p_bg.png
+P 7298165A p_bg.png
 P 8A4CFE93 p_bg_2.png
 P 5A3AAE8E p_dian.png
 R 8020A733 p_hd.png
@@ -316,7 +316,7 @@ D images/shishizhanji
 P 523B9A25 2_03.png
 P 1495F555 s_alldairu.png
 P E04F3E3D s_allgetscore.png
-S 16E74A62 s_bg.png
+P 958B4315 s_bg.png
 R 9BA3AD3D s_bg2.png
 R EBD0D8F1 s_bg3.png
 P A2E4AD56 s_bg4.png

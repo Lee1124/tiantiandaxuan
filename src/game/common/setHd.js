@@ -14,5 +14,11 @@ export default class setHd extends Laya.Script {
             this.owner.height = hdStartHeight + Main.phoneNews.statusHeight;
             titleBox.top = titleBox.top + Main.phoneNews.statusHeight;
         }
+        if(Main.wxGame){
+            let hdStartHeight = this.owner.height;
+            let titleBox = this.owner.getChildByName('titleBox');
+            this.owner.height = hdStartHeight + 30;
+            titleBox.top = titleBox.top + 30; 
+        }
     }
 }

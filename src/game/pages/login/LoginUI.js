@@ -29,6 +29,7 @@ export default class Login extends Laya.Scene {
         //     // Main.getStatusHeight();
         //     // Main.createDiaLog();
         // }
+        // this.initPage();
     }
     login() {
         this._LoginJS.login();
@@ -39,4 +40,6 @@ export default class Login extends Laya.Scene {
     // change() {
     //     this._LoginJS.changePwd();
     // }
+
+    
 }

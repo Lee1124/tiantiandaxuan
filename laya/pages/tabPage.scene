@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":422,
-    "selecteID":436,
+    "selectedBox":2,
+    "selecteID":4,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
@@ -34,8 +34,8 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,bg",
-            "props":{"top":0,"skin":"images/login/login_bg.png","right":0,"name":"bg","left":0,"bottom":0},
+            "searchKey":"Image,bg,tab_bg",
+            "props":{"var":"tab_bg","top":0,"skin":"images/login/login_bg.png","right":0,"name":"bg","left":0,"bottom":0},
             "nodeParent":2,
             "label":"bg",
             "isDirectory":false,
@@ -885,14 +885,13 @@
                     "props":{"visible":true,"var":"NoticePage","top":0,"right":0,"name":"NoticePage","left":0,"bottom":0},
                     "nodeParent":67,
                     "label":"NoticePage",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":80,
                     "child":[
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/game/pages/Notice/Notice.js",
@@ -909,7 +908,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,hd",
                             "props":{"width":1242,"top":0,"skin":"images/common/title_hd_bg.png","right":0,"name":"hd","left":0,"height":163},
@@ -965,7 +963,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,content,notice_content",
                             "props":{"var":"notice_content","top":270,"right":0,"name":"content","left":0,"bottom":225},
@@ -978,7 +975,6 @@
                             "compId":422,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,nav",
                                     "props":{"x":0,"width":1040,"top":0,"skin":"images/hall/nav_bg.png","name":"nav","centerX":0},
@@ -1059,7 +1055,6 @@
                                         }]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,page_bg",
                                     "props":{"x":0,"top":200,"skin":"images/Notice/bg1.png","right":24,"name":"page_bg","left":25,"bottom":0},
@@ -1137,9 +1132,10 @@
                                                 ],
                                             "$HIDDEN":true
                                         }]
-                                }]
+                                }],
+                            "$HIDDEN":false
                         }],
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 },
                 {
                     "x":30,

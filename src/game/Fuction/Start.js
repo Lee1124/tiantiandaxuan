@@ -22,20 +22,46 @@ export default class sliderSelect extends Laya.Script {
     }
 
     onEnable() {
+        //隐藏默认的虚拟键
+        
+        this.getForm();
+        //初始化laya相关设置
+        if (Main.wxGame) {
+            this.InitLaya();
+            this.initPage();
+        }
         /**===测试=== */
         this.isAuto();
         if (Main.AUTO)
             this.setUser();
         /**===测试=== */
-        this.getForm();
         if (!Main.AUTO)
             this.getUserInfo();
         this.hideLoadingView();
+        
+    }
+
+
+    /**初始化页面(加载背景) */
+    initPage() {
+        let bg = this.owner.getChildByName('bg');
+        let proBg = bg.getChildByName('progressBg');
+        let pro = proBg.getChildByName('progress');
+        bg.skin = 'res/img/common/login_bg.jpg';
+        proBg.skin = 'res/img/common/progress_bg.png';
+        pro.skin = 'res/img/common/progress_line.png';
+    }
+
+    /**初始化laya相关设置 */
+    InitLaya() {
+        Laya.URL.basePath = Main.resourseHttp;
     }
 
     isAuto() {
-        let isAuto = Main.GetUrlString('auto');
-        Main.AUTO = isAuto == 1 ? true : false;
+        if (!Main.wxGame) {
+            let isAuto = Main.GetUrlString('auto');
+            Main.AUTO = isAuto == 1 ? true : false;
+        }
     }
 
     /**测试 获取url中所带的账户和密码 */
@@ -48,11 +74,6 @@ export default class sliderSelect extends Laya.Script {
                 pwd: pwd
             }
             Main.userInfo = data;
-            // if (Main.wxGame) {
-            //     wx.setStorageSync('userInfo', data);
-            // } else {
-            //     localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
-            // }
         }
     }
 
@@ -101,7 +122,7 @@ export default class sliderSelect extends Laya.Script {
         if ($loadRate >= 100) {
             this.owner.loadText.text = '加载完成,祝您好运!';
             setTimeout(() => {
-                if (!Main.wxGame&&document.getElementById('startImg'))
+                if (!Main.wxGame && document.getElementById('startImg'))
                     document.getElementById('startImg').style.display = 'none';
                 Laya.Scene.open('login.scene', true);
             }, 500);

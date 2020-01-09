@@ -224,12 +224,13 @@
     class Main {
         constructor() {
             this.AUTONUM=0;
-            this.AUTO=true;
+            this.AUTO=false;
             Main.instance = this;
             // this.websoketApi = '192.168.0.125:8082';
             // this.requestApi = 'http://192.168.0.125:8081';
             this.websoketApi = '132.232.34.32:8082';
             this.requestApi = 'http://132.232.34.32:8081';
+            this.resourseHttp='http://132.232.34.32/ttdx/';
             //手机信息
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
@@ -261,8 +262,21 @@
             };
             this.gameView = {
                 desk_bg1: 'res/img/gameView/desk_bg1.png',
-                desk_bg2: 'res/img/gameView/desk_bg2.png'
+                desk_bg2: 'res/img/gameView/desk_bg2.png',
+                wx_desk_bg1:'res/img/gameView/desk_bg1.jpg',
+                wx_desk_bg2:'res/img/gameView/desk_bg2.jpg'
             };
+            //预加载图片数据
+            this.gameLoadImgArr=[
+                'res/img/common/login_bg.jpg',
+                'res/img/gameView/desk_bg1.png',
+                'res/img/gameView/desk_bg2.png',
+                'res/img/gameView/desk_bg1.jpg',
+                'res/img/gameView/desk_bg2.jpg',
+                'res/img/common/tip.png',
+                'res/img/common/progress_bg.png',
+                'res/img/common/progress_line.png'
+            ];
             //所有扑克的名字(在这里为了预加载，避免翻牌的渲染过慢)
             this.gamePoker = [0, 1, 2, 4, 5, 6, 8, 10, 15, 16, 17, 18, 19, 20, 21, 22, 28, 29, 30, 31, 32, 33, 34, 35, 39, 41, 43, 44, 45, 47, 49, 53, -1];
             this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
@@ -331,7 +345,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = true;
+            this.debug = false;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -437,7 +451,11 @@
             if (this.phoneNews.deviceNews == 'Android') {
                 nodeArr.forEach(node => {
                     node.top = node.top + this.phoneNews.statusHeight;
-                    console.log(node.top);
+                });
+            }
+            if(this.wxGame){
+                nodeArr.forEach(node => {
+                    node.top = node.top + 30;
                 });
             }
         }
@@ -814,7 +832,7 @@
         beforeLoadScene(that, loadFn) {
             this.beforeLoadThat = that;
             this.beforeLoadCallback = loadFn;
-            Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
+            Laya.loader.load(this.gameLoadImgArr);
             //加载所有的牌
             this.gamePoker.forEach(item => {
                 Laya.loader.load('res/img/poker/' + item + '.png');
@@ -978,7 +996,68 @@
                 this.owner.height = hdStartHeight + Main$1.phoneNews.statusHeight;
                 titleBox.top = titleBox.top + Main$1.phoneNews.statusHeight;
             }
+            if(Main$1.wxGame){
+                let hdStartHeight = this.owner.height;
+                let titleBox = this.owner.getChildByName('titleBox');
+                this.owner.height = hdStartHeight + 30;
+                titleBox.top = titleBox.top + 30; 
+            }
         }
+    }
+
+    class AboutOur extends Laya.Script {
+
+        constructor() {
+            super();
+            // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+            this.myHeight = 0;
+        }
+
+        onEnable() {
+        }
+
+        onStart() {
+            // this.setUI()
+            if (Main$1.wxGame)
+                this.initPage();
+        }
+
+        /**初始化页面(加载背景) */
+        initPage() {
+            let bg=this.owner.getChildByName('bg');
+            bg.skin = 'res/img/common/login_bg.jpg';
+        }
+
+        // setPageData() {
+        //     let list = this.owner.textList;
+        //     list.array = [
+        //         { height: 50, text: '天天打旋 - 朋友间的乐趣' },
+        //         { height: 150, text: '我们致力于建立一个打旋的兴趣社区，让爱好扯旋的粉丝在天天打旋中切磋牌局，提高技术。' },
+        //         { height: 100, text: '业内首创的朋友棋牌模式，快速局模式，得到众多扯旋爱好者的首肯。' },
+        //         { height: 100, text: '天天打旋成为一个公平，值得信任的平台感到自豪。我们的洗牌算法，以及随机数生成器(RNG)通过了业内最严格的独立认证机构Gaming Laboratories  International(GLI)的测试，符合扑克游戏对于随机性的要求。' },
+        //         { height: 100, text: '对于一个棋牌运动，公平性是最关键的，随机数生成器决定了洗牌，发牌的顺序，天天打旋经过GLI认证的随机数生成器保证了发排顺序是足够随机的，并且不会受到其他条件的影响，Pokermaster Pty Ltd致力于天天打旋全球社区建立和运营，公平正直，一直是公司核心价值观的首位。“天天打旋”位于国际数据中心面向亚太地区，在各个区域同时建立有接入中心，保证各个区域玩家的游戏速度和隐私保护。' },
+        //         { height: 100, text: '此致敬礼！' },
+        //     ];
+        //     list.vScrollBarSkin = "";
+        //     list.renderHandler = new Laya.Handler(this, this.listRender)
+        // }
+        // listRender(cell, index) {
+        //     console.log(cell)
+        //     setTimeout(() => {
+        //         let $height = cell.getChildByName("text")._children[0]._textHeight;
+        //         console.log(this.myHeight)
+        //         // cell.y=this.myHeight;
+        //         cell.height = $height;
+        //         let textLabel = cell.getChildByName("text");
+        //         textLabel.text = cell.dataSource.text;
+        //     })
+        // }
+
+        // setUI() {
+        //     let nodeArr = [this.owner.our_bg2]
+        //     Main.setNodeTop(nodeArr);
+        //     this.owner.our_bg2.bottom = this.owner.our_bg2.bottom - Main.phoneNews.statusHeight;
+        // }
     }
 
     class CountPoint{
@@ -5244,7 +5323,11 @@
         }
         setGameView() {
             let deskView = localStorage.getItem('deskView') ? localStorage.getItem('deskView') : 'desk_bg1';
-            Main$1.$LoadImage(this.GameUI.deskBg,Main$1.gameView[deskView],Main$1.gameView.desk_bg1,'skin');
+            if(Main$1.wxGame){//是微信端
+                Main$1.$LoadImage(this.GameUI.deskBg,Main$1.gameView['wx_'+deskView],Main$1.gameView.wx_desk_bg1,'skin');
+            }else{
+                Main$1.$LoadImage(this.GameUI.deskBg,Main$1.gameView[deskView],Main$1.gameView.desk_bg1,'skin');
+            }
             this.GameUI.gameSet_deskViewBox._children.forEach(item => {
                 item.getChildByName("desk").getChildByName("selectSign").visible = false;
                 if (item.name == deskView) {
@@ -5952,12 +6035,15 @@
             GameSet$1.initGameSet(this);
             this.setUISite();
         }
+        
 
         /**
          * 设置UI的位置
          */
         setUISite() {
             this.TOPHandleBtnBox.top = Main$1.phoneNews.statusHeight;
+            if (Main$1.wxGame)
+                this.TOPHandleBtnBox.top = 30;
         }
 
         tipMoveEnd(tipObj) {
@@ -5994,19 +6080,19 @@
         }
 
         ceshiEvent() {
-            let ceshi_view=this.ceshi_view;
-            let ceshi_LOG=ceshi_view.getChildByName('LOG');
-            let ceshi_ERRROLAD=ceshi_view.getChildByName('ERRROLAD');
-            let ceshi_AUTO=ceshi_view.getChildByName('AUTO');
+            let ceshi_view = this.ceshi_view;
+            let ceshi_LOG = ceshi_view.getChildByName('LOG');
+            let ceshi_ERRROLAD = ceshi_view.getChildByName('ERRROLAD');
+            let ceshi_AUTO = ceshi_view.getChildByName('AUTO');
             this.ceshi_show_view_btn.on(Laya.Event.CLICK, this, this.click_ceshi_btn);
             ceshi_LOG.on(Laya.Event.CLICK, this, this.ceshiContent, [1]);
             ceshi_ERRROLAD.on(Laya.Event.CLICK, this, this.ceshiContent, [2]);
-            ceshi_AUTO.on(Laya.Event.CLICK, this, this.ceshiContent, [3,ceshi_AUTO]);
+            ceshi_AUTO.on(Laya.Event.CLICK, this, this.ceshiContent, [3, ceshi_AUTO]);
         }
 
         click_ceshi_btn() {
             this.ceshiNum++;
-            if(this.ceshiNum==2){
+            if (this.ceshiNum == 2) {
                 this.onClickVoiceBtn();
             }
             if (this.ceshiNum == 5) {
@@ -6020,7 +6106,7 @@
             }
         }
 
-        ceshiContent(type,obj) {
+        ceshiContent(type, obj) {
             if (type == 1) {
                 this.ceshiNum2++;
                 if (this.ceshiNum2 % 2 == 0) {
@@ -6032,9 +6118,9 @@
                 GameControl.instance.onClose();
                 GameControl.instance.onConnect();
                 Main$1.showTip('正在刷新数据，请稍后...');
-            }  else if (type == 3) {
-                obj.text=obj.text=='关闭自动'?'打开自动':'关闭自动';
-                Main$1.AUTO=obj.text=='关闭自动'?true:false;
+            } else if (type == 3) {
+                obj.text = obj.text == '关闭自动' ? '打开自动' : '关闭自动';
+                Main$1.AUTO = obj.text == '关闭自动' ? true : false;
             }
         }
 
@@ -6050,7 +6136,7 @@
                     console.log('解散房间：', res);
                 }
             });
-            Laya.Scene.open('demo.scene',true);
+            Laya.Scene.open('demo.scene', true);
         }
 
         /**
@@ -7116,6 +7202,13 @@
         onStart() {
             this.initBack();
             this.setList();
+            if (Main$1.wxGame)
+                this.initPage();
+        }
+        /**初始化页面(加载背景) */
+        initPage() {
+            let bg=this.owner.getChildByName('bg');
+            bg.skin = 'res/img/common/login_bg.jpg';
         }
 
         initBack() {
@@ -7257,6 +7350,14 @@
         onStart() {
             this.initOpenView();
             this.startLoadPage();
+            //微信小游戏背景图
+            if (Main$1.wxGame)
+                this.initPage();
+        }
+
+        /**初始化页面(加载背景) */
+        initPage() {
+            this.owner.login_bg.skin = 'res/img/common/login_bg.jpg';
         }
 
         /**
@@ -7343,7 +7444,7 @@
                         this.flag = true;
                         Main$1.showLoading(false);
                     },
-                    timeout(){
+                    timeout() {
                         this.flag = true;
                     }
                 });
@@ -7450,6 +7551,7 @@
             //     // Main.getStatusHeight();
             //     // Main.createDiaLog();
             // }
+            // this.initPage();
         }
         login() {
             this._LoginJS.login();
@@ -7460,6 +7562,8 @@
         // change() {
         //     this._LoginJS.changePwd();
         // }
+
+        
     }
 
     /**
@@ -7871,6 +7975,8 @@
         }
 
         onStart() {
+            if (Main$1.wxGame)
+                this.initPage();
             this.setBack();
             this.setSexList();
             this.sexSelect(0);
@@ -7890,6 +7996,11 @@
                     this.Confrim();
                 }, 600);
             /**===测试=== */
+        }
+        /**初始化页面(加载背景) */
+        initPage() {
+            let bg = this.owner.getChildByName('bg');
+            bg.skin = 'res/img/common/login_bg.jpg';
         }
         /**
          * 编辑页面获取个人信息
@@ -7958,7 +8069,15 @@
                 { headUrl: 'res/img/head/1.png', value: 1 },
                 { headUrl: 'res/img/head/2.png', value: 2 },
                 { headUrl: 'res/img/head/3.png', value: 3 },
-                { headUrl: 'res/img/head/4.png', value: 4 }
+                { headUrl: 'res/img/head/4.png', value: 4 },
+                { headUrl: 'res/img/head/5.png', value: 5 },
+                { headUrl: 'res/img/head/6.png', value: 6 },
+                { headUrl: 'res/img/head/7.png', value: 7 },
+                { headUrl: 'res/img/head/8.png', value: 8 },
+                { headUrl: 'res/img/head/9.png', value: 9 },
+                { headUrl: 'res/img/head/10.png', value: 10 },
+                { headUrl: 'res/img/head/11.png', value: 11 },
+                { headUrl: 'res/img/head/12.png', value: 12 }
             ];
             list.renderHandler = new Laya.Handler(this, this.onRenderHandlerHeadList);
         }
@@ -8128,11 +8247,18 @@
                 this.owner.change_btn.visible = true;
             }
         }
-
         onEnable() {
         }
         onStart() {
             this.initBack();
+            //微信小游戏背景图
+            if (Main$1.wxGame)
+                this.initPage();
+        }
+        /**初始化页面(加载背景) */
+        initPage() {
+            let bg=this.owner.getChildByName('bg');
+            bg.skin = 'res/img/common/login_bg.jpg';
         }
         comfirmRegisterOrChange() {
             let that = this;
@@ -8270,6 +8396,13 @@
         }
         onStart() {
             this.initBack();
+            if (Main$1.wxGame)
+                this.initPage();
+        }
+        /**初始化页面(加载背景) */
+        initPage() {
+            let bg=this.owner.getChildByName('bg');
+            bg.skin = 'res/img/common/login_bg.jpg';
         }
         initBack() {
             let BackJS = this.owner.back.getComponent(back);
@@ -8290,7 +8423,7 @@
             return iframe;
         }
 
-        setUI(){
+        setUI() {
             let nodeArr = [this.owner.contentView];
             Main$1.setNodeTop(nodeArr);
         }
@@ -8449,6 +8582,14 @@
             this.setBack();
             //获取页面数据
             this.getPageData();
+            if (Main$1.wxGame)
+                this.initPage();
+        }
+
+        /**初始化页面(加载背景) */
+        initPage() {
+            let bg=this.owner.getChildByName('bg');
+            bg.skin = 'res/img/common/login_bg.jpg';
         }
 
         setBack() {
@@ -8557,20 +8698,46 @@
         }
 
         onEnable() {
+            //隐藏默认的虚拟键
+            
+            this.getForm();
+            //初始化laya相关设置
+            if (Main$1.wxGame) {
+                this.InitLaya();
+                this.initPage();
+            }
             /**===测试=== */
             this.isAuto();
             if (Main$1.AUTO)
                 this.setUser();
             /**===测试=== */
-            this.getForm();
             if (!Main$1.AUTO)
                 this.getUserInfo();
             this.hideLoadingView();
+            
+        }
+
+
+        /**初始化页面(加载背景) */
+        initPage() {
+            let bg = this.owner.getChildByName('bg');
+            let proBg = bg.getChildByName('progressBg');
+            let pro = proBg.getChildByName('progress');
+            bg.skin = 'res/img/common/login_bg.jpg';
+            proBg.skin = 'res/img/common/progress_bg.png';
+            pro.skin = 'res/img/common/progress_line.png';
+        }
+
+        /**初始化laya相关设置 */
+        InitLaya() {
+            Laya.URL.basePath = Main$1.resourseHttp;
         }
 
         isAuto() {
-            let isAuto = Main$1.GetUrlString('auto');
-            Main$1.AUTO = isAuto == 1 ? true : false;
+            if (!Main$1.wxGame) {
+                let isAuto = Main$1.GetUrlString('auto');
+                Main$1.AUTO = isAuto == 1 ? true : false;
+            }
         }
 
         /**测试 获取url中所带的账户和密码 */
@@ -8583,11 +8750,6 @@
                     pwd: pwd
                 };
                 Main$1.userInfo = data;
-                // if (Main.wxGame) {
-                //     wx.setStorageSync('userInfo', data);
-                // } else {
-                //     localStorage.setItem('userInfo', JSON.stringify(data)); //转化为JSON字符串)
-                // }
             }
         }
 
@@ -8636,7 +8798,7 @@
             if ($loadRate >= 100) {
                 this.owner.loadText.text = '加载完成,祝您好运!';
                 setTimeout(() => {
-                    if (!Main$1.wxGame&&document.getElementById('startImg'))
+                    if (!Main$1.wxGame && document.getElementById('startImg'))
                         document.getElementById('startImg').style.display = 'none';
                     Laya.Scene.open('login.scene', true);
                 }, 500);
@@ -9478,6 +9640,15 @@
             let page = !options.page ? Main$1.pages.page3 : options.page;
             this.openView(page);
             this.setUI();
+            //微信小游戏背景图
+            if (Main$1.wxGame)
+                this.initPage();
+        }
+        /**初始化页面(加载背景) */
+        initPage() {
+            setTimeout(() => {
+                this.tab_bg.skin = 'res/img/common/login_bg.jpg';
+            });
         }
         onAwake() {
             Main$1.$LOG('TabPagesUI:', this);
@@ -9564,7 +9735,7 @@
         }
 
         setUI() {
-            let nodeArr = [this.notice_content,this.hall_content,this.data_content,this.me_content];
+            let nodeArr = [this.notice_content, this.hall_content, this.data_content, this.me_content];
             Main$1.setNodeTop(nodeArr);
         }
     }
@@ -9573,11 +9744,13 @@
 
     class GameConfig {
         static init() {
+    		
             //注册Script或者Runtime引用
             let reg = Laya.ClassUtils.regClass;
     		reg("game/common/setSceneWH.js",setSceneWH);
     		reg("game/common/back.js",back);
     		reg("game/common/setHd.js",setHd);
+    		reg("game/pages/AboutOur/AboutOur.js",AboutOur);
     		reg("game/GameCenter/GameUI.js",GameUI);
     		reg("game/GameCenter/seat.js",seat);
     		reg("game/Fuction/MySlider.js",MySlider);
@@ -9650,6 +9823,12 @@
 
     		//激活资源版本控制，version.json由IDE发布功能自动生成，如果没有也不影响后续流程
     		Laya.ResourceVersion.enable("version.json", Laya.Handler.create(this, this.onVersionLoaded), Laya.ResourceVersion.FILENAME_VERSION);
+
+    		alert(window.conch);
+    		//隐藏虚拟键盘
+    		if (window.conch) {
+    			window.conch.showAssistantTouch(false);
+    		}
     	}
 
     	onVersionLoaded() {

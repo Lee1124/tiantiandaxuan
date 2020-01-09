@@ -25,6 +25,14 @@ export default class login extends Laya.Script {
     onStart() {
         this.initOpenView();
         this.startLoadPage();
+        //微信小游戏背景图
+        if (Main.wxGame)
+            this.initPage();
+    }
+
+    /**初始化页面(加载背景) */
+    initPage() {
+        this.owner.login_bg.skin = 'res/img/common/login_bg.jpg';
     }
 
     /**
@@ -111,7 +119,7 @@ export default class login extends Laya.Script {
                     this.flag = true;
                     Main.showLoading(false);
                 },
-                timeout(){
+                timeout() {
                     this.flag = true;
                 }
             })

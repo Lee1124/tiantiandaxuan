@@ -31,6 +31,8 @@ export default class playerNewsSet extends Laya.Script {
     }
 
     onStart() {
+        if (Main.wxGame)
+            this.initPage();
         this.setBack();
         this.setSexList();
         this.sexSelect(0);
@@ -50,6 +52,11 @@ export default class playerNewsSet extends Laya.Script {
                 this.Confrim();
             }, 600)
         /**===测试=== */
+    }
+    /**初始化页面(加载背景) */
+    initPage() {
+        let bg = this.owner.getChildByName('bg');
+        bg.skin = 'res/img/common/login_bg.jpg';
     }
     /**
      * 编辑页面获取个人信息
@@ -118,7 +125,15 @@ export default class playerNewsSet extends Laya.Script {
             { headUrl: 'res/img/head/1.png', value: 1 },
             { headUrl: 'res/img/head/2.png', value: 2 },
             { headUrl: 'res/img/head/3.png', value: 3 },
-            { headUrl: 'res/img/head/4.png', value: 4 }
+            { headUrl: 'res/img/head/4.png', value: 4 },
+            { headUrl: 'res/img/head/5.png', value: 5 },
+            { headUrl: 'res/img/head/6.png', value: 6 },
+            { headUrl: 'res/img/head/7.png', value: 7 },
+            { headUrl: 'res/img/head/8.png', value: 8 },
+            { headUrl: 'res/img/head/9.png', value: 9 },
+            { headUrl: 'res/img/head/10.png', value: 10 },
+            { headUrl: 'res/img/head/11.png', value: 11 },
+            { headUrl: 'res/img/head/12.png', value: 12 }
         ]
         list.renderHandler = new Laya.Handler(this, this.onRenderHandlerHeadList);
     }

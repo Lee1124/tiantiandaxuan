@@ -25,6 +25,13 @@ export default class service extends Laya.Script {
     }
     onStart() {
         this.initBack();
+        if (Main.wxGame)
+            this.initPage();
+    }
+    /**初始化页面(加载背景) */
+    initPage() {
+        let bg=this.owner.getChildByName('bg');
+        bg.skin = 'res/img/common/login_bg.jpg';
     }
     initBack() {
         let BackJS = this.owner.back.getComponent(Back);
@@ -45,7 +52,7 @@ export default class service extends Laya.Script {
         return iframe;
     }
 
-    setUI(){
+    setUI() {
         let nodeArr = [this.owner.contentView];
         Main.setNodeTop(nodeArr);
     }

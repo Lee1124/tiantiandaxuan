@@ -2,12 +2,13 @@ import TIP from '../common/SuspensionTips'
 class Main {
     constructor() {
         this.AUTONUM=0;
-        this.AUTO=true;
+        this.AUTO=false;
         Main.instance = this;
         // this.websoketApi = '192.168.0.125:8082';
         // this.requestApi = 'http://192.168.0.125:8081';
         this.websoketApi = '132.232.34.32:8082';
         this.requestApi = 'http://132.232.34.32:8081';
+        this.resourseHttp='http://132.232.34.32/ttdx/'
         //手机信息
         this.phoneNews = {
             statusHeight: 0,//手机系统栏的高度
@@ -39,8 +40,21 @@ class Main {
         }
         this.gameView = {
             desk_bg1: 'res/img/gameView/desk_bg1.png',
-            desk_bg2: 'res/img/gameView/desk_bg2.png'
+            desk_bg2: 'res/img/gameView/desk_bg2.png',
+            wx_desk_bg1:'res/img/gameView/desk_bg1.jpg',
+            wx_desk_bg2:'res/img/gameView/desk_bg2.jpg'
         }
+        //预加载图片数据
+        this.gameLoadImgArr=[
+            'res/img/common/login_bg.jpg',
+            'res/img/gameView/desk_bg1.png',
+            'res/img/gameView/desk_bg2.png',
+            'res/img/gameView/desk_bg1.jpg',
+            'res/img/gameView/desk_bg2.jpg',
+            'res/img/common/tip.png',
+            'res/img/common/progress_bg.png',
+            'res/img/common/progress_line.png'
+        ]
         //所有扑克的名字(在这里为了预加载，避免翻牌的渲染过慢)
         this.gamePoker = [0, 1, 2, 4, 5, 6, 8, 10, 15, 16, 17, 18, 19, 20, 21, 22, 28, 29, 30, 31, 32, 33, 34, 35, 39, 41, 43, 44, 45, 47, 49, 53, -1]
         this.loadScene = ['cheXuanGame_8.scene', 'playerNewsSet.scene', 'register.scene', 'shishizhanji.scene',
@@ -109,7 +123,7 @@ class Main {
         this.loadAniArr2 = [];
         this.loadShowArr = [];
         this.loadShowArr2 = [];
-        this.debug = true;
+        this.debug = false;
 
         this.errList = [];
         this.tipArr1 = [];
@@ -215,7 +229,11 @@ class Main {
         if (this.phoneNews.deviceNews == 'Android') {
             nodeArr.forEach(node => {
                 node.top = node.top + this.phoneNews.statusHeight;
-                console.log(node.top)
+            })
+        }
+        if(this.wxGame){
+            nodeArr.forEach(node => {
+                node.top = node.top + 30;
             })
         }
     }
@@ -593,7 +611,7 @@ class Main {
     beforeLoadScene(that, loadFn) {
         this.beforeLoadThat = that;
         this.beforeLoadCallback = loadFn;
-        Laya.loader.load([this.gameView.desk_bg1, this.gameView.desk_bg2]);
+        Laya.loader.load(this.gameLoadImgArr);
         //加载所有的牌
         this.gamePoker.forEach(item => {
             Laya.loader.load('res/img/poker/' + item + '.png');

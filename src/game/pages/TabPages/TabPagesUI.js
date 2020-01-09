@@ -14,6 +14,15 @@ export default class TabPagesUI extends Laya.Scene {
         let page = !options.page ? Main.pages.page3 : options.page;
         this.openView(page);
         this.setUI();
+        //微信小游戏背景图
+        if (Main.wxGame)
+            this.initPage();
+    }
+    /**初始化页面(加载背景) */
+    initPage() {
+        setTimeout(() => {
+            this.tab_bg.skin = 'res/img/common/login_bg.jpg';
+        })
     }
     onAwake() {
         Main.$LOG('TabPagesUI:', this);
@@ -100,7 +109,7 @@ export default class TabPagesUI extends Laya.Scene {
     }
 
     setUI() {
-        let nodeArr = [this.notice_content,this.hall_content,this.data_content,this.me_content]
+        let nodeArr = [this.notice_content, this.hall_content, this.data_content, this.me_content]
         Main.setNodeTop(nodeArr);
     }
 }
