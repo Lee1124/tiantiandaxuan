@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":404,
-    "selecteID":405,
+    "selectedBox":428,
+    "selecteID":423,
     "searchKey":"Scene",
     "props":{"y":0,"x":0,"width":1242,"visible":true,"sceneColor":"#000000","height":2208},
     "nodeParent":-1,
-    "maxID":422,
+    "maxID":433,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -55,14 +55,13 @@
             "props":{"visible":true,"top":0,"skin":"images/login/login_bg.png","right":0,"name":"bg","left":0,"bottom":0},
             "nodeParent":2,
             "label":"bg",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":399,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,progressBg,progressBg",
                     "props":{"width":900,"var":"progressBg","skin":"images/common/progress_bg.png","name":"progressBg","height":35,"centerY":400,"centerX":0},
@@ -75,7 +74,6 @@
                     "compId":404,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,progress",
                             "props":{"width":50,"skin":"images/common/progress_line.png","name":"progress","left":0},
@@ -89,7 +87,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,test,loadText",
                             "props":{"width":900,"var":"loadText","text":"正在加载资源...","name":"test","left":0,"height":40,"fontSize":40,"color":"#FFFFFF","bottom":-60,"bold":true},
@@ -102,7 +99,6 @@
                             "compId":406,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,test2,loadRate",
                                     "props":{"y":0,"width":100,"var":"loadRate","text":"1%","right":0,"name":"test2","fontSize":40,"color":"#FFFFFF","centerY":0,"bold":true,"align":"right"},
@@ -118,7 +114,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,logo",
                     "props":{"skin":"images/login/logo.png","name":"logo","centerY":-644,"centerX":0},
@@ -130,6 +125,151 @@
                     "compId":408,
                     "child":[
                         ],
+                    "$HIDDEN":false
+                }]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,dialogView",
+            "props":{"visible":false,"top":0,"right":0,"name":"dialogView","left":0,"bottom":0},
+            "nodeParent":2,
+            "label":"dialogView",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":428,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/game/Fuction/OpenDiaLog.js",
+                    "searchKey":"Script,OpenDiaLog",
+                    "removeAble":true,
+                    "props":{"y":0,"x":0},
+                    "nodeParent":428,
+                    "label":"OpenDiaLog",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":431,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Panel",
+                    "searchKey":"Panel,diaLogMask",
+                    "props":{"top":0,"right":0,"name":"diaLogMask","left":0,"bottom":0,"bgColor":"#000000","alpha":0.5},
+                    "nodeParent":428,
+                    "label":"diaLogMask",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":430,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Dialog",
+                    "searchKey":"Dialog,dialog1",
+                    "props":{"y":701,"x":55,"width":1132,"visible":true,"name":"dialog1","mouseEnabled":true,"isShowEffect":true,"isPopupCenter":true,"isModal":false,"height":806},
+                    "nodeParent":428,
+                    "label":"dialog1",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":423,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,dialogBg",
+                            "props":{"top":0,"skin":"images/common/dialogBg.png","right":0,"name":"dialogBg","left":0,"bottom":0},
+                            "nodeParent":423,
+                            "label":"dialogBg",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":422,
+                            "child":[
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,title",
+                                    "props":{"top":80,"skin":"images/activity/activity_title.png","name":"title","centerX":0},
+                                    "nodeParent":422,
+                                    "label":"title",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":424,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,content",
+                                    "props":{"skin":"images/activity/activity_content.png","name":"content","centerY":0,"centerX":0},
+                                    "nodeParent":422,
+                                    "label":"content",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":425,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,btn0",
+                                    "props":{"y":0,"x":0,"visible":false,"skin":"images/activity/activity_btn0.png","name":"btn0","centerX":0,"bottom":80},
+                                    "nodeParent":422,
+                                    "label":"btn0",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":427,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,btn1",
+                                    "props":{"y":621,"x":422,"skin":"images/activity/activity_btn1.png","name":"btn1","centerX":0,"bottom":80},
+                                    "nodeParent":422,
+                                    "label":"btn1",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":426,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,close",
+                                    "props":{"y":68,"x":1000,"skin":"images/LiuZuo/l_close.png","name":"close"},
+                                    "nodeParent":422,
+                                    "label":"close",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":432,
+                                    "child":[
+                                        ]
+                                }],
+                            "$HIDDEN":false
+                        }],
                     "$HIDDEN":false
                 }]
         }],

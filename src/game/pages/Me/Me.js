@@ -95,7 +95,7 @@ export default class Me extends Laya.Script {
     requestPageData() {
         let data = {
             uid: Main.userInfo.userId,
-            tuid: Main.userInfo.userId
+            // tuid: Main.userInfo.userId
         }
         HTTP.$request({
             that: this,

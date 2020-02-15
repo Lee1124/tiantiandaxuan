@@ -3,6 +3,7 @@ import Me from '../Me/Me';
 import Notice from '../Notice/Notice';
 import GameHall from '../GameHall/GameHall';
 import Data from '../Data/Data';
+import Activity from '../Activity/Activity'
 export default class TabPagesUI extends Laya.Scene {
     constructor() {
         super();
@@ -67,6 +68,8 @@ export default class TabPagesUI extends Laya.Scene {
             GameHall.instance.openThisPage();
         } else if (page === Main.pages.page4) {
             Data.instance.openThisPage();
+        }else if (page === Main.pages.page2) {
+            Activity.instance.openThisPage();
         }
     }
 

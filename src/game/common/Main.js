@@ -32,7 +32,7 @@ class Main {
         //界面
         this.pages = {
             page1: 'NoticePage',
-            page2: 'CreateGamePage',
+            page2: 'Activity',
             page3: 'HallPage',
             page4: 'DataPage',
             page5: 'MePage',
@@ -123,7 +123,7 @@ class Main {
         this.loadAniArr2 = [];
         this.loadShowArr = [];
         this.loadShowArr2 = [];
-        this.debug = false;
+        this.debug = true;
 
         this.errList = [];
         this.tipArr1 = [];

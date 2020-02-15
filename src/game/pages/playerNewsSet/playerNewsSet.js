@@ -67,7 +67,7 @@ export default class playerNewsSet extends Laya.Script {
             url: '/M.User/GetInfo',
             data: {
                 uid: Main.userInfo.userId,
-                tuid: this.userId
+                // tuid: this.userId
             },
             success(res) {
                 if (res.data.ret.type == 0)

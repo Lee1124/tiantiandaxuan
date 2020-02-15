@@ -56,7 +56,7 @@ class MakeBOBO {
             url: '/M.User/GetInfo',
             data: {
                 uid: Main.userInfo.userId,
-                tuid: Main.userInfo.userId
+                // tuid: Main.userInfo.userId
             },
             success(res) {
                 if (res.data.ret.type == 0) {

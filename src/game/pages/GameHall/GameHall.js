@@ -2,6 +2,8 @@ import Main from '../../common/Main';
 import HTTP from '../../common/HttpRequest';
 import dropDownReload from '../../common/dropDownReload';
 import AUTO from '../../common/AUTO';
+
+import myDiaLog from '../../Fuction/OpenDiaLog';
 // import TabPagesUI from '../TabPages/TabPagesUI'
 export default class GameHall extends Laya.Script {
     constructor() {
@@ -31,6 +33,16 @@ export default class GameHall extends Laya.Script {
 
     openThisPage() {
         if (this.owner.visible) {
+
+            // setTimeout(()=>{
+            //     let myDiaLogJS=Laya.stage.getChildByName('dialogView').getComponent(myDiaLog);
+            //     let dislog1=myDiaLogJS.owner.getChildByName('dialog1');
+            //     console.log(dislog1)
+            //     myDiaLogJS.open(this,true,0.3,true,()=>{
+            //         console.log('关闭了')
+            //     });
+            // },2000)
+
             this.UI = this.owner.scene;
             this.registerEvent();
             this.selectThisTab(this.UI.hall_nav_bg._children[1], 1);//默认选择第一项

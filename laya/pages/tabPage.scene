@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":4,
+    "selectedBox":634,
+    "selecteID":633,
     "searchKey":"Scene",
     "props":{"width":1242,"sceneColor":"#000000","runtime":"game/pages/TabPages/TabPagesUI.js","height":2208,"autoDestroyAtClosed":true},
     "nodeParent":-1,
-    "maxID":631,
+    "maxID":639,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -258,17 +258,35 @@
                 {
                     "x":30,
                     "type":"Image",
-                    "searchKey":"Image,CreateGamePage,CreateGamePage",
-                    "props":{"y":0,"x":0,"visible":false,"var":"CreateGamePage","top":0,"right":0,"name":"CreateGamePage","left":0,"bottom":0},
+                    "searchKey":"Image,Activity,Activity",
+                    "props":{"y":0,"x":0,"visible":false,"var":"Activity","top":0,"right":0,"name":"Activity","left":0,"bottom":0},
                     "nodeParent":67,
-                    "label":"CreateGamePage",
-                    "isOpen":false,
+                    "label":"Activity",
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":62,
                     "child":[
                         {
+                            "x":45,
+                            "type":"Script",
+                            "switchAble":true,
+                            "source":"src/game/pages/Activity/Activity.js",
+                            "searchKey":"Script,Activity",
+                            "removeAble":true,
+                            "props":{"y":0,"x":0},
+                            "nodeParent":62,
+                            "label":"Activity",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":638,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,hd",
                             "props":{"y":0,"x":0,"width":1242,"top":0,"skin":"images/common/title_hd_bg.png","right":0,"name":"hd","left":0,"height":163},
@@ -324,71 +342,62 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
-                            "searchKey":"Image,into",
-                            "props":{"x":95,"top":410,"skin":"images/common/ld0.png","name":"into"},
+                            "searchKey":"Image,contentBg",
+                            "props":{"top":200,"skin":"images/common/bg3.png","right":50,"name":"contentBg","left":50,"bottom":200},
                             "nodeParent":62,
-                            "label":"into",
-                            "isDirectory":false,
+                            "label":"contentBg",
+                            "isOpen":true,
+                            "isDirectory":true,
                             "isAniNode":true,
-                            "hasChild":false,
-                            "compId":66,
+                            "hasChild":true,
+                            "compId":631,
                             "child":[
-                                ]
-                        },
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,create",
-                            "props":{"top":1020,"skin":"images/common/ld1.png","name":"create","centerX":0},
-                            "nodeParent":62,
-                            "label":"create",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":65,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Sprite",
-                            "searchKey":"Sprite",
-                            "props":{},
-                            "nodeParent":62,
-                            "label":"Sprite",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":332,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Label",
-                            "searchKey":"Label",
-                            "props":{"text":"label"},
-                            "nodeParent":62,
-                            "label":"Label",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":333,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Panel",
-                            "searchKey":"Panel",
-                            "props":{},
-                            "nodeParent":62,
-                            "label":"Panel",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":334,
-                            "child":[
-                                ]
+                                {
+                                    "x":60,
+                                    "type":"List",
+                                    "searchKey":"List,activityList,activityList",
+                                    "props":{"visible":false,"var":"activityList","top":40,"spaceY":20,"right":30,"name":"activityList","left":30,"elasticEnabled":true,"bottom":40},
+                                    "nodeParent":631,
+                                    "label":"activityList",
+                                    "isOpen":true,
+                                    "isDirectory":true,
+                                    "isAniNode":true,
+                                    "hasChild":true,
+                                    "compId":636,
+                                    "child":[
+                                        {
+                                            "x":75,
+                                            "type":"Box",
+                                            "searchKey":"Box,activityListBox",
+                                            "props":{"y":0,"right":0,"renderType":"render","name":"activityListBox","left":0,"height":250},
+                                            "nodeParent":636,
+                                            "label":"activityListBox",
+                                            "isOpen":true,
+                                            "isDirectory":true,
+                                            "isAniNode":false,
+                                            "hasChild":true,
+                                            "compId":634,
+                                            "child":[
+                                                {
+                                                    "x":90,
+                                                    "type":"Image",
+                                                    "searchKey":"Image,rowContent",
+                                                    "props":{"top":0,"skin":"images/common/activity.png","right":0,"name":"rowContent","left":0,"bottom":0},
+                                                    "nodeParent":634,
+                                                    "label":"rowContent",
+                                                    "isDirectory":false,
+                                                    "isAniNode":false,
+                                                    "hasChild":false,
+                                                    "compId":633,
+                                                    "child":[
+                                                        ]
+                                                }]
+                                        }]
+                                }]
                         }],
-                    "$HIDDEN":true
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,
@@ -1763,7 +1772,7 @@
                                     "props":{"x":0,"top":0,"skin":"images/Data/top_bg.png","name":"top_data_bg","centerX":0},
                                     "nodeParent":512,
                                     "label":"top_data_bg",
-                                    "isOpen":false,
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":true,
                                     "hasChild":true,
@@ -2291,7 +2300,7 @@
                                                         }]
                                                 }]
                                         }],
-                                    "$HIDDEN":true
+                                    "$HIDDEN":false
                                 }]
                         }],
                     "$HIDDEN":true

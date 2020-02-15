@@ -30,7 +30,9 @@ import ZhanJiGet from "./game/pages/shishizhanji/ZhanJiGet"
 import shopMallUI from "./game/pages/shopMall/shopMallUI"
 import shopMall from "./game/pages/shopMall/shopMall"
 import Start from "./game/Fuction/Start"
+import OpenDiaLog from "./game/Fuction/OpenDiaLog"
 import TabPagesUI from "./game/pages/TabPages/TabPagesUI"
+import Activity from "./game/pages/Activity/Activity"
 import Me from "./game/pages/Me/Me"
 import Notice from "./game/pages/Notice/Notice"
 import GameHall from "./game/pages/GameHall/GameHall"
@@ -39,7 +41,6 @@ import Data from "./game/pages/Data/Data"
 
 export default class GameConfig {
     static init() {
-		
         //注册Script或者Runtime引用
         let reg = Laya.ClassUtils.regClass;
 		reg("game/common/setSceneWH.js",setSceneWH);
@@ -73,7 +74,9 @@ export default class GameConfig {
 		reg("game/pages/shopMall/shopMallUI.js",shopMallUI);
 		reg("game/pages/shopMall/shopMall.js",shopMall);
 		reg("game/Fuction/Start.js",Start);
+		reg("game/Fuction/OpenDiaLog.js",OpenDiaLog);
 		reg("game/pages/TabPages/TabPagesUI.js",TabPagesUI);
+		reg("game/pages/Activity/Activity.js",Activity);
 		reg("game/pages/Me/Me.js",Me);
 		reg("game/pages/Notice/Notice.js",Notice);
 		reg("game/pages/GameHall/GameHall.js",GameHall);

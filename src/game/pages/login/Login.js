@@ -98,7 +98,9 @@ export default class login extends Laya.Script {
                         }
 
                         this.changeMainUserInfo(data);
-                        this.dealWithLoginedView(data);
+                        setTimeout(()=>{
+                            this.dealWithLoginedView(data);
+                        },1000)
                     } else {
                         this.flag = true;
                         Main.showLoading(false);

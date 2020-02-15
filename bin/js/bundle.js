@@ -5,6 +5,14 @@
 
         constructor() { 
             super(); 
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
         
@@ -125,6 +133,7 @@
          */
         setTween()  {
             let content = this.tipsContent.shift();
+            let endY = 0;
             //创建目标对象
             let target = this.createTarget(this.owner, content);
             //开始执行缓动
@@ -254,7 +263,7 @@
             //界面
             this.pages = {
                 page1: 'NoticePage',
-                page2: 'CreateGamePage',
+                page2: 'Activity',
                 page3: 'HallPage',
                 page4: 'DataPage',
                 page5: 'MePage',
@@ -345,7 +354,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = false;
+            this.debug = true;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -481,6 +490,7 @@
          * 预创建弹框
          */
         createDiaLog() {
+            let that = this;
             //弹框遮罩
             let myMask = Laya.stage.getChildByName("dialogMask");
             if (myMask) {
@@ -930,6 +940,14 @@
     class back extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
 
             //返回类型 （0：表示直接返回,不需要打开场景 1：表示打开场景再返回）
@@ -1009,6 +1027,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this.myHeight = 0;
         }
@@ -1644,6 +1670,7 @@
      
     		var tmpByte = new Laya.Byte();
     		tmpByte.endian = Laya.Byte.LITTLE_ENDIAN;
+    		let offset = 4;
     		let name;
     		let msg;
 
@@ -2108,6 +2135,22 @@
         }
         return rawHMACMD5(key, string)
       }
+    /*
+      if (typeof define === 'function' && define.amd) {
+        define(function() {
+          return md5
+        })
+      } else if (typeof module === 'object' && module.exports) {
+        module.exports = md5
+      } else {
+        $.md5 = md5
+      }
+      */
+    //})(this)
+    function md51(str){
+        console.log(str);
+        return str;
+    }
     var md5$1 = {
         md5
     };
@@ -2550,10 +2593,15 @@
             let scope = [2, 5, 100];
             //范围开始下标
             let scopeIndex = startVal.toString().length - 1;
+            let cScopeIndex = scopeIndex;
+            //差值
+            let subVal = endVal;
             //单位值范围 每次乘以10（0-10，10-100等。。每次计算当前作用域中的刻度次数）
             let unitVal = Math.pow(10, scopeIndex + 1);
             //范围值
             let scopeVal = scope.length > scopeIndex ? scope[scopeIndex] : scope[scope.length - 1] * Math.pow(10 * scopeIndex - scope.length);
+
+            let cScopeVal = scopeVal;
             //刻度值
             let calibrationVal = [];
             //刻度次数
@@ -2931,9 +2979,19 @@
     /**
      * 游戏控制脚本
      *  */
+
+    let clickIndex = 0;
     class GameControl extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             //定义音量
             this._music = {
@@ -3625,6 +3683,15 @@
          * ========================测试==============
          *  */
         ceShi() {
+            // this.owner.mang_cm_pool.visible=true;
+            // console.log(this.owner.mang_cm_pool)
+            // let ME=this._playerArray[0].owner.getChildByName("create_cm_seat").getChildByName('move_cm');
+            // let XY=ME.globalToLocal(new Laya.Point(this.owner.mang_cm_pool.x,this.owner.mang_cm_pool.y))
+            // Laya.Tween.to(ME,{x:XY.x+50,y:XY.y},1000)
+            // console.log(XY.x,XY.y)
+            // this.startAssignPoker()
+            // return
+            clickIndex++;
             // Main.showLoading(true,Main.loadingType.three,'正在进入房间...')
             // if(clickIndex==1){
             //     this._playerArray.forEach(item=>{
@@ -5385,6 +5452,14 @@
     class MyClickSelect extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -5609,6 +5684,7 @@
         }
 
         clickExpressionList(Event) {
+            let that = this;
             if (Event.type == 'click') {
                 this.close();
                 let ID = Event.target.dataSource.id;
@@ -5750,6 +5826,7 @@
         }
 
         request(state) {
+            let that = this;
             GameControl.instance.onSend({
                 name: 'M.Room.C2R_Reservation',
                 data: {
@@ -5869,7 +5946,7 @@
                 url: '/M.User/GetInfo',
                 data: {
                     uid: Main$1.userInfo.userId,
-                    tuid: Main$1.userInfo.userId
+                    // tuid: Main.userInfo.userId
                 },
                 success(res) {
                     if (res.data.ret.type == 0) {
@@ -6178,6 +6255,14 @@
     class seat extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this._mask = new Laya.Sprite();
         }
@@ -6202,6 +6287,7 @@
 
         // 点击某个位置
         mouseHandler(e) {
+            let that = this;
             // 显示补充钵钵
             if (e.target.userId == '')
                 GameControl.instance.onSend({
@@ -7132,6 +7218,14 @@
 
         constructor() { 
             super(); 
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
         
@@ -7151,6 +7245,14 @@
     class MySwitch extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             //回调函数
             this.callback = null;
@@ -7196,6 +7298,14 @@
     class Set extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -7281,6 +7391,14 @@
     class openView extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             //打开类型(0：打开后不销毁其他场景 1：打开后销毁当前场景)
             this.openType = 0;
@@ -7338,6 +7456,14 @@
     class login extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this.flag = true;
         }
@@ -7423,7 +7549,9 @@
                             };
 
                             this.changeMainUserInfo(data);
-                            this.dealWithLoginedView(data);
+                            setTimeout(()=>{
+                                this.dealWithLoginedView(data);
+                            },1000);
                         } else {
                             this.flag = true;
                             Main$1.showLoading(false);
@@ -7588,6 +7716,14 @@
     class roomEnd extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -7666,6 +7802,14 @@
 
         constructor() { 
             super(); 
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this._debug=false;
         }
@@ -7699,6 +7843,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -7897,6 +8049,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this._debug = false;
         }
@@ -7932,6 +8092,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -7961,6 +8129,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             //性别(1.男 2.女)
             this.sexType = 1;
@@ -8011,7 +8187,7 @@
                 url: '/M.User/GetInfo',
                 data: {
                     uid: Main$1.userInfo.userId,
-                    tuid: this.userId
+                    // tuid: this.userId
                 },
                 success(res) {
                     if (res.data.ret.type == 0)
@@ -8230,6 +8406,14 @@
     class register extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -8385,6 +8569,14 @@
     class service extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             //联系客服跳转地址
             this.serviceUrl = '';
@@ -8433,6 +8625,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
         onEnable() {
@@ -8465,6 +8665,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -8573,6 +8781,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             //是不是tab页面
             this.isTabPage = true;
@@ -8690,6 +8906,15 @@
     class sliderSelect extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:tip,tips:"预制体TIP",type:Prefab}*/
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             //预加载资源的数量
             this.loadArrLength = 0;
@@ -8714,7 +8939,6 @@
             if (!Main$1.AUTO)
                 this.getUserInfo();
             this.hideLoadingView();
-            
         }
 
 
@@ -8807,6 +9031,54 @@
     }
 
     /**
+     * 打开弹框脚本
+     */
+    class OpenDiaLog extends Laya.Script{
+        onStart(){
+            Laya.stage.addChild(this.owner);
+            this.allowClickMaskClose=false;
+            this.dialog=this.owner.getChildByName('dialog1');
+            let dialogBg=this.dialog.getChildByName('dialogBg');
+            this.dialog.close();
+            this.diaLogMask=this.owner.getChildByName('diaLogMask');
+            this.diaLogMask.on(Laya.Event.CLICK,this,()=>{
+                if(this.allowClickMaskClose){
+                    this.close();
+                }
+            });
+            this.closeBtn=dialogBg.getChildByName('close');
+            this.closeBtn.on(Laya.Event.CLICK,this,()=>{
+                if(this.closeBtn.visible){
+                    this.close();
+                }
+            });
+        }
+        /**
+         * 打开弹框
+         * @param {*} JSthis 执行域
+         * @param {*} allowClickMaskClose 是否允许点击空白处关闭弹框
+         * @param {*} maskAlpha 遮罩的透明度
+         * @param {*} isShowCloseBtn 是否显示关闭按钮
+         * @param {*} closeFn 关闭回调
+         */
+        open(JSthis,allowClickMaskClose=false,maskAlpha=0.2,isShowCloseBtn=true,closeFn){
+            this.closeCallBack=closeFn;
+            this.JSthis=JSthis;
+            this.owner.visible=true;
+            this.closeBtn.visible=isShowCloseBtn;
+            this.allowClickMaskClose=allowClickMaskClose;
+            this.diaLogMask.alpha=maskAlpha;
+            this.dialog.open();
+        }
+        /**g关闭弹框 */
+        close(){
+            this.dialog.close();
+            this.owner.visible=false;
+            this.closeCallBack.call(this.JSthis);
+        }
+    }
+
+    /**
      * 该脚本为分享到微信好友或朋友圈的功能
      */
     class Share {
@@ -8840,6 +9112,14 @@
 
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -8921,7 +9201,7 @@
         requestPageData() {
             let data = {
                 uid: Main$1.userInfo.userId,
-                tuid: Main$1.userInfo.userId
+                // tuid: Main.userInfo.userId
             };
             HTTP.$request({
                 that: this,
@@ -8954,6 +9234,14 @@
     class Notice extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this._page = {
                 page1: 'systemNotice',
@@ -9045,6 +9333,14 @@
     class dropDownReload extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this.moveUpFn;//鼠标抬起回调
 
@@ -9241,6 +9537,14 @@
     class GameHall extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
             this._navType = {//游戏大厅页面类型  全部， 小 ，中， 大
                 all: 1,
@@ -9258,6 +9562,16 @@
 
         openThisPage() {
             if (this.owner.visible) {
+
+                // setTimeout(()=>{
+                //     let myDiaLogJS=Laya.stage.getChildByName('dialogView').getComponent(myDiaLog);
+                //     let dislog1=myDiaLogJS.owner.getChildByName('dialog1');
+                //     console.log(dislog1)
+                //     myDiaLogJS.open(this,true,0.3,true,()=>{
+                //         console.log('关闭了')
+                //     });
+                // },2000)
+
                 this.UI = this.owner.scene;
                 this.registerEvent();
                 this.selectThisTab(this.UI.hall_nav_bg._children[1], 1);//默认选择第一项
@@ -9496,6 +9810,14 @@
     class Data extends Laya.Script {
         constructor() {
             super();
+            /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+            let intType = 1000;
+            /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+            let numType = 1000;
+            /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+            let strType = "hello laya";
+            /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+            let boolType = true;
             // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
         }
 
@@ -9629,6 +9951,106 @@
         }
     }
 
+    /**
+     * 活动脚本
+     */
+    class Activity extends Laya.Script {
+        onEnable() {
+            Main$1.$LOG('活动脚本：', this);
+            Activity.instance = this;
+        }
+        openThisPage() {
+            if (this.owner.visible) {
+                this.UI = this.owner.scene;
+                this.requestActivityData();
+            }
+        }
+        /**
+         * 注册事件
+         */
+        registerEvent() {
+            // this.UI.systemNotice_box.on(Laya.Event.CLICK, this, this.openSelectView, [this._page.page1]);
+            // this.UI.myNews_box.on(Laya.Event.CLICK, this, this.openSelectView, [this._page.page2]);
+        }
+
+        /**
+         * 获取公告数据
+         */
+        requestActivityData() {
+            Main$1.showLoading(true);
+            HTTP.$request({
+                that: this,
+                url: '/M.Lobby/Activity/GetActivityInfo',
+                data: {
+                    uid: Main$1.userInfo.userId
+                },
+                success(res) {
+                    Main$1.$LOG('获取活动数据:', res);
+                    Main$1.showLoading(false);
+                    this.setPage(res);
+                },
+                fail(err) {
+                    Main$1.showLoading(false);
+                }
+            });
+        }
+
+        /**
+         * 设置公告列表
+         * @param {*} data 请求的数据
+         */
+        setPage(data) {
+            this.activityList = this.UI.activityList;
+            this.activityList.vScrollBarSkin = "";//运用滚动
+            this.activityList.visible = true;
+            this.activityList.array = data.data.activitys;
+            this.activityList.renderHandler = new Laya.Handler(this, this.activityListOnRender);
+            this.activityList.mouseHandler = new Laya.Handler(this, this.clickRow);
+        }
+
+        activityListOnRender(cell) {
+            let rowContent = cell.getChildByName("rowContent");
+            rowContent.skin = 'res/img/activity/activity_' + cell.dataSource.activityId + '.png';
+        }
+
+        clickRow(Event) {
+            if (Event.type == 'click') {
+                let dataSource = Event.target.dataSource;
+                let myDiaLogJS = Laya.stage.getChildByName('dialogView').getComponent(OpenDiaLog);
+                let dislog1=myDiaLogJS.dialog;
+                //领取按钮
+                let btn1=dislog1.getChildByName('dialogBg').getChildByName('btn1');
+                //已经领取按钮
+                let btn0=dislog1.getChildByName('dialogBg').getChildByName('btn0');
+                btn1.visible=dataSource.giveNum>0?false:true;
+                btn0.visible=dataSource.giveNum>0?true:false;
+                if(btn1.visible){
+                    btn1.on(Laya.Event.CLICK,this,this.getCoin,[dataSource]);
+                }
+                myDiaLogJS.open(this, true, 0.3, true, () => {
+                    btn1.off(Laya.Event.CLICK);
+                });
+            }
+        }
+
+        /**
+         * 领取金币
+         */
+        getCoin(data){
+            HTTP.$request({
+                that: this,
+                url: '/M.Lobby/Activity/SignInActivity',
+                data: {
+                    uid: Main$1.userInfo.userId,
+                    activityId:data.activityId
+                },
+                success(res) {
+                    Main$1.$LOG('领取活动:', res);
+                }
+            });
+        }
+    }
+
     class TabPagesUI extends Laya.Scene {
         constructor() {
             super();
@@ -9693,6 +10115,8 @@
                 GameHall.instance.openThisPage();
             } else if (page === Main$1.pages.page4) {
                 Data.instance.openThisPage();
+            }else if (page === Main$1.pages.page2) {
+                Activity.instance.openThisPage();
             }
         }
 
@@ -9744,7 +10168,6 @@
 
     class GameConfig {
         static init() {
-    		
             //注册Script或者Runtime引用
             let reg = Laya.ClassUtils.regClass;
     		reg("game/common/setSceneWH.js",setSceneWH);
@@ -9778,7 +10201,9 @@
     		reg("game/pages/shopMall/shopMallUI.js",shopMall$1);
     		reg("game/pages/shopMall/shopMall.js",shopMall);
     		reg("game/Fuction/Start.js",sliderSelect);
+    		reg("game/Fuction/OpenDiaLog.js",OpenDiaLog);
     		reg("game/pages/TabPages/TabPagesUI.js",TabPagesUI);
+    		reg("game/pages/Activity/Activity.js",Activity);
     		reg("game/pages/Me/Me.js",Me);
     		reg("game/pages/Notice/Notice.js",Notice);
     		reg("game/pages/GameHall/GameHall.js",GameHall);
@@ -9812,6 +10237,7 @@
     		Laya.stage.screenMode = GameConfig.screenMode;
     		Laya.stage.alignV = GameConfig.alignV;
     		Laya.stage.alignH = GameConfig.alignH;
+    		// Laya.UIConfig.closeDialogOnSide = true; 
     		//兼容微信不支持加载scene后缀场景
     		Laya.URL.exportSceneToJson = GameConfig.exportSceneToJson;
 
@@ -9824,11 +10250,11 @@
     		//激活资源版本控制，version.json由IDE发布功能自动生成，如果没有也不影响后续流程
     		Laya.ResourceVersion.enable("version.json", Laya.Handler.create(this, this.onVersionLoaded), Laya.ResourceVersion.FILENAME_VERSION);
 
-    		alert(window.conch);
-    		//隐藏虚拟键盘
-    		if (window.conch) {
-    			window.conch.showAssistantTouch(false);
-    		}
+    		// alert(window.conch)
+    		// //隐藏虚拟键盘
+    		// if (window.conch) {
+    		// 	window.conch.showAssistantTouch(false);
+    		// }
     	}
 
     	onVersionLoaded() {

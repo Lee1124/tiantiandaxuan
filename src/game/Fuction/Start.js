@@ -38,7 +38,6 @@ export default class sliderSelect extends Laya.Script {
         if (!Main.AUTO)
             this.getUserInfo();
         this.hideLoadingView();
-        
     }
 
 

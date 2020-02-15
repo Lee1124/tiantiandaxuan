@@ -47,4 +47,5 @@
    <item name="images/LiuZuo/l_kuang1.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,80,0,80" picType="0" scale="0"/>
    <item name="images/hall/nav_bg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,100,0,100" picType="0" scale="0"/>
    <item name="images/gameView/desk_bg1.jpg" type="Sprite" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="images/common/dialogBg.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=80,80,80,80" picType="0" scale="0"/>
 </res>
