@@ -2,6 +2,7 @@ import HTTP from '../../common/HttpRequest';
 import Main from '../../common/Main';
 import OpenView from '../../common/openView';
 import AUTO from '../../common/AUTO';
+import setIP from '../../Fuction/setIP';
 export default class login extends Laya.Script {
     constructor() {
         super();
@@ -25,6 +26,7 @@ export default class login extends Laya.Script {
     onStart() {
         this.initOpenView();
         this.startLoadPage();
+        setIP.init(this);
         //微信小游戏背景图
         if (Main.wxGame)
             this.initPage();
@@ -145,6 +147,7 @@ export default class login extends Laya.Script {
      * 处理登录结果(1.主界面 2.游戏界面)
      */
     dealWithLoginedView(data) {
+        Main.isLoginFrom=data.inRoomPws>0?false:true;
         let pageData = {
             roomPws: data.inRoomPws,
             page: Main.pages.page3

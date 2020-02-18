@@ -3,7 +3,7 @@ import HTTP from '../../common/HttpRequest';
 import dropDownReload from '../../common/dropDownReload';
 import AUTO from '../../common/AUTO';
 
-import myDiaLog from '../../Fuction/OpenDiaLog';
+import Activity from '../Activity/Activity';
 // import TabPagesUI from '../TabPages/TabPagesUI'
 export default class GameHall extends Laya.Script {
     constructor() {
@@ -24,6 +24,7 @@ export default class GameHall extends Laya.Script {
             big: 4
         }
         this._selectNavType = 1;//选中的类型
+        this.reNum = 0;
     }
 
     onEnable() {
@@ -43,14 +44,44 @@ export default class GameHall extends Laya.Script {
             //     });
             // },2000)
 
+
             this.UI = this.owner.scene;
             this.registerEvent();
             this.selectThisTab(this.UI.hall_nav_bg._children[1], 1);//默认选择第一项
             if (Main.allowRequesList)
                 Laya.timer.loop(60000, this, this.requestPageData, [false]);
+
+            this.showActivityTip();
         }
     }
 
+    /**
+     * 活动
+     */
+    showActivityTip() {
+        let that = this;
+        if (Main.isLoginFrom) {
+            HTTP.$request({
+                that: this,
+                url: '/M.Lobby/Activity/GetActivityInfo',
+                data: {
+                    uid: Main.userInfo.userId
+                },
+                success(res) {
+                    Main.$LOG('获取活动数据:', res);
+                    Main.isLoginFrom = false;
+                    let ActivityJS = this.UI.Activity.getComponent(Activity);
+                    let data = res.data.activitys.filter(item => item.isTips);
+                    if (data[this.reNum])
+                        ActivityJS.qda(data[this.reNum], false, () => {
+                            this.reNum++;
+                            Main.isLoginFrom = true;
+                            that.showActivityTip();
+                        });
+                }
+            })
+        }
+    }
 
 
     /**
@@ -88,7 +119,7 @@ export default class GameHall extends Laya.Script {
      * 设置全页面的数据
      */
     setPage1Data(data) {
-        if (Main.AUTO&&(this.UI.pageData.roomPws<=0||!this.UI.pageData.roomPws))
+        if (Main.AUTO && (this.UI.pageData.roomPws <= 0 || !this.UI.pageData.roomPws))
             AUTO.initHall(this, data);
         let page1List = this.UI.gameHall_page1_list;
         // page1List.top=100;

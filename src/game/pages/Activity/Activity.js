@@ -60,43 +60,88 @@ export default class Activity extends Laya.Script {
 
     activityListOnRender(cell) {
         let rowContent = cell.getChildByName("rowContent");
-        rowContent.skin = 'res/img/activity/activity_' + cell.dataSource.activityId + '.png';
+        //注意aType==2 是签到活动
+        switch (cell.dataSource.aType) {
+            case 0:
+                rowContent.skin = 'res/img/activity/activityContent.png';
+                break;
+            case 2:
+                rowContent.skin = 'res/img/activity/activityContent.png';
+                break;
+        }
     }
 
+    /**
+     * 点击行
+     * @param {*} Event 
+     */
     clickRow(Event) {
         if (Event.type == 'click') {
             let dataSource = Event.target.dataSource;
-            let myDiaLogJS = Laya.stage.getChildByName('dialogView').getComponent(myDiaLog);
-            let dislog1=myDiaLogJS.dialog;
-            //领取按钮
-            let btn1=dislog1.getChildByName('dialogBg').getChildByName('btn1');
-            //已经领取按钮
-            let btn0=dislog1.getChildByName('dialogBg').getChildByName('btn0');
-            btn1.visible=dataSource.giveNum>0?false:true;
-            btn0.visible=dataSource.giveNum>0?true:false;
-            if(btn1.visible){
-                btn1.on(Laya.Event.CLICK,this,this.getCoin,[dataSource])
-            }
-            myDiaLogJS.open(this, true, 0.3, true, () => {
-                btn1.off(Laya.Event.CLICK);
-            });
+            this.qda(dataSource, true);
         }
+    }
+
+    /**
+     * 签到活动
+     * @param {*} data 数据
+     */
+    qda(data, isUpdate, closeCallBack) {
+        let myDiaLogJS = Laya.stage.getChildByName('dialogView').getComponent(myDiaLog);
+        let dislog1 = myDiaLogJS.dialog;
+        let bg=dislog1.getChildByName('dialogBg1');
+        //标题
+        let title = bg.getChildByName('title');
+        //内容
+        let content = bg.getChildByName('content');
+        //领取按钮
+        let btn1 = bg.getChildByName('btn1');
+        //已经领取按钮
+        let btn0 = bg.getChildByName('btn0');
+        title.text = data.name;
+        content.text = data.detail;
+        btn1.visible = data.giveNum > 0 ? false : true;
+        btn0.visible = data.giveNum > 0 ? true : false;
+        if (btn1.visible) {
+            btn1.on(Laya.Event.CLICK, this, this.getCoin, [data, btn0, btn1, isUpdate])
+        }
+        myDiaLogJS.open(this, true, 0.3, true, () => {
+            btn1.off(Laya.Event.CLICK);
+            if (closeCallBack)
+                closeCallBack();
+        },1);
     }
 
     /**
      * 领取金币
      */
-    getCoin(data){
+    getCoin(data, btn0, btn1, isUpdate) {
         HTTP.$request({
             that: this,
             url: '/M.Lobby/Activity/SignInActivity',
             data: {
                 uid: Main.userInfo.userId,
-                activityId:data.activityId
+                activityId: data.activityId
             },
             success(res) {
                 Main.$LOG('领取活动:', res);
+                this.getEnd(res, btn0, btn1, isUpdate);
             }
         })
+    }
+
+    /**
+     * 领取后得处理
+     */
+    getEnd(data, btn0, btn1, isUpdate) {
+        if (data.data.ret.type == 0) {
+            Main.showTip('活动领取成功');
+            btn1.visible = !btn1.visible;
+            btn0.visible = !btn0.visible;
+            if (isUpdate)
+                this.requestActivityData();
+        } else {
+            Main.showTip(data.data.ret.msg);
+        }
     }
 }

@@ -1,24 +1,33 @@
 import TIP from '../common/SuspensionTips'
 class Main {
     constructor() {
-        this.AUTONUM=0;
-        this.AUTO=false;
+        //是不是登录才进来
+        this.isLoginFrom = false;
+        this.AUTONUM = 0;
+        this.AUTO = false;
         Main.instance = this;
         // this.websoketApi = '192.168.0.125:8082';
         // this.requestApi = 'http://192.168.0.125:8081';
         this.websoketApi = '132.232.34.32:8082';
         this.requestApi = 'http://132.232.34.32:8081';
-        this.resourseHttp='http://132.232.34.32/ttdx/'
+        this.IPArr = [
+            { isSelect: false, ip: '132.232.34.32' },
+            { isSelect: false, ip: '127.0.0.1' }
+        ];
+        // this.websoketApi = '127.0.0.1:8082';
+        // this.requestApi = 'http://127.0.0.1:8081';
+
+        this.resourseHttp = 'http://132.232.34.32/ttdx/'
         //手机信息
         this.phoneNews = {
             statusHeight: 0,//手机系统栏的高度
             deviceNews: '',//系统名称：Android / iOS
         }
         //是不是微信小游戏平台
-        this.wxGame=false;
+        this.wxGame = false;
         //用户信息
         // this.userInfo =this.wxGame?'1111':JSON.parse(localStorage.getItem("userInfo"));
-        this.userInfo =null;
+        this.userInfo = null;
         // this.$LOG('Main.js获取用户信息：', this.userInfo);
         //跳转划出界面标志
         this.sign = {
@@ -41,11 +50,11 @@ class Main {
         this.gameView = {
             desk_bg1: 'res/img/gameView/desk_bg1.png',
             desk_bg2: 'res/img/gameView/desk_bg2.png',
-            wx_desk_bg1:'res/img/gameView/desk_bg1.jpg',
-            wx_desk_bg2:'res/img/gameView/desk_bg2.jpg'
+            wx_desk_bg1: 'res/img/gameView/desk_bg1.jpg',
+            wx_desk_bg2: 'res/img/gameView/desk_bg2.jpg'
         }
         //预加载图片数据
-        this.gameLoadImgArr=[
+        this.gameLoadImgArr = [
             'res/img/common/login_bg.jpg',
             'res/img/gameView/desk_bg1.png',
             'res/img/gameView/desk_bg2.png',
@@ -123,7 +132,7 @@ class Main {
         this.loadAniArr2 = [];
         this.loadShowArr = [];
         this.loadShowArr2 = [];
-        this.debug = true;
+        this.debug = false;
 
         this.errList = [];
         this.tipArr1 = [];
@@ -161,7 +170,7 @@ class Main {
      */
     createTipBox() {
         let tipBox = new Laya.Image();
-        tipBox.zOrder = 40;
+        tipBox.zOrder = 2020;
         tipBox.name = 'tipBox';
         tipBox.height = 300;
         tipBox.left = 0;
@@ -231,7 +240,7 @@ class Main {
                 node.top = node.top + this.phoneNews.statusHeight;
             })
         }
-        if(this.wxGame){
+        if (this.wxGame) {
             nodeArr.forEach(node => {
                 node.top = node.top + 30;
             })

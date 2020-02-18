@@ -232,24 +232,33 @@
 
     class Main {
         constructor() {
-            this.AUTONUM=0;
-            this.AUTO=false;
+            //是不是登录才进来
+            this.isLoginFrom = false;
+            this.AUTONUM = 0;
+            this.AUTO = false;
             Main.instance = this;
             // this.websoketApi = '192.168.0.125:8082';
             // this.requestApi = 'http://192.168.0.125:8081';
             this.websoketApi = '132.232.34.32:8082';
             this.requestApi = 'http://132.232.34.32:8081';
-            this.resourseHttp='http://132.232.34.32/ttdx/';
+            this.IPArr = [
+                { isSelect: false, ip: '132.232.34.32' },
+                { isSelect: false, ip: '127.0.0.1' }
+            ];
+            // this.websoketApi = '127.0.0.1:8082';
+            // this.requestApi = 'http://127.0.0.1:8081';
+
+            this.resourseHttp = 'http://132.232.34.32/ttdx/';
             //手机信息
             this.phoneNews = {
                 statusHeight: 0,//手机系统栏的高度
                 deviceNews: '',//系统名称：Android / iOS
             };
             //是不是微信小游戏平台
-            this.wxGame=false;
+            this.wxGame = false;
             //用户信息
             // this.userInfo =this.wxGame?'1111':JSON.parse(localStorage.getItem("userInfo"));
-            this.userInfo =null;
+            this.userInfo = null;
             // this.$LOG('Main.js获取用户信息：', this.userInfo);
             //跳转划出界面标志
             this.sign = {
@@ -272,11 +281,11 @@
             this.gameView = {
                 desk_bg1: 'res/img/gameView/desk_bg1.png',
                 desk_bg2: 'res/img/gameView/desk_bg2.png',
-                wx_desk_bg1:'res/img/gameView/desk_bg1.jpg',
-                wx_desk_bg2:'res/img/gameView/desk_bg2.jpg'
+                wx_desk_bg1: 'res/img/gameView/desk_bg1.jpg',
+                wx_desk_bg2: 'res/img/gameView/desk_bg2.jpg'
             };
             //预加载图片数据
-            this.gameLoadImgArr=[
+            this.gameLoadImgArr = [
                 'res/img/common/login_bg.jpg',
                 'res/img/gameView/desk_bg1.png',
                 'res/img/gameView/desk_bg2.png',
@@ -354,7 +363,7 @@
             this.loadAniArr2 = [];
             this.loadShowArr = [];
             this.loadShowArr2 = [];
-            this.debug = true;
+            this.debug = false;
 
             this.errList = [];
             this.tipArr1 = [];
@@ -392,7 +401,7 @@
          */
         createTipBox() {
             let tipBox = new Laya.Image();
-            tipBox.zOrder = 40;
+            tipBox.zOrder = 2020;
             tipBox.name = 'tipBox';
             tipBox.height = 300;
             tipBox.left = 0;
@@ -462,7 +471,7 @@
                     node.top = node.top + this.phoneNews.statusHeight;
                 });
             }
-            if(this.wxGame){
+            if (this.wxGame) {
                 nodeArr.forEach(node => {
                     node.top = node.top + 30;
                 });
@@ -7453,6 +7462,114 @@
         }
     }
 
+    /**
+     * 打开弹框脚本
+     */
+    class OpenDiaLog extends Laya.Script {
+        onStart() {
+            Laya.stage.addChild(this.owner);
+            this.allowClickMaskClose = false;
+            this.dialog = this.owner.getChildByName('dialog1');
+            this.dialog.close();
+            this.diaLogMask = this.owner.getChildByName('diaLogMask');
+            this.diaLogMask.on(Laya.Event.CLICK, this, () => {
+                if (this.allowClickMaskClose) {
+                    this.close();
+                }
+            });
+        }
+        /**
+         * 打开弹框
+         * @param {*} JSthis 执行域
+         * @param {*} allowClickMaskClose 是否允许点击空白处关闭弹框
+         * @param {*} maskAlpha 遮罩的透明度
+         * @param {*} isShowCloseBtn 是否显示关闭按钮
+         * @param {*} closeFn 关闭回调
+         */
+        open(JSthis, allowClickMaskClose = false, maskAlpha = 0.2, isShowCloseBtn = true, closeFn, ctType = 1) {
+            this.closeCallBack = closeFn;
+            this.JSthis = JSthis;
+            this.owner.visible = true;
+            this.allowClickMaskClose = allowClickMaskClose;
+            this.diaLogMask.alpha = maskAlpha;
+            this.dialog._children.forEach(item => {
+                item.visible = false;
+            });
+            this.dialog.open();
+            let dialogBg = this.dialog.getChildByName('dialogBg' + ctType);
+            dialogBg.visible = true;
+            this.closeBtn = dialogBg.getChildByName('close');
+            this.closeBtn.visible = isShowCloseBtn;
+            this.closeBtn.on(Laya.Event.CLICK, this, () => {
+                if (this.closeBtn.visible) {
+                    this.close();
+                }
+            });
+        }
+        /**g关闭弹框 */
+        close() {
+            this.dialog.close();
+            this.owner.visible = false;
+            if (this.closeCallBack)
+                this.closeCallBack.call(this.JSthis);
+            this.closeBtn.off(Laya.Event.CLICK);
+        }
+    }
+
+    /**
+     * 设置IP
+     */
+    class SetIP{
+        init(thisJS){
+            this.num=0;
+           
+            this.logo=thisJS.owner.getChildByName('logo');
+            this.logo.on(Laya.Event.CLICK,this,()=>{
+                this.num++;
+                if(this.num%4==0){
+                    let myDiaLogJS = Laya.stage.getChildByName('dialogView').getComponent(OpenDiaLog);
+                    let dialogBg2 = myDiaLogJS.dialog.getChildByName('dialogBg2');
+                    this.listCt=dialogBg2.getChildByName('selectIPList');
+                    this.listCt.vScrollBarSkin = "";//运用滚动
+                    this.listCt.visible = true;
+                    let websoketApiIP=Main$1.websoketApi.split(':')[0];
+                    this.listCt.array = Main$1.IPArr;
+                    this.listCt.array.forEach(item=>{
+                        item.isSelect=item.ip==websoketApiIP?true:false;
+                    });
+                    this.listCt.renderHandler = new Laya.Handler(this, this.listCtOnRender);
+                    this.listCt.mouseHandler = new Laya.Handler(this, this.clicklistCtRow);
+                    myDiaLogJS.open(this, true, 0.3, true, null,2);
+                }
+            });
+        }
+
+        listCtOnRender(cell){
+            let IPBOX=cell.getChildByName('IP');
+            IPBOX.text=cell.dataSource.ip;
+            IPBOX.bgColor=cell.dataSource.isSelect?'#7CC9F7':'';
+        }
+
+        clicklistCtRow(Event){
+            if (Event.type == 'click') {
+                this.clearAllSelect();
+                let IPBOX = Event.target.getChildByName('IP');
+                IPBOX.bgColor='#7CC9F7';
+                Main$1.websoketApi=Event.target.dataSource.ip+':8082';
+                Main$1.requestApi='http://'+Event.target.dataSource.ip+':8081';
+                Main$1.$LOG( '选择的IP:',Main$1.websoketApi, Main$1.requestApi);
+            }
+        }
+
+        clearAllSelect() {
+            this.listCt.cells.forEach(item => {
+                let $IPBOX = item.getChildByName("IP");
+                $IPBOX.bgColor = null;
+            });
+        }
+    }
+    var setIP = new SetIP();
+
     class login extends Laya.Script {
         constructor() {
             super();
@@ -7476,6 +7593,7 @@
         onStart() {
             this.initOpenView();
             this.startLoadPage();
+            setIP.init(this);
             //微信小游戏背景图
             if (Main$1.wxGame)
                 this.initPage();
@@ -7596,6 +7714,7 @@
          * 处理登录结果(1.主界面 2.游戏界面)
          */
         dealWithLoginedView(data) {
+            Main$1.isLoginFrom=data.inRoomPws>0?false:true;
             let pageData = {
                 roomPws: data.inRoomPws,
                 page: Main$1.pages.page3
@@ -9031,54 +9150,6 @@
     }
 
     /**
-     * 打开弹框脚本
-     */
-    class OpenDiaLog extends Laya.Script{
-        onStart(){
-            Laya.stage.addChild(this.owner);
-            this.allowClickMaskClose=false;
-            this.dialog=this.owner.getChildByName('dialog1');
-            let dialogBg=this.dialog.getChildByName('dialogBg');
-            this.dialog.close();
-            this.diaLogMask=this.owner.getChildByName('diaLogMask');
-            this.diaLogMask.on(Laya.Event.CLICK,this,()=>{
-                if(this.allowClickMaskClose){
-                    this.close();
-                }
-            });
-            this.closeBtn=dialogBg.getChildByName('close');
-            this.closeBtn.on(Laya.Event.CLICK,this,()=>{
-                if(this.closeBtn.visible){
-                    this.close();
-                }
-            });
-        }
-        /**
-         * 打开弹框
-         * @param {*} JSthis 执行域
-         * @param {*} allowClickMaskClose 是否允许点击空白处关闭弹框
-         * @param {*} maskAlpha 遮罩的透明度
-         * @param {*} isShowCloseBtn 是否显示关闭按钮
-         * @param {*} closeFn 关闭回调
-         */
-        open(JSthis,allowClickMaskClose=false,maskAlpha=0.2,isShowCloseBtn=true,closeFn){
-            this.closeCallBack=closeFn;
-            this.JSthis=JSthis;
-            this.owner.visible=true;
-            this.closeBtn.visible=isShowCloseBtn;
-            this.allowClickMaskClose=allowClickMaskClose;
-            this.diaLogMask.alpha=maskAlpha;
-            this.dialog.open();
-        }
-        /**g关闭弹框 */
-        close(){
-            this.dialog.close();
-            this.owner.visible=false;
-            this.closeCallBack.call(this.JSthis);
-        }
-    }
-
-    /**
      * 该脚本为分享到微信好友或朋友圈的功能
      */
     class Share {
@@ -9294,6 +9365,7 @@
                 url:'/M.Lobby/Popularize/GetNoticeData',
                 data:{
                     uid:Main$1.userInfo.userId
+                    // userId:Main.userInfo.userId
                 },
                 success(res){
                     Main$1.$LOG('获取公告数据:',res);
@@ -9533,6 +9605,151 @@
         }
     }
 
+    /**
+     * 活动脚本
+     */
+    class Activity extends Laya.Script {
+        onEnable() {
+            Main$1.$LOG('活动脚本：', this);
+            Activity.instance = this;
+        }
+        openThisPage() {
+            if (this.owner.visible) {
+                this.UI = this.owner.scene;
+                this.requestActivityData();
+            }
+        }
+        /**
+         * 注册事件
+         */
+        registerEvent() {
+            // this.UI.systemNotice_box.on(Laya.Event.CLICK, this, this.openSelectView, [this._page.page1]);
+            // this.UI.myNews_box.on(Laya.Event.CLICK, this, this.openSelectView, [this._page.page2]);
+        }
+
+        /**
+         * 获取公告数据
+         */
+        requestActivityData() {
+            Main$1.showLoading(true);
+            HTTP.$request({
+                that: this,
+                url: '/M.Lobby/Activity/GetActivityInfo',
+                data: {
+                    uid: Main$1.userInfo.userId
+                },
+                success(res) {
+                    Main$1.$LOG('获取活动数据:', res);
+                    Main$1.showLoading(false);
+                    this.setPage(res);
+                },
+                fail(err) {
+                    Main$1.showLoading(false);
+                }
+            });
+        }
+
+        /**
+         * 设置公告列表
+         * @param {*} data 请求的数据
+         */
+        setPage(data) {
+            this.activityList = this.UI.activityList;
+            this.activityList.vScrollBarSkin = "";//运用滚动
+            this.activityList.visible = true;
+            this.activityList.array = data.data.activitys;
+            this.activityList.renderHandler = new Laya.Handler(this, this.activityListOnRender);
+            this.activityList.mouseHandler = new Laya.Handler(this, this.clickRow);
+        }
+
+        activityListOnRender(cell) {
+            let rowContent = cell.getChildByName("rowContent");
+            //注意aType==2 是签到活动
+            switch (cell.dataSource.aType) {
+                case 0:
+                    rowContent.skin = 'res/img/activity/activityContent.png';
+                    break;
+                case 2:
+                    rowContent.skin = 'res/img/activity/activityContent.png';
+                    break;
+            }
+        }
+
+        /**
+         * 点击行
+         * @param {*} Event 
+         */
+        clickRow(Event) {
+            if (Event.type == 'click') {
+                let dataSource = Event.target.dataSource;
+                this.qda(dataSource, true);
+            }
+        }
+
+        /**
+         * 签到活动
+         * @param {*} data 数据
+         */
+        qda(data, isUpdate, closeCallBack) {
+            let myDiaLogJS = Laya.stage.getChildByName('dialogView').getComponent(OpenDiaLog);
+            let dislog1 = myDiaLogJS.dialog;
+            let bg=dislog1.getChildByName('dialogBg1');
+            //标题
+            let title = bg.getChildByName('title');
+            //内容
+            let content = bg.getChildByName('content');
+            //领取按钮
+            let btn1 = bg.getChildByName('btn1');
+            //已经领取按钮
+            let btn0 = bg.getChildByName('btn0');
+            title.text = data.name;
+            content.text = data.detail;
+            btn1.visible = data.giveNum > 0 ? false : true;
+            btn0.visible = data.giveNum > 0 ? true : false;
+            if (btn1.visible) {
+                btn1.on(Laya.Event.CLICK, this, this.getCoin, [data, btn0, btn1, isUpdate]);
+            }
+            myDiaLogJS.open(this, true, 0.3, true, () => {
+                btn1.off(Laya.Event.CLICK);
+                if (closeCallBack)
+                    closeCallBack();
+            },1);
+        }
+
+        /**
+         * 领取金币
+         */
+        getCoin(data, btn0, btn1, isUpdate) {
+            HTTP.$request({
+                that: this,
+                url: '/M.Lobby/Activity/SignInActivity',
+                data: {
+                    uid: Main$1.userInfo.userId,
+                    activityId: data.activityId
+                },
+                success(res) {
+                    Main$1.$LOG('领取活动:', res);
+                    this.getEnd(res, btn0, btn1, isUpdate);
+                }
+            });
+        }
+
+        /**
+         * 领取后得处理
+         */
+        getEnd(data, btn0, btn1, isUpdate) {
+            if (data.data.ret.type == 0) {
+                Main$1.showTip('活动领取成功');
+                btn1.visible = !btn1.visible;
+                btn0.visible = !btn0.visible;
+                if (isUpdate)
+                    this.requestActivityData();
+            } else {
+                Main$1.showTip(data.data.ret.msg);
+            }
+        }
+    }
+
     // import TabPagesUI from '../TabPages/TabPagesUI'
     class GameHall extends Laya.Script {
         constructor() {
@@ -9553,6 +9770,7 @@
                 big: 4
             };
             this._selectNavType = 1;//选中的类型
+            this.reNum = 0;
         }
 
         onEnable() {
@@ -9572,14 +9790,44 @@
                 //     });
                 // },2000)
 
+
                 this.UI = this.owner.scene;
                 this.registerEvent();
                 this.selectThisTab(this.UI.hall_nav_bg._children[1], 1);//默认选择第一项
                 if (Main$1.allowRequesList)
                     Laya.timer.loop(60000, this, this.requestPageData, [false]);
+
+                this.showActivityTip();
             }
         }
 
+        /**
+         * 活动
+         */
+        showActivityTip() {
+            let that = this;
+            if (Main$1.isLoginFrom) {
+                HTTP.$request({
+                    that: this,
+                    url: '/M.Lobby/Activity/GetActivityInfo',
+                    data: {
+                        uid: Main$1.userInfo.userId
+                    },
+                    success(res) {
+                        Main$1.$LOG('获取活动数据:', res);
+                        Main$1.isLoginFrom = false;
+                        let ActivityJS = this.UI.Activity.getComponent(Activity);
+                        let data = res.data.activitys.filter(item => item.isTips);
+                        if (data[this.reNum])
+                            ActivityJS.qda(data[this.reNum], false, () => {
+                                this.reNum++;
+                                Main$1.isLoginFrom = true;
+                                that.showActivityTip();
+                            });
+                    }
+                });
+            }
+        }
 
 
         /**
@@ -9617,7 +9865,7 @@
          * 设置全页面的数据
          */
         setPage1Data(data) {
-            if (Main$1.AUTO&&(this.UI.pageData.roomPws<=0||!this.UI.pageData.roomPws))
+            if (Main$1.AUTO && (this.UI.pageData.roomPws <= 0 || !this.UI.pageData.roomPws))
                 AUTO.initHall(this, data);
             let page1List = this.UI.gameHall_page1_list;
             // page1List.top=100;
@@ -9951,106 +10199,6 @@
         }
     }
 
-    /**
-     * 活动脚本
-     */
-    class Activity extends Laya.Script {
-        onEnable() {
-            Main$1.$LOG('活动脚本：', this);
-            Activity.instance = this;
-        }
-        openThisPage() {
-            if (this.owner.visible) {
-                this.UI = this.owner.scene;
-                this.requestActivityData();
-            }
-        }
-        /**
-         * 注册事件
-         */
-        registerEvent() {
-            // this.UI.systemNotice_box.on(Laya.Event.CLICK, this, this.openSelectView, [this._page.page1]);
-            // this.UI.myNews_box.on(Laya.Event.CLICK, this, this.openSelectView, [this._page.page2]);
-        }
-
-        /**
-         * 获取公告数据
-         */
-        requestActivityData() {
-            Main$1.showLoading(true);
-            HTTP.$request({
-                that: this,
-                url: '/M.Lobby/Activity/GetActivityInfo',
-                data: {
-                    uid: Main$1.userInfo.userId
-                },
-                success(res) {
-                    Main$1.$LOG('获取活动数据:', res);
-                    Main$1.showLoading(false);
-                    this.setPage(res);
-                },
-                fail(err) {
-                    Main$1.showLoading(false);
-                }
-            });
-        }
-
-        /**
-         * 设置公告列表
-         * @param {*} data 请求的数据
-         */
-        setPage(data) {
-            this.activityList = this.UI.activityList;
-            this.activityList.vScrollBarSkin = "";//运用滚动
-            this.activityList.visible = true;
-            this.activityList.array = data.data.activitys;
-            this.activityList.renderHandler = new Laya.Handler(this, this.activityListOnRender);
-            this.activityList.mouseHandler = new Laya.Handler(this, this.clickRow);
-        }
-
-        activityListOnRender(cell) {
-            let rowContent = cell.getChildByName("rowContent");
-            rowContent.skin = 'res/img/activity/activity_' + cell.dataSource.activityId + '.png';
-        }
-
-        clickRow(Event) {
-            if (Event.type == 'click') {
-                let dataSource = Event.target.dataSource;
-                let myDiaLogJS = Laya.stage.getChildByName('dialogView').getComponent(OpenDiaLog);
-                let dislog1=myDiaLogJS.dialog;
-                //领取按钮
-                let btn1=dislog1.getChildByName('dialogBg').getChildByName('btn1');
-                //已经领取按钮
-                let btn0=dislog1.getChildByName('dialogBg').getChildByName('btn0');
-                btn1.visible=dataSource.giveNum>0?false:true;
-                btn0.visible=dataSource.giveNum>0?true:false;
-                if(btn1.visible){
-                    btn1.on(Laya.Event.CLICK,this,this.getCoin,[dataSource]);
-                }
-                myDiaLogJS.open(this, true, 0.3, true, () => {
-                    btn1.off(Laya.Event.CLICK);
-                });
-            }
-        }
-
-        /**
-         * 领取金币
-         */
-        getCoin(data){
-            HTTP.$request({
-                that: this,
-                url: '/M.Lobby/Activity/SignInActivity',
-                data: {
-                    uid: Main$1.userInfo.userId,
-                    activityId:data.activityId
-                },
-                success(res) {
-                    Main$1.$LOG('领取活动:', res);
-                }
-            });
-        }
-    }
-
     class TabPagesUI extends Laya.Scene {
         constructor() {
             super();
@@ -10183,8 +10331,8 @@
     		reg("game/pages/Set/Set.js",Set);
     		reg("game/common/MySwitch.js",MySwitch);
     		reg("game/pages/login/LoginUI.js",Login);
-    		reg("game/common/openView.js",openView);
     		reg("game/pages/login/Login.js",login);
+    		reg("game/common/openView.js",openView);
     		reg("game/pages/roomEnd/roomEndUI.js",RoomEndUI);
     		reg("game/pages/roomEnd/roomEnd.js",roomEnd);
     		reg("game/pages/paijuhuigu/paijuhuiguUI.js",paijuhuiguUI);

@@ -12,8 +12,8 @@ import GameControl from "./game/GameCenter/GameControl"
 import Set from "./game/pages/Set/Set"
 import MySwitch from "./game/common/MySwitch"
 import LoginUI from "./game/pages/login/LoginUI"
-import openView from "./game/common/openView"
 import Login from "./game/pages/login/Login"
+import openView from "./game/common/openView"
 import roomEndUI from "./game/pages/roomEnd/roomEndUI"
 import roomEnd from "./game/pages/roomEnd/roomEnd"
 import paijuhuiguUI from "./game/pages/paijuhuigu/paijuhuiguUI"
@@ -56,8 +56,8 @@ export default class GameConfig {
 		reg("game/pages/Set/Set.js",Set);
 		reg("game/common/MySwitch.js",MySwitch);
 		reg("game/pages/login/LoginUI.js",LoginUI);
-		reg("game/common/openView.js",openView);
 		reg("game/pages/login/Login.js",Login);
+		reg("game/common/openView.js",openView);
 		reg("game/pages/roomEnd/roomEndUI.js",roomEndUI);
 		reg("game/pages/roomEnd/roomEnd.js",roomEnd);
 		reg("game/pages/paijuhuigu/paijuhuiguUI.js",paijuhuiguUI);

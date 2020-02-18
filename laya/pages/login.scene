@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":4,
+    "selecteID":5,
     "searchKey":"Scene,Login",
     "props":{"zOrder":3,"width":1242,"sceneColor":"#000000","runtime":"game/pages/login/LoginUI.js","name":"Login","height":2208},
     "nodeParent":-1,
@@ -28,6 +28,24 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":3,
+            "child":[
+                ],
+            "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Script",
+            "switchAble":true,
+            "source":"src/game/pages/login/Login.js",
+            "searchKey":"Script,Login",
+            "removeAble":true,
+            "props":{"y":0,"x":0},
+            "nodeParent":2,
+            "label":"Login",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":14,
             "child":[
                 ],
             "$HIDDEN":false
@@ -180,14 +198,13 @@
             "props":{"x":316,"width":610,"var":"register_btn","skin":"images/common/btn2_box.png","name":"register_btn","centerY":370,"centerX":0},
             "nodeParent":2,
             "label":"register_btn",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":60,
             "child":[
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/game/common/openView.js",
@@ -204,7 +221,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,text",
                     "props":{"skin":"images/common/btn1_text2.png","name":"text","centerY":0,"centerX":0},
@@ -261,24 +277,6 @@
                         ],
                     "$HIDDEN":false
                 }],
-            "$HIDDEN":false
-        },
-        {
-            "x":15,
-            "type":"Script",
-            "switchAble":true,
-            "source":"src/game/pages/login/Login.js",
-            "searchKey":"Script,Login",
-            "removeAble":true,
-            "props":{},
-            "nodeParent":2,
-            "label":"Login",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":14,
-            "child":[
-                ],
             "$HIDDEN":false
         },
         {
